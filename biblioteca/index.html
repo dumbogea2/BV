@@ -275,6 +275,9 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
         
         #modalTitle { color: #5d4037; border-bottom: 2px solid #d4af37; padding-bottom: 15px; font-family: 'Times New Roman', serif; letter-spacing: 1px; }
         #modalText { line-height: 1.8; font-size: 1.15em; color: #2e1a05; }
+        /* AGGIUNTA PER IPHONE: Migliora la selezionabilità */
+    -webkit-user-select: text;
+    user-select: text;
         
         #originalLink { display: block; margin-top: 30px; padding-top: 20px; border-top: 1px solid #d2b48c; color: #8b0000; font-weight: bold; text-decoration: none; text-align: center; }
         
@@ -688,24 +691,64 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
             filterEverything();
         }
        
-       // --- NUOVE FUNZIONI PER IL SEGNALIBRO ---
-       // Sostituisci da qui fino alla fine dello script
+       // --- NUOVE FUNZIONI PER IL SEGNALIBRO (Versione iOS Fix) ---
        
         let activeBookmark = JSON.parse(localStorage.getItem('valtorta_bookmark')) || null;
         let currentOpenChapter = null;
+        
+        // Variabile "memoria" per salvare la selezione su iPhone prima che sparisca al click
+        let tempSelectedText = "";
+
+        // Ascoltatore universale: ogni volta che cambi selezione, la memorizziamo se è valida
+        document.addEventListener("selectionchange", () => {
+            const modal = document.getElementById('readerModal');
+            // Agiamo solo se il modale è visibile
+            if (modal.style.display !== 'none') {
+                const sel = window.getSelection().toString().trim();
+                if (sel.length > 0) {
+                    tempSelectedText = sel;
+                }
+            }
+        });
+
+        // Quando si apre un nuovo capitolo, resettiamo la memoria della selezione
+        // (Questa riga va aggiunta dentro la funzione openChapter, ma per sicurezza la mettiamo qui come utility)
+        function resetSelectionMemory() {
+            tempSelectedText = "";
+        }
 
         function setBookmark() {
-            const selection = window.getSelection();
-            const text = selection.toString().trim();
+            // Tentiamo prima di prendere la selezione attiva
+            let text = window.getSelection().toString().trim();
+            
+            // FIX IPHONE: Se la selezione attiva è vuota (perché il click l'ha cancellata),
+            // usiamo quella memorizzata poco prima
+            if (text.length === 0 && tempSelectedText.length > 0) {
+                text = tempSelectedText;
+            }
+
             if (!currentOpenChapter) return;
 
             if (text.length < 5) {
-                alert("Seleziona prima una frase del testo per fissare il segnalibro.");
+                alert("Per favore, evidenzia prima una frase del testo (tieni premuto sul testo) per fissare il segnalibro.");
                 return;
             }
-            activeBookmark = { chapter: currentOpenChapter, snippet: text, date: new Date().toLocaleDateString() };
+            
+            // Creiamo un oggetto segnalibro pulito (massimo 150 caratteri per evitare problemi)
+            const cleanSnippet = text.length > 150 ? text.substring(0, 150) + "..." : text;
+
+            activeBookmark = { 
+                chapter: currentOpenChapter, 
+                snippet: cleanSnippet, // Salviamo solo l'anteprima pulita
+                fullTextSearch: text,  // Salviamo il testo completo per la ricerca
+                date: new Date().toLocaleDateString() 
+            };
+            
             localStorage.setItem('valtorta_bookmark', JSON.stringify(activeBookmark));
-            alert("🔖 Segnalibro salvato!");
+            
+            // Feedback visivo immediato
+            alert("🔖 Segnalibro salvato al capitolo " + currentOpenChapter + "!\n\nFrase: \"" + cleanSnippet + "\"");
+            
             updateBookmarkUI();
             createGrid(); 
         }
@@ -717,37 +760,43 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
                 activeBookmark = null;
                 localStorage.removeItem('valtorta_bookmark');
                 updateBookmarkUI();
-                createGrid(); // Rimuove il nastrino rosso dalla griglia
+                createGrid(); 
             }
         }
 
         function goToBookmark() {
             if (!activeBookmark) return;
-            openChapter(activeBookmark.chapter, null, null, activeBookmark.snippet);
+            // Usiamo fullTextSearch se esiste (per compatibilità con vecchi segnalibri usiamo snippet)
+            const searchText = activeBookmark.fullTextSearch || activeBookmark.snippet;
+            openChapter(activeBookmark.chapter, null, null, searchText);
         }
 
         function updateBookmarkUI() {
             const btnResume = document.getElementById('btnResume');
-            const btnDel = document.getElementById('btnDelBookmark'); // Assicurati di aver aggiunto questo ID nell'HTML
+            const btnDel = document.getElementById('btnDelBookmark'); 
             
             if (activeBookmark) {
-                // Mostra il tasto riprendi
                 btnResume.style.display = "inline-block";
                 btnResume.innerHTML = `🔖 Riprendi Cap. ${activeBookmark.chapter}`;
-                
-                // Mostra il cestino se il pulsante esiste nell'HTML
                 if(btnDel) btnDel.style.display = "inline-block";
             } else {
-                // Nascondi tutto
                 btnResume.style.display = "none";
                 if(btnDel) btnDel.style.display = "none";
             }
         }
         
+        // IMPORTANTE: Modifica alla funzione openChapter esistente
+        // Dobbiamo assicurarci che quando apri un capitolo, la vecchia memoria si azzeri
+        // (Aggiungi questa riga all'inizio della tua funzione openChapter esistente, o usa questo override qui sotto)
+        const oldOpenChapter = openChapter; // Salviamo la vecchia funzione
+        openChapter = function(n, p1, p2, bs) {
+            tempSelectedText = ""; // Reset memoria selezione
+            oldOpenChapter(n, p1, p2, bs); // Chiama la funzione originale
+        };
+
         // Avvio iniziale
         updateBookmarkUI();
-        createGrid();
-       
+        createGrid();       
            </script>
 </body>
 </html>
