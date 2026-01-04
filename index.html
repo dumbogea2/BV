@@ -8,12 +8,12 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             /* QUI GESTIAMO LO SFONDO */
-            /* Assicurati di aver caricato un file chiamato 'sfondo.png' nella cartella principale */
+            /* Assicurati che il file si chiami 'sfondo.png' (o .jpg se hai caricato un jpg) */
             background-image: url('sfondo.png'); 
             background-size: cover;       /* Copre tutto lo schermo */
             background-position: center;  /* Centra l'immagine */
             background-attachment: fixed; /* Lo sfondo resta fermo quando scorri */
-            background-color: #f4f4f9;    /* Colore di riserva se l'immagine non carica */
+            background-color: #f4f4f9;    /* Colore di riserva */
             
             color: #333;
             margin: 0;
@@ -25,12 +25,13 @@
             min-height: 100vh;
         }
 
-        /* Aggiungiamo uno sfondo bianco semi-trasparente dietro al titolo per leggerlo meglio */
+        /* TITOLO PRINCIPALE */
         h1 {
             color: #2c3e50;
             margin-bottom: 40px;
             text-align: center;
-            background-color: rgba(255, 255, 255, 0.85); /* Bianco all'85% */
+            /* MODIFICA COLORE: Avorio chiaro con leggera trasparenza (0.95) */
+            background-color: rgba(255, 255, 240, 0.95); 
             padding: 15px 30px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -44,9 +45,10 @@
             width: 100%;
         }
 
+        /* STILE DEI PULSANTI (CARD) */
         .card {
-            /* Sfondo delle carte leggermente trasparente */
-            background: rgba(255, 255, 255, 0.95); 
+            /* MODIFICA COLORE: Avorio chiaro come il titolo */
+            background: rgba(255, 255, 240, 0.95); 
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
@@ -58,13 +60,14 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border: 1px solid #eee;
+            border: 1px solid #e6e6da; /* Bordo leggermente più scuro dell'avorio */
         }
 
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            background-color: #ffffff; /* Diventa bianco puro al passaggio del mouse */
+            /* Quando passi col mouse diventa bianco puro per fare effetto luce */
+            background-color: #ffffff; 
             border-color: #b3d7ff;
         }
 
