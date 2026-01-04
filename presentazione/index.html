@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliotheca Valtortiana Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f0e6d2;
+            --bg-dark: #050505;
+            --text-main: #e8dcc4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            background: var(--bg-dark);
+            overflow: hidden;
+            height: 100vh;
+            color: var(--text-main);
+        }
+
+        h1, h2, h3, .btn, .start-btn, .scroll-text {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* --- SCHERMATA DI AVVIO (OVERLAY) --- */
+        #start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            /* Sfondo schermata iniziale */
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('Generated_Image 2.png');
+            background-size: cover;
+            background-position: center top;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .start-content {
+            text-align: center;
+            animation: fadeIn 2s ease-out;
+            z-index: 10000;
+        }
+
+        .start-title {
+            font-size: 3.5em;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+        }
+
+        .start-subtitle {
+            font-size: 1.5em;
+            color: var(--gold-light);
+            margin-bottom: 50px;
+            font-style: italic;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .start-btn {
+            padding: 20px 60px;
+            font-size: 1.8em;
+            background: rgba(0,0,0,0.6);
+            color: var(--gold);
+            border: 3px solid var(--gold);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            pointer-events: auto;
+            backdrop-filter: blur(5px);
+        }
+
+        .start-btn:hover {
+            background: var(--gold);
+            color: #000;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* --- STRUTTURA SCENE --- */
+        .video-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.5s ease-in-out, visibility 1.5s ease-in-out;
+            overflow: hidden;
+        }
+
+        .scene.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* SFONDO E IMMAGINI */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover !important;
+            background-position: center top !important; 
+            background-repeat: no-repeat !important;
+            filter: brightness(0.4);
+            z-index: 0;
+            transform: scale(1);
+            transition: transform 10s ease-out;
+        }
+
+        .scene.active .background {
+            transform: scale(1.1); /* Zoom lento */
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            padding: 40px;
+            text-align: center;
+            background: radial-gradient(circle, rgba(0,0,0,0.6) 0%, transparent 70%);
+        }
+
+        /* --- TIPOGRAFIA E ANIMAZIONI --- */
+        .title {
+            font-size: 4em;
+            color: var(--gold);
+            text-shadow: 0 2px 20px rgba(0,0,0,1);
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 2.2em;
+            color: var(--gold-light);
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0,0,0,1);
+            font-weight: 400;
+        }
+
+        .text {
+            font-size: 1.8em;
+            color: #fff;
+            line-height: 1.6;
+            text-shadow: 0 2px 8px rgba(0,0,0,1);
+            font-weight: 400;
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.2s ease-out forwards;
+        }
+        .delay-1 { animation-delay: 0.5s; }
+        .delay-2 { animation-delay: 1.0s; }
+        .delay-3 { animation-delay: 1.5s; }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+
+        /* --- ELEMENTI SCENICI --- */
+        .ornament {
+            font-size: 3em;
+            color: var(--gold);
+            margin: 20px 0;
+            opacity: 0.9;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Rotoli (Scena 4) */
+        .scroll-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .scroll {
+            width: 90px;
+            height: 140px;
+            background: linear-gradient(to right, #dcb98a, #fdf1d6, #dcb98a);
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8), inset 0 0 20px rgba(62, 42, 30, 0.5);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-top: 5px solid #5a3a2a;
+            border-bottom: 5px solid #5a3a2a;
+        }
+
+        .scroll:hover {
+            transform: translateY(-10px) scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        .scroll-text {
+            color: #3e2a1e;
+            font-weight: bold;
+            font-size: 1.5em;
+            transform: rotate(0deg);
+        }
+
+        /* --- CONTROLLI UTENTE --- */
+        .controls-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 5000;
+            background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+            padding: 20px 0 30px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            position: absolute;
+            top: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--gold);
+            width: 0%;
+            transition: width 0.5s linear;
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        .buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 10px 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            cursor: pointer;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .btn:hover { background: var(--gold); color: #000; }
+
+        .audio-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 6000;
+            padding: 8px 16px;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            background: rgba(0,0,0,0.6);
+            border-radius: 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .audio-badge.active { background: rgba(212, 175, 55, 0.2); }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="musica.mp3" type="audio/mp3">
+        <source src="https://incompetech.com/music/royalty-free/mp3-royaltyfree/Gregorian%20Chant.mp3" type="audio/mp3">
+    </audio>
+
+    <div id="start-overlay">
+        <div class="start-content">
+            <h1 class="start-title">Bibliotheca Valtortiana</h1>
+            <p class="start-subtitle">Tradizione e Tecnologia al servizio dell’Opera di Maria Valtorta</p>
+            <button class="start-btn" id="enterBtn" onclick="startExperience()">ENTRA</button>
+        </div>
+    </div>
+
+    <div class="audio-badge active" id="audioBadge" onclick="toggleAudio()">
+        <span>🔊</span> Voce e Musica
+    </div>
+
+    <div class="video-container">
+        
+        <div class="scene" id="scene1">
+            <div class="background" style="background-image: url('Generated Image rotoli.png');"></div>
+            <div class="content">
+                <div class="ornament fade-in-up">✦</div>
+                <h1 class="title fade-in-up delay-1">Bibliotheca Valtortiana Online</h1>
+                <p class="subtitle fade-in-up delay-2">Un nuovo modo di custodire e contemplare l'Opera. <br><em>Quando la Tradizione incontra la Tecnologia.</em><br> </p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene2">
+            <div class="background" style="background-image: url('Generated_Image 2.png');"></div>
+            <div class="content fade-in-up">
+                <p class="text">
+                    Questa applicazione trasforma lo studio de <br><em>"L'Evangelo come mi è stato rivelato"</em><br> 
+                    in un'esperienza visiva e spirituale.
+                </p>
+                <div class="ornament">⚜</div>
+            </div>
+        </div>
+
+        <div class="scene" id="scene3">
+            <div class="background" style="background-image: url('Biblioteca Valtortiana nuova.jpg');"></div>
+            <div class="content fade-in-up">
+                <p class="subtitle" style="font-size: 3em;">Non un semplice database.</p>
+                <p class="subtitle" style="font-size: 3em;">Ma un luogo di lettura.</p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene4">
+            <div class="background" style="background-image: url('Generated Image rotoli.png');"></div>
+            <div class="content fade-in-up">
+                <p class="text">
+                    I <strong>652 capitoli</strong> dell'Opera prendono forma come antichi rotoli.
+                </p>
+                <div class="scroll-container">
+                    <div class="scroll fade-in-up delay-1"><div class="scroll-text">I</div></div>
+                    <div class="scroll fade-in-up delay-1"><div class="scroll-text">II</div></div>
+                    <div class="scroll fade-in-up delay-2"><div class="scroll-text">CCCIII</div></div>
+                    <div class="scroll fade-in-up delay-2"><div class="scroll-text">CCXLII</div></div>
+                    <div class="scroll fade-in-up delay-3"><div class="scroll-text">DCLII</div></div>
+                </div>
+                <p class="text" style="margin-top: 30px;">Ogni gesto è una scoperta.</p> Ogni consultazione, un’esperienza</p>
+                
+            </div>
+        </div>
+
+        <div class="scene" id="scene5">
+            <div class="background" style="background-image: url('Gemini_Generated_Image_3.png');"></div>
+            <div class="content fade-in-up">
+                <p class="text">Ricerca istantanea per Volumi e Parti.</p>
+                <p class="subtitle" style="margin-top: 30px;">
+                    Trova esattamente ciò che cerchi nel testo sacro.
+                </p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene6">
+            <div class="background" style="background-image: url('IMG_8494 copia.PNG');"></div>
+            <div class="content fade-in-up">
+                <p class="subtitle">Ricerca per Concordanze</p>
+                <p class="text">
+                    Scopri dove due personaggi si incontrano.<br>
+                    Esattamente nel punto in cui parlano insieme.
+                </p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene7">
+            <div class="background" style="background-image: url('Biblioteca Valtortiana nuova.jpg');"></div>
+            <div class="content fade-in-up">
+                <div class="ornament">◆</div>
+                <p class="text">
+                    Leggi senza distrazioni.<br>
+                    Conserva i capitoli preziosi nel tuo studio personale.
+                </p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene8">
+            <div class="background" style="background-image: url('Generated_Image 2.png');"></div>
+            <div class="content fade-in-up">
+                <h1 class="title">Bibliotheca Valtortiana</h1>
+                <p class="subtitle">Work in progress... more to come. Stay Tuned.</p>
+                <div class="ornament">✦</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="controls-container">
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="buttons-wrapper">
+            <button class="btn" onclick="prevScene()">◀ Indietro</button>
+            <button class="btn" id="playPauseBtn" onclick="togglePlayPause()">⏸ Pausa</button>
+            <button class="btn" onclick="nextScene()">Avanti ▶</button>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURAZIONE
+        let currentScene = 1;
+        const totalScenes = 8;
+        let isPlaying = true;
+        let audioEnabled = true;
+        let synthesis = window.speechSynthesis;
+        let autoPlayTimeout;
+        let currentUtterance;
+        const sceneDuration = 6000; 
+        
+        // Elemento Musica
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.volume = 0.2; // Volume musica al 20%
+
+        // TESTI NARRATORE
+        const texts = {
+            1: "Benvenuti nella Bibliotheca Valtortiana Online. Dove la Tradizione incontra la Tecnologia.",
+            2: "Questa applicazione trasforma lo studio dell'Evangelo in un'esperienza visiva e spirituale profondamente immersiva.",
+            3: "Non è solo un database di testi. Ma un vero luogo di lettura, silenzio e meditazione.",
+            4: "I seicento cinquantadue capitoli dell'Opera prendono vita qui, organizzati come antichi rotoli.",
+            5: "Ricerca istantanea. Trova velocemente volumi, capitoli e parole chiave nel testo.",
+            6: "Funzione unica di concordanza: scopri le relazioni tra i personaggi, come Maria e Giovanni, cercandoli insieme.",
+            7: "Il tuo studio personale. Leggi senza distrazioni e custodisci i capitoli più preziosi.",
+            8: "Bibliotheca Valtortiana. Il viaggio è appena iniziato. Restate in ascolto."
+        };
+
+        // --- FUNZIONI CORE ---
+
+        function startExperience() {
+            const overlay = document.getElementById('start-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => { overlay.style.display = 'none'; }, 800);
+
+            // Sblocca Sintesi Vocale
+            if (synthesis) {
+                synthesis.cancel();
+                let warmup = new SpeechSynthesisUtterance(" ");
+                synthesis.speak(warmup);
+            }
+
+            // Avvia Musica
+            bgMusic.play().catch(e => console.log("Errore riproduzione musica:", e));
+
+            showScene(1);
+        }
+
+        function showScene(n) {
+            document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+            
+            const scene = document.getElementById(`scene${n}`);
+            if (scene) {
+                scene.classList.add('active');
+                currentScene = n;
+                updateProgress();
+                handleSceneLogic(n);
+            }
+        }
+
+        function handleSceneLogic(n) {
+            clearTimeout(autoPlayTimeout);
+            if(synthesis) synthesis.cancel();
+
+            if (!isPlaying) return;
+
+            if (audioEnabled) {
+                speak(texts[n]);
+            } else {
+                autoPlayTimeout = setTimeout(nextScene, sceneDuration);
+            }
+        }
+
+        function speak(text) {
+            if(!synthesis) return;
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'it-IT';
+            currentUtterance.rate = 0.9;
+            currentUtterance.pitch = 1;
+
+            let voices = synthesis.getVoices();
+            let itVoice = voices.find(v => v.lang.includes('it-IT') && v.name.includes('Google')) || 
+                          voices.find(v => v.lang.includes('it'));
+            if(itVoice) currentUtterance.voice = itVoice;
+
+            currentUtterance.onend = function() {
+                if(isPlaying) {
+                    autoPlayTimeout = setTimeout(nextScene, 1000); 
+                }
+            };
+
+            synthesis.speak(currentUtterance);
+        }
+
+        function nextScene() {
+            let next = currentScene >= totalScenes ? 1 : currentScene + 1;
+            showScene(next);
+        }
+
+        function prevScene() {
+            let prev = currentScene <= 1 ? totalScenes : currentScene - 1;
+            showScene(prev);
+        }
+
+        function togglePlayPause() {
+            isPlaying = !isPlaying;
+            document.getElementById('playPauseBtn').textContent = isPlaying ? "⏸ Pausa" : "▶ Riprendi";
+            
+            if(isPlaying) {
+                bgMusic.play(); // Riprendi musica
+                handleSceneLogic(currentScene);
+            } else {
+                clearTimeout(autoPlayTimeout);
+                if(synthesis) synthesis.cancel();
+                bgMusic.pause(); // Ferma musica
+            }
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const badge = document.getElementById('audioBadge');
+            
+            if(audioEnabled) {
+                badge.innerHTML = "<span>🔊</span> Voce e Musica";
+                badge.classList.add('active');
+                if(isPlaying) {
+                    bgMusic.play();
+                    handleSceneLogic(currentScene);
+                }
+            } else {
+                badge.innerHTML = "<span>🔇</span> Muto";
+                badge.classList.remove('active');
+                if(synthesis) synthesis.cancel();
+                bgMusic.pause();
+                if(isPlaying) handleSceneLogic(currentScene);
+            }
+        }
+
+        function updateProgress() {
+            const pct = (currentScene / totalScenes) * 100;
+            document.getElementById('progressBar').style.width = pct + '%';
+        }
+
+        if (synthesis && synthesis.onvoiceschanged !== undefined) {
+            synthesis.onvoiceschanged = synthesis.getVoices;
+        }
+
+    </script>
+</body>
+</html>
