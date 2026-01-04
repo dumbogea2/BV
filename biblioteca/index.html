@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v80 def multidevices segnalibro</title>
+    <style>
+       
+       /* --- TEMA SINAGOGA ANTICA (Versione Universale Definitiva) --- */
+body {
+    /* Colore di base */
+    background-color: #0a0704;
+    color: #333; 
+    font-family: 'Garamond', 'Georgia', serif; 
+    margin: 0; padding: 10px; min-height: 100vh;
+    
+    /* IMPORTANTE per far funzionare il livello inferiore */
+    position: relative; 
+    z-index: 1;
+}
+
+/* Elemento finto "dietro" al sito che contiene l'immagine fissa
+   Funziona su iPhone, Android e PC Desktop */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    
+    /* Assicurati che il nome del file qui sotto sia corretto */
+    background-image: url('sfondo.png'); 
+    
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    
+    /* Manda questo livello dietro al testo */
+    z-index: -1; 
+}
+       
+        .header-section { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            padding: 30px; 
+            /* Aggiungiamo margine sopra per abbassare tutto il blocco titolo */
+            margin-top: 40px; 
+            background: rgba(0,0,0,0.2);
+            border-bottom: 3px double #e5c27a;
+            border-top: 3px double #e5c27a;
+        }
+
+        h1 { 
+            color: #e5c27a; font-size: 2.8em; 
+            text-shadow: 3px 3px 6px #000; 
+            font-variant: small-caps; letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .subtitle { 
+            color: #b8860b; /* Oro più scuro (DarkGoldenRod) */
+            font-size: 1.2em; 
+            margin-top: 40px; /* Abbassato di uno spazio */
+            font-style: italic; 
+        }
+        .subtitle a { color: #b8860b; text-decoration: underline; }
+
+        /* --- CONTROLLI STILE MARMO/PIETRA --- */
+        .controls { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 30px; max-width: 1100px; margin: auto; }
+        
+        input, select, .btn-ctrl { 
+            padding: 10px; border-radius: 4px; 
+            border: 1px solid #5d4037; 
+            background: #e8dcc4; /* Colore pergamena/pietra chiara */
+            font-family: inherit;
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .btn-ctrl { 
+            font-weight: bold; cursor: pointer; 
+            background: linear-gradient(145deg, #d4af37, #b8860b);
+            color: #2e1a05; border: 1px solid #5d4037;
+            text-transform: uppercase; font-size: 0.85em;
+        }
+
+        .btn-ctrl:hover { background: #ffd700; }
+        .btn-fav-toggle.active { background: #ffd700; box-shadow: 0 0 15px #ffd700; }
+
+        .proximity-area { 
+            background: rgba(46, 26, 5, 0.8); 
+            padding: 20px; border-radius: 12px; 
+            border: 2px solid #e5c27a; 
+            display: flex; flex-wrap: wrap; gap: 10px; 
+            align-items: center; justify-content: center; width: 90%; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* --- LIBRERIA "ARCHIVIO SACRO" --- */
+        .library-container { 
+            position: relative; max-width: 1200px; margin: 0 auto; 
+            padding: 60px 40px; 
+            
+            /* MODIFICA: Sfondo molto più trasparente (0.35 invece di CC/0.8) per vedere l'immagine sotto */
+            background-color: rgba(46, 26, 5, 0.50);
+	    
+            border: 25px solid #3e2723;
+            /* Effetto cornice scolpita */
+            border-image: linear-gradient(to bottom, #5d4037, #2e1a05) 1;
+            
+            /* MODIFICA: Ridotta l'intensità dell'ombra interna (inset) per schiarire l'area */
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.6), 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        /* Decorazione Colonne Laterali (Simboliche) */
+        .library-container::before, .library-container::after {
+            content: ""; position: absolute; top: -10px; bottom: -10px; width: 15px;
+            background: linear-gradient(90deg, #b8860b, #e5c27a, #b8860b);
+            border-radius: 5px; box-shadow: 0 0 15px rgba(229,194,122,0.5);
+        }
+        .library-container::before { left: -30px; }
+        .library-container::after { right: -30px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 80px 30px; }
+
+        /* --- ROTOLI E STELLINE --- */
+        .item { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
+        
+        /* Stelline Avorio Spente */
+        .fav-star { 
+            position: absolute; top: -15px; right: 10px; z-index: 30; 
+            font-size: 1.6em; color: rgba(255, 255, 240, 0.4); 
+            text-shadow: 1px 1px 3px #000; transition: 0.3s; 
+        }
+        .item.is-fav .fav-star { color: #ffd700; opacity: 1; text-shadow: 0 0 10px rgba(255,215,0,0.6); }
+
+        .scroll-wrapper { position: relative; display: flex; align-items: center; height: 100px; transition: 0.3s; }
+        .scroll-wrapper::before, .scroll-wrapper::after { 
+            content: ""; width: 14px; height: 120px; 
+            background: linear-gradient(90deg, #3d2b1f, #c4a484, #3d2b1f); 
+            border-radius: 3px; border: 1px solid #1a120b;
+        }
+        .scroll-body { 
+            width: 55px; height: 95px; 
+            background: linear-gradient(90deg, #d2b48c, #f5deb3, #d2b48c); 
+            border-top: 3px solid #b8860b; border-bottom: 3px solid #b8860b; 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: bold; margin: 0 -2px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        .item:hover .scroll-wrapper { transform: translateY(-5px) scale(1.05); }
+        .item:hover .scroll-body { width: 95px; background: #fffaf0; }
+        .caption { margin-top: 18px; color: #e5c27a; font-weight: bold; text-shadow: 1px 1px 2px #000; }
+
+           /* --- STILE SEGNALIBRO UNICO --- */
+#btnResume {
+    display: none;
+    border: 1px solid #8b0000;
+    background: linear-gradient(145deg, #a52a2a, #800000);
+    color: #ffd700;
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+}
+#btnResume:hover { background: #b22222; box-shadow: 0 0 15px #ff4500; }
+
+.bookmark-ribbon {
+    position: absolute; top: -5px; left: 10px; z-index: 35;
+    font-size: 1.8em; color: #b22222; 
+    filter: drop-shadow(2px 2px 2px #000);
+    display: none;
+}
+.item.has-bookmark .bookmark-ribbon { display: block; }
+
+/* --- MODIFICA QUESTA PARTE NEL CSS --- */
+
+/* Barra controlli interna al modale (quella che copriva il titolo) */
+.modal-controls {
+    position: sticky; 
+    top: 0; 
+    left: 0; 
+    right: 0;
+    
+    /* Sfondo solido identico alla carta per non far vedere il testo scorrere sotto */
+    background: #f4ece0; 
+    background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+    
+    border-bottom: 2px solid #b8860b;
+    
+    /* Aumentato il padding e sistemati i margini negativi */
+    padding: 15px 45px; 
+    margin: -45px -45px 55px -45px; /* 55px sotto spingono giù il titolo */
+    
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    z-index: 100; /* Z-index alto per stare sopra al testo */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Stile per il nuovo bottone cancella segnalibro */
+#btnDelBookmark {
+    display: none; /* Nascosto di default */
+    background: #3e2723;
+    color: #ff6b6b; /* Rosso chiaro */
+    border: 1px solid #8b0000;
+    margin-left: 5px;
+    padding: 6px 10px;
+    font-size: 0.8em;
+    vertical-align: middle; /* Allinea meglio l'icona verticalmente */
+}
+#btnDelBookmark:hover {
+    background: #5d0000;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+}
+
+mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b22222; color: #8b0000; font-weight: bold; }
+
+#saveBookmarkBtn {
+    background: #3e2723; color: #ffd700; border: 1px solid #e5c27a;
+    padding: 5px 15px; cursor: pointer; font-size: 0.9em; border-radius: 4px;
+}
+#saveBookmarkBtn:hover { background: #5d4037; } 
+
+        /* --- MODALE --- */
+        #readerModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { 
+            background: #f4ece0; /* Colore pergamena antica */
+            background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+            width: 90%; max-width: 850px; height: 85vh; padding: 45px; 
+            border-radius: 4px; overflow-y: auto; position: relative; 
+            border: 8px double #3e2723; box-shadow: 0 0 50px #000;
+        }
+        
+        .close-modal { 
+            position: fixed; 
+            right: 25px; 
+            top: 25px; 
+            width: 50px; 
+            height: 50px; 
+            background: #3e2723; 
+            color: #e5c27a; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            border: 2px solid #e5c27a; 
+            font-size: 1.8em; 
+            z-index: 1100; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            touch-action: manipulation;
+        }
+        
+        @media (max-width: 600px) {
+            .close-modal { right: 15px; top: 15px; width: 45px; height: 45px; }
+        }
+
+        #scrollToTopBtn {
+            display: none; 
+            position: fixed;
+            bottom: 30px;
+            right: 25px;
+            width: 45px;
+            height: 45px;
+            background: rgba(229, 194, 122, 0.9); 
+            color: #3e2723;
+            border-radius: 50%;
+            border: 2px solid #3e2723;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1100;
+            font-size: 1.5em;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        
+        #modalTitle { color: #5d4037; border-bottom: 2px solid #d4af37; padding-bottom: 15px; font-family: 'Times New Roman', serif; letter-spacing: 1px; }
+        #modalText { line-height: 1.8; font-size: 1.15em; color: #2e1a05; }
+        
+        #originalLink { display: block; margin-top: 30px; padding-top: 20px; border-top: 1px solid #d2b48c; color: #8b0000; font-weight: bold; text-decoration: none; text-align: center; }
+        
+        mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; padding: 0 4px; border-radius: 3px; box-shadow: 0 0 5px #ffd700; }
+        
+        /* --- Altri elementi --- */
+        #waitingBox { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #2e1a05; border: 3px solid #e5c27a; color: #e5c27a; padding: 40px; border-radius: 15px; z-index: 2500; text-align: center; box-shadow: 0 0 100px #000; }
+        #resultsContainer { width: 95%; max-width: 1000px; margin: 15px auto; background: #f4ece0; border: 4px double #3e2723; border-radius: 8px; max-height: 400px; overflow-y: auto; display: none; padding: 20px; }
+        
+        /* Stile risultati ricerca concordanze */
+        .result-item { 
+            padding: 12px; 
+            border-bottom: 1px solid #d4af37; 
+            cursor: pointer; 
+            transition: background 0.3s;
+        }
+        .result-item:hover { 
+            background-color: rgba(229, 194, 122, 0.15); 
+        }
+        /* Quando un risultato è stato visitato */
+        .result-item.visited { 
+            background-color: rgba(62, 39, 35, 0.4); /* Sfondo più scuro */
+            color: #a1887f; /* Testo più spento */
+            border-left: 4px solid #ffd700; /* Marcatore laterale */
+        }
+        .result-item.visited .snippet { color: #795548 !important; }
+        
+    </style>
+</head>
+<body>
+
+    <div id="waitingBox">
+        <span style="font-size: 2em;">📜</span><br>
+        <b>Consultazione dei Rotoli Sacri...</b><br>
+        <span style="font-size:0.8em; opacity: 0.8;">Ricerca in corso nell'archivio valtortiano</span>
+    </div>
+
+    <div class="header-section">
+        <h1>Bibliotheca Valtortiana</h1>
+        <div class="subtitle">L'Evangelo come mi è stato rivelato di Maria Valtorta (<a href="https://www.valtortamaria.com" target="_blank">www.valtortamaria.com</a>)</div>
+    </div>
+
+    <div class="controls">
+        <div class="search-row">
+            <input type="text" id="chapterSearch" style="width:250px" placeholder="Cerca capitolo o parola..." oninput="filterEverything()">
+            <button id="favToggleBtn" class="btn-ctrl btn-fav-toggle" onclick="toggleFavFilter()">⭐ Preferiti</button>
+            <button class="btn-ctrl" onclick="clearAllFavs()">🗑️ Reset Preferiti</button>
+            <button class="btn-ctrl" onclick="resetAll()">🔄 Reset Filtri</button>
+            <button id="btnResume" class="btn-ctrl" onclick="goToBookmark()">🔖 Riprendi Lettura</button>
+            <button id="btnDelBookmark" class="btn-ctrl" onclick="deleteBookmark()" title="Elimina Segnalibro">❌</button>
+                    </div>
+
+        <div class="dropdown-area">
+            <select id="partSelect" onchange="filterByDropdown('part')">
+                <option value=""> --- Indice 7 parti</option>
+                <option value="1,43">Nascita e Vita nascosta di Maria e di Gesù (Cap. 1-43)</option>
+                <option value="44,140">Primo anno Vita pubblica di Gesù (Cap. 44-140)</option>
+                <option value="141,312">Secondo anno Vita pubblica di Gesù (Cap. 141-312)</option>
+                <option value="313,540">Terzo anno Vita pubblica di Gesù (Cap. 313-540)</option>
+                <option value="541,600">Preparazione alla Passione di Gesù (Cap. 541-600)</option>
+                <option value="601,615">Passione e Morte di Gesù (Cap. 601-615)</option>
+                <option value="616,651">Glorificazione di Gesù e di Maria (Cap. 616-651)</option>
+                <option value="652,652">Commiato all'Opera (Cap. 652)</option>
+            </select>
+
+            <select id="volSelect" onchange="filterByDropdown('vol')">
+                <option value=""> --- Indice 10 Volumi</option>
+                <option value="1,78">Volume Primo (Cap. 1-78)</option>
+                <option value="79,159">Volume Secondo (Cap. 79-159)</option>
+                <option value="160,225">Volume Terzo (Cap. 160-225)</option>
+                <option value="226,295">Volume Quarto (Cap. 226-295)</option>
+                <option value="296,363">Volume Quinto (Cap. 296-363)</option>
+                <option value="364,432">Volume Sesto (Cap. 364-432)</option>
+                <option value="433,500">Volume Settimo (Cap. 433-500)</option>
+                <option value="501,554">Volume Ottavo (Cap. 501-554)</option>
+                <option value="555,600">Volume Nono (Cap. 555-600)</option>
+                <option value="601,652">Volume Decimo (Cap. 601-652)</option>
+            </select>
+        </div>
+
+        <div id="searchStats" style="color:#ffd700; font-weight: bold; text-shadow: 1px 1px 2px #000; display:none;"></div>
+
+        <div class="proximity-area">
+            <input type="text" id="word1" placeholder="Parola 1">
+            <input type="number" id="proximity" class="dist-input" value="10">
+            <input type="text" id="word2" placeholder="Parola 2">
+            <button class="btn-ctrl" onclick="startProximitySearch()">🔍 Cerca Concordanze</button>
+        </div>
+        
+        <div id="resultsContainer">
+            <div id="resultsTitle"></div>
+            <div id="resultsList"></div>
+        </div>
+    </div>
+
+    <div class="library-container">
+        <div class="grid" id="grid"></div>
+    </div>
+
+   <div id="readerModal">
+        <div class="close-modal" onclick="closeModal()">×</div>
+        <div id="scrollToTopBtn" onclick="modalScrollToTop()">↑</div>
+        
+        <div class="modal-content" id="modalContent">
+    <div class="modal-controls">
+        <span style="font-size:0.9em; color:#5d4037; font-weight:bold;">
+            <span id="currentChapterNum"></span>
+        </span>
+        <button id="saveBookmarkBtn" onclick="setBookmark()">🔖 Metti Segnalibro qui</button>
+    </div>
+        
+    <h2 id="modalTitle"></h2>
+    <div id="modalText"></div>
+    <a id="originalLink" href="#" target="_blank">📖 Leggi il testo completo sul sito ufficiale →</a>
+</div>
+        
+            </div>
+
+    <script src="archivio.js"></script>
+    <script>
+        // --- LOGICA IDENTICA ALLE VERS PRECEDENTI ---
+        let bookmarks = JSON.parse(localStorage.getItem('valtorta_favs')) || [];
+        let showOnlyFavs = false;
+        let indexRange = null;
+
+        function toRoman(n) {
+            const m = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
+            let r = ''; for (let i in m) { while (n >= m[i]) { r += i; n -= m[i]; } } return r;
+        }
+
+       function createGrid() {
+    const grid = document.getElementById('grid'); grid.innerHTML = '';
+    for (let i = 1; i <= 652; i++) {
+        const isFav = bookmarks.includes(i);
+        const isBookmarked = (activeBookmark && activeBookmark.chapter === i); // Nuova verifica
+        
+        const item = document.createElement('div');
+        // Aggiunge classe has-bookmark
+        item.className = 'item' + (isFav ? ' is-fav' : '') + (isBookmarked ? ' has-bookmark' : '');
+        item.setAttribute('data-num', i);
+        
+        item.innerHTML = `
+            <div class="fav-star" onclick="toggleFav(event, ${i}, this.parentElement)">★</div>
+            <div class="bookmark-ribbon">🔖</div> <div class="scroll-wrapper" onclick="openChapter(${i})"><div class="scroll-body">${toRoman(i)}</div></div>
+            <div class="caption">(${i})</div>`;
+        grid.appendChild(item);
+    }
+}
+       
+        function toggleFav(e, n, el) {
+            e.stopPropagation();
+            const idx = bookmarks.indexOf(n);
+            if (idx > -1) { bookmarks.splice(idx, 1); el.classList.remove('is-fav'); }
+            else { bookmarks.push(n); el.classList.add('is-fav'); }
+            localStorage.setItem('valtorta_favs', JSON.stringify(bookmarks));
+        }
+
+        function clearAllFavs() {
+            if(confirm("Cancellare tutti i preferiti salvati nell'archivio?")) { bookmarks = []; localStorage.removeItem('valtorta_favs'); createGrid(); }
+        }
+
+        function toggleFavFilter() {
+            showOnlyFavs = !showOnlyFavs;
+            document.getElementById('favToggleBtn').classList.toggle('active', showOnlyFavs);
+            filterEverything();
+        }
+
+        function filterByDropdown(type) {
+            const val = document.getElementById(type === 'part' ? 'partSelect' : 'volSelect').value;
+            document.getElementById(type === 'part' ? 'volSelect' : 'partSelect').value = "";
+            if (val === "") { indexRange = null; }
+            else {
+                const parts = val.split(',');
+                indexRange = { s: parseInt(parts[0]), e: parseInt(parts[1]) };
+            }
+            filterEverything();
+        }
+
+        function filterEverything() {
+            const val = document.getElementById('chapterSearch').value.toUpperCase().trim();
+            const items = document.getElementsByClassName('item');
+            const stats = document.getElementById('searchStats');
+            let t = 0, c = 0;
+            for (let item of items) {
+                const n = parseInt(item.getAttribute('data-num'));
+                const cap = archivioCapitoli[n];
+                let matchesSearch = (val === "" || n.toString() === val);
+                if (val.length >= 3 && cap) {
+                    const occ = (cap.titolo + " " + cap.testo).toUpperCase().split(val).length - 1;
+                    if (occ > 0) { matchesSearch = true; t += occ; c++; }
+                }
+                const matchesFav = !showOnlyFavs || bookmarks.includes(n);
+                const matchesIndex = !indexRange || (n >= indexRange.s && n <= indexRange.e);
+                item.style.display = (matchesSearch && matchesFav && matchesIndex) ? "flex" : "none";
+            }
+            stats.style.display = val.length >= 3 ? "block" : "none";
+            stats.innerHTML = `Trovate <b>${t}</b> occorrenze in <b>${c}</b> capitoli.`;
+        }
+
+        function startProximitySearch() {
+    const w1Input = document.getElementById('word1').value.trim();
+    const w2Input = document.getElementById('word2').value.trim();
+    
+    if (!w1Input || !w2Input) return;
+
+    document.getElementById('waitingBox').style.display = "block";
+
+    setTimeout(() => {
+        const dist = parseInt(document.getElementById('proximity').value) || 10;
+        const container = document.getElementById('resultsContainer');
+        const title = document.getElementById('resultsTitle');
+        const list = document.getElementById('resultsList');
+        
+        list.innerHTML = ""; 
+        container.style.display = "block";
+        
+        let capCount = 0;
+        const p1 = w1Input.toLowerCase();
+        const p2 = w2Input.toLowerCase();
+
+        for (let n = 1; n <= 652; n++) {
+            const cap = archivioCapitoli[n]; 
+            if (!cap) continue;
+
+            // --- PULIZIA AVANZATA ---
+            // 1. Rimuove tag HTML
+            // Unisce Titolo e Testo per la ricerca, poi pulisce tutto
+            let fullContent = (cap.titolo + " " + cap.testo).toLowerCase();
+            let cleanText = fullContent.replace(/<[^>]+>/g, ' '); 
+            
+            // Gestione apostrofi e punteggiatura
+            cleanText = cleanText.replace(/'|’/g, " ");
+            cleanText = cleanText.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()«»\[\]]/g, " ");
+            
+            const words = cleanText.split(/\s+/).filter(w => w.length > 0);
+            const indiciP1 = [];
+            const indiciP2 = [];
+
+            for (let i = 0; i < words.length; i++) {
+                if (words[i] === p1) indiciP1.push(i);
+                if (words[i] === p2) indiciP2.push(i);
+            }
+
+            if (indiciP1.length === 0 || indiciP2.length === 0) continue;
+
+            let bestMatch = null;
+            let minDistanceFound = Infinity;
+
+            for (let i1 of indiciP1) {
+                for (let i2 of indiciP2) {
+                    const distanzaReale = Math.abs(i1 - i2);
+                    if (distanzaReale < minDistanceFound) {
+                        minDistanceFound = distanzaReale;
+                        bestMatch = {i1, i2};
+                    }
+                }
+            }
+
+            if (minDistanceFound > 0 && minDistanceFound <= dist) {
+                capCount++;
+
+                const minIdx = Math.min(bestMatch.i1, bestMatch.i2);
+                const maxIdx = Math.max(bestMatch.i1, bestMatch.i2);
+                const startSlice = Math.max(0, minIdx - 8);
+                const endSlice = Math.min(words.length, maxIdx + 8);
+                
+                const snippetWords = words.slice(startSlice, endSlice);
+                let rawSnippet = snippetWords.join(" ");
+
+                const regexHighlight = new RegExp(`\\b(${p1}|${p2})\\b`, 'gi');
+                let snippetHTML = rawSnippet.replace(regexHighlight, '<mark class="target-word">$1</mark>');
+
+                const div = document.createElement('div');
+                // Assegniamo la classe CSS definita sopra
+                div.className = 'result-item'; 
+                
+                div.innerHTML = `
+                    <div style="color:#5d4037; font-weight:bold;">Capitolo ${n} (distanza: ${minDistanceFound} parole)</div>
+                    <div class="snippet" style="font-style:italic; color:#444;">...${snippetHTML}...</div>
+                `;
+                
+                // Al click: aggiunge la classe 'visited' e poi apre il capitolo
+                div.onclick = function() {
+                    this.classList.add('visited');
+                    openChapter(n, w1Input, w2Input);
+                };
+                
+                list.appendChild(div);
+            }
+        }
+
+        // Aggiorna titolo con stile evidenziato (Oro su sfondo scuro)
+        title.innerHTML = capCount > 0 
+            ? `<div style="color: #ffd700; font-size: 1.25em; font-weight: bold; text-shadow: 2px 2px 4px #000; margin-bottom: 15px; padding: 12px; border-left: 5px solid #d4af37; background: rgba(46, 26, 5, 0.5); border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);">
+                📜 Concordanze rinvenute in nr. <b>${capCount}</b> rotoli:
+               </div>` 
+            : `<div style="color: #e5c27a; font-style: italic; padding: 10px; background: rgba(0,0,0,0.7); border-radius: 4px;">
+                Nessuna concordanza trovata con questo intervallo.
+               </div>`;
+        
+        document.getElementById('waitingBox').style.display = "none";
+        
+        // Effetto scorrimento fluido verso i risultati trovati
+        if (capCount > 0) container.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    }, 100);
+}
+        
+        function openChapter(n, p1 = null, p2 = null, bookmarkSnippet = null) {
+    const cap = archivioCapitoli[n];
+    if (!cap) return;
+
+    currentOpenChapter = n; 
+    const numSpan = document.getElementById('currentChapterNum');
+    if(numSpan) numSpan.innerText = "Capitolo " + n; 
+
+    let t = cap.titolo;
+    let b = cap.testo;
+    let regex = null;
+    
+    // Logica combinata per evidenziare
+    if (p1) {
+        let words = [p1.trim()];
+        if(p2) words.push(p2.trim());
+        const escaped = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+        regex = new RegExp(`(${escaped.join('|')})`, "gi");
+    } else if (bookmarkSnippet) {
+        const escapedSnippet = bookmarkSnippet.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        regex = new RegExp(`(${escapedSnippet})`, "i");
+    } else {
+        const val = document.getElementById('chapterSearch').value.trim();
+        if (val.length >= 2 && !parseInt(val)) {
+             regex = new RegExp(`(${val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, "gi");
+        }
+    }
+
+    const applyHighlight = (html, isBookmark) => {
+        if (!regex) return html;
+        const className = isBookmark ? "saved-bookmark" : "target-word";
+        return html.replace(/(<[^>]+>)|([^<]+)/g, (m, tag, txt) => 
+            tag ? tag : txt.replace(regex, `<mark class="${className}">$1</mark>`)
+        );
+    };
+
+    const mTitle = document.getElementById('modalTitle');
+    const mText = document.getElementById('modalText');
+    
+    mTitle.innerHTML = applyHighlight(t, !!bookmarkSnippet);
+    mText.innerHTML = applyHighlight(b, !!bookmarkSnippet);
+    
+    const link = document.getElementById('originalLink');
+    link.href = cap.link || "#"; 
+    link.style.display = cap.link ? "block" : "none";
+    
+    document.getElementById('readerModal').style.display = 'flex';
+    
+    setTimeout(() => { 
+        let target = mText.querySelector('mark.saved-bookmark') || mText.querySelector('mark.target-word');
+        if (!target) target = mTitle.querySelector('mark');
+        if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "center" }); 
+        } else {
+            document.getElementById('modalContent').scrollTo(0,0);
+        }
+    }, 400);
+}
+        
+        function closeModal() { 
+            document.getElementById('readerModal').style.display = 'none'; 
+            document.getElementById('scrollToTopBtn').style.display = 'none';
+        }
+
+        // Gestione tasto "Torna Su"
+        const mContent = document.getElementById('modalContent');
+        const topBtn = document.getElementById('scrollToTopBtn');
+
+        if (mContent) {
+            mContent.onscroll = function() {
+                if (mContent.scrollTop > 300) {
+                    topBtn.style.display = "flex";
+                } else {
+                    topBtn.style.display = "none";
+                }
+            };
+        }
+
+        function modalScrollToTop() {
+            if (mContent) mContent.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function resetAll() {
+            // Reset campi input
+            document.getElementById('chapterSearch').value = "";
+            document.getElementById('word1').value = ""; 
+            document.getElementById('word2').value = "";
+            document.getElementById('partSelect').value = ""; 
+            document.getElementById('volSelect').value = "";
+            
+            // Reset Risultati Concordanze (nasconde e svuota)
+            document.getElementById('resultsContainer').style.display = "none";
+            document.getElementById('resultsList').innerHTML = ""; 
+            document.getElementById('resultsTitle').innerHTML = "";
+            
+            // Reset statistiche e variabili
+            document.getElementById('searchStats').style.display = "none";
+            indexRange = null; 
+            showOnlyFavs = false;
+            document.getElementById('favToggleBtn').classList.remove('active');
+            
+            // Ridisegna la griglia pulita
+            filterEverything();
+        }
+       
+       // --- NUOVE FUNZIONI PER IL SEGNALIBRO ---
+       // Sostituisci da qui fino alla fine dello script
+       
+        let activeBookmark = JSON.parse(localStorage.getItem('valtorta_bookmark')) || null;
+        let currentOpenChapter = null;
+
+        function setBookmark() {
+            const selection = window.getSelection();
+            const text = selection.toString().trim();
+            if (!currentOpenChapter) return;
+
+            if (text.length < 5) {
+                alert("Seleziona prima una frase del testo per fissare il segnalibro.");
+                return;
+            }
+            activeBookmark = { chapter: currentOpenChapter, snippet: text, date: new Date().toLocaleDateString() };
+            localStorage.setItem('valtorta_bookmark', JSON.stringify(activeBookmark));
+            alert("🔖 Segnalibro salvato!");
+            updateBookmarkUI();
+            createGrid(); 
+        }
+
+        function deleteBookmark() {
+            if(!activeBookmark) return;
+            
+            if(confirm("Vuoi rimuovere definitivamente il segnalibro dal Capitolo " + activeBookmark.chapter + "?")) {
+                activeBookmark = null;
+                localStorage.removeItem('valtorta_bookmark');
+                updateBookmarkUI();
+                createGrid(); // Rimuove il nastrino rosso dalla griglia
+            }
+        }
+
+        function goToBookmark() {
+            if (!activeBookmark) return;
+            openChapter(activeBookmark.chapter, null, null, activeBookmark.snippet);
+        }
+
+        function updateBookmarkUI() {
+            const btnResume = document.getElementById('btnResume');
+            const btnDel = document.getElementById('btnDelBookmark'); // Assicurati di aver aggiunto questo ID nell'HTML
+            
+            if (activeBookmark) {
+                // Mostra il tasto riprendi
+                btnResume.style.display = "inline-block";
+                btnResume.innerHTML = `🔖 Riprendi Cap. ${activeBookmark.chapter}`;
+                
+                // Mostra il cestino se il pulsante esiste nell'HTML
+                if(btnDel) btnDel.style.display = "inline-block";
+            } else {
+                // Nascondi tutto
+                btnResume.style.display = "none";
+                if(btnDel) btnDel.style.display = "none";
+            }
+        }
+        
+        // Avvio iniziale
+        updateBookmarkUI();
+        createGrid();
+       
+           </script>
+</body>
+</html>

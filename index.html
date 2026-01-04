@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indice Progetto - Biblioteca Sinagoga</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #eee;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            background-color: #f8fbff;
+            border-color: #b3d7ff;
+        }
+        .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+        h2 { margin: 10px 0 5px 0; font-size: 1.4rem; color: #0056b3; }
+        p { margin: 0; color: #666; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <h1>Biblioteca Digitale Sinagoga</h1>
+
+    <div class="container">
+        
+        <a href="biblioteca/index.html" class="card">
+            <div class="icon">📚</div>
+            <h2>Accedi alla Biblioteca</h2>
+            <p>Versione 8.0 Multi-device</p>
+        </a>
+
+        <a href="video/video-presentazione.mp4" class="card">
+            <div class="icon">🎬</div>
+            <h2>Video Presentazione</h2>
+            <p>Guarda il filmato introduttivo</p>
+        </a>
+
+        <a href="presentazione/index.html" class="card">
+            <div class="icon">🖥️</div>
+            <h2>Presentazione Web</h2>
+            <p>Sfoglia la presentazione interattiva</p>
+        </a>
+
+    </div>
+
+</body>
+</html>
