@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indice Progetto - BibliotecaValtortianaOnLine</title>
+    <title>Archivio Volumi - BibliotecaValtortianaOnLine</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,28 +18,31 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             min-height: 100vh;
         }
+
         h1 {
             color: #2c3e50;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             text-align: center;
             background-color: rgba(255, 255, 240, 0.95);
             padding: 15px 30px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
+
         .container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             max-width: 1000px;
             width: 100%;
+            margin-bottom: 40px;
         }
+
         .card {
             background: rgba(255, 255, 240, 0.95); 
-            padding: 30px;
+            padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
             text-align: center;
@@ -52,45 +55,65 @@
             align-items: center;
             border: 1px solid #e6e6da;
         }
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            background-color: #ffffff; 
+            background-color: #ffffff;
             border-color: #b3d7ff;
         }
-        .icon { font-size: 50px; margin-bottom: 15px; }
-        h2 { margin: 10px 0 5px 0; font-size: 1.4rem; color: #0056b3; }
+
+        .icon { font-size: 40px; margin-bottom: 10px; }
+        h2 { margin: 10px 0 5px 0; font-size: 1.2rem; color: #0056b3; }
         p { margin: 0; color: #666; font-size: 0.9rem; }
+
+        .btn-back {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .btn-back:hover { background-color: #4ca1af; }
+
+        .section-title {
+            width: 100%;
+            max-width: 1000px;
+            color: #fff;
+            background-color: rgba(44, 62, 80, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 30px 0 15px 0;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Biblioteca-Valtortiana-OnLine</h1>
+    <a href="index.html" class="btn-back">⬅ Torna alla Home</a>
 
+    <h1>Archivio & Documenti</h1>
+
+    <div class="section-title">Documentazione Generale</div>
+    <div class="container">
+        <a href="documenti/testo.docx" class="card">
+            <div class="icon">📝</div>
+            <h2>L'Evangelo come mi è stato rivelato</h2>
+            <p>Scarica il file Word ipertestuale</p>
+        </a>
+    </div>
+
+    <div class="section-title">Il Poema dell'Uomo-Dio (Ed. 1961)</div>
     <div class="container">
         
-        <a href="biblioteca/index.html" class="card">
-            <div class="icon">📚</div>
-            <h2>Accedi alla Biblioteca</h2>
-            <p>Versione 80 Multi-device</p>
-        </a>
-
-        <a href="video/video-presentazione.mp4" class="card">
-            <div class="icon">🎬</div>
-            <h2>Video Presentazione</h2>
-            <p>Guarda il filmato introduttivo</p>
-        </a>
-
-        <a href="presentazione/index.html" class="card">
-            <div class="icon">🖥️</div>
-            <h2>Presentazione Web</h2>
-            <p>Sfoglia la presentazione interattiva</p>
-        </a>
-
-        <a href="archivio.html" class="card">
-            <div class="icon">📂</div>
-            <h2>Archivio e Volumi</h2>
-            <p>Word ipertestuale e PDF 1961</p>
+        <a href="https://drive.google.com/drive/folders/1lcj6MWVGYKWiIizbS-tji-81snO74w1d?usp=sharing" class="card" target="_blank">
+            <div class="icon">☁️</div>
+            <h2>Apri Cartella Volumi (1-10)</h2>
+            <p>Visualizza e Scarica i PDF da Google Drive</p>
         </a>
 
     </div>
