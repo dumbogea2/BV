@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v92 def multidevices segnalibro</title>
+    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v97 def multidevices segnalibro</title>
     <style>
        
        /* --- TEMA SINAGOGA ANTICA (Versione Universale Definitiva) --- */
@@ -363,10 +363,230 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
             border-left: 4px solid #ffd700; /* Marcatore laterale */
         }
         .result-item.visited .snippet { color: #795548 !important; }
+      
+      /* --- AGGIUNTA MENU LATERALE (Da inserire in fondo al CSS della v92) --- */
+
+/* Bottone Menu "Burger" in alto a sinistra */
+.menu-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 10001; /* AUMENTATO: Ora è superiore al menu (10000), quindi rimarrà visibile */
+    
+    /* NUOVO COLORE SFONDO (Avana Chiaro / Pergamena) */
+    background-color: #f3e5ab; 
+    
+    /* NUOVO COLORE TESTO (Marrone scuro per contrasto) */
+    color: #3e2723; 
+    
+    border: 2px solid #8b5a2b; /* Bordo color cuoio */
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    font-weight: bold;
+}
+.menu-btn:hover { 
+    background-color: #fff; /* Diventa bianco al passaggio del mouse */
+}
+
+/* Il Menu Laterale (inizialmente nascosto width: 0) */
+.sidenav {
+    height: 100%;
+    width: 0; 
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    
+    /* NUOVO SFONDO (Marrone Cuoio Scuro) */
+    background-color: #3e2723; 
+    
+    /* Aggiungiamo un'immagine di carta o texture se vuoi, altrimenti tinta unita */
+    border-right: 2px solid #8b5a2b; /* Bordo più chiaro */
+    
+    overflow-x: hidden;
+    transition: 0.4s;
+    padding-top: 60px;
+}
+/* Stile dei link nel menu */
+.sidenav button, .sidenav a {
+    padding: 10px 15px 10px 25px;
+    text-decoration: none;
+    font-size: 18px;
+    
+    /* NUOVO COLORE TESTO (Panna/Oro Antico) */
+    color: #f3e5ab; 
+    
+    display: block;
+    transition: 0.3s;
+    background: none;
+    border: none;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    
+    /* Riga di separazione più chiara */
+    border-bottom: 1px solid #5d4037; 
+}
+
+.sidenav button:hover { 
+    color: #fff; 
+    background-color: #5d4037; /* Evidenziazione più chiara al passaggio */
+}
+
+
+/* Titoli sezioni menu */
+.sidenav h3 {
+    color: #cfa657;
+    padding-left: 20px;
+    margin-top: 20px;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #cfa657;
+    display: inline-block;
+}
+
+/* Tasto chiusura menu */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: #fff;
+}
+
+/* Box dei Risultati della ricerca */
+#risultati-ricerca {
+    display: none; /* Nascosto se non usato */
+    position: fixed; /* Fisso al centro o in alto */
+    top: 60px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background-color: rgba(16, 12, 8, 0.98);
+    border: 1px solid #cfa657;
+    border-radius: 8px;
+    padding: 15px;
+    z-index: 9998;
+    color: #ddd;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+}
+    
+    /* Effetto visivo quando clicchi un risultato nella lista */
+#risultati-ricerca button:active {
+    background-color: #cfa657 !important; /* !important forza il colore oro sopra lo stile base */
+    color: #000 !important;               /* Testo nero per contrasto */
+    transition: 0s;                       /* Cambio colore istantaneo */
+}
+     
+/* Stile del bottone che riapre la ricerca */
+#btn-back-search {
+    display: none;
+    position: fixed;
+    
+    /* --- POSIZIONE SICURA --- */
+    top: 85px;          /* Scendiamo abbastanza da non coprire il tasto nell'angolo */
+    right: 10px;        /* Rimane a destra */
+    
+    z-index: 9990;
+    padding: 8px 15px;  /* Leggermente più compatto */
+    background-color: #cfa657; 
+    color: #0a0704;     
+    border: 2px solid #5d4037;
+    border-radius: 50px; 
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    cursor: pointer;
+    transition: 0.3s;
+    opacity: 0.9;       /* Leggera trasparenza per non disturbare troppo la lettura */
+}
+
+#btn-back-search:hover {
+    background-color: #fff;
+    opacity: 1;
+    transform: scale(1.05); 
+}
         
     </style>
 </head>
 <body>
+
+<button id="btn-back-search" onclick="riapriRicerca()">🔙 Torna ai Risultati</button>
+
+<button class="menu-btn" onclick="openNav()">☰ Filtri</button>
+
+<div id="mySidenav" class="sidenav">
+  
+  <div class="menu-header">
+      <span class="menu-title">FILTRI & RICERCA</span>
+      <a href="javascript:void(0)" class="close-icon" onclick="closeNav()">&times;</a>
+  </div>
+  
+  <div style="padding-bottom: 80px;">
+      <h3>Tematiche</h3>
+      <button onclick="filtraPer('Discorso')">🗣️ Discorsi di Gesù</button>
+      <button onclick="filtraPer('Parabola')">🌾 Parabole</button>
+      <button onclick="filtraPer('Miracolo')">✨ Miracoli</button>
+      <button onclick="filtraPer('Passione')">✝️ La Passione</button>
+      <button onclick="filtraPer('Preghiera')">🙏 Preghiera</button>
+
+      <h3>Personaggi</h3>
+      <button onclick="filtraPer('Pietro')">San Pietro</button>
+      <button onclick="filtraPer('Giovanni')">San Giovanni</button>
+      <button onclick="filtraPer('Maddalena')">Maria Maddalena</button>
+      <button onclick="filtraPer('Lazzaro')">Lazzaro</button>
+      <button onclick="filtraPer('Giuda')">Giuda Iscariota</button>
+      <button onclick="filtraPer('Maria SS.')">Maria Santissima</button>
+
+      <h3 style="margin-top:30px; border-top:1px solid #5d4037; padding-top:10px;">Opzioni</h3>
+      <button onclick="nascondiRisultati()" style="color: #d9534f;">❌ Chiudi Ricerca</button>
+  </div>
+</div>
+
+/* --- STILE INTESTAZIONE MENU (Da aggiungere al CSS) --- */
+
+.menu-header {
+    display: flex;             /* Mette gli elementi sulla stessa riga */
+    justify-content: space-between; /* Spinge Titolo a sx e X a dx */
+    align-items: center;       /* Allinea verticalmente */
+    padding: 15px 20px;        /* Spaziatura interna */
+    border-bottom: 2px solid #8b5a2b; /* Riga di separazione color cuoio */
+    background-color: #2b1b17; /* Un marrone leggermente più scuro per stacco */
+    margin-bottom: 10px;
+}
+
+.menu-title {
+    color: #cfa657;            /* Color Oro */
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-family: 'Garamond', serif;
+}
+
+.close-icon {
+    color: #f3e5ab;            /* Color Panna */
+    font-size: 32px;           /* X bella grande */
+    text-decoration: none;
+    cursor: pointer;
+    line-height: 1;            /* Evita spazi extra verticali */
+    transition: 0.3s;
+}
+
+.close-icon:hover {
+    color: #ff4444;            /* Diventa rosso quando ci passi sopra */
+}
+
+/* Modifica per nascondere la vecchia closebtn se è rimasta nel CSS precedente */
+.sidenav .closebtn { display: none; }
+
+<div id="risultati-ricerca"></div>
 
     <div id="waitingBox">
         <span style="font-size: 2em;">📜</span><br>
@@ -1036,6 +1256,122 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
             }
         }
         
+        /* --- LOGICA MENU LATERALE (Da incollare alla fine dello Script) --- */
+
+function openNav() {
+    var width = window.innerWidth < 600 ? "85%" : "300px";
+    document.getElementById("mySidenav").style.width = width;
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+
+function nascondiRisultati() {
+    document.getElementById('risultati-ricerca').style.display = "none";
+}
+
+function filtraPer(chiave) {
+    closeNav(); // Chiude il menu laterale
+    
+    var risultati = [];
+    
+    // Cerca usando i TAGS del nuovo archivio.js
+    for (var id in archivioCapitoli) {
+        var cap = archivioCapitoli[id];
+        // Controllo se esistono i tags (per sicurezza)
+        if (cap.tags) {
+            var inPers = cap.tags.personaggi && cap.tags.personaggi.includes(chiave);
+            var inTemi = cap.tags.temi && cap.tags.temi.includes(chiave);
+            
+            if (inPers || inTemi) {
+                risultati.push({ id: id, titolo: cap.titolo });
+            }
+        }
+    }
+    
+    mostraRisultatiOverlay(risultati, chiave);
+}
+
+function mostraRisultatiOverlay(lista, titolo) {
+    var div = document.getElementById('risultati-ricerca');
+    
+    var html = '<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #555; margin-bottom:10px;">';
+    html += '<h3 style="margin:0; color:#cfa657;">' + titolo + ' (' + lista.length + ')</h3>';
+    html += '<button onclick="nascondiRisultati()" style="background:none; border:none; color:#fff; font-size:24px; cursor:pointer;">&times;</button>';
+    html += '</div>';
+    
+    html += '<ul style="list-style:none; padding:0; margin:0;">';
+    if (lista.length === 0) {
+        html += '<li style="padding:10px;">Nessun risultato.</li>';
+    } else {
+        lista.forEach(function(cap) {
+            html += '<li style="border-bottom:1px solid #333; padding:5px 0;">';
+            // Quando clicchi un risultato, apre il capitolo e chiude la finestra di ricerca
+            html += '<button onclick="apriDaRicerca(\'' + cap.id + '\')" ';
+            html += 'style="width:100%; text-align:left; background:none; border:none; color:#ccc; font-size:16px; cursor:pointer;">';
+            html += '<span style="color:#cfa657; font-weight:bold;">Cap. ' + cap.id + '</span>: ' + cap.titolo;
+            html += '</button></li>';
+        });
+    }
+    html += '</ul>';
+    
+    div.innerHTML = html;
+    div.style.display = "block"; // Appare sopra la Home
+}
+
+/* --- FUNZIONE MODIFICATA PER MANTENERE LA LISTA APERTA --- */
+
+function apriDaRicerca(id) {
+    // ABBIAMO DISATTIVATO QUESTA RIGA:
+    // nascondiRisultati(); 
+    
+    // Il capitolo viene caricato "sotto" la finestra dei risultati
+    if(typeof openChapter === 'function') {
+        openChapter(id);
+        
+        // Opzionale: Facciamo uno scroll della pagina principale verso l'alto 
+        // così quando chiudi la finestra sei già all'inizio del capitolo
+        window.scrollTo(0, 0);
+    } else {
+        console.error("Errore: funzione openChapter non trovata");
+    }
+}     
+
+/* --- LOGICA GESTIONE RICERCA E LETTURA --- */
+
+// 1. Quando clicchi un capitolo dalla lista
+function apriDaRicerca(id) {
+    // NASCONDI la finestra dei risultati per poter leggere
+    document.getElementById('risultati-ricerca').style.display = 'none';
+    
+    // MOSTRA il bottone per tornare indietro
+    document.getElementById('btn-back-search').style.display = 'block';
+    
+    // Carica il capitolo
+    if(typeof openChapter === 'function') {
+        openChapter(id);
+        window.scrollTo(0, 0); // Torna a inizio pagina
+    }
+}
+
+// 2. Quando clicchi "Torna ai Risultati"
+function riapriRicerca() {
+    // RIMOSTRAMI la lista
+    document.getElementById('risultati-ricerca').style.display = 'block';
+    
+    // Nascondi il bottone "Torna" (perché ora hai la lista davanti)
+    document.getElementById('btn-back-search').style.display = 'none';
+}
+
+// 3. Quando clicchi la X rossa nel menu o nella ricerca (Chiudi Tutto)
+function nascondiRisultati() {
+    document.getElementById('risultati-ricerca').style.display = "none";
+    
+    // Importante: nascondi anche il bottone "Torna", perché hai deciso di uscire dalla ricerca
+    document.getElementById('btn-back-search').style.display = "none";
+}
+   
     </script>
 </body>
 </html>
