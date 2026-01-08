@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v97 def multidevices segnalibro</title>
+    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v99 def multidevices segnalibro</title>
     <style>
        
        /* --- TEMA SINAGOGA ANTICA (Versione Universale Definitiva) --- */
@@ -513,7 +513,49 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
     opacity: 1;
     transform: scale(1.05); 
 }
-        
+       /* --- FIX GRAFICO MENU E INTESTAZIONE --- */
+
+/* 1. Rimuove lo spazio vuoto sopra il menu marrone */
+.sidenav {
+    padding-top: 0px !important; 
+}
+
+/* 2. Sposta la scritta a destra per non finire sotto il bottone */
+.menu-header {
+    display: flex;             
+    justify-content: space-between; 
+    align-items: center;       
+    
+    /* MODIFICA QUI: Aumenta da 70px a 120px */
+    padding: 15px 10px 15px 120px;
+    
+    border-bottom: 2px solid #8b5a2b; 
+    background-color: #2b1b17; 
+    margin-bottom: 10px;
+}
+
+.menu-title {
+    color: #cfa657;            
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-family: 'Garamond', serif;
+}
+
+.close-icon {
+    color: #f3e5ab;            
+    font-size: 32px;           
+    text-decoration: none;
+    cursor: pointer;
+    line-height: 1;            
+    transition: 0.3s;
+}
+
+.close-icon:hover { color: #ff4444; }
+
+/* Nasconde la vecchia X se presente */
+.sidenav .closebtn { display: none; }
+ 
     </style>
 </head>
 <body>
@@ -549,42 +591,6 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
       <button onclick="nascondiRisultati()" style="color: #d9534f;">❌ Chiudi Ricerca</button>
   </div>
 </div>
-
-/* --- STILE INTESTAZIONE MENU (Da aggiungere al CSS) --- */
-
-.menu-header {
-    display: flex;             /* Mette gli elementi sulla stessa riga */
-    justify-content: space-between; /* Spinge Titolo a sx e X a dx */
-    align-items: center;       /* Allinea verticalmente */
-    padding: 15px 20px;        /* Spaziatura interna */
-    border-bottom: 2px solid #8b5a2b; /* Riga di separazione color cuoio */
-    background-color: #2b1b17; /* Un marrone leggermente più scuro per stacco */
-    margin-bottom: 10px;
-}
-
-.menu-title {
-    color: #cfa657;            /* Color Oro */
-    font-weight: bold;
-    font-size: 20px;
-    letter-spacing: 1px;
-    font-family: 'Garamond', serif;
-}
-
-.close-icon {
-    color: #f3e5ab;            /* Color Panna */
-    font-size: 32px;           /* X bella grande */
-    text-decoration: none;
-    cursor: pointer;
-    line-height: 1;            /* Evita spazi extra verticali */
-    transition: 0.3s;
-}
-
-.close-icon:hover {
-    color: #ff4444;            /* Diventa rosso quando ci passi sopra */
-}
-
-/* Modifica per nascondere la vecchia closebtn se è rimasta nel CSS precedente */
-.sidenav .closebtn { display: none; }
 
 <div id="risultati-ricerca"></div>
 
