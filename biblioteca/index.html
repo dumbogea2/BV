@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v99 def multidevices segnalibro</title>
+    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v101 multidevices segnalibro condiviso con link anche da pc / mobile in locale offline</title>
     <style>
        
        /* --- TEMA SINAGOGA ANTICA (Versione Universale Definitiva) --- */
@@ -624,10 +624,10 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
             <button class="btn-ctrl" onclick="resetAll()">🔄 Reset Filtri</button>
             <button class="btn-ctrl" onclick="getInspiration()" style="background: linear-gradient(145deg, #e6c68b, #d4af37);">💡 Ispirazione</button>
             <div class="bookmark-wrapper">
-    <button id="btnResume" class="btn-ctrl" onclick="goToBookmark()">🔖 Riprendi Lettura</button>
+    <button id="btnResume" class="btn-ctrl" onclick="goToBookmark()">🔖 Riprendi</button>
+    <button class="btn-ctrl" onclick="shareBookmark()" title="Invia link ad altro dispositivo" style="margin: 0 5px;">🔗</button>
     <button id="btnDelBookmark" onclick="deleteBookmark()" title="Elimina Segnalibro">✕</button>
-</div>
-            
+</div>            
       </div>
 
         <div class="dropdown-area">
@@ -1377,6 +1377,78 @@ function nascondiRisultati() {
     // Importante: nascondi anche il bottone "Torna", perché hai deciso di uscire dalla ricerca
     document.getElementById('btn-back-search').style.display = "none";
 }
+   
+   // --- FUNZIONI EXTRA PER SINCRONIZZAZIONE (Versione v101) ---
+
+    // 1. Genera il Link (Versione Universale)
+    function shareBookmark() {
+        if (!activeBookmark) {
+            alert("Non hai ancora salvato nessun segnalibro da condividere!");
+            return;
+        }
+        
+        // --- MODIFICA "UNIVERSALE" ---
+        // Inseriamo l'indirizzo ESATTO dove si trova questo file online.
+        // Se il file è nella cartella 'biblioteca', ricordati di aggiungerlo nel link:
+        const baseUrl = "https://dumbogea2.github.io/BV/biblioteca/index.html"; 
+        
+        const url = new URL(baseUrl);
+        // -----------------------------
+
+        // Aggiungiamo i parametri
+        url.searchParams.set('ch', activeBookmark.chapter);
+        if (activeBookmark.snippet) {
+            // Nota: manteniamo encodeURIComponent per sicurezza sui caratteri speciali
+            url.searchParams.set('txt', encodeURIComponent(activeBookmark.snippet));
+        }
+        
+        const linkFinale = url.toString();
+
+        navigator.clipboard.writeText(linkFinale).then(() => {
+            alert("✅ Link Pubblico Copiato!\nPuoi inviarlo a chiunque: funzionerà anche se tu sei offline.");
+        }).catch(err => {
+            prompt("Copia manualmente il link:", linkFinale);
+        });
+    }
+    
+    // 2. Controllo all'avvio (Esegue l'Opzione A: Sincronizza e Apre)
+    (function checkSync() {
+        const params = new URLSearchParams(window.location.search);
+        const syncCh = params.get('ch');
+        
+        if (syncCh) {
+            // Trovato un link! Aggiorniamo la memoria di QUESTO dispositivo
+            const syncTxt = params.get('txt') ? decodeURIComponent(params.get('txt')) : "";
+            
+            const newBookmark = { 
+                chapter: parseInt(syncCh), 
+                snippet: syncTxt, 
+                date: new Date().toLocaleDateString() 
+            };
+
+            // Sovrascriviamo il segnalibro locale (uso la tua chiave 'valtorta_bookmark')
+            activeBookmark = newBookmark;
+            localStorage.setItem('valtorta_bookmark', JSON.stringify(activeBookmark));
+
+            // Puliamo l'URL (toglie le scritte ?ch=... per pulizia)
+            window.history.replaceState({}, document.title, window.location.pathname);
+
+            // Aggiorniamo la grafica del bottone
+            if(typeof updateBookmarkUI === 'function') updateBookmarkUI();
+
+            // Apriamo subito il capitolo sincronizzato
+            console.log("Sincronizzazione attiva: salto al rotolo " + syncCh);
+            // Usiamo un piccolo ritardo per essere sicuri che la griglia sia pronta
+            setTimeout(() => {
+                if(typeof openChapter === 'function') {
+                    openChapter(newBookmark.chapter, null, null, newBookmark.snippet);
+                }
+            }, 500);
+        } else {
+            // Se non c'è link, assicuriamoci che il bottone mostri lo stato giusto all'avvio
+            if(typeof updateBookmarkUI === 'function') updateBookmarkUI();
+        }
+    })();
    
     </script>
 </body>
