@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v101 multidevices segnalibro condiviso con link anche da pc / mobile in locale offline</title>
+    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v108-online multidevices segnalibro condiviso con link anche da pc / mobile in locale offline; tasto ❓ Guida; tasto 🖨️ stampa elenco ricerca concordanze</title>
     <style>
        
        /* --- TEMA SINAGOGA ANTICA (Versione Universale Definitiva) --- */
@@ -180,7 +180,7 @@ body::before {
     
     /* Sfondo solido identico alla carta per non far vedere il testo scorrere sotto */
     background: #f4ece0; 
-    background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+    background-image: url('handmadepaper.png');
     
     border-bottom: 2px solid #b8860b;
     
@@ -271,7 +271,7 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
             transform: translate(-50%, -50%);
             width: 85%; max-width: 500px;
             background: #f4ece0;
-            background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+            background-image: url('handmadepaper.png');
             border: 4px double #b8860b;
             box-shadow: 0 0 50px rgba(0,0,0,0.8);
             padding: 30px;
@@ -283,7 +283,7 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
         #readerModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { 
             background: #f4ece0; /* Colore pergamena antica */
-            background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+            background-image: url('handmadepaper.png');
             width: 90%; max-width: 850px; height: 85vh; padding: 45px; 
             border-radius: 4px; overflow-y: auto; position: relative; 
             border: 8px double #3e2723; box-shadow: 0 0 50px #000;
@@ -556,6 +556,74 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
 /* Nasconde la vecchia X se presente */
 .sidenav .closebtn { display: none; }
  
+ /* --- STILE TASTO GUIDA IN ALTO E FINESTRA --- */
+
+/* 1. Il Tasto al disotto del menu Filtri */
+.help-btn-top {
+    position: fixed;
+    top: 57px;
+    /* Lo posizioniamo sotto il tasto Filtri (che è a left:10px) */
+    left: 10px; 
+    z-index: 10001; /* Stesso livello del menu per stare sopra a tutto */
+    
+    background-color: #f3e5ab; /* Stesso colore pergamena */
+    color: #3e2723; 
+    border: 2px solid #8b5a2b;
+    border-radius: 4px;
+    padding: 5px 8px; /* Era 2px 3px -> Aumentato per facilitare il tocco */
+    font-size: 14px;  /* Leggermente più leggibile */
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    font-weight: bold;
+}
+.help-btn-top:hover { 
+    background-color: #fff; 
+    transform: scale(1.05);
+}
+
+/* 2. La Finestra Guida (Modale) */
+#helpModal {
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.85); 
+    z-index: 12000; /* Altissimo per coprire anche il menu se aperto */
+    justify-content: center; 
+    align-items: center;
+}
+
+.help-content {
+    background: #f4ece0; 
+    background-image: url('handmadepaper.png');
+    border: 4px double #b8860b;
+    border-radius: 8px;
+    padding: 20px 25px;
+    width: 90%; 
+    max-width: 600px; 
+    
+    /* SCORRIMENTO MOBILE */
+    max-height: 80vh; 
+    overflow-y: auto; 
+    position: relative;
+    box-shadow: 0 0 40px #000;
+    color: #2e1a05;
+    line-height: 1.5;
+}
+
+/* Ritocchi estetici al testo guida */
+.help-content h2 { color: #8b0000; border-bottom: 2px solid #cfa657; margin-top: 0; }
+.help-content h3 { color: #5d4037; margin-top: 20px; border-left: 4px solid #cfa657; padding-left: 8px; }
+.help-content ul { padding-left: 20px; margin-bottom: 10px; }
+.help-content li { margin-bottom: 5px; }
+
+/* Tasto X chiusura */
+.close-help {
+    position: absolute; top: 10px; right: 15px;
+    font-size: 28px; font-weight: bold; color: #8b0000;
+    cursor: pointer; background: none; border: none;
+}
+ 
     </style>
 </head>
 <body>
@@ -563,6 +631,7 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
 <button id="btn-back-search" onclick="riapriRicerca()">🔙 Torna ai Risultati</button>
 
 <button class="menu-btn" onclick="openNav()">☰ Filtri</button>
+<button class="help-btn-top" onclick="openHelp()">❓ Guida</button>
 
 <div id="mySidenav" class="sidenav">
   
@@ -579,7 +648,7 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
       <button onclick="filtraPer('Passione')">✝️ La Passione</button>
       <button onclick="filtraPer('Preghiera')">🙏 Preghiera</button>
 
-      <h3>Personaggi</h3>
+      <h3>personaggi</h3>
       <button onclick="filtraPer('Pietro')">San Pietro</button>
       <button onclick="filtraPer('Giovanni')">San Giovanni</button>
       <button onclick="filtraPer('Maddalena')">Maria Maddalena</button>
@@ -692,6 +761,54 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
         <div class="grid" id="grid"></div>
     </div>
 
+<div id="helpModal">
+    <div class="help-content">
+        <button class="close-help" onclick="closeHelp()">&times;</button>
+        
+        <h2>Guida alla Bibliotheca Valtortiana</h2>
+        <p>Guida rapida de <i>"L'Evangelo come mi è stato rivelato"</i>. Ecco come utilizzare le funzioni principali:</p>
+
+        <h3>1. 📚 La Libreria</h3>
+        <ul>
+            <li><b>Navigazione:</b> Scorri i 652 Rotoli o usa i filtri in alto per <i>Parti</i> e <i>Volumi</i>.</li>
+            <li><b>Preferiti:</b> Clicca la stellina (★) sul rotolo per salvarlo.</li>
+        </ul>
+
+        <h3>2. 🔍 Ricerca Avanzata</h3>
+        <ul>
+            <li><b>Rapida:</b> Scrivi numero o parola nella barra in alto.</li>
+            <li><b>Menu Filtri (☰):</b> Usa il tasto a sinistra per <i>Personaggi</i> e <i>Temi</i>.</li>
+            <li><b>Concordanze:</b> Cerca dove due parole appaiono vicine (es. "Gesù" e "Luce") , con possibilità di stampa pdf della ricerca.</li>
+        </ul>
+
+        <h3>3. 📖 Lettura & Audio</h3>
+        <ul>
+            <li><b>Audio (🔈):</b> Nel capitolo, clicca l'altoparlante per ascoltare la lettura.</li>
+            <li><b>Fonte:</b> A fine testo trovi il link al sito ufficiale.</li>
+        </ul>
+
+        <h3>4. 🔖 Segnalibro Condiviso</h3>
+        <ul>
+            <li><b>Salva:</b> Seleziona una frase del testo e clicca <i>"Metti Segnalibro"</i>.</li>
+            <li><b>Riprendi:</b> Il tasto rosso <i>"🔖 Riprendi"</i> nella home ti riporta lì.</li>
+            <li><b>Condividi (🔗):</b> Clicca l'icona catena per inviare il link del punto esatto a un altro dispositivo.</li>
+        </ul>
+
+        <h3>5. 💡 Ispirazione</h3>
+        <ul>
+            <li>Premi il tasto dorato per ricevere una frase casuale dai rotoli.</li>
+        </ul>
+
+        <p style="margin-top: 25px; font-size: 0.95em; border-top: 1px dashed #b8860b; padding-top: 15px; font-style: italic;">
+            <b>Suggerimento:</b> L'app salva i tuoi dati (preferiti e segnalibri) direttamente nella memoria del tuo dispositivo per garantire la massima privacy e velocità. Buona lettura!
+        </p>
+
+        <div style="text-align: center; margin-top: 15px; padding-top:10px;">
+            <button class="btn-ctrl" onclick="closeHelp()">Chiudi Guida</button>
+        </div>
+    </div>
+</div>
+
    <div id="readerModal">
         <div class="close-modal" onclick="closeModal()">×</div>
         <div id="scrollToTopBtn" onclick="modalScrollToTop()">↑</div>
@@ -719,6 +836,7 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
             </div>
 
     <script src="archivio.js"></script>
+    
     <script>
         // --- LOGICA IDENTICA ALLE VERS PRECEDENTI ---
         let bookmarks = JSON.parse(localStorage.getItem('valtorta_favs')) || [];
@@ -891,15 +1009,16 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
             }
         }
 
-        // Aggiorna titolo con stile evidenziato (Oro su sfondo scuro)
+        // Aggiorna titolo con stile evidenziato, tasto stampa e ID per il testo
         title.innerHTML = capCount > 0 
-            ? `<div style="color: #ffd700; font-size: 1.25em; font-weight: bold; text-shadow: 2px 2px 4px #000; margin-bottom: 15px; padding: 12px; border-left: 5px solid #d4af37; background: rgba(46, 26, 5, 0.5); border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);">
-                📜 Concordanze rinvenute in nr. <b>${capCount}</b> rotoli:
+            ? `<div style="display:flex; justify-content:space-between; align-items:center; color: #ffd700; font-size: 1.25em; font-weight: bold; text-shadow: 2px 2px 4px #000; margin-bottom: 15px; padding: 12px; border-left: 5px solid #d4af37; background: rgba(46, 26, 5, 0.5); border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);">
+                <span id="printTitleSource">📜 Concordanze rinvenute in nr. <b>${capCount}</b> rotoli:</span>
+                <button onclick="printResults()" title="Stampa o Salva PDF" style="background:none; border:none; cursor:pointer; font-size:1.3em;">🖨️</button>
                </div>` 
             : `<div style="color: #e5c27a; font-style: italic; padding: 10px; background: rgba(0,0,0,0.7); border-radius: 4px;">
                 Nessuna concordanza trovata con questo intervallo.
                </div>`;
-        
+                       
         document.getElementById('waitingBox').style.display = "none";
         
         // Effetto scorrimento fluido verso i risultati trovati
@@ -1449,7 +1568,73 @@ function nascondiRisultati() {
             if(typeof updateBookmarkUI === 'function') updateBookmarkUI();
         }
     })();
-   
-    </script>
+       
+      /* --- FUNZIONI GUIDA --- */
+    function openHelp() {
+        document.getElementById('helpModal').style.display = 'flex';
+    }
+
+    function closeHelp() {
+        document.getElementById('helpModal').style.display = 'none';
+    }
+    
+    // Chiude cliccando fuori
+    document.getElementById('helpModal').addEventListener('click', function(e) {
+        if (e.target === this) closeHelp();
+    });
+      
+      /* --- FUNZIONE STAMPA / SALVA PDF RISULTATI (Aggiornata) --- */
+function printResults() {
+    var listContent = document.getElementById('resultsList').innerHTML;
+    var titleSource = document.getElementById('printTitleSource');
+    
+    // Recupera il titolo esatto se esiste, altrimenti titolo generico
+    var titleText = titleSource ? titleSource.innerText : "Risultati Ricerca";
+
+    if (!listContent || listContent.trim() === "") {
+        alert("Nessun risultato da stampare.");
+        return;
+    }
+
+    // --- CALCOLO DATA PER NOME FILE (yyyymmdd) ---
+    var d = new Date();
+    var yyyy = d.getFullYear();
+    var mm = String(d.getMonth() + 1).padStart(2, '0'); // Mesi partono da 0
+    var dd = String(d.getDate()).padStart(2, '0');
+    var fileName = yyyy + mm + dd + "RisultatiRicercaConcordanze";
+
+    // Apre finestra
+    var printWin = window.open('', '', 'width=800,height=600');
+    
+    printWin.document.write('<html><head>');
+    
+    // QUI IMPOSTIAMO IL NOME DEL FILE PROPOSTO (tramite il titolo della pagina)
+    printWin.document.write('<title>' + fileName + '</title>');
+    
+    printWin.document.write('<style>');
+    printWin.document.write('body { font-family: "Garamond", serif; color: #000; padding: 30px; }');
+    // Stile del titolo nella stampa (Rosso scuro elegante)
+    printWin.document.write('h2 { border-bottom: 2px solid #b8860b; color: #8b0000; padding-bottom: 10px; margin-bottom: 20px; }');
+    printWin.document.write('.result-item { border-bottom: 1px solid #ccc; padding: 15px 0; margin-bottom: 10px; display:block; }');
+    printWin.document.write('.snippet { font-style: italic; color: #333; margin-top:5px; line-height: 1.4; }');
+    printWin.document.write('mark.target-word { background-color: #ffffcc; font-weight: bold; color: #000; border: 1px solid #e6dbb9; }'); 
+    printWin.document.write('</style>');
+    printWin.document.write('</head><body>');
+    
+    // Inserisce il titolo dinamico recuperato dalla pagina
+    printWin.document.write('<h2>' + titleText + '</h2>');
+    
+    printWin.document.write(listContent);
+    printWin.document.write('</body></html>');
+
+    printWin.document.close();
+    printWin.focus();
+
+    setTimeout(function() {
+        printWin.print();
+        printWin.close();
+    }, 500);
+}
+   </script>
 </body>
 </html>
