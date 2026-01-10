@@ -1550,14 +1550,35 @@ function nascondiRisultati() {
         copyToClipboard(url.toString(), "✅ Link Preferiti Copiato!\nInvialo via WhatsApp/Mail all'altro dispositivo.\n\nQuando aprirai il link, i preferiti verranno aggiunti automaticamente.");
     }
 
-    // 3. Importazione Manuale (Se il link non funziona o si vuole incollare il codice)
+    // 3. Importazione Manuale (Smart: accetta sia Link interi che numeri)
     function manualImportFavs() {
-        const input = prompt("Incolla qui il codice o la lista dei capitoli (es. 1,5,12):");
+        const input = prompt("Incolla qui il Link completo o la lista dei capitoli:");
         if (input) {
-            processImportFavs(input);
+            let code = input;
+            
+            // LOGICA AGGIUNTA: Se l'input contiene "importFavs=", è un link!
+            // Quindi lo puliamo per estrarre solo i numeri.
+            if (input.includes('importFavs=')) {
+                try {
+                    // Tentativo 1: Parsing URL corretto
+                    const urlObj = new URL(input);
+                    const param = urlObj.searchParams.get('importFavs');
+                    if(param) code = param;
+                } catch(e) {
+                    // Tentativo 2 (Fallback): Se l'URL non è standard, tagliamo la stringa
+                    const parts = input.split('importFavs=');
+                    if(parts.length > 1) {
+                        // Prende tutto quello che c'è dopo l'uguale, fermandosi a eventuali altri parametri (&)
+                        code = parts[1].split('&')[0];
+                    }
+                }
+            }
+            
+            // Ora 'code' contiene solo i numeri puliti (es. "1,5,10")
+            processImportFavs(code);
         }
     }
-
+    
     // Funzione di utilità per copiare
     function copyToClipboard(text, successMsg) {
         navigator.clipboard.writeText(text).then(() => {
