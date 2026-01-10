@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v108-online multidevices segnalibro condiviso con link anche da pc / mobile in locale offline; tasto ❓ Guida; tasto 🖨️ stampa elenco ricerca concordanze</title>
+    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v111-online multidevices segnalibro condiviso con link anche da pc / mobile in locale offline; tasto ❓ Guida; tasto 🖨️ stampa elenco ricerca concordanze</title>
     <style>
        
        /* --- TEMA SINAGOGA ANTICA (Versione Universale Definitiva) --- */
@@ -270,6 +270,13 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 85%; max-width: 500px;
+            
+            /* --- MODIFICA SCORRIMENTO (Start) --- */
+            max-height: 85vh; /* Occupa al massimo l'85% dell'altezza schermo */
+            overflow-y: auto; /* Aggiunge la barra laterale se il testo è lungo */
+            -webkit-overflow-scrolling: touch; /* Scorrimento fluido (inerziale) su iPhone */
+            /* --- MODIFICA SCORRIMENTO (End) --- */
+
             background: #f4ece0;
             background-image: url('handmadepaper.png');
             border: 4px double #b8860b;
@@ -280,6 +287,7 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
             text-align: center;
             color: #2e1a05;
         }
+        
         #readerModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { 
             background: #f4ece0; /* Colore pergamena antica */
@@ -689,6 +697,8 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
         <div class="search-row">
             <input type="text" id="chapterSearch" style="width:250px" placeholder="Cerca capitolo o parola..." oninput="filterEverything()">
             <button id="favToggleBtn" class="btn-ctrl btn-fav-toggle" onclick="toggleFavFilter()">⭐ Preferiti</button>
+            <button class="btn-ctrl" onclick="exportFavorites()" title="Crea un link con i tuoi preferiti da inviare all'altro dispositivo">📤 Esporta</button>
+            <button class="btn-ctrl" onclick="manualImportFavs()" title="Incolla manualmente un codice preferiti">📥 Importa</button>
             <button class="btn-ctrl" onclick="clearAllFavs()">🗑️ Reset Preferiti</button>
             <button class="btn-ctrl" onclick="resetAll()">🔄 Reset Filtri</button>
             <button class="btn-ctrl" onclick="getInspiration()" style="background: linear-gradient(145deg, #e6c68b, #d4af37);">💡 Ispirazione</button>
@@ -1499,76 +1509,140 @@ function nascondiRisultati() {
    
    // --- FUNZIONI EXTRA PER SINCRONIZZAZIONE (Versione v101) ---
 
-    // 1. Genera il Link (Versione Universale)
+    // --- FUNZIONI DI CONDIVISIONE E SINCRONIZZAZIONE (Bookmarks & Preferiti) ---
+
+    // IMPOSTAZIONE INDIRIZZO ONLINE
+    // Usiamo questo indirizzo fisso così i link funzionano anche se generati offline
+    const onlineBaseUrl = "https://dumbogea2.github.io/BV/biblioteca/index.html";
+
+    // 1. Condividi Posizione (Segnalibro Singolo)
     function shareBookmark() {
         if (!activeBookmark) {
             alert("Non hai ancora salvato nessun segnalibro da condividere!");
             return;
         }
         
-        // --- MODIFICA "UNIVERSALE" ---
-        // Inseriamo l'indirizzo ESATTO dove si trova questo file online.
-        // Se il file è nella cartella 'biblioteca', ricordati di aggiungerlo nel link:
-        const baseUrl = "https://dumbogea2.github.io/BV/biblioteca/index.html"; 
+        // Usa l'indirizzo online fisso
+        const url = new URL(onlineBaseUrl);
         
-        const url = new URL(baseUrl);
-        // -----------------------------
-
-        // Aggiungiamo i parametri
         url.searchParams.set('ch', activeBookmark.chapter);
         if (activeBookmark.snippet) {
-            // Nota: manteniamo encodeURIComponent per sicurezza sui caratteri speciali
             url.searchParams.set('txt', encodeURIComponent(activeBookmark.snippet));
         }
         
-        const linkFinale = url.toString();
+        copyToClipboard(url.toString(), "✅ Link Segnalibro Copiato!\nInvialo all'altro dispositivo per riprendere da qui.");
+    }
 
-        navigator.clipboard.writeText(linkFinale).then(() => {
-            alert("✅ Link Pubblico Copiato!\nPuoi inviarlo a chiunque: funzionerà anche se tu sei offline.");
+    // 2. Esporta Preferiti (Tutte le stelline)
+    function exportFavorites() {
+        if (!bookmarks || bookmarks.length === 0) {
+            alert("Non hai nessun capitolo nei preferiti (stelline) da esportare.");
+            return;
+        }
+        
+        // Usa l'indirizzo online fisso anche qui
+        const url = new URL(onlineBaseUrl);
+        
+        // Comprime l'array in una stringa separata da virgole (es. 1,5,100)
+        const favString = bookmarks.join(',');
+        url.searchParams.set('importFavs', favString);
+        
+        copyToClipboard(url.toString(), "✅ Link Preferiti Copiato!\nInvialo via WhatsApp/Mail all'altro dispositivo.\n\nQuando aprirai il link, i preferiti verranno aggiunti automaticamente.");
+    }
+
+    // 3. Importazione Manuale (Se il link non funziona o si vuole incollare il codice)
+    function manualImportFavs() {
+        const input = prompt("Incolla qui il codice o la lista dei capitoli (es. 1,5,12):");
+        if (input) {
+            processImportFavs(input);
+        }
+    }
+
+    // Funzione di utilità per copiare
+    function copyToClipboard(text, successMsg) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert(successMsg);
         }).catch(err => {
-            prompt("Copia manualmente il link:", linkFinale);
+            prompt("Copia manualmente il link:", text);
         });
     }
+
+    // Funzione core che elabora l'importazione
+    function processImportFavs(favString) {
+        try {
+            // Pulisce la stringa da parentesi quadre se presenti
+            const cleanStr = favString.replace(/[\[\]]/g, '');
+            const newFavs = cleanStr.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+            
+            if (newFavs.length > 0) {
+                let addedCount = 0;
+                newFavs.forEach(n => {
+                    if (!bookmarks.includes(n) && n >= 1 && n <= 652) {
+                        bookmarks.push(n);
+                        addedCount++;
+                    }
+                });
+                
+                if (addedCount > 0) {
+                    localStorage.setItem('valtorta_favs', JSON.stringify(bookmarks));
+                    createGrid(); // Aggiorna le stelline visive
+                    filterEverything(); // Aggiorna se c'è un filtro attivo
+                    alert("✅ Importazione completata!\nAggiunti " + addedCount + " nuovi preferiti.");
+                } else {
+                    alert("⚠️ I preferiti nel link sono già tutti presenti nel tuo elenco.");
+                }
+            }
+        } catch (e) {
+            alert("Errore nell'importazione. Formato non valido.");
+        }
+    }
     
-    // 2. Controllo all'avvio (Esegue l'Opzione A: Sincronizza e Apre)
+    // --- CONTROLLO ALL'AVVIO (Check URL parameters) ---
+    // Qui usiamo window.location perché stiamo leggendo l'URL su cui ci troviamo
     (function checkSync() {
         const params = new URLSearchParams(window.location.search);
-        const syncCh = params.get('ch');
         
+        // A. CONTROLLO IMPORTAZIONE PREFERITI
+        const importFavs = params.get('importFavs');
+        if (importFavs) {
+            // Chiede conferma prima di importare per evitare click accidentali
+            if(confirm("Trovato un elenco di Preferiti nel link.\nVuoi importarli in questo dispositivo?")) {
+                processImportFavs(importFavs);
+            }
+            // Pulisce l'URL dopo l'importazione
+            window.history.replaceState({}, document.title, window.location.pathname);
+            return; // Se importiamo preferiti, ci fermiamo qui
+        }
+
+        // B. CONTROLLO SEGNALIBRO CONDIVISO
+        const syncCh = params.get('ch');
         if (syncCh) {
-            // Trovato un link! Aggiorniamo la memoria di QUESTO dispositivo
             const syncTxt = params.get('txt') ? decodeURIComponent(params.get('txt')) : "";
-            
             const newBookmark = { 
                 chapter: parseInt(syncCh), 
                 snippet: syncTxt, 
                 date: new Date().toLocaleDateString() 
             };
 
-            // Sovrascriviamo il segnalibro locale (uso la tua chiave 'valtorta_bookmark')
             activeBookmark = newBookmark;
             localStorage.setItem('valtorta_bookmark', JSON.stringify(activeBookmark));
-
-            // Puliamo l'URL (toglie le scritte ?ch=... per pulizia)
+            
+            // Pulisce l'URL
             window.history.replaceState({}, document.title, window.location.pathname);
 
-            // Aggiorniamo la grafica del bottone
             if(typeof updateBookmarkUI === 'function') updateBookmarkUI();
 
-            // Apriamo subito il capitolo sincronizzato
-            console.log("Sincronizzazione attiva: salto al rotolo " + syncCh);
-            // Usiamo un piccolo ritardo per essere sicuri che la griglia sia pronta
             setTimeout(() => {
                 if(typeof openChapter === 'function') {
                     openChapter(newBookmark.chapter, null, null, newBookmark.snippet);
                 }
             }, 500);
         } else {
-            // Se non c'è link, assicuriamoci che il bottone mostri lo stato giusto all'avvio
+            // Aggiorna UI normale
             if(typeof updateBookmarkUI === 'function') updateBookmarkUI();
         }
     })();
-       
+           
       /* --- FUNZIONI GUIDA --- */
     function openHelp() {
         document.getElementById('helpModal').style.display = 'flex';
