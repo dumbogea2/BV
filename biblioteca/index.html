@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v112-online multidevices segnalibro condiviso con link anche da pc / mobile in locale offline; tasto ❓ Guida; tasto 🖨️ stampa elenco ricerca concordanze</title>
+    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v121-online</title>
     <style>
-       
+       /* ------------------------*/
+       /*multidevices segnalibro condiviso con link anche da pc / mobile in locale offline; 
+       /*tasto ❓ Guida; tasto 🖨️ stampa elenco ricerca semplice e concordanze */
+       /*v121 effettua ricerche ed evidenziatore parole esatte */
+       /*le v112 online e offline effettuano ricerche parole parziali dice ... trova anche diceva */
+       /* ------------------------*/
        /* --- TEMA SINAGOGA ANTICA (Versione Universale Definitiva) --- */
 body {
     /* Colore di base */
@@ -907,6 +912,8 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
         }
 
         function filterEverything() {
+            // --- AGGIUNTA: Appena scrivi nella barra semplice, nasconde i vecchi risultati concordanze ---
+    document.getElementById('resultsContainer').style.display = "none";
             const val = document.getElementById('chapterSearch').value.toUpperCase().trim();
             const items = document.getElementsByClassName('item');
             const stats = document.getElementById('searchStats');
@@ -924,22 +931,125 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
                 item.style.display = (matchesSearch && matchesFav && matchesIndex) ? "flex" : "none";
             }
             stats.style.display = val.length >= 3 ? "block" : "none";
-            stats.innerHTML = `Trovate <b>${t}</b> occorrenze in <b>${c}</b> capitoli.`;
+            // --- INIZIO MODIFICA IN filterEverything ---
+            // Sostituisci le ultime righe della funzione filterEverything con questo blocco:
+            
+            stats.style.display = val.length >= 3 ? "block" : "none";
+            
+            // Creiamo il messaggio base
+            let msg = `Trovate <b>${t}</b> occorrenze in <b>${c}</b> capitoli.`;
+            
+            // SE abbiamo trovato qualcosa, aggiungiamo il bottone per i dettagli
+            if (c > 0) {
+                msg += `<br><button class="btn-ctrl" style="margin-top:10px; font-size:0.9em; background: #e5c27a; color: #3e2723;" onclick="showSimpleSearchDetails()">📜 Mostra Elenco Anteprime</button>`;
+            }
+            
+            stats.innerHTML = msg;
+// --- FINE MODIFICA ---
+        }
+        
+        // --- NUOVA FUNZIONE PER DETTAGLI RICERCA SEMPLICE ---
+function showSimpleSearchDetails() {
+    const val = document.getElementById('chapterSearch').value.trim();
+    if (val.length < 3) return; 
+
+    const container = document.getElementById('resultsContainer');
+    const title = document.getElementById('resultsTitle');
+    const list = document.getElementById('resultsList');
+    
+    document.getElementById('waitingBox').style.display = "block";
+
+    setTimeout(() => {
+        list.innerHTML = ""; 
+        container.style.display = "block";
+        
+        let capCount = 0;
+        const searchWord = val.toLowerCase();
+        
+        // NUOVA LOGICA: Definiamo cosa è una "parola italiana"
+        const wordRegex = /[a-zA-Z0-9àèéìòùÀÈÉÌÒÙ]+/gi;
+
+        for (let n = 1; n <= 652; n++) {
+            const itemDiv = document.querySelector(`.item[data-num="${n}"]`);
+            if (itemDiv && itemDiv.style.display === "none") continue;
+
+            const cap = archivioCapitoli[n]; 
+            if (!cap) continue;
+
+            let fullContent = (cap.titolo + " " + cap.testo);
+            let cleanText = fullContent.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, " ");
+            
+            // 1. Cerca se la parola esiste (esatta)
+            let matchIndex = -1;
+            let match;
+            // Resetta l'indice della regex per ogni capitolo
+            wordRegex.lastIndex = 0;
+            
+            while ((match = wordRegex.exec(cleanText)) !== null) {
+                if (match[0].toLowerCase() === searchWord) {
+                    matchIndex = match.index;
+                    break; // Trovata!
+                }
+            }
+            
+            if (matchIndex !== -1) {
+                capCount++;
+
+                const startSlice = Math.max(0, matchIndex - 60);
+                const endSlice = Math.min(cleanText.length, matchIndex + 60 + searchWord.length);
+                let rawSnippet = cleanText.substring(startSlice, endSlice);
+                
+                // 2. Evidenziazione a "Token" (Sicura al 100%)
+                let snippetHTML = rawSnippet.replace(wordRegex, (m) => {
+                    return (m.toLowerCase() === searchWord) ? `<mark class="target-word">${m}</mark>` : m;
+                });
+
+                const div = document.createElement('div');
+                div.className = 'result-item'; 
+                div.innerHTML = `
+                    <div style="color:#5d4037; font-weight:bold;">Capitolo ${n}: ${cap.titolo}</div>
+                    <div class="snippet" style="font-style:italic; color:#444;">...${snippetHTML}...</div>
+                `;
+                
+                div.onclick = function() {
+                    this.classList.add('visited');
+                    openChapter(n, searchWord);
+                };
+                
+                list.appendChild(div);
+            }
         }
 
-        function startProximitySearch() {
+        title.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; color: #ffd700; font-size: 1.25em; font-weight: bold; text-shadow: 2px 2px 4px #000; margin-bottom: 15px; padding: 12px; border-left: 5px solid #d4af37; background: rgba(46, 26, 5, 0.5); border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);">
+                <span id="printTitleSource">🔎 Risultati ricerca per: "<b>${val}</b>" (${capCount} cap.)</span>
+                <button onclick="printResults()" title="Stampa o Salva PDF" style="background:none; border:none; cursor:pointer; font-size:1.3em;">🖨️</button>
+            </div>`;
+                       
+        document.getElementById('waitingBox').style.display = "none";
+        container.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    }, 50); 
+}
+ function startProximitySearch() {
     const w1Input = document.getElementById('word1').value.trim();
     const w2Input = document.getElementById('word2').value.trim();
     
     if (!w1Input || !w2Input) return;
 
+    // Reset UI Ricerca Semplice
+    document.getElementById('chapterSearch').value = ""; 
+    const items = document.getElementsByClassName('item');
+    for (let item of items) { item.style.display = "flex"; } 
+    document.getElementById('searchStats').style.display = "none"; 
+
     document.getElementById('waitingBox').style.display = "block";
 
     setTimeout(() => {
         const dist = parseInt(document.getElementById('proximity').value) || 10;
+        const list = document.getElementById('resultsList');
         const container = document.getElementById('resultsContainer');
         const title = document.getElementById('resultsTitle');
-        const list = document.getElementById('resultsList');
         
         list.innerHTML = ""; 
         container.style.display = "block";
@@ -947,18 +1057,17 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
         let capCount = 0;
         const p1 = w1Input.toLowerCase();
         const p2 = w2Input.toLowerCase();
+        
+        // Regex per evidenziare nello snippet
+        const wordRegex = /[a-zA-Z0-9àèéìòùÀÈÉÌÒÙ]+/gi;
 
         for (let n = 1; n <= 652; n++) {
             const cap = archivioCapitoli[n]; 
             if (!cap) continue;
 
-            // --- PULIZIA AVANZATA ---
-            // 1. Rimuove tag HTML
-            // Unisce Titolo e Testo per la ricerca, poi pulisce tutto
             let fullContent = (cap.titolo + " " + cap.testo).toLowerCase();
-            let cleanText = fullContent.replace(/<[^>]+>/g, ' '); 
+            let cleanText = fullContent.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, " ");
             
-            // Gestione apostrofi e punteggiatura
             cleanText = cleanText.replace(/'|’/g, " ");
             cleanText = cleanText.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()«»\[\]]/g, " ");
             
@@ -973,8 +1082,8 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
 
             if (indiciP1.length === 0 || indiciP2.length === 0) continue;
 
-            let bestMatch = null;
             let minDistanceFound = Infinity;
+            let bestMatch = null;
 
             for (let i1 of indiciP1) {
                 for (let i2 of indiciP2) {
@@ -988,7 +1097,6 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
 
             if (minDistanceFound > 0 && minDistanceFound <= dist) {
                 capCount++;
-
                 const minIdx = Math.min(bestMatch.i1, bestMatch.i2);
                 const maxIdx = Math.max(bestMatch.i1, bestMatch.i2);
                 const startSlice = Math.max(0, minIdx - 8);
@@ -997,29 +1105,27 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
                 const snippetWords = words.slice(startSlice, endSlice);
                 let rawSnippet = snippetWords.join(" ");
 
-                const regexHighlight = new RegExp(`\\b(${p1}|${p2})\\b`, 'gi');
-                let snippetHTML = rawSnippet.replace(regexHighlight, '<mark class="target-word">$1</mark>');
+                // EVIDENZIAZIONE SICURA
+                let snippetHTML = rawSnippet.replace(wordRegex, (m) => {
+                    const low = m.toLowerCase();
+                    return (low === p1 || low === p2) ? `<mark class="target-word">${m}</mark>` : m;
+                });
 
                 const div = document.createElement('div');
-                // Assegniamo la classe CSS definita sopra
                 div.className = 'result-item'; 
-                
                 div.innerHTML = `
                     <div style="color:#5d4037; font-weight:bold;">Capitolo ${n} (distanza: ${minDistanceFound} parole)</div>
                     <div class="snippet" style="font-style:italic; color:#444;">...${snippetHTML}...</div>
                 `;
                 
-                // Al click: aggiunge la classe 'visited' e poi apre il capitolo
                 div.onclick = function() {
                     this.classList.add('visited');
                     openChapter(n, w1Input, w2Input);
                 };
-                
                 list.appendChild(div);
             }
         }
 
-        // Aggiorna titolo con stile evidenziato, tasto stampa e ID per il testo
         title.innerHTML = capCount > 0 
             ? `<div style="display:flex; justify-content:space-between; align-items:center; color: #ffd700; font-size: 1.25em; font-weight: bold; text-shadow: 2px 2px 4px #000; margin-bottom: 15px; padding: 12px; border-left: 5px solid #d4af37; background: rgba(46, 26, 5, 0.5); border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);">
                 <span id="printTitleSource">📜 Concordanze rinvenute in nr. <b>${capCount}</b> rotoli:</span>
@@ -1030,14 +1136,11 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
                </div>`;
                        
         document.getElementById('waitingBox').style.display = "none";
-        
-        // Effetto scorrimento fluido verso i risultati trovati
         if (capCount > 0) container.scrollIntoView({ behavior: "smooth", block: "start" });
 
     }, 100);
 }
-        
-        function openChapter(n, p1 = null, p2 = null, bookmarkSnippet = null) {
+ function openChapter(n, p1 = null, p2 = null, bookmarkSnippet = null) {
     const cap = archivioCapitoli[n];
     if (!cap) return;
 
@@ -1047,37 +1150,76 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
 
     let t = cap.titolo;
     let b = cap.testo;
-    let regex = null;
     
-    // Logica combinata per evidenziare
+    // --- SETUP VARIABILI DI RICERCA ---
+    let targets = [];
+    let isBookmarkMode = false;
+    let bookmarkRegex = null;
+    
+    // NUOVO: Variabili per gestire le frasi intere (Ispirazione)
+    let isPhraseMode = false;
+    let phraseRegex = null;
+
     if (p1) {
-        let words = [p1.trim()];
-        if(p2) words.push(p2.trim());
-        const escaped = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-        regex = new RegExp(`(${escaped.join('|')})`, "gi");
+        // MODIFICA CRUCIALE: Controlliamo se p1 contiene spazi.
+        // Se ha spazi, è una frase (Ispirazione), quindi usiamo la logica Regex (tipo v112)
+        if (p1.trim().indexOf(' ') >= 0) {
+            isPhraseMode = true;
+            // Creiamo una Regex che cerca l'intera frase
+            const escaped = p1.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            phraseRegex = new RegExp(`(${escaped})`, "gi");
+        } else {
+            // Se NON ha spazi, è una parola singola (Ricerca/Concordanze)
+            // Usiamo la logica v121 (Token esatto)
+            targets.push(p1.trim().toLowerCase());
+            if(p2) targets.push(p2.trim().toLowerCase());
+        }
     } else if (bookmarkSnippet) {
-        const escapedSnippet = bookmarkSnippet.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        regex = new RegExp(`(${escapedSnippet})`, "i");
+        isBookmarkMode = true;
+        bookmarkRegex = new RegExp(bookmarkSnippet.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "gi");
     } else {
         const val = document.getElementById('chapterSearch').value.trim();
         if (val.length >= 2 && !parseInt(val)) {
-             regex = new RegExp(`(${val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, "gi");
+             // Nota: La barra di ricerca v121 supporta solo parole singole per ora.
+             targets.push(val.toLowerCase());
         }
     }
 
-    const applyHighlight = (html, isBookmark) => {
-        if (!regex) return html;
-        const className = isBookmark ? "saved-bookmark" : "target-word";
-        return html.replace(/(<[^>]+>)|([^<]+)/g, (m, tag, txt) => 
-            tag ? tag : txt.replace(regex, `<mark class="${className}">$1</mark>`)
-        );
+    // --- FUNZIONE APPLICA EVIDENZIAZIONE ---
+    const applyHighlight = (html) => {
+        return html.replace(/(<[^>]+>)|([^<]+)/g, (m, tag, txt) => {
+            if (tag) return tag; // Se è un tag HTML, non toccarlo
+            
+            // 1. Caso Segnalibro (Bordo Rosso)
+            if (isBookmarkMode) {
+                if(!bookmarkRegex) return txt;
+                return txt.replace(bookmarkRegex, '<mark class="saved-bookmark">$&</mark>');
+            } 
+            
+            // 2. Caso Frase / Ispirazione (Giallo standard - Logica ripristinata)
+            if (isPhraseMode && phraseRegex) {
+                // Sostituisce la frase trovata avvolgendola nel mark giallo
+                return txt.replace(phraseRegex, `<mark class="target-word">$&</mark>`);
+            }
+
+            // 3. Caso Parole Singole (Nuova Logica v121 precisa)
+            if (targets.length === 0) return txt;
+            
+            // Splitta il testo in parole (token) e controlla corrispondenza esatta
+            return txt.replace(/[a-zA-Z0-9àèéìòùÀÈÉÌÒÙ]+/gi, (word) => {
+                if (targets.includes(word.toLowerCase())) {
+                    return `<mark class="target-word">${word}</mark>`;
+                }
+                return word;
+            });
+        });
     };
 
     const mTitle = document.getElementById('modalTitle');
     const mText = document.getElementById('modalText');
     
-    mTitle.innerHTML = applyHighlight(t, !!bookmarkSnippet);
-    mText.innerHTML = applyHighlight(b, !!bookmarkSnippet);
+    mTitle.innerHTML = applyHighlight(t);
+    mText.innerHTML = applyHighlight(b);
     
     const link = document.getElementById('originalLink');
     link.href = cap.link || "#"; 
@@ -1085,6 +1227,7 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
     
     document.getElementById('readerModal').style.display = 'flex';
     
+    // Scroll automatico alla prima evidenziazione
     setTimeout(() => { 
         let target = mText.querySelector('mark.saved-bookmark') || mText.querySelector('mark.target-word');
         if (!target) target = mTitle.querySelector('mark');
@@ -1094,8 +1237,7 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
             document.getElementById('modalContent').scrollTo(0,0);
         }
     }, 400);
-}
-        
+}        
         function closeModal() { 
         stopAudio(); // <--- AGGIUNGI QUESTA RIGA interrompe audio se chiusa finestra lettura
             document.getElementById('readerModal').style.display = 'none'; 
