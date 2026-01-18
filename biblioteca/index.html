@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v121-online</title>
+    <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v122-online</title>
     <style>
        /* ------------------------*/
        /*multidevices segnalibro condiviso con link anche da pc / mobile in locale offline; 
@@ -1224,10 +1224,18 @@ function showSimpleSearchDetails() {
     const link = document.getElementById('originalLink');
     link.href = cap.link || "#"; 
     link.style.display = cap.link ? "block" : "none";
-    
     document.getElementById('readerModal').style.display = 'flex';
     
-    // Scroll automatico alla prima evidenziazione
+    // --- FIX MOBILE: Nasconde i tasti Menu e Guida se lo schermo è stretto ---
+    if (window.innerWidth <= 600) {
+        var btnMenu = document.querySelector('.menu-btn');
+        var btnHelp = document.querySelector('.help-btn-top');
+        if (btnMenu) btnMenu.style.display = 'none';
+        if (btnHelp) btnHelp.style.display = 'none';
+    }
+    // -----------------------------------------------------------------------
+    
+    // Scroll automatico alla prima evidenziazione    
     setTimeout(() => { 
         let target = mText.querySelector('mark.saved-bookmark') || mText.querySelector('mark.target-word');
         if (!target) target = mTitle.querySelector('mark');
@@ -1238,12 +1246,19 @@ function showSimpleSearchDetails() {
         }
     }, 400);
 }        
+        
         function closeModal() { 
-        stopAudio(); // <--- AGGIUNGI QUESTA RIGA interrompe audio se chiusa finestra lettura
+            stopAudio(); 
             document.getElementById('readerModal').style.display = 'none'; 
             document.getElementById('scrollToTopBtn').style.display = 'none';
-        }
 
+            // --- FIX MOBILE: Ripristina i tasti Menu e Guida alla chiusura ---
+            var btnMenu = document.querySelector('.menu-btn');
+            var btnHelp = document.querySelector('.help-btn-top');
+            if (btnMenu) btnMenu.style.display = '';
+            if (btnHelp) btnHelp.style.display = '';
+            // ---------------------------------------------------------------
+        }
         // Gestione tasto "Torna Su"
         const mContent = document.getElementById('modalContent');
         const topBtn = document.getElementById('scrollToTopBtn');
