@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadernetti</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0; padding: 0; display: flex; height: 100vh; color: #333;
+            /* SFONDO */
+            background-image: url('Quadernetti.png');
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+        
+        /* --- SIDEBAR --- */
+        #sidebar {
+            width: 320px; background-color: rgba(232, 228, 219, 0.95);
+            border-right: 1px solid #d1cbb8; display: flex; flex-direction: column; flex-shrink: 0; height: 100vh; overflow: hidden; 
+        }
+        .home-button-container { padding: 10px; text-align: center; background-color: rgba(209, 203, 184, 0.9); border-bottom: 1px solid #c0b9a3; flex-shrink: 0; display: flex; gap: 5px; flex-direction: column; }
+        
+        .nav-btn { text-decoration: none; color: #8b0000; font-weight: bold; font-size: 0.95em; display: block; padding: 8px; border: 1px solid #8b0000; border-radius: 4px; background-color: #f4f1ea; transition: all 0.3s; cursor: pointer; }
+        .nav-btn:hover { background-color: #8b0000; color: white; }
+
+        #sidebar-header { padding: 15px; background-color: rgba(232, 228, 219, 0.6); font-weight: bold; text-align: center; border-bottom: 1px solid #c0b9a3; flex-shrink: 0; }
+        #chapter-scroll-area { overflow-y: auto; flex-grow: 1; }
+        #chapter-list { list-style: none; padding: 0; margin: 0; }
+        
+        /* ELEMENTI LISTA */
+        .chapter-item { 
+            padding: 12px 20px; border-bottom: 1px solid #dcd8ce; cursor: pointer; font-size: 15px; transition: background 0.2s; line-height: 1.4;
+        }
+        .chapter-item:hover { background-color: rgba(220, 216, 206, 0.8); }
+        .chapter-item.active { background-color: rgba(201, 195, 176, 0.9); border-left: 5px solid #8b0000; }
+        
+        .chapter-date {
+            display: block; font-size: 0.85em; color: #666; margin-top: 4px; font-style: italic;
+        }
+        .chapter-item.active .chapter-date { color: #333; font-weight: normal; }
+
+        /* --- MAIN CONTENT --- */
+        #main-content {
+            flex-grow: 1; padding: 40px 60px; overflow-y: auto; line-height: 1.8; font-size: 18px; max-width: 100%;
+            background-color: rgba(244, 241, 234, 0.93); box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        }
+        #text-wrapper { max-width: 900px; margin: 0 auto; }
+        h3 { color: #8b0000; border-bottom: 2px solid #8b0000; padding-bottom: 10px; margin-top: 0; }
+        .chapter-footer { margin-top: 60px; padding-top: 30px; border-top: 1px solid #ccc; font-size: 0.9em; color: #555; text-align: center; }
+        .source-link a { display: inline-block; margin-top: 10px; padding: 10px 20px; background-color: #e8e4db; color: #8b0000; text-decoration: none; border-radius: 5px; border: 1px solid #d1cbb8; font-weight: bold; }
+        #nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 20px; }
+        
+        button.nav-action { padding: 10px 20px; font-family: 'Georgia', serif; font-size: 16px; cursor: pointer; background-color: #8b0000; color: white; border: none; border-radius: 4px; }
+        button.nav-action:disabled { background-color: #ccc; cursor: not-allowed; }
+        button.nav-action:hover:not(:disabled) { background-color: #a50000; }
+
+        /* --- MODALE DI RICERCA --- */
+        #searchModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: flex-start;
+            padding-top: 50px;
+        }
+        .search-panel {
+            background-color: #f4ece0; border: 4px double #8b0000; border-radius: 8px;
+            width: 90%; max-width: 700px; padding: 25px; box-shadow: 0 0 30px #000;
+            max-height: 85vh; overflow-y: auto; position: relative;
+        }
+        .close-search {
+            position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #8b0000; font-weight: bold;
+        }
+        .search-section { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 20px; }
+        .search-title { color: #8b0000; font-weight: bold; margin-bottom: 10px; display: block; }
+        
+        .input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+        input[type="text"], input[type="number"] {
+            padding: 8px; border: 1px solid #8b0000; border-radius: 4px; flex-grow: 1; font-family: inherit;
+        }
+        .btn-search {
+            background-color: #8b0000; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;
+        }
+        .btn-search:hover { background-color: #a50000; }
+
+        /* TASTO RESET */
+        .btn-reset {
+            background-color: #5d4037; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em;
+        }
+        .btn-reset:hover { background-color: #3e2723; }
+
+        /* RISULTATI RICERCA */
+        #searchResults { margin-top: 10px; border-top: 2px solid #dcd8ce; padding-top: 15px; }
+        .result-item {
+            background: white; border: 1px solid #dcd8ce; padding: 10px; margin-bottom: 8px; border-radius: 4px; cursor: pointer; transition: background 0.3s;
+        }
+        .result-item:hover { background-color: #fff8e1; border-color: #ffd700; }
+        
+        .result-item.visited { 
+            background-color: #e8e4db; border-left: 5px solid #d4af37; color: #555; box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+        }
+        .result-item.visited .result-cap { color: #5d4037; }
+
+        .result-cap { font-weight: bold; color: #8b0000; font-size: 0.9em; }
+        .result-snippet { font-size: 0.9em; color: #444; font-style: italic; margin-top: 4px; }
+        mark.highlight { background-color: #ffd700; color: #000; padding: 0 2px; border-radius: 2px; }
+
+        /* Tasto Fluttuante */
+        #btn-back-search {
+            display: none; position: fixed; top: 100px; right: 30px;
+            padding: 10px 20px; background-color: #d4af37; color: #2e1a05;
+            border: 2px solid #8b0000; border-radius: 50px;
+            font-weight: bold; font-size: 14px;
+            cursor: pointer; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            transition: transform 0.2s;
+        }
+        #btn-back-search:hover { transform: scale(1.05); background-color: #fff; }
+
+        @media (max-width: 768px) { 
+            body { flex-direction: column; } 
+            #sidebar { width: 100%; height: auto; max-height: 300px; } 
+            #main-content { padding: 20px; } 
+            #btn-back-search { top: auto; bottom: 20px; right: 20px; } 
+        }
+    </style>
+</head>
+<body>
+    <button id="btn-back-search" onclick="openSearch()">🔙 Torna ai Risultati</button>
+
+    <div id="sidebar">
+        <div class="home-button-container">
+            <a href="home.html" class="nav-btn">← Torna alla Home</a>
+            <button onclick="openSearch()" class="nav-btn">🔍 Cerca nel testo</button>
+            
+            <a href="ricerca.html" class="nav-btn" style="background-color:#5d4037; color:white;">🌐 Ricerca in tutte le opere</a>
+            
+        </div>
+        <div id="sidebar-header">INDICE ...</div>
+        <div id="chapter-scroll-area"><ul id="chapter-list"></ul></div>
+    </div>
+    
+    <div id="main-content">
+        <div id="text-wrapper">
+            <div id="text-container">Seleziona un capitolo dall'indice per iniziare a leggere.</div>
+            <div id="nav-buttons">
+                <button id="btn-prev" class="nav-action" onclick="prevChapter()" disabled>Precedente</button>
+                <button id="btn-next" class="nav-action" onclick="nextChapter()" disabled>Successivo</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="searchModal">
+        <div class="search-panel">
+            <div class="close-search" onclick="closeSearch()">✕</div>
+            <h2 style="margin-top:0; color:#8b0000; text-align:center;">Ricerca nei Quadernetti</h2>
+            
+            <div class="search-section">
+                <span class="search-title">Ricerca Semplice (parola o frase esatta)</span>
+                <div class="input-group">
+                    <input type="text" id="simpleInput" placeholder="Es. Spirito Santo...">
+                    <button class="btn-search" onclick="doSimpleSearch()">Cerca</button>
+                </div>
+            </div>
+
+            <div class="search-section" style="border-bottom:none; margin-bottom:5px;">
+                <span class="search-title">Ricerca per Concordanze (vicinanza)</span>
+                <div class="input-group">
+                    <input type="text" id="word1" placeholder="Parola 1 (es. Maria)">
+                    <input type="number" id="distance" value="20" style="width:60px;" title="Distanza max parole">
+                    <input type="text" id="word2" placeholder="Parola 2 (es. Luce)">
+                    <button class="btn-search" onclick="doProximitySearch()">Trova</button>
+                </div>
+                <div style="font-size:0.8em; color:#666; margin-top:5px;">Trova due parole distanti al massimo N parole l'una dall'altra.</div>
+            </div>
+            
+            <div style="text-align:right; margin-bottom:5px;">
+                <button class="btn-reset" onclick="resetSearch()">🗑️ Pulisci Tutto</button>
+            </div>
+
+            <div id="searchResults"></div>
+        </div>
+    </div>
+
+    <script src="Quadernetti.js"></script>
+    <script>
+        let currentIndex = -1;
+        const listElement = document.getElementById('chapter-list');
+        const textContainer = document.getElementById('text-container');
+        
+        // VARIABILI GLOBALI RICERCA
+        let searchKeywords = []; 
+        let isSearchActive = false;
+
+        if (typeof quadernetti !== 'undefined') {
+            initMenu();
+            loadChapter(0);
+        } else {
+            textContainer.innerHTML = "<p style='color:red'>Errore: Variabile 'quadernetti' non trovata.</p>";
+        }
+
+        function initMenu() {
+            quadernetti.forEach((cap, index) => {
+                const li = document.createElement('li');
+                li.className = 'chapter-item';
+                li.id = 'item-' + index;
+
+                // --- LOGICA SPECIFICA QUADERNETTI PER IL MENU LATERAL ---
+                let titoloPrincipale = "Quadernetti";
+                let dataFinale = "";
+                let foundChapter = null;
+                let foundDate = null;
+
+                try {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = cap.testo;
+                    const children = tempDiv.children;
+                    if (children.length >= 3) {
+                        const rigaCapitolo = children[1].innerText;
+                        const matchCap = rigaCapitolo.match(/Capitolo\s*\d+/i);
+                        if (matchCap) {
+                            foundChapter = matchCap[0];
+                            foundChapter = foundChapter.charAt(0).toUpperCase() + foundChapter.slice(1).toLowerCase();
+                        }
+                        foundDate = children[2].innerText.trim();
+                    }
+                } catch (e) { console.log("Errore parsing indice " + index, e); }
+
+                if (foundChapter) titoloPrincipale += " - " + foundChapter;
+                if (foundDate) dataFinale = foundDate;
+                else {
+                    dataFinale = cap.data || "";
+                    if (cap.anno) dataFinale += " " + cap.anno;
+                }
+
+                li.innerHTML = `<strong>${titoloPrincipale}</strong><span class="chapter-date">${dataFinale}</span>`;
+                
+                li.onclick = () => {
+                    // RESET STATO RICERCA AL CLICK MANUALE
+                    searchKeywords = [];
+                    isSearchActive = false;
+                    document.getElementById('btn-back-search').style.display = 'none';
+                    loadChapter(index);
+                };
+                listElement.appendChild(li);
+            });
+        }
+
+        function loadChapter(index, autoScroll = false) {
+            currentIndex = index;
+            const cap = quadernetti[index];
+            
+            let content = cap.testo;
+            
+            // APPLICAZIONE EVIDENZIATORE
+            if (searchKeywords.length > 0) {
+                content = highlightText(content, searchKeywords);
+            }
+
+            const cp = `<div class="copyright-text"><br>Tutti i documenti sono tratti scrupolosamente dalle Opere delle ultime edizioni del Centro Editoriale Valtortiano (CEV)<br>Tutti i diritti d’autore sono riservati alla Fondazione Maria Valtorta CEV onlus<br>info@valtortamaria.com</div>`;
+            const lnk = cap.link || cap.url || "http://www.valtortamaria.com";
+            const lh = `<div class="source-link"><a href="${lnk}" target="_blank">Leggi il capitolo originale sul sito</a></div>`;
+            
+            textContainer.innerHTML = `${content}<div class="chapter-footer">${cp}${lh}</div>`;
+            
+            document.getElementById('main-content').scrollTop = 0;
+            
+            document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
+            const activeItem = document.getElementById('item-' + index);
+            if (activeItem) {
+                activeItem.classList.add('active');
+                activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
+            updateButtons();
+
+            // SCROLL AUTOMATICO ALLA PAROLA TROVATA
+            if(autoScroll && searchKeywords.length > 0) {
+                setTimeout(() => {
+                    const mark = document.querySelector('mark.highlight');
+                    if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
+                }, 300);
+            }
+        }
+
+        function highlightText(html, keywords) {
+            let pattern = keywords.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+            if(!pattern) return html;
+            const regex = new RegExp(`(${pattern})`, 'gi');
+            return html.replace(/(<[^>]+>)|([^<]+)/g, (m, tag, text) => {
+                if (tag) return tag;
+                return text.replace(regex, '<mark class="highlight">$&</mark>');
+            });
+        }
+
+        function nextChapter() { if (currentIndex < quadernetti.length - 1) loadChapter(currentIndex + 1); }
+        function prevChapter() { if (currentIndex > 0) loadChapter(currentIndex - 1); }
+        function updateButtons() {
+            document.getElementById('btn-prev').disabled = (currentIndex === 0);
+            document.getElementById('btn-next').disabled = (currentIndex === quadernetti.length - 1);
+        }
+
+        // --- MOTORE DI RICERCA ---
+        
+        function openSearch() { 
+            document.getElementById('searchModal').style.display = 'flex'; 
+            document.getElementById('simpleInput').focus(); 
+            document.getElementById('btn-back-search').style.display = 'none';
+        }
+        
+        function closeSearch() { 
+            document.getElementById('searchModal').style.display = 'none';
+            if(isSearchActive) document.getElementById('btn-back-search').style.display = 'block';
+        }
+
+        function resetSearch() {
+            document.getElementById('simpleInput').value = "";
+            document.getElementById('word1').value = "";
+            document.getElementById('word2').value = "";
+            document.getElementById('distance').value = "20";
+            document.getElementById('searchResults').innerHTML = "";
+            document.getElementById('simpleInput').focus();
+        }
+        
+        document.getElementById('searchModal').addEventListener('click', function(e) {
+            if (e.target === this) closeSearch();
+        });
+
+        function doSimpleSearch() {
+            const val = document.getElementById('simpleInput').value.trim();
+            if (val.length < 3) { alert("Inserisci almeno 3 caratteri"); return; }
+            performSearch([val], "simple");
+        }
+
+        function doProximitySearch() {
+            const w1 = document.getElementById('word1').value.trim();
+            const w2 = document.getElementById('word2').value.trim();
+            const dist = parseInt(document.getElementById('distance').value) || 20;
+            if (!w1 || !w2) { alert("Inserisci entrambe le parole"); return; }
+            performSearch([w1, w2], "proximity", dist);
+        }
+
+        function performSearch(terms, type, dist = 20) {
+            const resultsDiv = document.getElementById('searchResults');
+            resultsDiv.innerHTML = '<div style="text-align:center; padding:10px;">Ricerca in corso...</div>';
+            
+            const p1 = terms[0].toLowerCase();
+            const p2 = terms[1] ? terms[1].toLowerCase() : null;
+            let results = [];
+
+            quadernetti.forEach((cap, idx) => {
+                let cleanText = (cap.testo).replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").toLowerCase();
+                let found = false;
+                let snippet = "";
+
+                // ALGORITMO RICERCA
+                if (type === "simple") {
+                    if (cleanText.includes(p1)) {
+                        found = true;
+                        const pos = cleanText.indexOf(p1);
+                        snippet = "..." + cleanText.substring(Math.max(0, pos - 40), Math.min(cleanText.length, pos + 60)) + "...";
+                    }
+                } else if (type === "proximity") {
+                    const words = cleanText.split(/\s+/).filter(w => w.length > 0);
+                    let idx1 = [], idx2 = [];
+                    words.forEach((w, i) => { 
+                        if (w.includes(p1)) idx1.push(i);
+                        if (w.includes(p2)) idx2.push(i);
+                    });
+                    
+                    if (idx1.length > 0 && idx2.length > 0) {
+                        let minD = Infinity; let bestPos = 0;
+                        idx1.forEach(i1 => {
+                            idx2.forEach(i2 => {
+                                let d = Math.abs(i1 - i2);
+                                if (d < minD) { minD = d; bestPos = Math.min(i1, i2); }
+                            });
+                        });
+                        if (minD <= dist) {
+                            found = true;
+                            const start = Math.max(0, bestPos - 10);
+                            const end = Math.min(words.length, bestPos + dist + 10);
+                            snippet = "..." + words.slice(start, end).join(" ") + "...";
+                        }
+                    }
+                }
+
+                if (found) {
+                    // GENERAZIONE TITOLO RISULTATO (Adattata per Quadernetti)
+                    let title = "Quadernetti";
+                    // Cerchiamo di estrarre "Capitolo X" dal testo pulito se presente
+                    const matchCap = cap.testo.match(/Capitolo\s*\d+/i);
+                    if(matchCap) {
+                        title += " - " + matchCap[0];
+                    } else {
+                        title += " - N." + (idx + 1); // Fallback
+                    }
+                    
+                    results.push({ idx: idx, title: title, snippet: snippet });
+                }
+            });
+
+            if (results.length === 0) {
+                resultsDiv.innerHTML = '<div style="padding:10px; color:red;">Nessun risultato trovato.</div>';
+            } else {
+                resultsDiv.innerHTML = `<div style="margin-bottom:10px; font-weight:bold;">Trovati ${results.length} risultati:</div>`;
+                results.forEach(res => {
+                    const div = document.createElement('div');
+                    div.className = 'result-item';
+                    div.innerHTML = `<div class="result-cap">${res.title}</div><div class="result-snippet">${res.snippet}</div>`;
+                    
+                    div.onclick = function() {
+                        this.classList.add('visited');
+                        isSearchActive = true;
+                        searchKeywords = terms;
+                        document.getElementById('btn-back-search').style.display = 'block';
+                        loadChapter(res.idx, true);
+                        closeSearch();
+                    };
+                    resultsDiv.appendChild(div);
+                });
+            }
+        }
+        /* --- RICEVITORE RICERCA GLOBALE --- */
+window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const openIdx = params.get('idx');
+    const keys = params.get('keys');
+    
+    if (openIdx !== null) {
+        if (keys) {
+            searchKeywords = decodeURIComponent(keys).split(',');
+            isSearchActive = true;
+            
+            const btnBack = document.getElementById('btn-back-search');
+            btnBack.style.display = 'block';
+            btnBack.innerText = "🌐 Torna alla Ricerca Globale";
+            btnBack.style.backgroundColor = "#5d4037";
+            btnBack.style.color = "#fff";
+            
+            // MODIFICA IMPORTANTE: Logica di ritorno semplificata
+            btnBack.onclick = function() {
+                // Tenta sempre di usare la cronologia del browser (mantiene i risultati)
+                if (history.length > 1) {
+                    history.back();
+                } else {
+                    // Fallback solo se non c'è cronologia
+                    window.location.href = 'ricerca.html';
+                }
+            };
+        }
+        
+        setTimeout(() => {
+            loadChapter(parseInt(openIdx), true);
+        }, 100);
+    }
+});
+    </script>
+</body>
+</html>

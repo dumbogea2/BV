@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricerca Globale - Opere Valtorta</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0; padding: 20px;
+            background-color: #2e1a05;
+            color: #333;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .search-container {
+            background-color: #f4ece0;
+            background-image: url('handmadepaper.png'); 
+            max-width: 800px; width: 100%;
+            padding: 30px; border-radius: 8px;
+            border: 4px double #8b0000;
+            box-shadow: 0 0 40px rgba(0,0,0,0.7);
+        }
+        h1 { text-align: center; color: #8b0000; margin-top: 0; border-bottom: 2px solid #dcd8ce; padding-bottom: 20px; }
+        .back-link { display: block; margin-bottom: 15px; color: #d4af37; text-decoration: none; font-weight: bold; }
+        .back-link:hover { color: #fff; }
+
+        .input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+        input[type="text"], input[type="number"] {
+            padding: 12px; border: 2px solid #8b0000; border-radius: 4px; flex-grow: 1; font-family: 'Georgia', serif; font-size: 16px;
+        }
+        .btn-search {
+            background-color: #8b0000; color: white; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s;
+        }
+        .btn-search:hover { background-color: #a50000; transform: scale(1.05); }
+
+        .search-options { background: #e8e4db; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #ccc; }
+        .radio-group { margin-bottom: 10px; }
+        label { margin-right: 15px; cursor: pointer; font-size: 0.95em; }
+
+        #globalResults { margin-top: 20px; }
+        .book-section { margin-bottom: 30px; }
+        .book-title { 
+            font-size: 1.2em; color: #fff; background-color: #5d4037; 
+            padding: 8px 15px; border-radius: 4px; margin-bottom: 10px; 
+            display: inline-block; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        /* STILE RISULTATI E VISITATI */
+        .result-item {
+            background: white; border-bottom: 1px solid #dcd8ce; padding: 15px; 
+            cursor: pointer; transition: background 0.2s;
+        }
+        .result-item:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; }
+        .result-item:last-child { border-bottom: none; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; }
+        .result-item:hover { background-color: #fff8e1; border-left: 5px solid #d4af37; padding-left: 10px; }
+        
+        /* Stile specifico per le righe già cliccate - Più evidente */
+        .result-item.visited { 
+            background-color: #e0d8cc; /* Sfondo più scuro */
+            border-left: 8px solid #5d4037; /* Bordo laterale marrone scuro spesso */
+            opacity: 0.8; /* Leggera trasparenza */
+        }
+        .result-item.visited .res-cap { color: #5d4037; text-decoration: line-through; text-decoration-color: rgba(0,0,0,0.2); } /* Titolo sbarrato leggermente */
+
+        .res-cap { font-weight: bold; color: #8b0000; font-size: 1.05em; }
+        .res-snippet { font-style: italic; color: #555; margin-top: 5px; line-height: 1.5; }
+        #loading { display: none; text-align: center; font-size: 1.2em; color: #8b0000; font-weight: bold; padding: 20px; }
+
+        /* Tasto Reset Memoria */
+        .clear-history { float: right; font-size: 0.8em; color: #666; cursor: pointer; text-decoration: underline; margin-top: 5px; }
+
+        @media (max-width: 600px) {
+            .input-group { flex-direction: column; }
+            .btn-search { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="home.html" class="back-link">← Torna alla Home</a>
+
+    <div class="search-container">
+        <h1>Ricerca in Tutte le Opere</h1>
+
+        <div class="search-options">
+            <div class="radio-group">
+                <strong>Tipo di ricerca:</strong><br>
+                <label><input type="radio" name="searchType" value="simple" checked onclick="toggleMode()"> Semplice (Parola esatta)</label>
+                <label><input type="radio" name="searchType" value="proximity" onclick="toggleMode()"> Concordanze (Due parole vicine)</label>
+            </div>
+            <span class="clear-history" onclick="clearSearchHistory()">🗑️ Nuova Ricerca Pulita</span>
+        </div>
+
+        <div id="simpleBox" class="input-group">
+            <input type="text" id="simpleInput" placeholder="Inserisci parola o frase (es. Spirito Santo)..." onkeypress="handleEnter(event)">
+            <button class="btn-search" onclick="startSearch()">CERCA OVUNQUE</button>
+        </div>
+
+        <div id="proximityBox" class="input-group" style="display:none;">
+            <input type="text" id="word1" placeholder="Parola 1">
+            <input type="number" id="distance" value="30" style="width:70px;" title="Distanza max">
+            <input type="text" id="word2" placeholder="Parola 2">
+            <button class="btn-search" onclick="startSearch()">TROVA CONCORDANZE</button>
+        </div>
+
+        <div id="loading">Consultazione degli archivi in corso... ⏳</div>
+        <div id="globalResults"></div>
+    </div>
+
+    <script src="archivio_1943.js"></script>
+    <script src="archivio_1944.js"></script>
+    <script src="archivio_1945-1950.js"></script>
+    <script src="Quadernetti.js"></script>
+
+    <script>
+        const LIBRARY = [
+            { id: '1943',   name: 'Quaderni 1943',      data: (typeof quaderni_1943 !== 'undefined' ? quaderni_1943 : []),           file: 'quaderni_1943.html' },
+            { id: '1944',   name: 'Quaderni 1944',      data: (typeof quaderni_1944 !== 'undefined' ? quaderni_1944 : []),           file: 'quaderni_1944.html' },
+            { id: '45-50',  name: 'Quaderni 1945-1950', data: (typeof quaderni_1945_1950 !== 'undefined' ? quaderni_1945_1950 : []), file: 'quaderni_1945-1950.html' },
+            { id: 'quad',   name: 'Quadernetti',        data: (typeof quadernetti !== 'undefined' ? quadernetti : []),               file: 'quadernetti.html' }
+        ];
+
+        // --- SISTEMA DI MEMORIA AUTOMATICA AGGIORNATO (usa 'pageshow' per il tasto Indietro) ---
+        window.addEventListener('pageshow', (event) => {
+            // Rilegge sempre la memoria quando la pagina viene mostrata (anche tornando indietro)
+            const savedSearch = sessionStorage.getItem('valtortaGlobalSearch');
+            
+            if (savedSearch) {
+                const data = JSON.parse(savedSearch);
+                
+                // Ripristina i valori nei campi input
+                if (data.type === 'simple') {
+                    document.querySelector('input[value="simple"]').checked = true;
+                    document.getElementById('simpleInput').value = data.terms[0] || "";
+                } else {
+                    document.querySelector('input[value="proximity"]').checked = true;
+                    document.getElementById('word1').value = data.terms[0] || "";
+                    document.getElementById('word2').value = data.terms[1] || "";
+                    document.getElementById('distance').value = data.dist || 30;
+                }
+                
+                toggleMode();
+                
+                // Rilancia la ricerca per aggiornare l'evidenziazione
+                performSearchLogic(data.terms, data.type, data.dist);
+            }
+        });
+
+        function clearSearchHistory() {
+            sessionStorage.removeItem('valtortaGlobalSearch');
+            sessionStorage.removeItem('valtortaVisitedItems'); // Pulisce anche i visitati
+            document.getElementById('simpleInput').value = "";
+            document.getElementById('word1').value = "";
+            document.getElementById('word2').value = "";
+            document.getElementById('globalResults').innerHTML = "";
+        }
+
+        function toggleMode() {
+            const type = document.querySelector('input[name="searchType"]:checked').value;
+            document.getElementById('simpleBox').style.display = (type === 'simple') ? 'flex' : 'none';
+            document.getElementById('proximityBox').style.display = (type === 'proximity') ? 'flex' : 'none';
+        }
+
+        function handleEnter(e) { if(e.key === 'Enter') startSearch(); }
+
+        function startSearch() {
+            const type = document.querySelector('input[name="searchType"]:checked').value;
+            let terms = [];
+            let dist = 30;
+
+            if (type === 'simple') {
+                const val = document.getElementById('simpleInput').value.trim();
+                if (val.length < 3) { alert("Inserisci almeno 3 lettere."); return; }
+                terms = [val];
+            } else {
+                const w1 = document.getElementById('word1').value.trim();
+                const w2 = document.getElementById('word2').value.trim();
+                dist = parseInt(document.getElementById('distance').value) || 30;
+                if (!w1 || !w2) { alert("Inserisci entrambe le parole."); return; }
+                terms = [w1, w2];
+            }
+
+            // SALVA LA RICERCA
+            const searchData = { type: type, terms: terms, dist: dist };
+            sessionStorage.setItem('valtortaGlobalSearch', JSON.stringify(searchData));
+
+            performSearchLogic(terms, type, dist);
+        }
+
+        // --- FUNZIONE FONDAMENTALE PER LA MEMORIA "VISITATI" ---
+        function visitAndGo(link, uniqueId, element) {
+            // 1. Aggiungi subito la classe visiva (feedback immediato)
+            element.classList.add('visited');
+
+            // 2. Recupera la lista dei visitati dalla memoria
+            let visited = JSON.parse(sessionStorage.getItem('valtortaVisitedItems') || '[]');
+            
+            // 3. Aggiunge l'ID se non c'è già
+            if(!visited.includes(uniqueId)) {
+                visited.push(uniqueId);
+                sessionStorage.setItem('valtortaVisitedItems', JSON.stringify(visited));
+            }
+            
+            // 4. Va alla pagina
+            window.location.href = link;
+        }
+
+        function performSearchLogic(terms, type, dist) {
+            const resContainer = document.getElementById('globalResults');
+            const loader = document.getElementById('loading');
+            
+            // Recuperiamo la lista dei già visitati
+            const visitedItems = JSON.parse(sessionStorage.getItem('valtortaVisitedItems') || '[]');
+
+            resContainer.innerHTML = "";
+            loader.style.display = "block";
+
+            // Usiamo setTimeout per non bloccare la UI mentre carica
+            setTimeout(() => {
+                let totalFound = 0;
+                let htmlOutput = "";
+
+                LIBRARY.forEach(book => {
+                    if (book.data.length === 0) return;
+                    const bookResults = searchInBook(book.data, terms, type, dist);
+                    
+                    if (bookResults.length > 0) {
+                        totalFound += bookResults.length;
+                        htmlOutput += `<div class="book-section">`;
+                        htmlOutput += `<div class="book-title">${book.name} (${bookResults.length})</div>`;
+                        
+                        bookResults.forEach(res => {
+                            const keywordsSafe = encodeURIComponent(terms.join(','));
+                            const link = `${book.file}?idx=${res.idx}&keys=${keywordsSafe}`;
+                            
+                            // ID Univoco per la memoria: SiglaLibro + Indice (es. "1943-5")
+                            const uniqueId = book.id + '-' + res.idx;
+                            
+                            // Controlla se è stato visitato
+                            const isVisited = visitedItems.includes(uniqueId);
+                            const visitedClass = isVisited ? ' visited' : '';
+
+                            // Passiamo 'this' alla funzione visitAndGo per colorare subito
+                            htmlOutput += `
+                            <div class="result-item${visitedClass}" onclick="visitAndGo('${link}', '${uniqueId}', this)">
+                                <div class="res-cap">${res.title}</div>
+                                <div class="res-snippet">${res.snippet}</div>
+                            </div>`;
+                        });
+                        htmlOutput += `</div>`;
+                    }
+                });
+
+                loader.style.display = "none";
+                
+                if (totalFound === 0) {
+                    resContainer.innerHTML = "<p style='text-align:center; font-style:italic;'>Nessun risultato trovato in nessuna opera.</p>";
+                } else {
+                    resContainer.innerHTML = `<div style="text-align:center; margin-bottom:20px; color:#666;">Trovati <b>${totalFound}</b> risultati totali.</div>` + htmlOutput;
+                }
+            }, 50); // Timeout breve
+        }
+
+        function searchInBook(data, terms, type, dist) {
+            const results = [];
+            const p1 = terms[0].toLowerCase();
+            const p2 = terms[1] ? terms[1].toLowerCase() : null;
+
+            data.forEach((cap, idx) => {
+                let cleanText = (cap.testo).replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").toLowerCase();
+                let found = false;
+                let snippet = "";
+
+                if (type === 'simple') {
+                    if (cleanText.includes(p1)) {
+                        found = true;
+                        const pos = cleanText.indexOf(p1);
+                        snippet = "..." + cleanText.substring(Math.max(0, pos - 40), Math.min(cleanText.length, pos + 60)) + "...";
+                    }
+                } else {
+                    const words = cleanText.split(/\s+/).filter(w => w.length > 0);
+                    let idx1 = [], idx2 = [];
+                    words.forEach((w, i) => { 
+                        if (w.includes(p1)) idx1.push(i);
+                        if (w.includes(p2)) idx2.push(i);
+                    });
+                    
+                    if (idx1.length > 0 && idx2.length > 0) {
+                        let minD = Infinity; let bestPos = 0;
+                        idx1.forEach(i1 => {
+                            idx2.forEach(i2 => {
+                                let d = Math.abs(i1 - i2);
+                                if (d < minD) { minD = d; bestPos = Math.min(i1, i2); }
+                            });
+                        });
+                        if (minD <= dist) {
+                            found = true;
+                            const start = Math.max(0, bestPos - 10);
+                            const end = Math.min(words.length, bestPos + dist + 10);
+                            snippet = "..." + words.slice(start, end).join(" ") + "...";
+                        }
+                    }
+                }
+
+                if (found) {
+                    let title = "Capitolo " + (idx + 1);
+                    if (cap.data) title += " - " + cap.data;
+                    else {
+                        const matchH3 = cap.testo.match(/<h3>([\s\S]*?)<\/h3>/i);
+                        if (matchH3) title = matchH3[1].replace(/<[^>]+>/g, "").trim();
+                        else if (cap.anno) title += " (" + cap.anno + ")";
+                        
+                        const matchCap = cap.testo.match(/Capitolo\s*\d+/i);
+                        if(matchCap && !cap.data) title = "Quadernetti - " + matchCap[0];
+                    }
+                    results.push({ idx: idx, title: title, snippet: snippet });
+                }
+            });
+            return results;
+        }
+    </script>
+</body>
+</html>
