@@ -23,15 +23,31 @@
             min-height: 100vh;
         }
 
+        /* Tasto Torna al Portale (Nuovo) */
+        .back-portal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: #8b0000;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            border: 1px solid #8b0000;
+            transition: 0.3s;
+        }
+        .back-portal:hover { background-color: #8b0000; color: white; }
+
         header {
             text-align: center;
             margin-bottom: 50px;
             max-width: 800px;
-            /* Sfondo bianco semi-trasparente per leggere il titolo sull'immagine */
             background-color: rgba(244, 241, 234, 0.9);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-top: 40px; /* Spazio per il tasto back su mobile */
         }
 
         h1 {
@@ -59,7 +75,6 @@
         }
 
         .card {
-            /* Sfondo card leggermente trasparente */
             background-color: rgba(255, 252, 245, 0.95);
             border: 1px solid #dcd8ce;
             border-radius: 8px;
@@ -109,7 +124,6 @@
             text-align: center;
             font-size: 0.9em;
             color: #333;
-            /* Sfondo footer per leggibilità */
             background-color: rgba(244, 241, 234, 0.9);
             padding: 20px;
             border-radius: 10px;
@@ -122,10 +136,13 @@
         @media (max-width: 600px) {
             h1 { font-size: 2em; }
             .grid-container { grid-template-columns: 1fr; }
+            .back-portal { position: static; display: block; margin-bottom: 20px; text-align: center; }
         }
     </style>
 </head>
 <body>
+
+    <a href="../index.html" class="back-portal">🏠 Torna al Portale</a>
 
     <header>
         <h1>I Quaderni e i Quadernetti</h1>
