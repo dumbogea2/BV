@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opere Minori - Maria Valtorta</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            /* SFONDO HOME */
+            background-image: url('Quaderni-home.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            
+            color: #333;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 800px;
+            /* Sfondo bianco semi-trasparente per leggere il titolo sull'immagine */
+            background-color: rgba(244, 241, 234, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #8b0000;
+            font-size: 3em;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #d1cbb8;
+            padding-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            font-style: italic;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            /* Sfondo card leggermente trasparente */
+            background-color: rgba(255, 252, 245, 0.95);
+            border: 1px solid #dcd8ce;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #8b0000;
+            margin-top: 0;
+            font-size: 1.5em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #444;
+            flex-grow: 1; 
+        }
+
+        .btn-read {
+            display: inline-block;
+            text-align: center;
+            background-color: #8b0000;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-read:hover { background-color: #a50000; }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.9em;
+            color: #333;
+            /* Sfondo footer per leggibilità */
+            background-color: rgba(244, 241, 234, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        footer a { color: #8b0000; text-decoration: none; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2em; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>I Quaderni e i Quadernetti</h1>
+        <p class="subtitle">
+            Raccolta delle esperienze mistiche e dei dettati ricevuti da Maria Valtorta,<br>
+            complementari all'opera principale dell'Evangelo come mi è stato rivelato.
+        </p>
+    </header>
+
+    <div class="grid-container">
+        
+        <div class="card">
+            <h2>I Quaderni del 1943</h2>
+            <p>
+                Scritti in piena guerra, hanno un tono spesso severo e apocalittico. 
+                Trattano temi forti come la giustizia divina, le cause spirituali della guerra 
+                e la lotta tra bene e male.
+            </p>
+            <a href="quaderni_1943.html" class="btn-read">Leggi i Quaderni 1943</a>
+        </div>
+
+        <div class="card">
+            <h2>I Quaderni del 1944</h2>
+            <p>
+                Contengono molta teologia profonda, spiegazioni di passi biblici complessi 
+                e dettati che preparano o accompagnano le visioni del Vangelo.
+            </p>
+            <a href="quaderni_1944.html" class="btn-read">Leggi i Quaderni 1944</a>
+        </div>
+
+        <div class="card">
+            <h2>I Quaderni del 1945-1950</h2>
+            <p>
+                Includono commenti sui primi tempi della Chiesa (Atti degli Apostoli) 
+                e un'importante esegesi dell'Apocalisse di San Giovanni e dei "tempi ultimi".
+            </p>
+            <a href="quaderni_1945-1950.html" class="btn-read">Leggi i Quaderni '45-'50</a>
+        </div>
+
+        <div class="card">
+            <h2>I Quadernetti</h2>
+            <p>
+                Materiale inedito o sparso pubblicato nel 2006. 
+                Una raccolta eterogenea di episodi evangelici isolati, lezioni su temi specifici, 
+                preghiere e note autobiografiche.
+            </p>
+            <a href="quadernetti.html" class="btn-read">Leggi i Quadernetti</a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>
+            Tutti i documenti sono tratti scrupolosamente dalle Opere delle ultime edizioni del Centro Editoriale Valtortiano (CEV)<br>
+            Tutti i diritti d’autore sono riservati alla Fondazione Maria Valtorta CEV onlus<br>
+            <a href="mailto:info@valtortamaria.com">info@valtortamaria.com</a>
+        </p>
+        <p>
+            <a href="http://www.valtortamaria.com" target="_blank">Visita il sito ufficiale</a>
+        </p>
+    </footer>
+
+</body>
+</html>
