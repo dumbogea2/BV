@@ -10,6 +10,7 @@
        /*tasto ❓ Guida; tasto 🖨️ stampa elenco ricerca semplice e concordanze */
        /*v121 effettua ricerche ed evidenziatore parole esatte */
        /*le v112 online e offline effettuano ricerche parole parziali dice ... trova anche diceva */
+       /*inserito tasto torna al portale 🏠 */
        /* ------------------------*/
        /* --- TEMA SINAGOGA ANTICA (Versione Universale Definitiva) --- */
 body {
@@ -46,15 +47,17 @@ body::before {
 }
        
         .header-section { 
-            text-align: center; 
-            margin-bottom: 30px; 
-            padding: 30px; 
-            /* Aggiungiamo margine sopra per abbassare tutto il blocco titolo */
-            margin-top: 40px; 
-            background: rgba(0,0,0,0.2);
-            border-bottom: 3px double #e5c27a;
-            border-top: 3px double #e5c27a;
-        }
+    text-align: center; 
+    margin-bottom: 30px; 
+    padding: 30px; 
+    
+    /* MODIFICA QUI: Aumenta da 40px a 80px per fare spazio al tasto centrale */
+    margin-top: 80px; 
+    
+    background: rgba(0,0,0,0.2);
+    border-bottom: 3px double #e5c27a;
+    border-top: 3px double #e5c27a;
+}
 
         h1 { 
             color: #e5c27a; font-size: 2.8em; 
@@ -637,11 +640,57 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
     cursor: pointer; background: none; border: none;
 }
  
+/* --- TASTO TORNA AL PORTALE (Centrale in alto) --- */
+.back-portal-btn {
+    position: fixed;
+    /* Allineato verticalmente con il tasto Filtri (circa 10-12px) */
+    top: 12px; 
+    
+    /* Centratura orizzontale perfetta */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    z-index: 9990; /* Alto, ma sotto al menu filtri quando si apre */
+    
+    /* Stile Visivo */
+    background-color: #f3e5ab; /* Pergamena */
+    color: #8b0000; /* Rosso */
+    text-decoration: none;
+    
+    border: 2px solid #8b5a2b;
+    border-radius: 50px; /* Arrotondato a pillola per stile moderno/antico */
+    padding: 8px 20px;   /* Più largo per essere ben cliccabile su mobile */
+    font-size: 15px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    transition: 0.3s;
+    
+    /* Flexbox per icona e testo */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap; /* Evita che il testo vada a capo */
+}
+
+.back-portal-btn:hover { 
+    background-color: #fff; 
+    color: #b22222;
+    transform: translateX(-50%) scale(1.05); /* Mantiene la centratura durante lo zoom */
+    box-shadow: 0 0 15px rgba(178, 34, 34, 0.6);
+}
+
+    /* Nascondi scritta su schermi piccolissimi */
+    @media (max-width: 400px) {
+        .back-portal-btn span { display: none; } 
+    }
     </style>
 </head>
 <body>
 
 <button id="btn-back-search" onclick="riapriRicerca()">🔙 Torna ai Risultati</button>
+<a href="../index.html" class="back-portal-btn" title="Torna alla pagina principale">
+    🏠 <span>Portale</span>
+</a>
 
 <button class="menu-btn" onclick="openNav()">☰ Filtri</button>
 <button class="help-btn-top" onclick="openHelp()">❓ Guida</button>
