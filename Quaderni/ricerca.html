@@ -74,6 +74,71 @@
             .input-group { flex-direction: column; }
             .btn-search { width: 100%; }
         }
+        /* --- AGGIUNTA TASTO CHIUSURA X --- */
+        /* Importante: rende il contenitore il riferimento per la X */
+        .search-container { position: relative; } 
+
+        .close-search {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #8b0000;
+            font-weight: bold;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+        .close-search:hover { 
+            color: #d4af37; 
+            transform: scale(1.2); 
+        }
+    /* STILE DI STAMPA PER RICERCA GLOBALE */
+    @media print {
+        body { 
+            background-color: white !important; 
+            background-image: none !important; 
+            color: black !important;
+            height: auto !important;
+            overflow: visible !important;
+        }
+        
+        /* Nascondi tutto ciò che non serve, INCLUSA la nuova X (.close-search) */
+        .back-link, .search-container h1, .search-options, .input-group, #loading, .btn-print-pdf, .close-search {
+            display: none !important;
+        }
+
+        /* Gestione container principale */
+        .search-container {
+            border: none !important;
+            box-shadow: none !important;
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+        }
+
+        /* Assicurati che i risultati siano ben visibili */
+        #globalResults {
+            display: block !important;
+        }
+
+        /* Mantieni evidenza dei visitati anche in stampa */
+        .result-item.visited {
+            border-left-color: #555 !important;
+            background-color: #eee !important;
+            -webkit-print-color-adjust: exact; /* Per Chrome/Safari */
+            print-color-adjust: exact;         /* Per Firefox */
+        }
+        
+        .book-title {
+            background-color: #333 !important;
+            color: white !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    } 
     </style>
 </head>
 <body>
@@ -81,6 +146,8 @@
     <a href="home.html" class="back-link">← Torna alla Home</a>
 
     <div class="search-container">
+        <div class="close-search" onclick="history.back()" title="Chiudi e torna all'opera">✕</div>
+
         <h1>Ricerca in Tutte le Opere</h1>
 
         <div class="search-options">
@@ -257,7 +324,13 @@
                 if (totalFound === 0) {
                     resContainer.innerHTML = "<p style='text-align:center; font-style:italic;'>Nessun risultato trovato in nessuna opera.</p>";
                 } else {
-                    resContainer.innerHTML = `<div style="text-align:center; margin-bottom:20px; color:#666;">Trovati <b>${totalFound}</b> risultati totali.</div>` + htmlOutput;
+                   
+// --- MODIFICA: Aggiunto tasto Stampa ---
+const printBtn = `<button class="btn-print-pdf" onclick="window.print()" style="margin-left:15px; cursor:pointer; background:none; border:1px solid #8b0000; padding:5px 10px; border-radius:5px; color:#8b0000; font-weight:bold;">🖨️ Stampa elenco PDF</button>`;
+
+resContainer.innerHTML = `<div style="text-align:center; margin-bottom:20px; color:#666;">
+    Trovati <b>${totalFound}</b> risultati totali. ${printBtn}
+</div>` + htmlOutput;
                 }
             }, 50); // Timeout breve
         }
