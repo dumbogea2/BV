@@ -119,8 +119,72 @@
             #main-content { padding: 20px; } 
             #btn-back-search { top: auto; bottom: 20px; right: 20px; } 
         }
-    </style>
-</head>
+        
+        /* --- INCOLLA QUI IL CODICE DI STAMPA --- */
+        @media print {
+            /* Nascondi l'interfaccia principale e i tasti */
+            #sidebar, #main-content, #btn-back-search, .close-search, .search-section, .btn-reset, .btn-print-pdf {
+                display: none !important;
+            }
+
+            body {
+                background: white !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            /* Rendi visibile e stendi il modale */
+            #searchModal {
+                position: static !important;
+                display: block !important;
+                background: white !important;
+                height: auto !important;
+                width: 100% !important;
+                padding: 0 !important;
+                overflow: visible !important;
+            }
+
+            .search-panel {
+                border: none !important;
+                box-shadow: none !important;
+                width: 100% !important;
+                max-width: none !important;
+                max-height: none !important;
+                overflow: visible !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .search-panel h2 {
+                color: black !important;
+                border-bottom: 2px solid #000;
+                text-align: left !important; 
+            }
+
+            #searchResults {
+                display: block !important;
+                border: none !important;
+            }
+
+            .result-item {
+                page-break-inside: avoid;
+                border: 1px solid #ccc !important;
+                color: black !important;
+                margin-bottom: 10px !important;
+            }
+
+            /* Mantieni evidenza dei visitati (grigio scuro) per riferimento */
+            .result-item.visited {
+                background-color: #eee !important;
+                border-left: 5px solid #555 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+        /* --- FINE CODICE DI STAMPA --- */
+
+    </style> 
+    </head>
 <body>
     <button id="btn-back-search" onclick="openSearch()">🔙 Torna ai Risultati</button>
 
@@ -399,7 +463,13 @@
             if (results.length === 0) {
                 resultsDiv.innerHTML = '<div style="padding:10px; color:red;">Nessun risultato trovato.</div>';
             } else {
-                resultsDiv.innerHTML = `<div style="margin-bottom:10px; font-weight:bold;">Trovati ${results.length} risultati:</div>`;
+                // --- INIZIO MODIFICA STAMPA ---
+            const printBtn = `<button class="btn-print-pdf" onclick="window.print()" style="float:right; cursor:pointer; background:none; border:1px solid #8b0000; padding:2px 8px; border-radius:4px; color:#8b0000; font-size:0.9em;">🖨️ Stampa PDF</button>`;
+
+            resultsDiv.innerHTML = `<div style="margin-bottom:10px; font-weight:bold; overflow:hidden;">
+                Trovati ${results.length} risultati: ${printBtn}
+            </div>`;
+            // --- FINE MODIFICA STAMPA ---
                 results.forEach(res => {
                     const div = document.createElement('div');
                     div.className = 'result-item';
