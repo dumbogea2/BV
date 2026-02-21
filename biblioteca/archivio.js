@@ -34,7 +34,12 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-116.9,70"
     },
     "4": {
         "titolo": "IV. Anna con un cantico annunzia di esser madre. Nel Suo Seno è l'Anima Immacolata di Maria",
@@ -48,7 +53,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "5": {
         "titolo": "V. Nascita di Maria. La sua verginità nell'eterno pensiero del Padre",
@@ -64,7 +73,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "6": {
         "titolo": "VI. Purificazione di Anna e offerta di Maria, che è la Fanciulla perfetta per il Regno dei Cieli",
@@ -81,7 +94,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Gerusalemme",
+            "Golgota"
+        ],
+        "coordinate": "-122,69"
     },
     "7": {
         "titolo": "VII. La piccola Maria con Anna e Gioacchino. Sulle sue labbra è già la Sapienza del Figlio",
@@ -94,7 +113,11 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "8": {
         "titolo": "VIII. Maria accolta nel Tempio. Ella, nella sua umiltà, non sapeva di essere la Piena di Sapienza",
@@ -109,7 +132,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "9": {
         "titolo": "IX.. La morte di Gioacchino e Anna fu dolce, dopo una vita di sapiente fedeltà a Dio nelle prove",
@@ -138,7 +165,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Monte Uliveto"
+        ],
+        "coordinate": "-115.81,70.34"
     },
     "11": {
         "titolo": "XI. Maria confida il suo voto al Sommo Sacerdote",
@@ -151,7 +182,12 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Libano"
+        ],
+        "coordinate": "-116.9,70"
     },
     "12": {
         "titolo": "XII. Giuseppe prescelto come sposo della Vergine",
@@ -166,7 +202,11 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "13": {
         "titolo": "XIII. Sposalizio della Vergine con Giuseppe, istruito dalla Sapienza ad essere custode del Mistero",
@@ -182,7 +222,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Golgota",
+            "Isacco"
+        ],
+        "coordinate": "-24.93,8.43"
     },
     "14": {
         "titolo": "XIV. Gli Sposi arrivano a Nazareth",
@@ -196,7 +241,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giudea"
+        ],
+        "coordinate": "-123.67,60.72"
     },
     "15": {
         "titolo": "XV. A conclusione del Prevangelo",
@@ -209,7 +258,11 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Magdala"
+        ],
+        "coordinate": "-56.49,83.17"
     },
     "16": {
         "titolo": "XVI. L'Annunciazione.",
@@ -250,7 +303,12 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Gerusalemme"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "19": {
         "titolo": "XIX. Maria e Giuseppe alla volta di Gerusalemme.",
@@ -262,7 +320,11 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "20": {
         "titolo": "XX. Partenza da Gerusalemme. L'aspetto beatifico di Maria. Importanza della preghiera per Maria e ...",
@@ -278,7 +340,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "21": {
         "titolo": "XXI. L'arrivo di Maria a Ebron e il suo incontro con Elisabetta.",
@@ -292,7 +358,12 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Ebron",
+            "Gerusalemme"
+        ],
+        "coordinate": "-130.81,67"
     },
     "22": {
         "titolo": "XXII. Le giornate ad Ebron. I frutti della carità di Maria verso Elisabetta.",
@@ -309,7 +380,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Ebron",
+            "Giudea"
+        ],
+        "coordinate": "-130.81,67"
     },
     "23": {
         "titolo": "XXIII. Nascita di Giovanni Battista. Ogni sofferenza si placa sul seno di Maria.",
@@ -342,7 +418,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Golgota"
+        ],
+        "coordinate": "-24.93,8.43"
     },
     "25": {
         "titolo": "XXV. Presentazione di Giovanni Battista al Tempio e partenza di Maria. La Passione di Giuseppe",
@@ -358,7 +438,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Egitto",
+            "Gerusalemme",
+            "Giudea",
+            "Isacco"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "26": {
         "titolo": "XXVI. Giuseppe chiede perdono a Maria. Fede, carità e umiltà per ricevere Dio.",
@@ -373,7 +461,12 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Ebron",
+            "Nazaret"
+        ],
+        "coordinate": "-130.81,67"
     },
     "27": {
         "titolo": "XXVII. L'editto del censimento. Insegnamenti sull'amore allo sposo e sulla fiducia in Dio.",
@@ -388,7 +481,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme"
+        ],
+        "coordinate": "-122,69"
     },
     "28": {
         "titolo": "XXVIII. L'arrivo a Betlemme.",
@@ -400,7 +497,13 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Ebron",
+            "Gerusalemme"
+        ],
+        "coordinate": "-122,69"
     },
     "29": {
         "titolo": "XXIX. La nascita di Gesù. Efficacia salvifica della divina maternità di Maria.",
@@ -434,7 +537,15 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Città di David",
+            "Ebron",
+            "Isacco",
+            "Libano"
+        ],
+        "coordinate": "-122,69"
     },
     "31": {
         "titolo": "XXXI. Visita di Zaccaria. La santità di Giuseppe e l'ubbidienza ai sacerdoti",
@@ -452,7 +563,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Egitto",
+            "Giudea"
+        ],
+        "coordinate": "-122,69"
     },
     "32": {
         "titolo": "XXXII. Presentazione di Gesù al Tempio. La virtù di Simeone e la profezia di Anna.",
@@ -481,7 +598,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme"
+        ],
+        "coordinate": "-122,69"
     },
     "34": {
         "titolo": "XXXIV. Adorazione dei Magi. È \"vangelo della fede\".",
@@ -497,7 +618,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Gerusalemme",
+            "Mar Morto"
+        ],
+        "coordinate": "-122,69"
     },
     "35": {
         "titolo": "XXXV. Fuga in Egitto. Insegnamenti sull'ultima visione legata all'avvento di Gesù.",
@@ -516,7 +643,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Egitto",
+            "Golgota"
+        ],
+        "coordinate": "-122,69"
     },
     "36": {
         "titolo": "XXXVI. La sacra Famiglia in Egitto. Una lezione per le famiglie.",
@@ -533,7 +666,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Egitto",
+            "Nazaret"
+        ],
+        "coordinate": "-141.06,108.29"
     },
     "37": {
         "titolo": "XXXVII. Prima lezione di lavoro a Gesù, che non uscì dalla regola dell'età",
@@ -545,7 +683,14 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cana",
+            "Magdala",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "38": {
         "titolo": "XXXVIII. Maria maestra di Gesù, Giuda e Giacomo",
@@ -562,7 +707,13 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Egitto",
+            "Nazaret"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "39": {
         "titolo": "XXXIX. Preparativi per la maggiore età di Gesù e partenza da Nazareth",
@@ -577,7 +728,12 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-116.9,70"
     },
     "40": {
         "titolo": "XL. L'esame di Gesù maggiorenne al Tempio",
@@ -590,7 +746,12 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-116.9,70"
     },
     "41": {
         "titolo": "XLI. La disputa di Gesù nel Tempio coi dottori. L'angoscia della Madre e la risposta del Figlio.",
@@ -605,7 +766,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Egitto",
+            "Gerusalemme"
+        ],
+        "coordinate": "-122,69"
     },
     "42": {
         "titolo": "XLII. La morte di Giuseppe. Gesù è la pace di chi soffre e di chi muore",
@@ -620,7 +787,11 @@ const archivioCapitoli = {
             "temi": [
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret"
+        ],
+        "coordinate": "-65,74"
     },
     "43": {
         "titolo": "XLIII. A conclusione della vita nascosta",
@@ -632,7 +803,11 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Egitto"
+        ],
+        "coordinate": "-141.06,108.29"
     },
     "44": {
         "titolo": "XLIV. L'addio alla Madre e partenza da Nazareth. Il pianto e la preghiera della Corredentrice",
@@ -651,7 +826,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Egitto",
+            "Golgota"
+        ],
+        "coordinate": "-141.06,108.29"
     },
     "45": {
         "titolo": "XLV. Predicazione di Giovanni Battista e Battesimo di Gesù. La manifestazione divina.",
@@ -667,7 +847,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Deserto di Giuda",
+            "Giordano"
+        ],
+        "coordinate": "-124.95,76.26"
     },
     "46": {
         "titolo": "XLVI. Gesù tentato da Satana nel deserto. Come si vincono le tentazioni.",
@@ -684,7 +869,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giordano"
+        ],
+        "coordinate": "-85.88,87.78"
     },
     "47": {
         "titolo": "XLVII. L'incontro con Giovanni e Giacomo. Giovanni di Zebedeo è il puro fra i discepoli.",
@@ -700,7 +889,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giordano"
+        ],
+        "coordinate": "-85.88,87.78"
     },
     "48": {
         "titolo": "XVLIII. Giovanni e Giacomo riferiscono a Pietro il loro incontro con il Messia.",
@@ -736,7 +929,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "50": {
         "titolo": "L. A Betsaida nella casa di Pietro. L'incontro con Filippo e Natanaele.",
@@ -755,7 +952,15 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Gerusalemme",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "51": {
         "titolo": "LI. Maria manda Giuda Taddeo ad invitare Gesù alle nozze di Cana",
@@ -773,7 +978,15 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cana",
+            "Gerusalemme",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "52": {
         "titolo": "LII. Le nozze di Cana. Il Figlio non più soggetto alla Madre compie per Lei il primo miracolo.",
@@ -788,7 +1001,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Golgota"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "53": {
         "titolo": "LIII. La cacciata dei mercanti dal Tempio.",
@@ -826,7 +1044,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cana",
+            "Cedron",
+            "Cenacolo",
+            "Gerusalemme",
+            "Keriot"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "55": {
         "titolo": "LV. Un incarico affidato a Tommaso",
@@ -845,7 +1072,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Efraim",
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-122,69"
     },
     "56": {
         "titolo": "LVI. Simone Zelote e Giuda Taddeo uniti nella sorte",
@@ -862,7 +1096,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "57": {
         "titolo": "LVII. Nazareth con Giuda Taddeo e con altri sei discepoli",
@@ -879,7 +1122,15 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Gerusalemme",
+            "Giudea",
+            "Isacco",
+            "Nazaret"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "58": {
         "titolo": "LVIII. Garigione di un cieco a Cafarnao dopo una lezione di pesca applicata alle anime",
@@ -898,7 +1149,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cesarea Marittima",
+            "Giudea",
+            "Lago di Genezaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "59": {
         "titolo": "LIX. Un indemoniato guarito nella sinagoga di Cafarnao a conclusione di una disputa.",
@@ -917,7 +1175,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "60": {
         "titolo": "LX. Guarigione della suocera di Simon Pietro.",
@@ -936,7 +1199,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "61": {
         "titolo": "LXI. Gesù benefica i poveri dopo aver detto la parabola del cavallo amato dal re.",
@@ -955,7 +1225,13 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Corazim",
+            "Isacco"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "62": {
         "titolo": "LXII. Gesù cercato dai discepoli mentre prega nella notte.",
@@ -974,7 +1250,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Corazim",
+            "Isacco",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "63": {
         "titolo": "LXIII. Il lebbroso guarito presso Corazim.",
@@ -989,7 +1273,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Corazim",
+            "Giordano"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "64": {
         "titolo": "LXIV. Il paralitico guarito a Cafarnao.",
@@ -1007,7 +1297,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Lago di Genezaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "65": {
         "titolo": "LXV. La pesca miracolosa e l'elezione dei primi quattro apostoli.",
@@ -1037,7 +1332,12 @@ const archivioCapitoli = {
             "temi": [
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Getsemani",
+            "Keriot"
+        ],
+        "coordinate": "-20.94,33.38"
     },
     "67": {
         "titolo": "LXVII. Il miracolo delle lame spezzate alla porta dei Pesci",
@@ -1053,7 +1353,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Giudea",
+            "Nazaret"
+        ],
+        "coordinate": "-116.9,70"
     },
     "68": {
         "titolo": "LXVIII. Gesù, nel Tempio con l'Iscariota, ammaestra",
@@ -1070,7 +1376,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Decapoli",
+            "Giordano",
+            "Giudea",
+            "Idumea"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "69": {
         "titolo": "LXIX. Gesù istruisce Giuda Iscariota",
@@ -1086,7 +1400,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cedron"
+        ],
+        "coordinate": "-16.07,31.61"
     },
     "70": {
         "titolo": "LXX. Al Getsemani con Giovanni di Zebedeo. Un paragone tra il Prediletto e Giuda di Keriot",
@@ -1107,7 +1425,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Efraim",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "71": {
         "titolo": "LXXI. Giuda Iscariota presentato a Giovanni e a Simone Zelote",
@@ -1123,7 +1452,14 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Giudea",
+            "Keriot"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "72": {
         "titolo": "LXXII. Verso Betlem con Giovanni, Simone Zelote e Giuda Iscariota",
@@ -1139,7 +1475,11 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giudea"
+        ],
+        "coordinate": "-123.67,60.72"
     },
     "73": {
         "titolo": "LXXIII. A Betlem, nella casa di un contadino e nella grotta della Natività",
@@ -1157,7 +1497,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Ebron",
+            "Gerusalemme",
+            "Giudea",
+            "Isacco",
+            "Nazaret"
+        ],
+        "coordinate": "-122,69"
     },
     "74": {
         "titolo": "LXXIV. All'albergo di Betlem e sulle macerie della casa di Anna",
@@ -1174,7 +1523,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Ebron",
+            "Egitto",
+            "Gerusalemme",
+            "Giudea",
+            "Keriot",
+            "Tomba di Rachele"
+        ],
+        "coordinate": "-122,69"
     },
     "75": {
         "titolo": "LXXV. Gesù ritrova i pastori Elia e Levi",
@@ -1192,7 +1551,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Ebron",
+            "Egitto",
+            "Giudea",
+            "Isacco",
+            "Libano"
+        ],
+        "coordinate": "-122,69"
     },
     "76": {
         "titolo": "LXXVI. A Jutta dal pastore Isacco. Sara e i suoi bambini",
@@ -1210,7 +1578,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Ebron",
+            "Isacco",
+            "Nazaret"
+        ],
+        "coordinate": "-122,69"
     },
     "77": {
         "titolo": "LXXVII. A Ebron nella casa di Zaccaria. L'incontro con Aglae",
@@ -1229,7 +1604,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Ebron",
+            "Gerico",
+            "Giudea",
+            "Keriot",
+            "Samaria"
+        ],
+        "coordinate": "-122,69"
     },
     "78": {
         "titolo": "LXXVIII. A Keriot. Morte del vecchio Saul",
@@ -1246,7 +1630,15 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Ebron",
+            "Engaddi",
+            "Giudea",
+            "Keriot"
+        ],
+        "coordinate": "-122,69"
     },
     "79": {
         "titolo": "LXXIX. Andando dai pastori. I gioielli di Aglae e una parabola sulla sua conversione.",
@@ -1266,7 +1658,17 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Ebron",
+            "Gerico",
+            "Giudea",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-122,69"
     },
     "80": {
         "titolo": "LXXX. Con tre apostoli sul monte del digiuno e al masso della tentazione.",
@@ -1285,7 +1687,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Ebron",
+            "Lago di Genezaret",
+            "Nazaret"
+        ],
+        "coordinate": "-130.81,67"
     },
     "81": {
         "titolo": "LXXXI. Al guado del Giordano con i pastori Simeone, Giovanni e Mattia. Un piano per liberare il ...",
@@ -1302,7 +1710,16 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Isacco",
+            "Keriot"
+        ],
+        "coordinate": "-122,69"
     },
     "82": {
         "titolo": "LXXXII. A Gerico. L'Iscariota racconta come ha venduto i gioielli di Aglae.",
@@ -1320,7 +1737,13 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Gerusalemme",
+            "Isacco"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "83": {
         "titolo": "LXXXIII. Gesù soffre a causa di Giuda, che è una lezione vivente per gli apostoli di ogni tempo.",
@@ -1339,7 +1762,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Gerusalemme"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "84": {
         "titolo": "LXXXIV. L'incontro con Lazzaro di Betania.",
@@ -1355,7 +1784,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Egitto",
+            "Siria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "85": {
         "titolo": "LXXXV. Con Simone Zelote al Tempio, dove sta parlando l'Iscariota, e poi al Getsemani, dove è ...",
@@ -1375,7 +1810,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Carmelo",
+            "Gerusalemme",
+            "Getsemani",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "86": {
         "titolo": "LXXXVI. L'incontro con il milite Alessandro alla porta dei Pesci.",
@@ -1391,7 +1834,13 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "87": {
         "titolo": "LXXXVII. Con pastori e discepoli presso Doco. Isacco resta in Giudea.",
@@ -1408,7 +1857,13 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Giudea",
+            "Isacco"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "88": {
         "titolo": "LXXXVIII. Nella pianura di Esdrelon. L'amore di Giovanni e dei pochi come lui. Visita al pastore ...",
@@ -1426,7 +1881,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Isacco",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "89": {
         "titolo": "LXXXIX. Commiato da Giona, che Simone Zelote pensa di affrancare. Arrivo di Gesù a Nazareth.",
@@ -1443,7 +1905,16 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Cafarnao",
+            "Ebron",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-122,69"
     },
     "90": {
         "titolo": "XC. L'arrivo dei discepoli e dei pastori a Nazareth.",
@@ -1462,7 +1933,14 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gerusalemme",
+            "Isacco",
+            "Keriot"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "91": {
         "titolo": "XCI. Lezione ai discepoli nell'uliveto presso Nazareth.",
@@ -1483,7 +1961,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giudea",
+            "Isacco",
+            "Nazaret"
+        ],
+        "coordinate": "-123.67,60.72"
     },
     "92": {
         "titolo": "XCII. Lezione ai discepoli presso la casa di Nazareth.",
@@ -1521,7 +2005,12 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "94": {
         "titolo": "XCIV. Guarigione della Bella di Corazim. Gesù parla nella sinagoga di Cafarnao.",
@@ -1540,7 +2029,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Cafarnao",
+            "Corazim"
+        ],
+        "coordinate": "-122,69"
     },
     "95": {
         "titolo": "XCV. Giacomo d'Alfeo accolto tra i discepoli. Gesù parla presso il banco di Matteo.",
@@ -1558,7 +2053,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cana",
+            "Giordano",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "96": {
         "titolo": "XCVI. Gesù risponde all'accusa di aver guarito in sabato la Bella di Corazim.",
@@ -1574,7 +2076,14 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Corazim",
+            "Giordano"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "97": {
         "titolo": "XCVII. La chiamata di Matteo.",
@@ -1590,7 +2099,12 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Isacco"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "98": {
         "titolo": "XCVIII. Incontro con la Maddalena sul lago e lezione ai discepoli presso Tiberiade.",
@@ -1613,7 +2127,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Gerusalemme",
+            "Magdala",
+            "Tiberiade"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "99": {
         "titolo": "XCI. A Tiberiade nella casa di Cusa.",
@@ -1630,7 +2152,15 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Gerusalemme",
+            "Libano",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "100": {
         "titolo": "C. A Nazareth dal vecchio e malato Alfeo. Non è facile la vita dell'apostolo.",
@@ -1652,7 +2182,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Giudea",
+            "Nazaret"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "101": {
         "titolo": "CI. Gesù interroga la Madre in merito ai discepoli.",
@@ -1670,7 +2206,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Keriot"
+        ],
+        "coordinate": "-141.86,65.65"
     },
     "102": {
         "titolo": "CII. Incontro con l'ex-pastore Gionata e guarigione di Giovanna di Cusa.",
@@ -1690,7 +2230,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cana",
+            "Cesarea di Filippo",
+            "Libano",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "103": {
         "titolo": "CIII. Sul Libano dai pastori Beniamino e Daniele.",
@@ -1708,7 +2257,14 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Cesarea di Filippo",
+            "Gerusalemme",
+            "Libano"
+        ],
+        "coordinate": "-122,69"
     },
     "104": {
         "titolo": "CIV. Aava riconciliata con il marito. Notizie sulla morte di Alfeo e sul riscatto di Giona.",
@@ -1728,7 +2284,16 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Giudea",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "105": {
         "titolo": "CV. A Nazareth per la morte di Alfeo. Lenta conversione del cugino Simone.",
@@ -1745,7 +2310,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Isacco",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "106": {
         "titolo": "CVI. Cacciata da Nazareth e conforto alla Madre. Riflessioni su quattro contemplazioni.",
@@ -1763,7 +2334,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "107": {
         "titolo": "CVII. Gesù e la Madre da Giovanna di Cusa.",
@@ -1776,7 +2351,12 @@ const archivioCapitoli = {
             "temi": [
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "108": {
         "titolo": "CVIII. Discorso ai vendemmiatori. Bambino paralitico guarito per intercessione della Madre di ...",
@@ -1791,7 +2371,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giordano"
+        ],
+        "coordinate": "-85.88,87.78"
     },
     "109": {
         "titolo": "CIX. Nei campi di Giocana e in quelli di Doras. Morte di Giona nella casa di Nazareth.",
@@ -1815,7 +2399,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Nazaret"
+        ],
+        "coordinate": "-122,69"
     },
     "110": {
         "titolo": "CX. In casa di Giacobbe presso il lago Meron.",
@@ -1831,7 +2420,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Mar Morto",
+            "Nazaret",
+            "Tiro"
+        ],
+        "coordinate": "-116.9,70"
     },
     "111": {
         "titolo": "CXI. Incontro con Salomon al guado del Giordano. Parabola sulla conversione dei cuori.",
@@ -1849,7 +2445,15 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Samaria"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "112": {
         "titolo": "CXII. Giuda Iscariota sorpreso a Gerico. A Betania da Lazzaro, che presenta Marta.",
@@ -1872,7 +2476,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Gerusalemme",
+            "Giudea",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "113": {
         "titolo": "CXIII. Ritorno a Betania dopo la festa dei Tabernacoli.",
@@ -1892,7 +2506,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "114": {
         "titolo": "CXIV. Al convito di Giuseppe d'Arimatea, presenti anche Gamaliele e Nicodemo.",
@@ -1912,7 +2530,14 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Joppe",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "115": {
         "titolo": "CXV. Guarigione di un bambino colpito dal cavallo di Alessandro. Gesù scacciato dal Tempio.",
@@ -1932,7 +2557,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Keriot"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "116": {
         "titolo": "CXVI. Al Getsemani con Gesù, i discepoli parlano dei pagani e della “velata”. Il colloquio con ...",
@@ -1954,7 +2584,19 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Egitto",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Isacco",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "117": {
         "titolo": "CXVII. Lazzaro mette a disposizione di Gesù una casetta nella piana dell’Acqua Speciosa.",
@@ -1973,7 +2615,18 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betania",
+            "Efraim",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Isacco",
+            "Nazaret"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "118": {
         "titolo": "CXVIII. Inizio di vita in comune all’Acqua Speciosa e discorso d’apertura.",
@@ -1994,7 +2647,14 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betania",
+            "Isacco",
+            "Keriot"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "119": {
         "titolo": "CXIX. I discorsi dell’Acqua Speciosa: Io sono il Signore Dio tuo. Gesù battezza come Giovanni.",
@@ -2016,7 +2676,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betlemme",
+            "Betsaida",
+            "Egitto",
+            "Gerusalemme",
+            "Giudea",
+            "Isacco",
+            "Nazaret"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "120": {
         "titolo": "CXX. I discorsi dell’Acqua Speciosa: Non ti farai degli dèi al mio cospetto.",
@@ -2036,7 +2707,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "121": {
         "titolo": "CXXI. I discorsi dell’Acqua Speciosa: Non proferire invano il mio Nome. La visita di Mannanen.",
@@ -2056,7 +2731,13 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Gerico",
+            "Keriot"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "122": {
         "titolo": "CXXII. I discorsi dell’Acqua Speciosa: Onora il padre e la madre. Guarigione di un ebete.",
@@ -2076,7 +2757,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Efraim",
+            "Gerico",
+            "Giordano",
+            "Joppe",
+            "Keriot",
+            "Lago di Genezaret"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "123": {
         "titolo": "CXXIII. I discorsi dell’Acqua Speciosa: Non fornicare. L’affronto di cinque notabili.",
@@ -2096,7 +2787,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Cafarnao",
+            "Giudea",
+            "Keriot"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "124": {
         "titolo": "CXXV. La “velata” viene ospitata nella casetta dell’Acqua Speciosa.",
@@ -2117,7 +2815,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Cafarnao",
+            "Gerico",
+            "Gerusalemme",
+            "Isacco",
+            "Keriot"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "125": {
         "titolo": "CXXV. I discorsi dell’Acqua Speciosa: Santifica la festa. Il bambino dalle gambe fratturate.",
@@ -2132,7 +2839,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "126": {
         "titolo": "CXXVI. I discorsi dell’Acqua Speciosa: Non ammazzare. Morte di Doras.",
@@ -2147,7 +2858,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Emmaus"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "127": {
         "titolo": "CXXVII. I discorsi dell’Acqua Speciosa: Non tentare il Signore Iddio tuo. Testimonianza del ...",
@@ -2164,7 +2880,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Gerusalemme",
+            "Giordano"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "128": {
         "titolo": "CXXVIII. I discorsi dell’Acqua Speciosa: Non desiderare la donna d’altri. Il giovane ...",
@@ -2181,7 +2903,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Gerico",
+            "Gerusalemme",
+            "Giudea"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "129": {
         "titolo": "CXXIX. La guarigione, all’Acqua Speciosa, di un romano indemoniato.",
@@ -2199,7 +2928,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Cipro",
+            "Gerusalemme",
+            "Giordano",
+            "Samaria",
+            "Siria"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "130": {
         "titolo": "CXXX. I discorsi dell’Acqua Speciosa: Non dirai falsa testimonianza. Il piccolo Asrael.",
@@ -2217,7 +2955,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Nazaret"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "131": {
         "titolo": "CXXXI. discorsi dell'Acqua Speciosa: \"Non rubare e non desiderare ciò che è d'altri\". Il peccato ...",
@@ -2231,7 +2974,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "132": {
         "titolo": "CXXXII. Discorso conclusivo all'Acqua Speciosa. Predizione del primato spirituale a Simon Pietro.",
@@ -2250,7 +2997,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betlemme",
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "133": {
         "titolo": "CXXXIII. Andrea modello ideale del sacerdote. Una lettera della Madre. Gesù costretto a lasciare ...",
@@ -2274,7 +3028,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betania",
+            "Gerusalemme",
+            "Isacco",
+            "Tiberiade"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "134": {
         "titolo": "CXXXIV. La guarigione di Jerusa a Doco.",
@@ -2291,7 +3053,11 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Isacco"
+        ],
+        "coordinate": "-134.28,61.1"
     },
     "135": {
         "titolo": "CXXXV. L'arrivo a Betania. Un discorso di Gesù ascoltato dalla Maddalena.",
@@ -2311,7 +3077,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betania",
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "136": {
         "titolo": "CXXXVI. La festa delle Encenie nella casa di Lazzaro. Predizione sugli spiriti che risorgono per ...",
@@ -2334,7 +3107,19 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betania",
+            "Betlemme",
+            "Cafarnao",
+            "Ebron",
+            "Giordano",
+            "Isacco",
+            "Libano",
+            "Nazaret"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "137": {
         "titolo": "CXXXVII. Ritorno all'Acqua Speciosa e scontro con i farisei che hanno aggredito e scacciato la ...",
@@ -2353,7 +3138,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Giordano"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "138": {
         "titolo": "CXXXVIII. Commiato dal fattore dell'Acqua Speciosa e dal sinagogo Timoneo, che diviene discepolo.",
@@ -2370,7 +3160,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Cafarnao",
+            "Nazaret"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "139": {
         "titolo": "CXXXIX. Sui monti presso Emmaus. Il carattere di Giuda Iscariota e le qualità dei buoni.",
@@ -2391,7 +3187,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Emmaus",
+            "Giudea",
+            "Keriot",
+            "Magdala",
+            "Tiberiade"
+        ],
+        "coordinate": "-122,69"
     },
     "140": {
         "titolo": "CXL. A Emmaus, dal sinagogo Cleofa. Un caso di incesto. Fine del primo anno.",
@@ -2409,7 +3214,17 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Antiochia",
+            "Betlemme",
+            "Emmaus",
+            "Gerusalemme",
+            "Joppe",
+            "Nazaret"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "141": {
         "titolo": "CXLI. Andando verso Arimatea con i discepoli e con Giuseppe di Emmaus.",
@@ -2428,7 +3243,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Emmaus",
+            "Gerusalemme",
+            "Isacco",
+            "Joppe",
+            "Nazaret"
+        ],
+        "coordinate": "-61.24,85"
     },
     "142": {
         "titolo": "CXLII. Con i Dodici verso la Samaria.",
@@ -2444,7 +3267,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Samaria"
+        ],
+        "coordinate": "-89.66,67.35"
     },
     "143": {
         "titolo": "CXLIII. La samaritana Fotinai.",
@@ -2460,7 +3287,13 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Samaria",
+            "Sicar"
+        ],
+        "coordinate": "-116.9,70"
     },
     "144": {
         "titolo": "CXLIV. I samaritani invitano Gesù a Sicar.",
@@ -2473,7 +3306,12 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Samaria",
+            "Sicar"
+        ],
+        "coordinate": "-89.66,67.35"
     },
     "145": {
         "titolo": "CXVL. Il primo giorno a Sicar.",
@@ -2489,7 +3327,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Efraim",
+            "Egitto",
+            "Gerusalemme",
+            "Samaria",
+            "Sicar"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "146": {
         "titolo": "CXLVI. Il secondo giorno a Sicar e commiato dai samaritani.",
@@ -2502,7 +3349,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Sicar"
+        ],
+        "coordinate": "-91.05,75.83"
     },
     "147": {
         "titolo": "CXLVII. Guarigione di una donna di Sicar e conversione di Fotinai.",
@@ -2522,7 +3373,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Sicar"
+        ],
+        "coordinate": "-91.05,75.83"
     },
     "148": {
         "titolo": "CXLVIII. Gesù visita il Battista presso Enon.",
@@ -2536,7 +3391,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giordano"
+        ],
+        "coordinate": "-85.88,87.78"
     },
     "149": {
         "titolo": "CXLIX. L'eredità del Battista. L'ora della morte per gli apostoli. L'amore di Dio in Giovanni.",
@@ -2558,7 +3417,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "150": {
         "titolo": "CL. A Nazareth dalla Madre, che dovrà seguire il Figlio.",
@@ -2571,7 +3434,12 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giudea",
+            "Nazaret"
+        ],
+        "coordinate": "-123.67,60.72"
     },
     "151": {
         "titolo": "CLI. A Cana in casa di Susanna, che diventerà discepola. L'ufficiale regio.",
@@ -2586,7 +3454,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cana",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "152": {
         "titolo": "CLII. Maria Salome viene accolta come discepola.",
@@ -2636,7 +3510,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cesarea Marittima"
+        ],
+        "coordinate": "-76,54"
     },
     "155": {
         "titolo": "CLV. A Cesarea, guarigione di una bambina romana e diverbio sui contatti con i pagani.",
@@ -2656,7 +3534,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cesarea Marittima",
+            "Isacco",
+            "Rama"
+        ],
+        "coordinate": "-76,54"
     },
     "156": {
         "titolo": "CLVI. Annalia, la prima delle vergini consacrate.",
@@ -2675,7 +3559,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Gerusalemme",
+            "Isacco",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "157": {
         "titolo": "CLVII. La nuova missione della donna nel discorso alle discepole a Nazareth.",
@@ -2697,7 +3589,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "158": {
         "titolo": "CLVIII. Sul lago di Genezaret con Giovanna di Cusa.",
@@ -2716,7 +3613,14 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Lago di Genezaret",
+            "Magdala",
+            "Samaria",
+            "Tiberiade"
+        ],
+        "coordinate": "-56.47,90.96"
     },
     "159": {
         "titolo": "CLIX. Discorso a Gherghesa sulla sincerità nella fede. La risposta sul digiuno ai discepoli del ...",
@@ -2731,7 +3635,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Sichem"
+        ],
+        "coordinate": "-92.72,69.39"
     },
     "160": {
         "titolo": "CLX. Incontro con Gamaliele sulla strada da Neftali a Giscala.",
@@ -2750,7 +3658,12 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Keriot",
+            "Neftali"
+        ],
+        "coordinate": "-141.86,65.65"
     },
     "161": {
         "titolo": "CLXI. Guarigione del nipote del fariseo Eli di Cafarnao.",
@@ -2766,7 +3679,12 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Keriot"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "162": {
         "titolo": "CLXII. Le conversioni umane del fariseo Eli e di Simone d'Alfeo.",
@@ -2785,7 +3703,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betsaida",
+            "Corazim",
+            "Emmaus",
+            "Isacco",
+            "Nazaret",
+            "Neftali"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "163": {
         "titolo": "CLXIII. A mensa in casa del fariseo Eli di Cafarnao.",
@@ -2801,7 +3729,12 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "164": {
         "titolo": "CLXIV. Il ritiro sul monte per l'elezione apostolica.",
@@ -2822,7 +3755,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Isacco",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "165": {
         "titolo": "CLXV. L'elezione dei dodici ad apostoli.",
@@ -2842,7 +3782,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Tiberiade"
+        ],
+        "coordinate": "-60,84"
     },
     "166": {
         "titolo": "CLXVI. I miracoli dopo l'elezione apostolica. Prima predica di Simone Zelote e di Giovanni.",
@@ -2864,7 +3808,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "167": {
         "titolo": "CLXVII. L'incontro con le romane nel giardino di Giovanna di Cusa.",
@@ -2877,7 +3825,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "168": {
         "titolo": "CLXVIII. Aglae in casa di Maria a Nazareth.",
@@ -2896,7 +3848,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betania",
+            "Cafarnao",
+            "Ebron",
+            "Giudea",
+            "Nazaret"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "169": {
         "titolo": "CLXIX. Primo discorso della Montagna: la missione degli apostoli e dei discepoli.",
@@ -2914,7 +3875,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Isacco",
+            "Lago di Meron",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-116.9,70"
     },
     "170": {
         "titolo": "CLXX. Secondo discorso della Montagna: il dono della Grazia e le beatitudini.",
@@ -2964,7 +3933,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Siria"
+        ],
+        "coordinate": "-116.9,70"
     },
     "173": {
         "titolo": "CLXXIII. Quinto discorso della Montagna: l'uso delle ricchezze, l'elemosina, la fiducia in Dio.",
@@ -2980,7 +3954,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Isacco"
+        ],
+        "coordinate": "-134.28,61.1"
     },
     "174": {
         "titolo": "CLXXIV. Sesto discorso della Montagna: la scelta tra Bene e Male, l'adulterio, il divorzio. ...",
@@ -3004,7 +3982,19 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Lago di Genezaret",
+            "Lago di Meron",
+            "Magdala",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "175": {
         "titolo": "CLXXV. Il lebbroso guarito ai piedi del Monte. Generosità dello scriba Giovanni.",
@@ -3056,7 +4046,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Isacco"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "178": {
         "titolo": "CLXXVIII. Tre uomini che vogliono seguire Gesù.",
@@ -3072,7 +4067,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "179": {
         "titolo": "CLXXIX. La parabola del seminatore. A Corozim con il nuovo discepolo Elia.",
@@ -3090,7 +4089,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Giordano",
+            "Isacco",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "180": {
         "titolo": "CLXXX. Disputa nella cucina di Pietro a Betsaida. Spiegazione della parabola del seminatore. La ...",
@@ -3112,7 +4119,17 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Garizim",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Isacco"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "181": {
         "titolo": "CLXXXI. La parabola del grano e del loglio.",
@@ -3132,7 +4149,15 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Gerusalemme",
+            "Giordano",
+            "Isacco"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "182": {
         "titolo": "CLXXXII. Discorso ad alcuni pastori con il piccolo orfano Zaccaria.",
@@ -3148,7 +4173,14 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Giordano",
+            "Isacco",
+            "Magdala"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "183": {
         "titolo": "CLXXXIII. La guarigione di un uomo ferito in casa di Maria di Magdala.",
@@ -3168,7 +4200,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Magdala",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "184": {
         "titolo": "CLXXXIV. Il piccolo Beniamino di Magdala e due parabole sul regno dei Cieli.",
@@ -3193,7 +4231,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Magdala"
+        ],
+        "coordinate": "-56.49,83.17"
     },
     "185": {
         "titolo": "CLXXXV. La tempesta sedata. Un insegnamento nell'antefatto.",
@@ -3228,7 +4270,17 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gamala",
+            "Giordano",
+            "Nazaret",
+            "Sidone",
+            "Siria",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "187": {
         "titolo": "CLXXXVII. Da Tarichea verso Gerusalemme per la Pasqua. Giovanni innamorato del mare.",
@@ -3244,7 +4296,14 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Giordano",
+            "Libano",
+            "Nazaret"
+        ],
+        "coordinate": "-116.9,70"
     },
     "188": {
         "titolo": "CLXXXVIII. A Endor. La spelonca della maga e l'incontro con Felice chiamato poi Giovanni.",
@@ -3264,7 +4323,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Engaddi",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-134.22,76.99"
     },
     "189": {
         "titolo": "CLXXXIX. A Naim. Resurrezione del figlio di una vedova.",
@@ -3283,7 +4348,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giordano",
+            "Keriot"
+        ],
+        "coordinate": "-85.88,87.78"
     },
     "190": {
         "titolo": "CXC. L'arrivo nella piana di Esdrelon al tramonto del venerdì.",
@@ -3296,7 +4366,12 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Isacco"
+        ],
+        "coordinate": "-116.9,70"
     },
     "191": {
         "titolo": "CXCI. Il sabato a Esdrelon. Il piccolo Jabé e la parabola del ricco Epulone.",
@@ -3318,7 +4393,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Giudea"
+        ],
+        "coordinate": "-116.9,70"
     },
     "192": {
         "titolo": "CXCII. Una predizione a Giacomo d’Alfeo. L’arrivo a Engannim dopo una sosta a Mageddo.",
@@ -3334,7 +4414,14 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Carmelo",
+            "Gerusalemme",
+            "Monte Carmelo"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "193": {
         "titolo": "CXCIII. L’arrivo a Sichem dopo due giorni di cammino.",
@@ -3352,7 +4439,19 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Getsemani",
+            "Giordano",
+            "Giudea",
+            "Isacco",
+            "Samaria",
+            "Sichem",
+            "Tiberiade"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "194": {
         "titolo": "CXCIV. La rivelazione al piccolo Jabé durante il cammino da Sichem a Berot.",
@@ -3365,7 +4464,13 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Giordano",
+            "Sichem"
+        ],
+        "coordinate": "-116.9,70"
     },
     "195": {
         "titolo": "CXCV. Una lezione di Giovanni di Endor all’Iscariota e l’arrivo a Gerusalemme.",
@@ -3387,7 +4492,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cipro",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Rama"
+        ],
+        "coordinate": "-110.02,119.21"
     },
     "196": {
         "titolo": "CXCVI. Il sabato al Getsemani. Gesù parla della Madre e degli amori di diverse potenze.",
@@ -3410,7 +4523,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "197": {
         "titolo": "CXCVII. Nel Tempio con Giuseppe d’Arimatea. L’ora dell’incenso.",
@@ -3428,7 +4551,13 @@ const archivioCapitoli = {
             "temi": [
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Getsemani",
+            "Giudea"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "198": {
         "titolo": "CXCVIII. L’incontro con la madre a Betania. Jabé cambia il suo nome in Margziam.",
@@ -3447,7 +4576,20 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betania",
+            "Cafarnao",
+            "Ebron",
+            "Emmaus",
+            "Gerusalemme",
+            "Giudea",
+            "Isacco",
+            "Libano",
+            "Tiberiade"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "199": {
         "titolo": "CXCIX. Dai lebbrosi di Siloan e di Ben Hinnom. Pietro ottiene Margziam per mezzo di Maria.",
@@ -3471,7 +4613,20 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betsaida",
+            "Cedron",
+            "Gerico",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Keriot",
+            "Magdala",
+            "Monte Uliveto"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "200": {
         "titolo": "CC. Aglae a colloquio con il Salvatore.",
@@ -3490,7 +4645,15 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betlemme",
+            "Cenacolo",
+            "Ebron",
+            "Gerusalemme"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "201": {
         "titolo": "CCI. L’esame della maggiore età di Margziam.",
@@ -3510,7 +4673,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Emmaus"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "202": {
         "titolo": "CCII. Un rimprovero a Giuda Iscariota e l’arrivo dei contadini di Giocana.",
@@ -3532,7 +4700,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Isacco"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "203": {
         "titolo": "CCIII. La preghiera del ‘Padre nostro’.",
@@ -3553,7 +4727,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betania",
+            "Cedron",
+            "Cenacolo",
+            "Gamala",
+            "Gerusalemme",
+            "Getsemani",
+            "Isacco"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "204": {
         "titolo": "CCIV. La fede e l’anima spiegate ai pagani con la parabola dei templi.",
@@ -3570,7 +4755,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Nazaret"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "205": {
         "titolo": "CCV. La parabola del figlio prodigo.",
@@ -3589,7 +4779,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Isacco",
+            "Keriot"
+        ],
+        "coordinate": "-134.28,61.1"
     },
     "206": {
         "titolo": "CCVI. Con due parabole sul regno dei Cieli termina la sosta a Betania.",
@@ -3610,7 +4805,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Isacco",
+            "Monte delle Beatitudini"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "207": {
         "titolo": "CCVII. Alla grotta di Betlemme la Madre rievoca la nascita di Gesù.",
@@ -3631,7 +4832,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Gerusalemme",
+            "Keriot",
+            "Tomba di Rachele"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "208": {
         "titolo": "CCVIII. Maria Ss. rivede il pastore Elia e con Gesù va da Elisa a Betsur.",
@@ -3656,7 +4865,19 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Ebron",
+            "Egitto",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-122,69"
     },
     "209": {
         "titolo": "CCIX. La fecondità del dolore nel discorso di Gesù presso la casa di Elisa a Betsur.",
@@ -3671,7 +4892,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Giudea",
+            "Isacco"
+        ],
+        "coordinate": "-122,69"
     },
     "210": {
         "titolo": "CCX. Le inquietudini di Giuda Iscariota durante il cammino verso Ebron.",
@@ -3693,7 +4920,17 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Ebron",
+            "Gerusalemme",
+            "Giudea",
+            "Isacco",
+            "Keriot"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "211": {
         "titolo": "CCXI. Ritorno ad Ebron, patria del Battista.",
@@ -3711,7 +4948,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Ebron",
+            "Egitto",
+            "Giordano",
+            "Sichem"
+        ],
+        "coordinate": "-130.81,67"
     },
     "212": {
         "titolo": "CCXII. Un'onda di amore per Gesù, che a Jutta parla dalla casetta di Isacco.",
@@ -3727,7 +4971,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Isacco",
+            "Keriot"
+        ],
+        "coordinate": "-134.28,61.1"
     },
     "213": {
         "titolo": "CCXIII. A Keriot una profezia di Gesù e l'inizio della predicazione apostolica.",
@@ -3745,7 +4994,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Keriot"
+        ],
+        "coordinate": "-141.86,65.65"
     },
     "214": {
         "titolo": "CCXIV. La madre di Giuda si confida con la Madre di Gesù, giunta a Keriot con Simone Zelote.",
@@ -3765,7 +5018,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cipro",
+            "Gerusalemme",
+            "Giudea",
+            "Keriot"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "215": {
         "titolo": "CCXV. A Betginna parlano Filippo e Andrea. Guarigione della figlia lunatica dell’albergatore.",
@@ -3786,7 +5047,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Giordano",
+            "Keriot",
+            "Libano",
+            "Nazaret"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "216": {
         "titolo": "CCXVI. Le infedeltà dei discepoli nella parabola del soffione.",
@@ -3805,7 +5074,11 @@ const archivioCapitoli = {
                 "Parabola",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "217": {
         "titolo": "CCXVII. Le spighe colte nel giorno di sabato.",
@@ -3819,7 +5092,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret"
+        ],
+        "coordinate": "-65,74"
     },
     "218": {
         "titolo": "CCXVIII. Vari incontri in Ascalona, città filistea.",
@@ -3840,7 +5117,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gaza",
+            "Gerusalemme",
+            "Giudea"
+        ],
+        "coordinate": "-133.91,34.91"
     },
     "219": {
         "titolo": "CCXIX. I diversi frutti della predicazione degli apostoli nella città di Ascalona.",
@@ -3861,7 +5144,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Cipro",
+            "Damasco",
+            "Egitto",
+            "Gaza"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "220": {
         "titolo": "CCXX. Gli idolatri di Magdalgad e il miracolo su una partoriente.",
@@ -3881,7 +5173,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Ebron"
+        ],
+        "coordinate": "-130.81,67"
     },
     "221": {
         "titolo": "CCXXI. Le prevenzioni degli apostoli verso i pagani e la parabola del figlio deforme.",
@@ -3898,7 +5194,14 @@ const archivioCapitoli = {
                 "Parabola",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Giudea",
+            "Magdala",
+            "Tiberiade"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "222": {
         "titolo": "CCXXII. Un segreto dell'apostolo Giovanni.",
@@ -3918,7 +5221,12 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Giudea"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "223": {
         "titolo": "CCXXIII. Un discorso di Gesù evita ad una carovana nuziale l'assalto dei predoni.",
@@ -3932,7 +5240,13 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Giordano",
+            "Joppe"
+        ],
+        "coordinate": "-116.9,70"
     },
     "224": {
         "titolo": "CCXXIV. Svelato il segreto dell'apostolo Giovanni. L'arrivo a Bètér, nei roseti di Giovanna di ...",
@@ -3953,7 +5267,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Giudea"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "225": {
         "titolo": "CCXXV. Il paralitico della piscina di Betseida e la disputa sulle opere del Figlio di Dio.",
@@ -3977,7 +5296,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-116.9,70"
     },
     "226": {
         "titolo": "CCXXVI. Un buon segno da Maria di Magdala. Morte del vecchio Ismaele.",
@@ -3993,7 +5317,13 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "227": {
         "titolo": "CCXXVII. Un episodio incompiuto.",
@@ -4006,7 +5336,12 @@ const archivioCapitoli = {
             "temi": [
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Getsemani"
+        ],
+        "coordinate": "-116.9,70"
     },
     "228": {
         "titolo": "CCXXVIII. In barca verso Betsaida, dove Marziam viene affidato a Porfirea.",
@@ -4023,7 +5358,15 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cana",
+            "Giordano",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "229": {
         "titolo": "CCXXIX. Discorso ai cittadini di Betsaida sul gesto di carità di Simon Pietro.",
@@ -4037,7 +5380,12 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "230": {
         "titolo": "CCXXX. Guarigione dell'emorroissa e resurrezione della figlia di Giairo.",
@@ -4075,7 +5423,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betsaida",
+            "Cafarnao",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "232": {
         "titolo": "CCXXXII. Guarigione di due ciechi e di un muto indemoniato.",
@@ -4096,7 +5451,14 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gerusalemme",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "233": {
         "titolo": "CCXXXIII. La parabola della pecorella smarrita, ascoltata anche da Maria di Magdala.",
@@ -4110,7 +5472,11 @@ const archivioCapitoli = {
             "temi": [
                 "Parabola"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Magdala"
+        ],
+        "coordinate": "-56.49,83.17"
     },
     "234": {
         "titolo": "CCXXXIV. A commento di tre episodi sulla conversione di Maria di Magdala.",
@@ -4128,7 +5494,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo",
+            "Emmaus",
+            "Magdala"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "235": {
         "titolo": "CCXXXV. Marta ha avuto dalla sorella Maria la certezza della conversione..",
@@ -4143,7 +5515,12 @@ const archivioCapitoli = {
             "temi": [
                 "Parabola"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Decapoli"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "236": {
         "titolo": "CCXXXVI. La cena in casa di Simone il fariseo e l'assoluzione a Maria di Magdala.",
@@ -4162,7 +5539,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Cana",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "237": {
         "titolo": "CCXXXVII. La richiesta di operai per la messe e la parabola del tesoro nascosto nel campo. Maria di ...",
@@ -4184,7 +5568,16 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Isacco",
+            "Lago di Meron",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "238": {
         "titolo": "CCXXXVIII. L’arrivo a Cafarnao, sotto un temporale, di Maria Ss. Con Maria di Magdala.",
@@ -4199,7 +5592,12 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Magdala"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "239": {
         "titolo": "CCXXXIX. Parabola dei pesci e parabola della perla. Il tesoro degli insegnamenti antichi e nuovi",
@@ -4218,7 +5616,17 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betsaida",
+            "Cana",
+            "Gerusalemme",
+            "Magdala",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "240": {
         "titolo": "CCXL.A Betsaida da Porfirea e Marziam, che insegna alla Maddalena la preghiera di Gesù.",
@@ -4239,7 +5647,13 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betsaida",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "241": {
         "titolo": "CCXLI. Vocazione della figlia di Filippo. L'arrivo a Magdala e la parabola della dramma perduta.",
@@ -4256,7 +5670,13 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "242": {
         "titolo": "CCXLII. A Tiberiade con Maria di Magdala. Il romano Crispo e la ricerca della Verità.",
@@ -4274,7 +5694,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Cana",
+            "Magdala",
+            "Sidone",
+            "Tiberiade",
+            "Tiro"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "243": {
         "titolo": "CCXLIII. A Cana nella casa di Susanna. L'aspetto, i modi e la voce di Gesù. Una disputa sulle ...",
@@ -4296,7 +5725,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Magdala"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "244": {
         "titolo": "CCXLIV. Giovanni ripete un discorso di Gesù sul Creato e sui popoli che attendono la Luce.",
@@ -4312,7 +5746,15 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Gerusalemme",
+            "Keriot",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "245": {
         "titolo": "CCXLV. Un'accusa dei nazareni a Gesù, respinta con la parabola del lebbroso guarito.",
@@ -4330,7 +5772,12 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-56.49,83.17"
     },
     "246": {
         "titolo": "CCXLVI. Un apologo per i cittadini di Nazareth, che restano increduli.",
@@ -4348,7 +5795,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Libano",
+            "Nazaret"
+        ],
+        "coordinate": "-15.24,88.3"
     },
     "247": {
         "titolo": "CCXLVII. Maria Ss. ammaestra la Maddalena sull'orazione mentale.",
@@ -4372,7 +5824,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Carmelo",
+            "Gaza",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "248": {
         "titolo": "CCXLVIII. A Betlem di Galilea. Giudizio per un omicidio e parabola delle foreste pietrificate.",
@@ -4390,7 +5849,13 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Egitto",
+            "Isacco"
+        ],
+        "coordinate": "-122,69"
     },
     "249": {
         "titolo": "CCXLIX. Maria Ss. ammaestra Giuda Iscariota sul dovere preminente della fedeltà a Dio.",
@@ -4411,7 +5876,17 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Carmelo",
+            "Cipro",
+            "Gerusalemme",
+            "Giordano",
+            "Keriot",
+            "Neftali",
+            "Samaria"
+        ],
+        "coordinate": "-137.66,69.3"
     },
     "250": {
         "titolo": "CCL. Ai discepoli venuti con Isacco la parabola del fango che diviene fiamma. Il sacrificio di ...",
@@ -4433,7 +5908,17 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Emmaus",
+            "Gerico",
+            "Gerusalemme",
+            "Isacco",
+            "Magdala",
+            "Sidone"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "251": {
         "titolo": "CCLI. Ai pescatori siro-fenici, la parabola del minatore perseverante. Ermasteo di Ascalona.",
@@ -4449,7 +5934,18 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Carmelo",
+            "Giudea",
+            "Isacco",
+            "Keriot",
+            "Libano",
+            "Sarepta",
+            "Tiro"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "252": {
         "titolo": "CCLII. Il ritorno da Tiro. Miracoli e parabola della vite e dell’olmo.",
@@ -4471,7 +5967,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Isacco",
+            "Keriot",
+            "Magdala",
+            "Sidone",
+            "Siria",
+            "Tiro"
+        ],
+        "coordinate": "-134.28,61.1"
     },
     "253": {
         "titolo": "CCLIII. Maria Ss. svela a Maria d’Alfeo il senso della maternità spiritualizzata. La Maddalena ...",
@@ -4491,7 +5996,13 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Carmelo",
+            "Isacco",
+            "Magdala"
+        ],
+        "coordinate": "-137.66,69.3"
     },
     "254": {
         "titolo": "CCLIV. L’incontro con Sintica, schiava greca, e l’arrivo a Cesarea Marittima.",
@@ -4510,7 +6021,15 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cesarea Marittima",
+            "Egitto",
+            "Magdala",
+            "Pianura di Saron"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "255": {
         "titolo": "CCLV. Malumori degli apostoli. Partenza di Marta e Maria con Sintica. Applicazione della legge ...",
@@ -4534,7 +6053,14 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Carmelo",
+            "Magdala",
+            "Pianura di Saron",
+            "Samaria"
+        ],
+        "coordinate": "-137.66,69.3"
     },
     "256": {
         "titolo": "CCLVI. Presso dei vignaioli, guarigione di un vecchio cieco e parabola sulla speranza.",
@@ -4555,7 +6081,14 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Carmelo",
+            "Gamala",
+            "Giordano"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "257": {
         "titolo": "CCLVII. Gesù e Giacomo d’Alfeo in ritiro sul monte Carmelo.",
@@ -4571,7 +6104,12 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Carmelo",
+            "Monte Carmelo"
+        ],
+        "coordinate": "-137.66,69.3"
     },
     "258": {
         "titolo": "CCLVIII. Gesù rivela a Giacomo d’Alfeo quale sarà la sua missione di apostolo.",
@@ -4590,7 +6128,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "259": {
         "titolo": "CCLIX. Lezione sulla Chiesa e sui Sacramenti a Giacomo d’Alfeo, che opera un miracolo.",
@@ -4607,7 +6149,14 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Carmelo",
+            "Gerusalemme",
+            "Giordano",
+            "Samaria"
+        ],
+        "coordinate": "-137.66,69.3"
     },
     "260": {
         "titolo": "CCLX. Due parabole di Pietro per i contadini della pianura di Esdrelon.",
@@ -4660,7 +6209,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Gerusalemme",
+            "Keriot",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "263": {
         "titolo": "CCLXIII. Guarigione dell'uomo dal braccio atrofizzato.",
@@ -4676,7 +6234,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "264": {
         "titolo": "CCLXIV. Una giornata di Giuda Iscariota a Nazareth.",
@@ -4695,7 +6258,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret"
+        ],
+        "coordinate": "-65,74"
     },
     "265": {
         "titolo": "CCLXV. Istruzioni ai dodici apostoli che iniziano il loro ministero.",
@@ -4718,7 +6285,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "266": {
         "titolo": "CCLXVI. I discepoli del Battista vogliono accertarsi che Gesù è il Messia. Testimonianza sul ...",
@@ -4736,7 +6307,18 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Isacco",
+            "Sidone",
+            "Tiro"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "267": {
         "titolo": "CCLXVII. A Corozim, Gesù lavora da falegname per una vedova.",
@@ -4750,7 +6332,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "268": {
         "titolo": "CCLXVIII. Lezione sulla carità con la parabola dei nòccioli. Il giogo di Gesù è leggero.",
@@ -4772,7 +6358,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Isacco"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "269": {
         "titolo": "CCLXIX. La disputa con scribi e farisei a Cafarnao. L'arrivo della Madre e dei fratelli.",
@@ -4793,7 +6385,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betsaida",
+            "Cafarnao",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "270": {
         "titolo": "CCLXX. La notizia dell'uccisione di Giovanni Battista.",
@@ -4808,7 +6407,14 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Isacco",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "271": {
         "titolo": "CCLXXI. Partenza alla volta di Tarichea con gli apostoli rientrati a Cafarnao.",
@@ -4829,7 +6435,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Giordano",
+            "Giudea"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "272": {
         "titolo": "CCLXXII. Rincarnazione e vita eterna nel dialogo con uno scriba.",
@@ -4844,7 +6457,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Giordano"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "273": {
         "titolo": "CCLXXIII. La prima moltiplicazione dei pani.",
@@ -4864,7 +6483,13 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Giordano",
+            "Moltiplicazione dei pani"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "274": {
         "titolo": "CCLXXIV. Gesù cammina sulle acque. La sua prontezza nel soccorrere chi lo invoca.",
@@ -4881,7 +6506,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "275": {
         "titolo": "CCLXXV. Quattro nuovi discepoli. Discorso sulle opere di misericordia corporale e spirituale.",
@@ -4897,7 +6526,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Isacco",
+            "Lago di Genezaret",
+            "Monte delle Beatitudini"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "276": {
         "titolo": "CCLXXVI. L'uomo avido e la parabola del ricco stolto. Le inquietudini e la vigilanza nei servi di ...",
@@ -4918,7 +6556,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Damasco",
+            "Magdala",
+            "Monte delle Beatitudini",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-18.78,121.84"
     },
     "277": {
         "titolo": "CCLXXVII. A Magdala, nei giardini di Maria. L'amore e la correzione tra fratelli.",
@@ -4936,7 +6582,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Magdala"
+        ],
+        "coordinate": "-56.49,83.17"
     },
     "278": {
         "titolo": "CCLXXVIII. Il perdono e la parabola del servo iniquo. Il mandato a settantadue discepoli.",
@@ -4955,7 +6605,14 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Gerusalemme",
+            "Giordano",
+            "Magdala"
+        ],
+        "coordinate": "-122,69"
     },
     "279": {
         "titolo": "CCLXXIX. Incontro con Lazzaro al campo dei Galilei.",
@@ -4971,7 +6628,18 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betania",
+            "Betsaida",
+            "Cafarnao",
+            "Emmaus",
+            "Magdala",
+            "Monte Uliveto",
+            "Nazaret"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "280": {
         "titolo": "CCLXXX. Il ritorno dei settantadue. Profezia sui mistici futuri.",
@@ -5014,7 +6682,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Emmaus",
+            "Gerico",
+            "Gerusalemme",
+            "Giudea",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "282": {
         "titolo": "CCLXXXII. La delazione al Sinedrio riguardo ad Ermasteo, a Giovanni di Endor e a Sintica.",
@@ -5035,7 +6713,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betania",
+            "Betlemme",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Magdala"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "283": {
         "titolo": "CCLXXXIII. Sintica parla del suo incontro con la Verità.",
@@ -5055,7 +6743,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "284": {
         "titolo": "CCLXXXIV. La casetta donata da Salomon. Quattro apostoli resteranno in Giudea.",
@@ -5072,7 +6764,15 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerasa",
+            "Gerico",
+            "Giordano",
+            "Giudea"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "285": {
         "titolo": "CCLXXXV. Lazzaro offre un rifugio per Giovanni di Endor e Sintica. Viaggio lieto verso Gerico ...",
@@ -5092,7 +6792,22 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Antiochia",
+            "Betania",
+            "Cafarnao",
+            "Cipro",
+            "Decapoli",
+            "Gerico",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Siria",
+            "Tiberiade"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "286": {
         "titolo": "CCLXXXVI. A Ramot con il mercante Alessandro Misace. Lezione a Sintica sul ricordo delle anime.",
@@ -5108,7 +6823,14 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Giordano",
+            "Giudea",
+            "Samaria"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "287": {
         "titolo": "CCLXXXVII. Da Ramot a Gerasa con la carovana del mercante.",
@@ -5125,7 +6847,17 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Damasco",
+            "Egitto",
+            "Gerasa",
+            "Gerusalemme",
+            "Giordano",
+            "Joppe",
+            "Tiro"
+        ],
+        "coordinate": "-18.78,121.84"
     },
     "288": {
         "titolo": "CCLXXXVIII. Discorso ai cittadini di Gerasa e lode di una donna alla Madre di Gesù.",
@@ -5140,7 +6872,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerasa"
+        ],
+        "coordinate": "-88.41,101.09"
     },
     "289": {
         "titolo": "CCLXXXIX. Il sabato a Gerasa. Lo svago di Marziam e il quesito di Sintica sulla salvezza dei ...",
@@ -5157,7 +6893,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerasa"
+        ],
+        "coordinate": "-88.41,101.09"
     },
     "290": {
         "titolo": "CCXC. L'uomo dagli occhi ulcerati. Sosta alla \"fonte del Cammelliere\". Ancora sul ricordo delle ...",
@@ -5176,7 +6916,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Fonte del Cammelliere",
+            "Gerasa",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-83.93,115.45"
     },
     "291": {
         "titolo": "CCXCI. Marziam scopre perché Gesù prega ogni giorno all'ora nona.",
@@ -5208,7 +6955,12 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Nazaret"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "293": {
         "titolo": "CCXCIII. Il discorso e i miracoli a Bozra dopo l'irruzione di due farisei. Il dono della fede ad ...",
@@ -5229,7 +6981,20 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Decapoli",
+            "Gamala",
+            "Gerasa",
+            "Giordano",
+            "Giudea",
+            "Magdala",
+            "Nazaret",
+            "Neftali"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "294": {
         "titolo": "CCXCIV. Il ricco obolo lasciato dal mercante. Commiato dalla Madre e dalle discepole.",
@@ -5245,7 +7010,12 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Keriot",
+            "Magdala"
+        ],
+        "coordinate": "-141.86,65.65"
     },
     "295": {
         "titolo": "CCXCV. Il discorso e i miracoli ad Arbela, già evangelizzata da Filippo di Giacobbe.",
@@ -5262,7 +7032,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "296": {
         "titolo": "CCXCVI. L’arrivo ad Aera sotto la pioggia e la guarigione dei malati in attesa.",
@@ -5282,7 +7056,16 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Damasco",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "297": {
         "titolo": "CCXCVII. Con il discorso ad Aera termina il secondo grande viaggio apostolico.",
@@ -5316,7 +7099,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giordano",
+            "Lago di Meron"
+        ],
+        "coordinate": "-85.88,87.78"
     },
     "299": {
         "titolo": "CCXCIX. L’affidamento degli orfanelli Maria a Mattia a Giovanna di Cusa.",
@@ -5336,7 +7124,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Magdala",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "300": {
         "titolo": "CCC. Con scribi e farisei nella casa di Daniele, il risuscitato di Naim.",
@@ -5353,7 +7147,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cana",
+            "Keriot"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "301": {
         "titolo": "CCCI. Parabola delle fronti detronizzate e spiegazione della parabola sull’impurità.",
@@ -5372,7 +7172,11 @@ const archivioCapitoli = {
                 "Parabola",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Keriot"
+        ],
+        "coordinate": "-141.86,65.65"
     },
     "302": {
         "titolo": "CCCII. A Magdala, prima di mandare tutti in famiglia per le Encenie.",
@@ -5393,7 +7197,18 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betania",
+            "Cafarnao",
+            "Isacco",
+            "Keriot",
+            "Magdala",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "303": {
         "titolo": "CCCIII. Gesù dalla Madre a Nazareth.",
@@ -5408,7 +7223,14 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Keriot",
+            "Nazaret",
+            "Sidone"
+        ],
+        "coordinate": "-122,69"
     },
     "304": {
         "titolo": "CCCIV. Con Giovanni di Endor, Sintica a Marziam. Maria è Madre e Maestra.",
@@ -5439,7 +7261,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret"
+        ],
+        "coordinate": "-65,74"
     },
     "306": {
         "titolo": "CCCVI. Anche Simone Zelote arriva a Nazareth. Lezione sui danni dell’ozio.",
@@ -5454,7 +7280,12 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-65,74"
     },
     "307": {
         "titolo": "CCCVII. Discussione sul comportamento dei nazareni e lezione sulla tendenza al peccato malgrado la ...",
@@ -5468,7 +7299,11 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret"
+        ],
+        "coordinate": "-65,74"
     },
     "308": {
         "titolo": "CCCVIII. Guarigione del figlio di Simone d’Alfeo. Marziam è il primo dei bambini discepoli.",
@@ -5483,7 +7318,12 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Nazaret"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "309": {
         "titolo": "CCCIX. Sacrificio di Marziam per la guarigione di una bambina. Ravvedimento di Simone d’Alfeo.",
@@ -5499,7 +7339,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "310": {
         "titolo": "CCCX. Con Pietro, a Nazareth, Gesù organizza la partenza di Giovanni di Endor e Sintica.",
@@ -5518,7 +7364,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betsaida",
+            "Cana",
+            "Getsemani",
+            "Nazaret",
+            "Tiro"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "311": {
         "titolo": "CCCXI. La rinuncia di Marziam provoca una lezione sui sacrifici fatti per amore.",
@@ -5535,7 +7390,13 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "312": {
         "titolo": "CCCXII. Gesù comunica a Giovanni di Endor la decisione di mandarlo ad Antiochia.",
@@ -5558,7 +7419,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Libano",
+            "Magdala",
+            "Siria"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "313": {
         "titolo": "CCCXIII. Preparativi di partenza da Nazareth dopo la visita di Simone d’Alfeo con la famiglia.",
@@ -5579,7 +7447,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betania",
+            "Cafarnao",
+            "Isacco",
+            "Keriot",
+            "Nazaret",
+            "Tiberiade",
+            "Tiro"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "314": {
         "titolo": "CCCXIV. La cena nella casa di Nazareth e la dolorosa partenza.",
@@ -5598,7 +7477,13 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betsaida",
+            "Nazaret"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "315": {
         "titolo": "CCCXV. Il viaggio verso Jiftael e le riflessioni di Giovanni di Endor.",
@@ -5617,7 +7502,15 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gamala",
+            "Isacco",
+            "Keriot",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-104.72,61.98"
     },
     "316": {
         "titolo": "CCCXVI. L’addio di Gesù a Giovanni di Endor e a Sintica.",
@@ -5651,7 +7544,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Getsemani",
+            "Nazaret"
+        ],
+        "coordinate": "-20.94,33.38"
     },
     "318": {
         "titolo": "CCCXVIII. In barca da Tolemaide a Tiro inizia il viaggio degli otto apostoli con Giovanni di Endor ...",
@@ -5670,7 +7568,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Tiro"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "319": {
         "titolo": "CCCXIX. Partenza da Tiro sulla nave del cretese Nicomede.",
@@ -5690,7 +7593,14 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Cipro",
+            "Siria",
+            "Tiro"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "320": {
         "titolo": "CCCXX. Prodigi sulla nave nel mare in tempesta.",
@@ -5708,7 +7618,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cipro",
+            "Libano",
+            "Nazaret"
+        ],
+        "coordinate": "-110.02,119.21"
     },
     "321": {
         "titolo": "CCCXXI. Sbarco a Seleucia e commiato da Nicomede.",
@@ -5724,7 +7640,12 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Siria"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "322": {
         "titolo": "CCCXXII. Partenza da Seleucia su un carro e arrivo ad Antiochia.",
@@ -5743,7 +7664,12 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Tiro"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "323": {
         "titolo": "CCCXXIII. La visita ad Antigonio.",
@@ -5764,7 +7690,17 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betsaida",
+            "Cafarnao",
+            "Gerusalemme",
+            "Joppe",
+            "Nazaret",
+            "Neftali"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "324": {
         "titolo": "CCCXXIV. I discorsi degli otto apostoli prima di ripartire da Antiochia. L’addio a Giovanni di ...",
@@ -5786,7 +7722,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Cafarnao",
+            "Gerusalemme",
+            "Giordano",
+            "Nazaret"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "325": {
         "titolo": "CCCXXV. Gli otto apostoli si riuniscono a Gesù presso Aczib.",
@@ -5806,7 +7750,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betlemme",
+            "Carmelo",
+            "Tiro"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "326": {
         "titolo": "CCCXXVI. Una sosta ad Aczib.",
@@ -5857,7 +7808,19 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betsaida",
+            "Cafarnao",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Nazaret",
+            "Sidone",
+            "Tiro"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "329": {
         "titolo": "CCCXXIX. Al mercato di Alessandroscene. La parabola degli operai della vigna. Il milite Aquila.",
@@ -5873,7 +7836,14 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cipro",
+            "Gerusalemme",
+            "Getsemani",
+            "Nazaret"
+        ],
+        "coordinate": "-110.02,119.21"
     },
     "330": {
         "titolo": "CCCXXX. Giacomo e Giovanni di Zebedeo diventano “i figli del tuono”. Verso Aczib con il ...",
@@ -5888,7 +7858,12 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Neftali",
+            "Tiro"
+        ],
+        "coordinate": "-44.55,84.67"
     },
     "331": {
         "titolo": "CCCXXXI. La fede della donna Cananea e altre conquiste. Arrivo a Aczib.",
@@ -5907,7 +7882,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Giudea",
+            "Isacco",
+            "Sidone",
+            "Tiro"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "332": {
         "titolo": "CCCXXXII. La sofferta separazione di Bartolomeo, che con Filippo si ricongiunge al Maestro.",
@@ -5925,7 +7908,14 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Cana",
+            "Nazaret"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "333": {
         "titolo": "CCCXXXIII. Con dieci apostoli verso Sicaminon.",
@@ -5940,7 +7930,15 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Giudea",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "334": {
         "titolo": "CCCXXXIV. Anche Tommaso e Giuda Iscariota si riuniscono al gruppo apostolico.",
@@ -5964,7 +7962,21 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Betsaida",
+            "Cafarnao",
+            "Cana",
+            "Getsemani",
+            "Giordano",
+            "Isacco",
+            "Magdala",
+            "Nazaret",
+            "Samaria",
+            "Tiberiade"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "335": {
         "titolo": "CCCXXXV. La falsa amicizia di Ismael Ben Fabi e l’idropico guarito in giorno di sabato.",
@@ -5980,7 +7992,14 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Cesarea di Filippo",
+            "Giordano",
+            "Tiberiade"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "336": {
         "titolo": "CCCXXXVI. A Nazareth con quattro apostoli. L’amore di Tommaso per Maria Ss.",
@@ -5994,7 +8013,16 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Keriot",
+            "Magdala",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "337": {
         "titolo": "CCCXXXVII. Il sabato a Corozim. Parabola sui cuori inlavorabili e guarigione di una donna curva.",
@@ -6010,7 +8038,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Parabola"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Giordano"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "338": {
         "titolo": "CCCXXXVIII. Giuda Iscariota perde il potere del miracolo. La parabola del coltivatore.",
@@ -6034,7 +8067,19 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Gamala",
+            "Gerusalemme",
+            "Keriot",
+            "Magdala",
+            "Nazaret",
+            "Pozzo di Giacobbe",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "339": {
         "titolo": "CCCXXXIX. Verso Meieron. La notte peccaminosa di Giuda Iscariota.",
@@ -6055,7 +8100,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Decapoli",
+            "Gerusalemme",
+            "Giordano",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "340": {
         "titolo": "CCCXL. Ravvedimento di Giuda Iscariota e scontro con i rabbi al sepolcro di Hillele.",
@@ -6075,7 +8128,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Ebron",
+            "Keriot"
+        ],
+        "coordinate": "-130.81,67"
     },
     "341": {
         "titolo": "CCCXLI. La mano ferita di Gesù. Guarigione di un sordomuto ai confini siro-fenici.",
@@ -6096,7 +8154,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Giudea",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "342": {
         "titolo": "CCCXLII. A Cédès. Il segno chiesto dai farisei e la profezia di Abacuc.",
@@ -6118,7 +8182,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret"
+        ],
+        "coordinate": "-65,74"
     },
     "343": {
         "titolo": "CCCXLIII. Il lievito dei farisei. Le opinioni sul Figlio dell’uomo. Il primato a Simon Pietro.",
@@ -6139,7 +8207,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cesarea di Filippo",
+            "Giordano"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "344": {
         "titolo": "CCCXLIV. Incontro con i discepoli a Cesarea di Filippo e spiegazione del segno di Giona.",
@@ -6161,7 +8235,20 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Cesarea di Filippo",
+            "Damasco",
+            "Decapoli",
+            "Gerusalemme",
+            "Isacco",
+            "Nazaret",
+            "Tiberiade",
+            "Tiro"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "345": {
         "titolo": "CCCXLV. Miracolo al castello di Cesarea Paneade.",
@@ -6175,7 +8262,16 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Giordano",
+            "Iturea",
+            "Lago di Meron",
+            "Libano",
+            "Tiberiade"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "346": {
         "titolo": "CCCXLVI. Primo annuncio della Passione e il rimprovero a Simon Pietro.",
@@ -6199,7 +8295,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Cesarea di Filippo",
+            "Gerusalemme",
+            "Isacco",
+            "Lago di Meron",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "347": {
         "titolo": "CCCXLVII. A Betsaida. Profezia sul martirio di Marziam e degli apostoli. La guarigione di un cieco.",
@@ -6218,7 +8325,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Giordano",
+            "Isacco"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "348": {
         "titolo": "CCCXLVIII. Mannaen riferisce su Erode Antipa e da Cafarnao va con Gesù a Nazareth. Svelate le ...",
@@ -6237,7 +8350,19 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betsaida",
+            "Cafarnao",
+            "Cana",
+            "Gerusalemme",
+            "Giudea",
+            "Magdala",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "349": {
         "titolo": "CCCXLIX. La Trasfigurazione sul monte Tabor e l’epilettico guarito ai piedi del monte. Un ...",
@@ -6256,7 +8381,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Getsemani",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Lago di Genezaret",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "350": {
         "titolo": "CCCL. Lezione ai discepoli sul potere di vincere i demoni.",
@@ -6273,7 +8408,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cana",
+            "Gerusalemme",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "351": {
         "titolo": "CCCLI. Il tributo al Tempio pagato con la moneta trovata in bocca al pesce.",
@@ -6292,7 +8436,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Decapoli",
+            "Gerusalemme",
+            "Magdala",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "352": {
         "titolo": "CCCLII. Un peccatore convertito dalla Maddalena. Parabola per il piccolo Beniamino e lezione su chi ...",
@@ -6317,7 +8469,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Cafarnao",
+            "Emmaus",
+            "Gerusalemme",
+            "Isacco",
+            "Magdala",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-122,69"
     },
     "353": {
         "titolo": "CCCLIII. La seconda moltiplicazione dei pani e il miracolo della moltiplicazione della Parola.",
@@ -6332,7 +8495,11 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Moltiplicazione dei pani"
+        ],
+        "coordinate": "-67.05,83.25"
     },
     "354": {
         "titolo": "CCCLIV. Il discorso sul Pane del Cielo, nella sinagoga di Cafarnao, e la defezione di molti ...",
@@ -6353,7 +8520,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Cafarnao",
+            "Gamala",
+            "Gerusalemme",
+            "Magdala",
+            "Moltiplicazione dei pani",
+            "Nazaret"
+        ],
+        "coordinate": "-122,69"
     },
     "355": {
         "titolo": "CCCLV. Il nuovo discepolo Nicolai di Antiochia e il secondo annuncio della Passione.",
@@ -6372,7 +8549,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betania",
+            "Cafarnao",
+            "Gerusalemme",
+            "Getsemani",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "356": {
         "titolo": "CCCLVI. Verso Gadara. Le eresie di Giuda Iscariota e le rinunce di Giovanni che vuole solo amare.",
@@ -6393,7 +8580,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giordano",
+            "Keriot"
+        ],
+        "coordinate": "-85.88,87.78"
     },
     "357": {
         "titolo": "CCCLVII. Giovanni a le colpe di Giuda Iscariota. I farisei e la questione del divorzio.",
@@ -6411,7 +8603,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-65,74"
     },
     "358": {
         "titolo": "CCCLVIII. A Pella. Il giovinetto Jaia e la madre di Marco di Giosia.",
@@ -6429,7 +8626,21 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerasa",
+            "Gerico",
+            "Gerusalemme",
+            "Getsemani",
+            "Giordano",
+            "Giudea",
+            "Nazaret",
+            "Petra",
+            "Samaria",
+            "Tiberiade"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "359": {
         "titolo": "CCCLIX. Nella capanna di Mattia presso Jabes Galaad.",
@@ -6448,7 +8659,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerasa",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Keriot"
+        ],
+        "coordinate": "-88.41,101.09"
     },
     "360": {
         "titolo": "CCCLX. Il malumore degli apostoli a il riposo in una grotta. L’incontro con Rosa di Gerico.",
@@ -6473,7 +8693,19 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Cedron",
+            "Gerico",
+            "Getsemani",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "361": {
         "titolo": "CCCLXI. I due innesti che trasformeranno gli apostoli. Maria di Magdala avverte Gesù di un ...",
@@ -6496,7 +8728,18 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Cana",
+            "Decapoli",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "362": {
         "titolo": "CCCLXII. Missione e destino delle “voci di Dio”. L’incontro con la Madre e con le discepole.",
@@ -6515,7 +8758,15 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cana",
+            "Gerusalemme",
+            "Giordano",
+            "Isacco"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "363": {
         "titolo": "CCCLXIII. A Rama, in casa della sorella di Tommaso. Discorso della porta stretta e apostrofe a ...",
@@ -6533,7 +8784,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Damasco",
+            "Gerusalemme",
+            "Isacco",
+            "Nazaret",
+            "Rama",
+            "Samaria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "364": {
         "titolo": "CCCLXIV. Al Tempio. Preghiera universale e parabola del figlio vero e dei figli bastardi.",
@@ -6556,7 +8817,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Damasco",
+            "Gerusalemme",
+            "Getsemani",
+            "Keriot",
+            "Rama"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "365": {
         "titolo": "CCCLXV L’insidia dell’Iscariota all’innocenza di Marziam. Un nuovo discepolo, fratello di ...",
@@ -6578,7 +8848,18 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Gerico",
+            "Gerusalemme",
+            "Getsemani",
+            "Keriot",
+            "Magdala",
+            "Siria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "366": {
         "titolo": "CCCLXVI. Verso il Getsemani con Simone Zelote, Marziam e la nuova discepola Anastatica. Lettere da ...",
@@ -6597,7 +8878,15 @@ const archivioCapitoli = {
             "temi": [
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betania",
+            "Gerusalemme",
+            "Getsemani",
+            "Nazaret"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "367": {
         "titolo": "CCCLXVII. Giovedì avanti Pasqua. Preparativi nel Getsemani.",
@@ -6615,7 +8904,14 @@ const archivioCapitoli = {
                 "Passione",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Getsemani",
+            "Monte Uliveto"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "368": {
         "titolo": "CCCLXVIII. Giovedì avanti Pasqua. La madre di Annalia e altri incontri a Gerusalemme a nel Tempio.",
@@ -6636,7 +8932,18 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cesarea di Filippo",
+            "Gamala",
+            "Gerusalemme",
+            "Getsemani",
+            "Isacco",
+            "Keriot",
+            "Palazzo di Erode"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "369": {
         "titolo": "CCCLXIX. Giovedì avanti Pasqua. Parabola della lebbra delle case e altre istruzioni agli apostoli ...",
@@ -6676,7 +8983,19 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Cesarea di Filippo",
+            "Gerusalemme",
+            "Getsemani",
+            "Keriot",
+            "Magdala",
+            "Monte delle Beatitudini",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "371": {
         "titolo": "CCCLXXI. Giovedì avanti Pasqua. Protezione di Claudia e ricovero nel palazzo di Lazzaro. Lo ...",
@@ -6695,7 +9014,14 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giudea",
+            "Keriot",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-123.67,60.72"
     },
     "372": {
         "titolo": "CCCLXXII. Giorno di Parasceve. Uno scampato pericolo e il coraggio di Maria di Magdala.",
@@ -6714,7 +9040,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cenacolo",
+            "Gerusalemme",
+            "Getsemani",
+            "Giordano",
+            "Golgota",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "373": {
         "titolo": "CCCLXXIII. Giorno di Parasceve. Al Tempio, tra l’odio giudaico e l’amore dei poveri. Incontro ...",
@@ -6729,7 +9065,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Giordano",
+            "Golgota"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "374": {
         "titolo": "CCCLXXIV. Giorno di Parasceve. Per le vie di Gerusalemme a nel sobborgo di Ofel.",
@@ -6750,7 +9092,17 @@ const archivioCapitoli = {
             "temi": [
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo",
+            "Gerusalemme",
+            "Getsemani",
+            "Isacco",
+            "Joppe",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "375": {
         "titolo": "CCCLXXV. La cena rituale in casa di Lazzaro e il banchetto sacrilego in casa di Samuele.",
@@ -6769,7 +9121,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cenacolo",
+            "Isacco",
+            "Keriot",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "376": {
         "titolo": "CCCLXXVI. Le opere dei giusti. Gli umori di Erode. Un caso grave di corruzione nel Tempio.",
@@ -6790,7 +9151,19 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betania",
+            "Betlemme",
+            "Cesarea di Filippo",
+            "Emmaus",
+            "Gerusalemme",
+            "Isacco",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "377": {
         "titolo": "CCCLXXVII. Parabola dell’acqua a del giunco per Maria di Magdala, che ha scelto la parte migliore.",
@@ -6806,7 +9179,13 @@ const archivioCapitoli = {
                 "Parabola",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "378": {
         "titolo": "CCCLXXVIII. La parabola degli uccelli e predilezione per i fanciulli. Un tranello teso da nemici ...",
@@ -6826,7 +9205,15 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "379": {
         "titolo": "CCCLXXIX. Una premonizione dell’apostolo Giovanni.",
@@ -6844,7 +9231,14 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Giordano",
+            "Giudea",
+            "Samaria"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "380": {
         "titolo": "CCCLXXX. Gli apostoli esortati ad amare, a conclusione del ritiro sul monte Carit.",
@@ -6863,7 +9257,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Giordano",
+            "Mar Morto",
+            "Samaria"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "381": {
         "titolo": "CCCLXXXI. La parabola del fattore infedele e accorto. Ipocrisia dei farisei e conversione di un ...",
@@ -6882,7 +9283,15 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Gerusalemme",
+            "Giudea",
+            "Mar Morto",
+            "Samaria"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "382": {
         "titolo": "CCCLXXXII. Sosta ristoratrice in casa di Niche, che dovrà sovvenire l’esseno penitente.",
@@ -6900,7 +9309,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Ebron",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano"
+        ],
+        "coordinate": "-130.81,67"
     },
     "383": {
         "titolo": "CCCLXXXIII. Discorso presso il guado del Giordano dopo l’atto sfrontato di una meretrice.",
@@ -6919,7 +9335,14 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Keriot"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "384": {
         "titolo": "CCCLXXXIV. Il vecchio Anania diventa il custode della casetta di Salomon.",
@@ -6942,7 +9365,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "385": {
         "titolo": "CCCLXXXV. Parabola del quadrivio e miracoli presso il paese di Salomon.",
@@ -6960,7 +9387,12 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Keriot"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "386": {
         "titolo": "CCCLXXXVI. Verso la sponda occidentale del Giordano.",
@@ -6977,7 +9409,15 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Ebron",
+            "Gerusalemme",
+            "Giordano",
+            "Keriot",
+            "Masada"
+        ],
+        "coordinate": "-130.81,67"
     },
     "387": {
         "titolo": "CCCLXXXVII. A Galgala. Il mendico Ogla e gli scribi tentatori. Gli apostoli paragonati alle dodici ...",
@@ -6996,7 +9436,20 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Deserto di Giuda",
+            "Ebron",
+            "Egitto",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Isacco",
+            "Libano",
+            "Nazaret"
+        ],
+        "coordinate": "-122,69"
     },
     "388": {
         "titolo": "CCCLXXXVIII. Nei luoghi colpiti dal castigo divino. Raccomandazioni a Giuda Iscariota che andrà a ...",
@@ -7014,7 +9467,19 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Engaddi",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Mar Morto",
+            "Masada"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "389": {
         "titolo": "CCCLXXXIX. Arrivo ad Engaddi con dieci apostoli.",
@@ -7029,7 +9494,15 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Deserto di Giuda",
+            "Engaddi",
+            "Giordano",
+            "Giudea",
+            "Mar Morto"
+        ],
+        "coordinate": "-124.95,76.26"
     },
     "390": {
         "titolo": "CCCXC. La fede di Abramo d’Engaddi e la parabola del seme di palma.",
@@ -7045,7 +9518,15 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Engaddi",
+            "Gerusalemme",
+            "Isacco",
+            "Mar Morto"
+        ],
+        "coordinate": "-122,69"
     },
     "391": {
         "titolo": "CCCXCI. Guarigione del lebbroso Eliseo d’Engaddi.",
@@ -7059,7 +9540,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Engaddi",
+            "Gerusalemme",
+            "Isacco",
+            "Mar Morto",
+            "Masada"
+        ],
+        "coordinate": "-134.22,76.99"
     },
     "392": {
         "titolo": "CCCXCII. L’ostilità di Masada, città-fortezza.",
@@ -7077,7 +9566,15 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Engaddi",
+            "Keriot",
+            "Mar Morto",
+            "Masada",
+            "Nazaret"
+        ],
+        "coordinate": "-134.22,76.99"
     },
     "393": {
         "titolo": "CCCXCIII. Nella casa di campagna di Maria di Keriot.­",
@@ -7094,7 +9591,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Engaddi",
+            "Gerico",
+            "Keriot",
+            "Masada"
+        ],
+        "coordinate": "-134.22,76.99"
     },
     "394": {
         "titolo": "CCCXCIV. Parabola delle due volontà e commiato dai cittadini di Keriot.­",
@@ -7110,7 +9614,12 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giudea",
+            "Keriot"
+        ],
+        "coordinate": "-123.67,60.72"
     },
     "395": {
         "titolo": "CCCXCV. Le due madri infelici di Keriot. Addio alla madre di Giuda.­",
@@ -7126,7 +9635,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-116.9,70"
     },
     "396": {
         "titolo": "CCCXCVI. Con i bambini presso Jutta. La mano risanatrice di Gesù.",
@@ -7143,7 +9658,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "397": {
         "titolo": "CCCXCVII. Discorso di commiato ai fedeli di Jutta.­",
@@ -7157,7 +9676,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Isacco"
+        ],
+        "coordinate": "-116.9,70"
     },
     "398": {
         "titolo": "CCCXCVIII. Discorso di commiato a Ebron e le illusioni di Giuda Iscariota.­",
@@ -7175,7 +9699,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Ebron"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "399": {
         "titolo": "CCCXCIX. Discorso di commiato a Betsur e l'amore materno di Elisa.­",
@@ -7190,7 +9719,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Keriot"
+        ],
+        "coordinate": "-141.86,65.65"
     },
     "400": {
         "titolo": "CD. A Bétèr da Giovanna di Cusa. Conseguenze deleterie di un incontro dell'Iscariota con ...",
@@ -7207,7 +9740,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Keriot"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "401": {
         "titolo": "CDI. Pietro e Bartolomeo a Bétèr per un grave motivo. Estasi della scrittrice.­",
@@ -7241,7 +9780,12 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Keriot",
+            "Samaria"
+        ],
+        "coordinate": "-141.86,65.65"
     },
     "403": {
         "titolo": "CDIII. La lezione del silenzio. Simone di Giona in una sua lotta e vittoria spirituale.­",
@@ -7256,7 +9800,11 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "404": {
         "titolo": "CDIV. In cammino verso Emmaus della pianura.­",
@@ -7278,7 +9826,17 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Cedron",
+            "Emmaus",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Isacco"
+        ],
+        "coordinate": "-122,69"
     },
     "405": {
         "titolo": "CDV. Il riposo in un fienile e il discorso presso Emmaus della pianura. Il piccolo Micael.",
@@ -7297,7 +9855,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Emmaus",
+            "Idumea",
+            "Joppe",
+            "Keriot"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "406": {
         "titolo": "CDVI. A Joppe. Predica inutile a Giuda di Keriot e dialogo sull'anima con alcuni Gentili.­",
@@ -7312,7 +9878,13 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giudea",
+            "Joppe",
+            "Keriot"
+        ],
+        "coordinate": "-123.67,60.72"
     },
     "407": {
         "titolo": "CDVII. Nelle campagne di Nicodemo. La parabola dei due figli.­",
@@ -7332,7 +9904,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Emmaus"
+        ],
+        "coordinate": "-61.24,85"
     },
     "408": {
         "titolo": "CDVIII. Nelle campagne di Giuseppe d'Arimatea. Moltiplicazione del grano e potenza della fede.",
@@ -7384,7 +9960,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Emmaus",
+            "Gerusalemme",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "411": {
         "titolo": "CDXI. Lezioni tratte dalla natura e spigolatura miracolosa per una vecchietta. Come aiutare chi ...",
@@ -7425,7 +10009,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Keriot"
+        ],
+        "coordinate": "-116.9,70"
     },
     "413": {
         "titolo": "CDXIII. Arrivo a Gerusalemme per la Pentecoste e disputa con i dottori nel Tempio.­",
@@ -7439,7 +10028,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Egitto",
+            "Gerusalemme"
+        ],
+        "coordinate": "-141.06,108.29"
     },
     "414": {
         "titolo": "CDXIV. Invettiva contro farisei e dottori al convito in casa del sinedrista Elchia.­",
@@ -7458,7 +10052,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gerusalemme"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "415": {
         "titolo": "CDXV. Breve sosta a Betania.­",
@@ -7476,7 +10075,17 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Getsemani",
+            "Giordano",
+            "Magdala",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "416": {
         "titolo": "CDXVI. Un mendico samaritano sulla via di Gerico.­",
@@ -7492,7 +10101,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Gerusalemme",
+            "Giudea",
+            "Samaria"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "417": {
         "titolo": "CDXVII. L'ex-lebbroso Zaccaria e la conversione di Zaccheo, pubblicano che ha fatto fermentare il ...",
@@ -7506,7 +10122,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Gerusalemme"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "418": {
         "titolo": "CDXVIII. Guarigione del discepolo Giuseppe, ferito al capo e ricoverato nella casetta di Salomon.­",
@@ -7529,7 +10150,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Deserto di Giuda",
+            "Libano",
+            "Masada"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "419": {
         "titolo": "CDXIX. Guarigioni in un paesello della Decapoli. Parabola dello scultore e delle statue.­",
@@ -7548,7 +10176,14 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cesarea Marittima",
+            "Decapoli",
+            "Giordano",
+            "Nazaret"
+        ],
+        "coordinate": "-76,54"
     },
     "420": {
         "titolo": "CDXX. Guarigione di un indemoniato completo. La vocazione della donna all'amore.­",
@@ -7566,7 +10201,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Magdala"
+        ],
+        "coordinate": "-116.9,70"
     },
     "421": {
         "titolo": "CDXXI. L'indemoniato guarito, i farisei e la bestemmia contro lo Spirito Santo.",
@@ -7584,7 +10224,11 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giordano"
+        ],
+        "coordinate": "-85.88,87.78"
     },
     "422": {
         "titolo": "CDXXII. Malumori dell'Iscariota, che provoca la lezione sui doveri e sui servi inutili.­",
@@ -7603,7 +10247,16 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Cesarea Marittima",
+            "Mar Morto",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "423": {
         "titolo": "CDXXIII. Partenza dell'Iscariota, che provoca la lezione sull'amore e sul perdono senza limiti.­",
@@ -7625,7 +10278,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Engaddi",
+            "Gerico",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-134.22,76.99"
     },
     "424": {
         "titolo": "CDXXIV. Pensieri di gloria e di martirio alla vista della costa mediterranea.­",
@@ -7640,7 +10303,13 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Carmelo",
+            "Cesarea Marittima"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "425": {
         "titolo": "CDXXV. A Cesarea Marittima. Romani gaudenti e una parabola sull'uso del tempo e della libertà.",
@@ -7656,7 +10325,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cesarea Marittima"
+        ],
+        "coordinate": "-76,54"
     },
     "426": {
         "titolo": "CDXXVI. Con le romane a Cesarea Marittima. Profezia in Virgilio. La giovane schiava salvata.­",
@@ -7670,7 +10343,11 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cesarea Marittima"
+        ],
+        "coordinate": "-76,54"
     },
     "427": {
         "titolo": "CDXXVII. Aurea Galla, istruita da Bartolomeo e poi mandata a Nazareth",
@@ -7690,7 +10367,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Cafarnao",
+            "Carmelo",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-122,69"
     },
     "428": {
         "titolo": "CDXXVIII. Parabola della vigna e del vignaiolo, figure dell'anima e del libero arbitrio.­",
@@ -7705,7 +10391,15 @@ const archivioCapitoli = {
                 "Parabola",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Libano",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "429": {
         "titolo": "CDXXIX. Giuda Iscariota indagatore presso il Maestro.­",
@@ -7754,7 +10448,11 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret"
+        ],
+        "coordinate": "-65,74"
     },
     "432": {
         "titolo": "CDXXXII. Con i contadini di Giocana, presso Sefori.­",
@@ -7774,7 +10472,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "433": {
         "titolo": "CDXXXIII. Arrivo a Nazareth. Lodi alla Vergine. Guarigione di Aurea.",
@@ -7792,7 +10496,12 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-65,74"
     },
     "434": {
         "titolo": "CDXXXIV. Lavori manuali a Nazareth e parabola del legno verniciato.",
@@ -7810,7 +10519,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret",
+            "Rama"
+        ],
+        "coordinate": "-65,74"
     },
     "435": {
         "titolo": "CDXXXV. Inizio del terzo sabato a Nazareth e arrivo di Pietro con altri apostoli.",
@@ -7830,7 +10544,13 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cana",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "436": {
         "titolo": "CDXXXVI. Svelato il costo della Redenzione ad apostoli e discepole nell’orto di Nazareth.",
@@ -7847,7 +10567,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Golgota"
+        ],
+        "coordinate": "-24.93,8.43"
     },
     "437": {
         "titolo": "CDXXXVII. Gesù e la Madre a colloquio.",
@@ -7865,7 +10589,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cana",
+            "Giudea",
+            "Keriot",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "438": {
         "titolo": "CDXXXVIII. Maria Ss. con Maria d’Alfeo a Tiberiade per farsi cedere Aurea. Un incontro con Giuda ...",
@@ -7879,7 +10611,13 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Magdala",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-56.49,83.17"
     },
     "439": {
         "titolo": "CDXXXIX. Maria Ss. riferisce sulla missione compiuta a Tiberiade. Aurea impara a fare la volontà ...",
@@ -7896,7 +10634,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "440": {
         "titolo": "CDXL. Un altro sabato a Nazareth. Ostinatezza di Giuseppe d’Alfeo.",
@@ -7918,7 +10661,16 @@ const archivioCapitoli = {
                 "Parabola",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Cafarnao",
+            "Isacco",
+            "Keriot",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-122,69"
     },
     "441": {
         "titolo": "CDXLI. Un dono di Tommaso alla Vergine e partenza da Nazareth. Miracolo su un incendio che diventa ...",
@@ -7936,7 +10688,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret"
+        ],
+        "coordinate": "-65,74"
     },
     "442": {
         "titolo": "CDXLII. Giuda Iscariota a Nazareth da Maria.",
@@ -7955,7 +10711,15 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Cafarnao",
+            "Keriot",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-122,69"
     },
     "443": {
         "titolo": "CDXLIII. La morte del nonno di Marziam.",
@@ -7969,7 +10733,12 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Isacco"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "444": {
         "titolo": "CDXLIV. Elogio di Marziam. Lezione sull’unico precetto dell’amore, sulla salvezza dei pagani ...",
@@ -7990,7 +10759,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "445": {
         "titolo": "CDXLV. A Tiberiade, durante una tempesta, il ritorno dell’Iscariota e due parabole. L’arrivo di ...",
@@ -8013,7 +10788,16 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Keriot",
+            "Magdala",
+            "Nazaret",
+            "Samaria",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "446": {
         "titolo": "CDXLVI. Arrivo e accoglienze a Cafarnao.",
@@ -8030,7 +10814,13 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Emmaus",
+            "Libano"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "447": {
         "titolo": "CDXLVII. Discorso sulla misericordia nella sinagoga di Cafarnao. Un affronto di Eli il fariseo, ...",
@@ -8051,7 +10841,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gerusalemme"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "448": {
         "titolo": "CDXLVIII. Raduno di barche sul lago e parabola provocata da Pietro, che subisce un giudizio.",
@@ -8073,7 +10868,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Magdala",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "449": {
         "titolo": "CDXLIX. Il piccolo Alfeo disamato dalla madre.",
@@ -8088,7 +10889,12 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gamala"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "450": {
         "titolo": "CDL. Miracoli nel borgo presso Ippo e guarigione del lebbroso Giovanni.",
@@ -8104,7 +10910,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Ebron",
+            "Gamala",
+            "Gerusalemme",
+            "Nazaret",
+            "Tomba di Rachele"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "451": {
         "titolo": "CDLI. Discorso, nel borgo presso Ippo, sui doveri dei coniugi e dei figli.",
@@ -8134,7 +10949,13 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gamala",
+            "Giudea"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "453": {
         "titolo": "CDLIII. Arrivo a Ippo e discorso in favore dei poveri che vengono sanati. Guarigione dello schiavo ...",
@@ -8148,7 +10969,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gamala"
+        ],
+        "coordinate": "-104.72,61.98"
     },
     "454": {
         "titolo": "CDLIV. Maria Ss. e il suo amore di fusione con Dio. Ira dell’Iscariota contro il piccolo Alfeo.",
@@ -8164,7 +10989,13 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gamala",
+            "Gerusalemme"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "455": {
         "titolo": "CDLV. Affidamento della Chiesa alla maternità di Maria. Discorso, presso Gamala, in favore dei ...",
@@ -8184,7 +11015,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gamala",
+            "Gerusalemme",
+            "Keriot",
+            "Tiro"
+        ],
+        "coordinate": "-104.72,61.98"
     },
     "456": {
         "titolo": "CDLVI. Commiato da Gamala e arrivo ad Afeca. Monito alla vedova Sara e miracolo nella sua casa.",
@@ -8199,7 +11037,16 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Decapoli",
+            "Gamala",
+            "Gerusalemme",
+            "Giordano",
+            "Lago di Meron"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "457": {
         "titolo": "CDLVII. Discorso, ad Afeca, dopo una disputa tra credenti e non credenti. Sara diviene discepola.",
@@ -8215,7 +11062,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gerico",
+            "Giudea",
+            "Joppe",
+            "Samaria",
+            "Sidone"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "458": {
         "titolo": "CDLVIII. Una guarigione spirituale a Gherghesa e lezione sull’uso dei doni di Dio. Rientro a ...",
@@ -8232,7 +11088,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "459": {
         "titolo": "CDLIX. Il perdono a Samuele di Nazareth e lezione sulle cattive amicizie.",
@@ -8250,7 +11110,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "460": {
         "titolo": "CDLX. Farisei a Cafarnao con Giuseppe a Simone d’Alfeo. Gesù non nasconderà alla Madre l’ora ...",
@@ -8272,7 +11138,19 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Cafarnao",
+            "Gamala",
+            "Giudea",
+            "Isacco",
+            "Keriot",
+            "Magdala",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "461": {
         "titolo": "CDLXI. Un complotto per l’elezione di Gesù a re. Il greco Zenone e la lettera di Sintica con la ...",
@@ -8293,7 +11171,20 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betania",
+            "Cipro",
+            "Gerusalemme",
+            "Giudea",
+            "Joppe",
+            "Keriot",
+            "Nazaret",
+            "Tiberiade",
+            "Tiro"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "462": {
         "titolo": "CDLXII. Discorso e guarigioni alle sorgenti termali di Emmaus di Tiberiade.",
@@ -8309,7 +11200,13 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Emmaus",
+            "Tiberiade",
+            "Tiro"
+        ],
+        "coordinate": "-61.24,85"
     },
     "463": {
         "titolo": "CDLXIII. A Tarichea, discorso sulla natura del regno messianico e conversione di una meretrice. ...",
@@ -8326,7 +11223,17 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Cafarnao",
+            "Emmaus",
+            "Gamala",
+            "Gerasa",
+            "Giordano",
+            "Tiberiade"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "464": {
         "titolo": "CDLXIV. Nella casa di campagna di Cusa la tentata elezione di Gesù a re. La testimonianza del ...",
@@ -8348,7 +11255,21 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cana",
+            "Engaddi",
+            "Gerico",
+            "Gerusalemme",
+            "Getsemani",
+            "Giordano",
+            "Giudea",
+            "Moltiplicazione dei pani",
+            "Monte delle Beatitudini",
+            "Tiberiade"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "465": {
         "titolo": "CDLXV. A Betsaida per un incarico segreto a Porfirea e partenza affrettata da Cafarnao.",
@@ -8366,7 +11287,16 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida",
+            "Cafarnao",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Tiberiade"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "466": {
         "titolo": "CDLXVI. La sosta presso gli anziani coniugi Giuda e Anna.",
@@ -8383,7 +11313,20 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betlemme",
+            "Cesarea di Filippo",
+            "Decapoli",
+            "Emmaus",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Isacco",
+            "Iturea"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "467": {
         "titolo": "CDLXVII. Parabola della distribuzione delle acque. Perdono condizionato per il contadino Giacobbe. ...",
@@ -8403,7 +11346,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "468": {
         "titolo": "CDLXVIII. Un ravvedimento di Giuda Iscariota e gli episodi che illustrano la sua figura.",
@@ -8422,7 +11369,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Corazim"
+        ],
+        "coordinate": "-52.88,87.34"
     },
     "469": {
         "titolo": "CDLXIX. Commiato dai pochi fedeli di Corozim.",
@@ -8435,7 +11386,11 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Isacco"
+        ],
+        "coordinate": "-134.28,61.1"
     },
     "470": {
         "titolo": "CDLXX. Lezione sul matrimonio ad una suocera che è scontenta della nuora.",
@@ -8451,7 +11406,17 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Carmelo",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Libano",
+            "Samaria",
+            "Tiberiade"
+        ],
+        "coordinate": "-137.66,69.3"
     },
     "471": {
         "titolo": "CDLXXI. Filippo si esalta pensando all’èra messianica. Respinto l’invito ad andare a Giscala, ...",
@@ -8467,7 +11432,15 @@ const archivioCapitoli = {
                 "Giuseppe"
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Damasco",
+            "Gerusalemme",
+            "Libano",
+            "Nazaret",
+            "Neftali"
+        ],
+        "coordinate": "-18.78,121.84"
     },
     "472": {
         "titolo": "CDLXXII. La nuova Legge e la richiesta insidiosa di un giudizio su un fatto accaduto a Giscala.",
@@ -8483,7 +11456,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Nazaret",
+            "Sidone"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "473": {
         "titolo": "CDLXXIII. Guarigione di un bambino cieco di Sidone e un insegnamento per le mogli di oggi.",
@@ -8497,7 +11476,11 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Sidone"
+        ],
+        "coordinate": "-16.21,77.77"
     },
     "474": {
         "titolo": "CDLXXIV. Una visione che si perde in un rapimento d’amore.",
@@ -8513,7 +11496,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betsaida"
+        ],
+        "coordinate": "-53.38,90.64"
     },
     "475": {
         "titolo": "CDLXXV. Un sospetto di Pietro e digressione sugli ebrei. La pietà di Abele di Betlemme per i ...",
@@ -8534,7 +11521,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Carmelo",
+            "Gerusalemme",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-122,69"
     },
     "476": {
         "titolo": "CDLXXVI. Lezione sul modo di curare le anime e il perdono ai due peccatori divenuti lebbrosi.",
@@ -8550,7 +11545,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-122,69"
     },
     "477": {
         "titolo": "CDLXXVII. A colloquio con la Madre nel bosco di Matatia. Le sofferenze morali di Gesù e di Maria.",
@@ -8572,7 +11573,20 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Decapoli",
+            "Egitto",
+            "Gerusalemme",
+            "Giudea",
+            "Keriot",
+            "Magdala",
+            "Nazaret",
+            "Samaria",
+            "Tiberiade"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "478": {
         "titolo": "CDLXXVIII. A colloquio con Giuseppe e Simone d’Alfeo che vanno alla festa dei Tabernacoli.",
@@ -8591,7 +11605,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Carmelo",
+            "Decapoli",
+            "Gerusalemme",
+            "Giudea",
+            "Nazaret"
+        ],
+        "coordinate": "-137.66,69.3"
     },
     "479": {
         "titolo": "CDLXXIX. Con Giovanni presso la torre di Jezrael in attesa dei contadini di Giocana.",
@@ -8608,7 +11630,12 @@ const archivioCapitoli = {
             "temi": [
                 "Parabola"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Nazaret",
+            "Neftali"
+        ],
+        "coordinate": "-65,74"
     },
     "480": {
         "titolo": "CDLXXX. Partenza da Jezrael dopo la visita notturna dei contadini di Giocana.",
@@ -8640,7 +11667,18 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Damasco",
+            "Efraim",
+            "Gerusalemme",
+            "Giudea",
+            "Joppe",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "482": {
         "titolo": "CDLXXXII. In cammino con un pastore samaritano la cui fede viene premiata.",
@@ -8654,7 +11692,15 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Efraim",
+            "Garizim",
+            "Keriot",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-106.01,76.66"
     },
     "483": {
         "titolo": "CDLXXXIII. Gli apostoli discutono sull’odio dei giudei. I dieci lebbrosi guariti in Samaria.",
@@ -8674,7 +11720,19 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Efraim",
+            "Gerico",
+            "Giordano",
+            "Giudea",
+            "Idumea",
+            "Keriot",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "484": {
         "titolo": "CDLXXXIV. Sosta obbligata presso Efraim e parabola della melagrana.",
@@ -8689,7 +11747,14 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Efraim",
+            "Gerusalemme",
+            "Giordano",
+            "Sichem"
+        ],
+        "coordinate": "-106.01,76.66"
     },
     "485": {
         "titolo": "CDLXXXV. L’arrivo con gli apostoli a Betania, dove sono già alcuni discepoli con Marziam. ...",
@@ -8705,7 +11770,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Efraim",
+            "Gerusalemme",
+            "Getsemani",
+            "Isacco",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "486": {
         "titolo": "CDLXXXVI. Al Tempio per la festa dei Tabernacoli. Discorso sulla natura del Regno.",
@@ -8720,7 +11795,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betlemme",
+            "Engaddi"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "487": {
         "titolo": "CDLXXXVII. Al Tempio per la festa dei Tabernacoli. Discorso sulla natura del Cristo.",
@@ -8737,7 +11818,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Nazaret"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "488": {
         "titolo": "CDLXXXVIII. Al Tempio per la festa dei Tabernacoli. Partenza segreta per Nobe dopo la preghiera.",
@@ -8757,7 +11843,19 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cedron",
+            "Damasco",
+            "Emmaus",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Isacco",
+            "Monte Uliveto",
+            "Rama"
+        ],
+        "coordinate": "-16.07,31.61"
     },
     "489": {
         "titolo": "CDLXXXIX. A Nobe. Parabola del re incompreso dai sudditi e miracolo sul vento.",
@@ -8773,7 +11871,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Parabola"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Rama"
+        ],
+        "coordinate": "-116.9,70"
     },
     "490": {
         "titolo": "CDXC. Al campo dei Galilei con i cugini apostoli. Dubbi sull'Iscariota e conversione del levita ...",
@@ -8795,7 +11898,21 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Cafarnao",
+            "Cana",
+            "Gerico",
+            "Gerusalemme",
+            "Getsemani",
+            "Isacco",
+            "Keriot",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "491": {
         "titolo": "CDXCI. Al Tempio nell'ultimo giorno della festa dei Tabernacoli. Discorso sull'Acqua viva.",
@@ -8814,7 +11931,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Ebron",
+            "Emmaus",
+            "Gerusalemme",
+            "Giudea",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "492": {
         "titolo": "CDXCII. A Betania viene ricordato Giovanni di Endor.",
@@ -8831,7 +11958,15 @@ const archivioCapitoli = {
             "temi": [
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Keriot",
+            "Magdala",
+            "Samaria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "493": {
         "titolo": "CDXCIII. Discorso presso la fonte di En Rogel, che fu luogo di sosta dei tre Savi.",
@@ -8845,7 +11980,16 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Gerico",
+            "Gerusalemme",
+            "Isacco",
+            "Keriot"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "494": {
         "titolo": "CDXCIV. La donna adultera e l'ipocrisia dei suoi accusatori. Vari insegnamenti.",
@@ -8862,7 +12006,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Getsemani",
+            "Magdala"
+        ],
+        "coordinate": "-20.94,33.38"
     },
     "495": {
         "titolo": "CDXCV. Lezione sulla misericordia in risposta alle obiezioni sul perdono all'adultera. Congedo ai ...",
@@ -8881,7 +12030,19 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Isacco",
+            "Keriot",
+            "Magdala",
+            "Monte Uliveto",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "496": {
         "titolo": "CDXCVI. Turbamento improvviso di Giuda Iscariota durante una sosta nella casetta di Salomon.",
@@ -8900,7 +12061,12 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Gerusalemme"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "497": {
         "titolo": "CDXCVII. Un'ora di sconforto di Simon Pietro.",
@@ -8917,7 +12083,14 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerasa",
+            "Giordano",
+            "Isacco",
+            "Nebo"
+        ],
+        "coordinate": "-88.41,101.09"
     },
     "498": {
         "titolo": "CDXCVIII. Esortazione al Taddeo e a Giacomo di Zebedeo a seguito di un diverbio con l'Iscariota.",
@@ -8937,7 +12110,16 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gerusalemme",
+            "Giordano",
+            "Keriot",
+            "Mar Morto",
+            "Petra"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "499": {
         "titolo": "CDXCIX. Fuga da Esebon e incontro con un mercante di Petra.",
@@ -8955,7 +12137,18 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Damasco",
+            "Giordano",
+            "Isacco",
+            "Keriot",
+            "Masada",
+            "Nazaret",
+            "Nebo",
+            "Petra"
+        ],
+        "coordinate": "-18.78,121.84"
     },
     "500": {
         "titolo": "D. Riflessioni di Bartolomeo e Giovanni dopo un ritiro sul monte Nebo.",
@@ -8973,7 +12166,17 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Egitto",
+            "Engaddi",
+            "Giordano",
+            "Isacco",
+            "Mar Morto",
+            "Nebo",
+            "Petra"
+        ],
+        "coordinate": "-141.06,108.29"
     },
     "501": {
         "titolo": "DI. Parabola dei figli lontani. Guarigione dei due figli ciechi dell’uomo di Petra.",
@@ -8990,7 +12193,15 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Gerusalemme",
+            "Keriot",
+            "Nebo",
+            "Petra"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "502": {
         "titolo": "DII. Altro sconforto di Pietro e lezione sulle possessioni, sia divine che diaboliche.",
@@ -9008,7 +12219,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gerico",
+            "Gerusalemme",
+            "Nebo"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "503": {
         "titolo": "DIII. Gli apostoli indagano sul Traditore. Un sadduceo e l’infelice moglie di un negromante. ...",
@@ -9029,7 +12247,20 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Decapoli",
+            "Egitto",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Keriot",
+            "Magdala",
+            "Nazaret",
+            "Tiberiade"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "504": {
         "titolo": "DIV. Marziam preparato al distacco. Ritorno al villaggio di Salomon e morte di Anania.",
@@ -9048,7 +12279,14 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "505": {
         "titolo": "DV. Nel Tempio, una grazia ottenuta con la preghiera incessante e la parabola del giudice e della ...",
@@ -9073,7 +12311,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Isacco",
+            "Pianura di Saron"
+        ],
+        "coordinate": "-116.9,70"
     },
     "506": {
         "titolo": "DVI. Nel Tempio, il contestato discorso che rivela in Gesù la Luce del mondo.",
@@ -9089,7 +12333,13 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Giordano",
+            "Isacco"
+        ],
+        "coordinate": "-116.9,70"
     },
     "507": {
         "titolo": "DVII. La grande disputa con i Giudei e fuga dal Tempio con l’aiuto del levita Zaccaria.",
@@ -9111,7 +12361,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cedron",
+            "Gerusalemme",
+            "Isacco"
+        ],
+        "coordinate": "-16.07,31.61"
     },
     "508": {
         "titolo": "DVIII. Giovanni sarà la luce del Cristo fino alla fine dei tempi. Il piccolo Marziale-Manasse ...",
@@ -9129,7 +12385,14 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cesarea Marittima",
+            "Gerusalemme",
+            "Lago di Genezaret",
+            "Nazaret"
+        ],
+        "coordinate": "-76,54"
     },
     "509": {
         "titolo": "DIX. Il vecchio sacerdote Matan, accolto con gli apostoli e i discepoli fuggiti dal Tempio. Il ...",
@@ -9150,7 +12413,15 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Giordano",
+            "Isacco",
+            "Keriot"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "510": {
         "titolo": "DX. La guarigione di un cieco nato, provocata da una manovra di Giuda Iscariota.",
@@ -9171,7 +12442,18 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cedron",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Isacco",
+            "Keriot",
+            "Nazaret",
+            "Sarepta"
+        ],
+        "coordinate": "-16.07,31.61"
     },
     "511": {
         "titolo": "DXI. In casa di Giovanni di Nobe, ancora una lode alla Corredentrice. Menzogne di Giuda Iscariota.",
@@ -9194,7 +12476,16 @@ const archivioCapitoli = {
                 "Passione",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Gerusalemme",
+            "Isacco",
+            "Keriot",
+            "Nazaret",
+            "Rama"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "512": {
         "titolo": "DXII. Profezia dinanzi ad un paese distrutto.",
@@ -9205,7 +12496,11 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Emmaus"
+        ],
+        "coordinate": "-61.24,85"
     },
     "513": {
         "titolo": "DXIII. A Emmaus Montana, una parabola sulla vera sapienza e un monito ad Israele.",
@@ -9220,7 +12515,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Emmaus"
+        ],
+        "coordinate": "-61.24,85"
     },
     "514": {
         "titolo": "DXIV. Consigli sulla santità ad un giovane indeciso. Rimprovero ai cittadini di Beteron dopo la ...",
@@ -9238,7 +12537,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Emmaus",
+            "Keriot",
+            "Rama"
+        ],
+        "coordinate": "-61.24,85"
     },
     "515": {
         "titolo": "DXV. Le ragioni del dolore salvifico di Gesù. Elogio dell’ubbidienza e lezione sull’umiltà.",
@@ -9260,7 +12565,15 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Carmelo",
+            "Cesarea Marittima",
+            "Gamala",
+            "Joppe",
+            "Petra"
+        ],
+        "coordinate": "-137.66,69.3"
     },
     "516": {
         "titolo": "DXVI. A Gabaon, miracolo del mutolino ed elogio della sapienza come amore a Dio.",
@@ -9274,7 +12587,11 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Ebron"
+        ],
+        "coordinate": "-130.81,67"
     },
     "517": {
         "titolo": "DXVII. Verso Nobe, resipiscenza di Giuda Iscariota dopo una discussione.",
@@ -9293,7 +12610,15 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Gerusalemme",
+            "Sidone",
+            "Tiro"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "518": {
         "titolo": "DXVIII. A Gerusalemme, l’incontro con il cieco guarito e il discorso che rivela in Gesù il buon ...",
@@ -9309,7 +12634,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-116.9,70"
     },
     "519": {
         "titolo": "DXIX. Inspiegabile assenza di Giuda Iscariota e sosta a Betania, da Lazzaro che non è lebbroso.",
@@ -9331,7 +12661,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Gerusalemme",
+            "Keriot",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "520": {
         "titolo": "DXX. Discorsi sull’Iscariota assente e arrivo a Tecua con il vecchio Elianna.",
@@ -9353,7 +12691,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Giudea",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "521": {
         "titolo": "DXXI. A Tecua, commiato dai cittadini e dal vecchio Elianna, il primo dei perseguitati per causa di ...",
@@ -9370,7 +12716,12 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giudea",
+            "Lago di Genezaret"
+        ],
+        "coordinate": "-123.67,60.72"
     },
     "522": {
         "titolo": "DXXII. Arrivo a Gerico. L’amore terreno della folla e l’amore soprannaturale del convertito ...",
@@ -9384,7 +12735,14 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cedron",
+            "Efraim",
+            "Gerico",
+            "Gerusalemme"
+        ],
+        "coordinate": "-16.07,31.61"
     },
     "523": {
         "titolo": "DXXIII. A Gerico. La richiesta a Gesù di giudicare su una donna. La parabola del fariseo e del ...",
@@ -9404,7 +12762,14 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Emmaus",
+            "Gerico",
+            "Gerusalemme",
+            "Joppe"
+        ],
+        "coordinate": "-61.24,85"
     },
     "524": {
         "titolo": "DXXIV. A Gerico. In casa di Zaccheo con i peccatori convertiti.",
@@ -9423,7 +12788,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Gerusalemme",
+            "Giordano"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "525": {
         "titolo": "DXXV. Profezie di Sabea di Betlechi e giudizio su di lei.",
@@ -9443,7 +12814,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerico",
+            "Gerusalemme",
+            "Giordano"
+        ],
+        "coordinate": "-114.58,81.28"
     },
     "526": {
         "titolo": "DXXVI. Guarigioni presso il guado di Betabara e discorso nel ricordo di Giovanni Battista.",
@@ -9458,7 +12835,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "527": {
         "titolo": "DXXVII. Ignoranze e tentazioni nella natura umana del Cristo.",
@@ -9479,7 +12860,13 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Keriot"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "528": {
         "titolo": "DXXVIII. A Nobe, il conforto materno di Elisa e il ritorno inquietante di Giuda Iscariota.",
@@ -9496,7 +12883,12 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Keriot"
+        ],
+        "coordinate": "-116.9,70"
     },
     "529": {
         "titolo": "DXXIX. Ammaestramenti agli apostoli mentre fanno lavori manuali in casa di Giovanni di Nobe.",
@@ -9517,7 +12909,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Keriot",
+            "Libano",
+            "Samaria"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "530": {
         "titolo": "DXXX. Un’altra notte di peccato di Giuda Iscariota.",
@@ -9532,7 +12931,11 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Keriot"
+        ],
+        "coordinate": "-141.86,65.65"
     },
     "531": {
         "titolo": "DXXXI. A Nobe, malati e pellegrini da ogni regione. Valeria e il divorzio. Guarigione del piccolo ...",
@@ -9553,7 +12956,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Cafarnao",
+            "Gerusalemme",
+            "Giudea",
+            "Keriot",
+            "Nazaret",
+            "Tiberiade",
+            "Tiro"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "532": {
         "titolo": "DXXXII. Preparativi per le Encenie. Una prostituta mandata a tentare Gesù, che lascia Nobe.",
@@ -9574,7 +12988,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Keriot",
+            "Nazaret",
+            "Rama"
+        ],
+        "coordinate": "-116.9,70"
     },
     "533": {
         "titolo": "DXXXIII. Verso Gerusalemme con Giuda Iscariota, che sembra prendere una decisione.",
@@ -9592,7 +13013,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Getsemani",
+            "Keriot",
+            "Tiro"
+        ],
+        "coordinate": "-116.9,70"
     },
     "534": {
         "titolo": "DXXXIV. Ammaestramenti e guarigioni nella sinagoga dei liberti romani. Un mandato per i Gentili.",
@@ -9608,7 +13036,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Egitto",
+            "Nazaret",
+            "Sidone"
+        ],
+        "coordinate": "-141.06,108.29"
     },
     "535": {
         "titolo": "DXXXV. Giuda Iscariota chiamato a riferire in casa di Caifa.",
@@ -9630,7 +13064,16 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Gerico",
+            "Gerusalemme",
+            "Getsemani",
+            "Isacco"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "536": {
         "titolo": "DXXXVI. Guarigione di sette lebbrosi e arrivo a Betania con gli apostoli riuniti. Marta e Maria ...",
@@ -9651,7 +13094,15 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Gerusalemme",
+            "Golgota",
+            "Keriot"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "537": {
         "titolo": "DXXXVII. Al Tempio nella festa della Dedicazione, Gesù si manifesta ai Giudei che tentano di ...",
@@ -9673,7 +13124,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giordano",
+            "Nazaret"
+        ],
+        "coordinate": "-85.88,87.78"
     },
     "538": {
         "titolo": "DXXXVIII. Gesù orante nella grotta della Natività, contemplato dai discepoli ex‑pastori.",
@@ -9697,7 +13153,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Cedron",
+            "Damasco",
+            "Gerico",
+            "Isacco",
+            "Keriot"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "539": {
         "titolo": "DXXXIX. La perfezione spiegata a Giovanni di Zebedeo che si è accusato di colpe inesistenti.",
@@ -9713,7 +13179,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Giordano",
+            "Keriot"
+        ],
+        "coordinate": "-116.9,70"
     },
     "540": {
         "titolo": "DXL. Giovanni sarà “figlio” per la Madre di Gesù. Incontro con Mannaen e lezione sull’amore ...",
@@ -9729,7 +13201,16 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Mar Morto"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "541": {
         "titolo": "DXLI. Giudei in visita a Betania.",
@@ -9745,7 +13226,13 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Gerusalemme"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "542": {
         "titolo": "DXLII. I giudei nella casa di Lazzaro.",
@@ -9761,7 +13248,11 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Giudea"
+        ],
+        "coordinate": "-123.67,60.72"
     },
     "543": {
         "titolo": "DXLIII. Marta manda un servo a chiamare il Maestro.",
@@ -9776,7 +13267,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Giordano"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "544": {
         "titolo": "DXLIV. Delirio e morte di Lazzaro.",
@@ -9791,7 +13288,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Giordano",
+            "Giudea"
+        ],
+        "coordinate": "-116.9,70"
     },
     "545": {
         "titolo": "DXLV. l servo di Betania riferisce a Gesù il messaggio di Marta. Predizione a Simon Pietro su ...",
@@ -9811,7 +13314,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "546": {
         "titolo": "DXLVI. Il giorno dei funerali di Lazzaro.",
@@ -9831,7 +13339,19 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cafarnao",
+            "Gamala",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Isacco",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "547": {
         "titolo": "DXLVII. Gesù decide di andare a Betania.",
@@ -9853,7 +13373,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "548": {
         "titolo": "DXLVIII. La risurrezione di Lazzaro.",
@@ -9875,7 +13402,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Giordano",
+            "Moltiplicazione dei pani",
+            "Monte delle Beatitudini"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "549": {
         "titolo": "DXLIX. Seduta del Sinedrio e udienza da Pilato.",
@@ -9895,7 +13430,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Nazaret",
+            "Palazzo di Erode"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "550": {
         "titolo": "DL. Euforia tra gli apostoli. Missione d'amore per Lazzaro e di contemplazione assoluta per la ...",
@@ -9917,7 +13462,20 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betania",
+            "Cedron",
+            "Efraim",
+            "Gerico",
+            "Getsemani",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Samaria"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "551": {
         "titolo": "DLI. Gli apostoli informati, dopo una sosta da Niche, del bando emesso dal Sinedrio. L'arrivo ai ...",
@@ -9940,7 +13498,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Efraim",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "552": {
         "titolo": "DLII. Preparativi e accoglienze ad Efraim.",
@@ -9962,7 +13531,19 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Efraim",
+            "Egitto",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Mar Morto",
+            "Samaria"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "553": {
         "titolo": "DLIII. Inizio del sabato ad Efraim. I ladroni dell'Adomin e il soccorso a tre bambini.",
@@ -9982,7 +13563,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Efraim",
+            "Gerico",
+            "Keriot",
+            "Sichem"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "554": {
         "titolo": "DLIV. Il sabato ad Efraim, su un'isoletta nel torrente. Il peccato originale spiegato in parabola ...",
@@ -10006,7 +13595,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Efraim",
+            "Gerico",
+            "Gerusalemme",
+            "Giudea",
+            "Isacco",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-106.01,76.66"
     },
     "555": {
         "titolo": "DLV. Lezione notturna a Simon Pietro sull'esame dei peccati e sul dolore dei buoni e degli ...",
@@ -10044,7 +13643,16 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Efraim",
+            "Gerusalemme",
+            "Giudea",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "557": {
         "titolo": "DLVII. L’arrivo, da Sichem, dei parenti dei tre fanciulli strappati ai ladroni.",
@@ -10061,7 +13669,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Efraim",
+            "Isacco",
+            "Nazaret",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-106.01,76.66"
     },
     "558": {
         "titolo": "DLVIII. Con la comitiva che fa ritorno a Sichem. Parabola della goccia che scava il masso.",
@@ -10076,7 +13692,15 @@ const archivioCapitoli = {
                 "Parabola",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Efraim",
+            "Garizim",
+            "Gerusalemme",
+            "Sichem"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "559": {
         "titolo": "DLIX. Ad Efraim, pellegrini dalla Decapoli e missione segreta di Mannaen.",
@@ -10095,7 +13719,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Decapoli",
+            "Efraim",
+            "Giordano",
+            "Giudea",
+            "Rama"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "560": {
         "titolo": "DLX. Colloquio nella notte, presso Gofenà, con Giuseppe d’Arimatea, Nicodemo e Mannaen.",
@@ -10114,7 +13747,18 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Efraim",
+            "Garizim",
+            "Gerico",
+            "Gerusalemme",
+            "Nazaret",
+            "Rama",
+            "Samaria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "561": {
         "titolo": "DLXI. Il saforim Samuele, da sicario a discepolo.",
@@ -10131,7 +13775,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Efraim",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-106.01,76.66"
     },
     "562": {
         "titolo": "DLXII. Dicerie a Nazaret.",
@@ -10147,7 +13797,18 @@ const archivioCapitoli = {
             "temi": [
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betania",
+            "Betsaida",
+            "Cafarnao",
+            "Gerusalemme",
+            "Giudea",
+            "Nazaret",
+            "Siria"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "563": {
         "titolo": "DLXIII. Falsi discepoli a Sichem. Risanato ad Efraim lo schiavo muto di Claudia Procula.",
@@ -10162,7 +13823,16 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Efraim",
+            "Garizim",
+            "Nazaret",
+            "Rama",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-106.01,76.66"
     },
     "564": {
         "titolo": "DLXIV. L’uomo di Jabnia e la fine di Ermasteo. Rimprovero ai samaritani che mancano di carità.",
@@ -10178,7 +13848,21 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Efraim",
+            "Gaza",
+            "Gerico",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Keriot",
+            "Nazaret",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "565": {
         "titolo": "DLXV. Samuele turbato da Giuda Iscariota, che non comprende la natura del dolore salvifico. Il ...",
@@ -10195,7 +13879,14 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cesarea di Filippo",
+            "Efraim",
+            "Gerusalemme",
+            "Isacco"
+        ],
+        "coordinate": "-34,91"
     },
     "566": {
         "titolo": "DLXVI. Ad Efraim, il giorno dell’arrivo della Madre con Lazzaro e le discepole. Il carattere di ...",
@@ -10220,7 +13911,31 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Antiochia",
+            "Betania",
+            "Betlemme",
+            "Betsaida",
+            "Cafarnao",
+            "Cana",
+            "Efraim",
+            "Engaddi",
+            "Gerico",
+            "Gerusalemme",
+            "Giudea",
+            "Isacco",
+            "Joppe",
+            "Keriot",
+            "Nazaret",
+            "Rama",
+            "Samaria",
+            "Sichem",
+            "Siria",
+            "Tiberiade"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "567": {
         "titolo": "DLXVII. Parabola della stoffa strappata e miracolo su una partoriente. Lungo discorso a Giuda di ...",
@@ -10242,7 +13957,18 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cesarea di Filippo",
+            "Efraim",
+            "Gerico",
+            "Gerusalemme",
+            "Getsemani",
+            "Nazaret",
+            "Samaria",
+            "Tiberiade"
+        ],
+        "coordinate": "-34,91"
     },
     "568": {
         "titolo": "DLXVIII. Inizio del viaggio per la Samaria partendo da Efraim alla volta di Silo.",
@@ -10262,7 +13988,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Efraim",
+            "Giudea",
+            "Keriot",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-106.01,76.66"
     },
     "569": {
         "titolo": "DLXIX. A Silo, la parabola dei cattivi consiglieri.",
@@ -10291,7 +14025,19 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Efraim",
+            "Gamala",
+            "Garizim",
+            "Gerusalemme",
+            "Giudea",
+            "Iturea",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "571": {
         "titolo": "DLXXI. Arrivo a Sichem e accoglienze.",
@@ -10311,7 +14057,18 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Efraim",
+            "Garizim",
+            "Gerusalemme",
+            "Giordano",
+            "Giudea",
+            "Keriot",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-106.01,76.66"
     },
     "572": {
         "titolo": "DLXXII. A Sichem, l’ultima parabola sui consigli dati e ricevuti.",
@@ -10326,7 +14083,11 @@ const archivioCapitoli = {
                 "Parabola",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Sichem"
+        ],
+        "coordinate": "-92.72,69.39"
     },
     "573": {
         "titolo": "DLXXIII. Partenza per Enon dopo un battibecco tra l’Iscariota ed Elisa, che restano a Sichem.",
@@ -10344,7 +14105,18 @@ const archivioCapitoli = {
             "temi": [
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Efraim",
+            "Gerusalemme",
+            "Giordano",
+            "Keriot",
+            "Magdala",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-122,69"
     },
     "574": {
         "titolo": "DLXXIV. Andando da Enon a Tersa, Gesù riscatta e accoglie un pastorello dopo aver dato la cecità ...",
@@ -10365,7 +14137,19 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Gerusalemme",
+            "Giordano",
+            "Isacco",
+            "Keriot",
+            "Magdala",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "575": {
         "titolo": "DLXXV. Cattive accoglienze a Tersa. Estremo tentativo di redimere Giuda Iscariota.",
@@ -10390,7 +14174,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Decapoli",
+            "Efraim",
+            "Gerusalemme",
+            "Giordano",
+            "Keriot",
+            "Magdala",
+            "Samaria",
+            "Sichem"
+        ],
+        "coordinate": "-84.44,103.53"
     },
     "576": {
         "titolo": "DLXXVI. Verso Doco l’incontro con il giovane ricco.",
@@ -10412,7 +14207,20 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Decapoli",
+            "Efraim",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Keriot",
+            "Magdala",
+            "Nazaret",
+            "Sichem"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "577": {
         "titolo": "DLXXVII. Terzo annuncio della Passione. Maria d’Alfeo rievoca la figura di Giuseppe. ...",
@@ -10435,7 +14243,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Cafarnao",
+            "Ebron",
+            "Efraim",
+            "Egitto",
+            "Gerusalemme",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-122,69"
     },
     "578": {
         "titolo": "DLXXVIII. Incontro con discepoli e uomini di valore condotti da Mannaen. Arrivo a Gerico.",
@@ -10453,7 +14272,16 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Acqua speciosa",
+            "Antiochia",
+            "Gerico",
+            "Gerusalemme",
+            "Giudea",
+            "Palazzo di Erode"
+        ],
+        "coordinate": "-105.2,80.14"
     },
     "579": {
         "titolo": "LDXXIX. Sconosciuti giudei riferiscono sulle accuse raccolte dal Sinedrio. Allegoria per ...",
@@ -10471,7 +14299,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Efraim",
+            "Gerusalemme",
+            "Keriot",
+            "Samaria"
+        ],
+        "coordinate": "-106.01,76.66"
     },
     "580": {
         "titolo": "DLXXX. Delazioni dell’Iscariota e profezie su Israele. Miracoli sulla via da Gerico a Betania.",
@@ -10490,7 +14325,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Gerusalemme",
+            "Samaria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "581": {
         "titolo": "DLXXXI. A Betania nella casa di Lazzaro.",
@@ -10508,7 +14350,19 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Gerico",
+            "Gerusalemme",
+            "Giudea",
+            "Isacco",
+            "Keriot",
+            "Magdala",
+            "Sichem"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "582": {
         "titolo": "DLXXXII. Vigilia del sabato avanti l’entrata in Gerusalemme. Offerta estrema per la salvezza di ...",
@@ -10532,7 +14386,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Gerusalemme",
+            "Getsemani",
+            "Giordano",
+            "Keriot",
+            "Rama"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "583": {
         "titolo": "DLXXXIII. Vigilia del sabato avanti l’entrata in Gerusalemme. Commiato alle discepole. ...",
@@ -10552,7 +14416,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "584": {
         "titolo": "DLXXXIV. Il sabato avanti l’entrata in Gerusalemme. Parabola dei due lumi e parabola vivente del ...",
@@ -10579,7 +14449,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Isacco",
+            "Keriot",
+            "Magdala",
+            "Pianura di Saron"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "585": {
         "titolo": "DLXXXV. Il sabato avanti l’entrata in Gerusalemme. Giudei e pellegrini a Betania. Il Sinedrio ha ...",
@@ -10598,7 +14479,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "586": {
         "titolo": "DLXXXVI. Il sabato avanti l’entrata in Gerusalemme. La cena di Betania. Giuda di Keriot ha ...",
@@ -10623,7 +14510,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cana",
+            "Egitto",
+            "Gaza",
+            "Gerusalemme",
+            "Keriot",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "587": {
         "titolo": "DLXXXVII. L’addio a Lazzaro",
@@ -10643,7 +14540,20 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Decapoli",
+            "Egitto",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Idumea",
+            "Keriot",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "588": {
         "titolo": "DLXXXVIII. Giuda Iscariota dai Capi del Sinedrio.",
@@ -10662,7 +14572,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Casa di campagna di Caifa",
+            "Efraim",
+            "Gerusalemme",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "589": {
         "titolo": "DLXXXIX. Da Betania a Gerusalemme, predisponendo gli apostoli alla Passione imminente.",
@@ -10680,7 +14600,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerusalemme",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "590": {
         "titolo": "DXC. Il pianto su Gerusalemme e l’entrata trionfale nella Città santa. Morte di Annalia.",
@@ -10704,7 +14631,22 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Cafarnao",
+            "Cedron",
+            "Gerusalemme",
+            "Giordano",
+            "Isacco",
+            "Keriot",
+            "Magdala",
+            "Monte Uliveto",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "591": {
         "titolo": "DXCI. La sera al Getsemani. Gli apostoli richiamati alla realtà dopo l’ebbrezza del trionfo.",
@@ -10719,7 +14661,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cedron",
+            "Getsemani"
+        ],
+        "coordinate": "-16.07,31.61"
     },
     "592": {
         "titolo": "DXCII. Lunedì santo. Conforto alla madre di Annalia e incontro con il milite Vitale. Il fico ...",
@@ -10739,7 +14686,18 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Efraim",
+            "Gerico",
+            "Gerusalemme",
+            "Getsemani",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "593": {
         "titolo": "DXCIII. Lunedì notte al Getsemani con gli apostoli.",
@@ -10762,7 +14720,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Efraim",
+            "Gerusalemme",
+            "Getsemani"
+        ],
+        "coordinate": "-106.01,76.66"
     },
     "594": {
         "titolo": "DXCIV. Martedì santo. Lezioni dal fico seccato. I quesiti sul tributo a Cesare e sulla ...",
@@ -10786,7 +14750,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cedron",
+            "Gerusalemme",
+            "Getsemani",
+            "Isacco"
+        ],
+        "coordinate": "-16.07,31.61"
     },
     "595": {
         "titolo": "DXCV. Martedì notte al Getsemani con gli apostoli.",
@@ -10805,7 +14776,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Getsemani"
+        ],
+        "coordinate": "-20.94,33.38"
     },
     "596": {
         "titolo": "DXCVI. Mercoledì santo. Il maggiore dei comandamenti, l’obolo della vedova, l’invettiva contro ...",
@@ -10831,7 +14806,19 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Efraim",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Magdala",
+            "Monte Uliveto",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "597": {
         "titolo": "DXCVII. Mercoledì notte al Getsemani con gli apostoli.",
@@ -10854,7 +14841,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Getsemani"
+        ],
+        "coordinate": "-20.94,33.38"
     },
     "598": {
         "titolo": "DXCVIII. Giovedì santo. Preparativi per la Cena pasquale. La voce del Padre. Il segno convenuto ...",
@@ -10878,7 +14869,22 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Atrio dei Gentili",
+            "Betania",
+            "Betlemme",
+            "Casa di campagna di Caifa",
+            "Cedron",
+            "Cenacolo",
+            "Decapoli",
+            "Getsemani",
+            "Giudea",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-28.09,24.97"
     },
     "599": {
         "titolo": "DXCIX. L’arrivo al Cenacolo e l’addio di Gesù alla Madre.",
@@ -10895,7 +14901,11 @@ const archivioCapitoli = {
             "temi": [
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "600": {
         "titolo": "DC. L’ultima Cena pasquale.",
@@ -10921,7 +14931,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Cenacolo",
+            "Egitto",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "601": {
         "titolo": "DCI. Passione e Morte di Gesù. Introduzione",
@@ -10936,7 +14957,11 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme"
+        ],
+        "coordinate": "-122,69"
     },
     "602": {
         "titolo": "DCII. Verso il Getsemani con undici apostoli. L'agonia spirituale e la cattura.",
@@ -10961,7 +14986,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Cana",
+            "Cedron",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "603": {
         "titolo": "DCIII. Riflessioni sull'agonia nel Getsemani e premessa agli altri dolori della Passione.",
@@ -10977,7 +15012,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Getsemani",
+            "Giordano"
+        ],
+        "coordinate": "-116.9,70"
     },
     "604": {
         "titolo": "DCIV. I processi e il rinnegamento di Pietro. Considerazioni su Pilato.",
@@ -10998,7 +15039,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cedron",
+            "Egitto",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Isacco",
+            "Nazaret",
+            "Palazzo di Erode"
+        ],
+        "coordinate": "-16.07,31.61"
     },
     "605": {
         "titolo": "DCV. Disperazione e suicidio di Giuda Iscariota. Avrebbe ancora potuto salvarsi se si fosse ...",
@@ -11015,7 +15067,14 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo",
+            "Gerusalemme",
+            "Getsemani",
+            "Golgota"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "606": {
         "titolo": "DCVI. Gesù e Maria sono l'antitesi di Adamo ed Eva. Giuda Iscariota è il nuovo Caino. La vera ...",
@@ -11046,7 +15105,12 @@ const archivioCapitoli = {
             "temi": [
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo",
+            "Golgota"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "608": {
         "titolo": "DCVIII. La via dolorosa dal Pretorio al Calvario.",
@@ -11065,7 +15129,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Gerusalemme",
+            "Golgota"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "609": {
         "titolo": "DCIX. La crocifissione, la morte e la deposizione dalla croce.",
@@ -11086,7 +15156,15 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Gerusalemme",
+            "Getsemani",
+            "Golgota",
+            "Libano"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "610": {
         "titolo": "DCX. Angoscia di Maria al Sepolcro e unzione del Corpo di Gesù.",
@@ -11105,7 +15183,11 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Getsemani"
+        ],
+        "coordinate": "-20.94,33.38"
     },
     "611": {
         "titolo": "DCXI. La chiusura del Sepolcro e il ritorno al Cenacolo.",
@@ -11124,7 +15206,15 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo",
+            "Gerusalemme",
+            "Golgota",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "612": {
         "titolo": "DCXII: La notte del Venerdì Santo. Lamento della Vergine. Il velo di Niche e la preparazione ...",
@@ -11147,7 +15237,17 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cenacolo",
+            "Egitto",
+            "Gerusalemme",
+            "Golgota",
+            "Isacco",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "613": {
         "titolo": "DCXIII. Riflessioni sulla Passione di Gesù e di Maria e sulla Con-passione di Giovanni.",
@@ -11165,7 +15265,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Getsemani"
+        ],
+        "coordinate": "-116.9,70"
     },
     "614": {
         "titolo": "DCXIV. Il giorno del Sabato Santo.",
@@ -11191,7 +15296,19 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Cana",
+            "Cenacolo",
+            "Gerusalemme",
+            "Isacco",
+            "Keriot",
+            "Monte Uliveto",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "615": {
         "titolo": "DCXV. La notte del Sabato Santo.",
@@ -11215,7 +15332,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "616": {
         "titolo": "DCXVI. Il mattino della Risurrezione. Preghiera di Maria.",
@@ -11237,7 +15358,13 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cenacolo",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "617": {
         "titolo": "DCXVII. La Risurrezione.",
@@ -11266,7 +15393,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme"
+        ],
+        "coordinate": "-116.9,70"
     },
     "619": {
         "titolo": "DCXIX. Le pie donne al Sepolcro.",
@@ -11284,7 +15415,14 @@ const archivioCapitoli = {
             "temi": [
                 "Miracolo"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cenacolo",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "620": {
         "titolo": "DCXX. Considerazioni sulla Risurrezione.",
@@ -11300,7 +15438,11 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Magdala"
+        ],
+        "coordinate": "-56.49,83.17"
     },
     "621": {
         "titolo": "DCXXI. Apparizione a Lazzaro.",
@@ -11322,7 +15464,15 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Gerico",
+            "Gerusalemme",
+            "Golgota",
+            "Monte Uliveto"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "622": {
         "titolo": "DCXXII. Apparizione a Giovanna di Cusa.",
@@ -11337,7 +15487,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cenacolo"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "623": {
         "titolo": "DCXXIII. Apparizione a Giuseppe d'Arimatea, a Nicodemo e a Mannaen.",
@@ -11355,7 +15510,14 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cenacolo",
+            "Gerusalemme",
+            "Libano"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "624": {
         "titolo": "DCXXIV. Apparizione ai pastori.",
@@ -11373,7 +15535,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Giudea",
+            "Isacco"
+        ],
+        "coordinate": "-116.9,70"
     },
     "625": {
         "titolo": "DCXXV. Apparizione ai discepoli di Emmaus.",
@@ -11391,7 +15559,14 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Emmaus",
+            "Gerusalemme",
+            "Getsemani",
+            "Nazaret"
+        ],
+        "coordinate": "-61.24,85"
     },
     "626": {
         "titolo": "DCXXVI. Venuta dei pagani e accenni ad altre apparizioni.",
@@ -11409,7 +15584,12 @@ const archivioCapitoli = {
                 "Maria SS."
             ],
             "temi": []
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo",
+            "Magdala"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "627": {
         "titolo": "DCXXVII. Apparizione agli apostoli nel Cenacolo.",
@@ -11431,7 +15611,16 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cafarnao",
+            "Cenacolo",
+            "Emmaus",
+            "Gerico",
+            "Getsemani",
+            "Magdala"
+        ],
+        "coordinate": "-52.7,83.1"
     },
     "628": {
         "titolo": "DCXXVIII. Il ritorno di Tommaso e la sua incredulità.",
@@ -11453,7 +15642,15 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Betlemme",
+            "Cenacolo",
+            "Keriot",
+            "Rama"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "629": {
         "titolo": "DCXXIX. Apparizione agli apostoli con Tommaso. Discorso sulla dignità del sacerdozio e sui ...",
@@ -11475,7 +15672,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo",
+            "Golgota"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "630": {
         "titolo": "DCXXX. Gli apostoli mandati al Getsemani. Meditazioni sulla preghiera del \"Padre nostro\".",
@@ -11500,7 +15702,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Cenacolo",
+            "Gerusalemme",
+            "Getsemani",
+            "Golgota",
+            "Keriot",
+            "Sidone"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "631": {
         "titolo": "DCXXXI. Gli apostoli mandati sul Golgota e il loro ritorno al Cenacolo.",
@@ -11525,7 +15738,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo",
+            "Gerusalemme",
+            "Golgota",
+            "Magdala",
+            "Nazaret"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "632": {
         "titolo": "DCXXXII. Apparizioni a varie persone in luoghi diversi.",
@@ -11545,7 +15766,25 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Antiochia",
+            "Betania",
+            "Cafarnao",
+            "Cesarea di Filippo",
+            "Efraim",
+            "Engaddi",
+            "Gerico",
+            "Gerusalemme",
+            "Giordano",
+            "Golgota",
+            "Joppe",
+            "Keriot",
+            "Nazaret",
+            "Sarepta",
+            "Sidone"
+        ],
+        "coordinate": "-10.31,84.49"
     },
     "633": {
         "titolo": "DCXXXIII. Apparizione sulle rive del lago e conferimento del mandato a Pietro.",
@@ -11565,7 +15804,15 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Efraim",
+            "Gamala",
+            "Gerusalemme",
+            "Giordano",
+            "Tiberiade"
+        ],
+        "coordinate": "-106.01,76.66"
     },
     "634": {
         "titolo": "DCXXXIV. Ammaestramenti agli apostoli e a numerosi discepoli sul monte Tabor. Marziam consolato.",
@@ -11588,7 +15835,21 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cesarea Marittima",
+            "Cesarea di Filippo",
+            "Engaddi",
+            "Gerico",
+            "Gerusalemme",
+            "Giudea",
+            "Keriot",
+            "Monte Uliveto",
+            "Sidone",
+            "Tiberiade"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "635": {
         "titolo": "DCXXXV. Lezione sui Sacramenti e predizioni sulla Chiesa.",
@@ -11612,7 +15873,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Carmelo",
+            "Giordano",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "636": {
         "titolo": "DCXXXVI. La Pasqua supplementare.",
@@ -11634,7 +15904,16 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cenacolo",
+            "Gerusalemme",
+            "Getsemani",
+            "Magdala",
+            "Sidone"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "637": {
         "titolo": "DCXXXVII. Addio alla Madre prima di ascendere al Padre. Tutto noi abbiamo per Maria.",
@@ -11650,7 +15929,12 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Gerusalemme"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "638": {
         "titolo": "DCXXXVIII. Ultimi ammaestramenti nel Getsemani e commiato. Ascensione di Gesù al Padre.",
@@ -11674,7 +15958,25 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Cenacolo",
+            "Efraim",
+            "Engaddi",
+            "Gerico",
+            "Gerusalemme",
+            "Getsemani",
+            "Giordano",
+            "Giudea",
+            "Golgota",
+            "Isacco",
+            "Mar Morto",
+            "Nazaret",
+            "Samaria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "639": {
         "titolo": "DCXXXIX. L'elezione di Mattia.",
@@ -11696,7 +15998,13 @@ const archivioCapitoli = {
                 "Passione",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo",
+            "Golgota",
+            "Isacco"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "640": {
         "titolo": "DCXL. La discesa dello Spirito Santo. Fine del ciclo messianico.",
@@ -11714,7 +16022,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "641": {
         "titolo": "DCXLI. Pietro celebra l'Eucarestia in una riunione dei primi cristiani.",
@@ -11732,7 +16044,13 @@ const archivioCapitoli = {
             "temi": [
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cenacolo",
+            "Engaddi",
+            "Gerusalemme"
+        ],
+        "coordinate": "-42.97,9.2"
     },
     "642": {
         "titolo": "DCXLII. Maria Ss. prenderà dimora al Getsemani con Giovanni, che le predice l'Assunzione.",
@@ -11752,7 +16070,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cenacolo",
+            "Gerusalemme",
+            "Getsemani",
+            "Giordano",
+            "Golgota",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "643": {
         "titolo": "DCXLIII. Maria Ss. con Giovanni nei luoghi della Passione.",
@@ -11773,7 +16101,15 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Casa di campagna di Caifa",
+            "Cedron",
+            "Getsemani",
+            "Golgota",
+            "Magdala"
+        ],
+        "coordinate": "-54.07,13.4"
     },
     "644": {
         "titolo": "DCXLIV. Istituzione della \"domenica\". Graduale conversione di Gamaliele. Le due sindoni.",
@@ -11791,7 +16127,17 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Cenacolo",
+            "Gerusalemme",
+            "Getsemani",
+            "Golgota",
+            "Libano"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "645": {
         "titolo": "DCXLV. Il processo a Stefano e la sua lapidazione. Le opposte vie di Saulo e di Gamaliele alla ...",
@@ -11813,7 +16159,16 @@ const archivioCapitoli = {
                 "Passione",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Damasco",
+            "Gerusalemme",
+            "Giordano",
+            "Golgota",
+            "Magdala"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "646": {
         "titolo": "DCXLVI. Sepoltura di Stefano e inizio della persecuzione.",
@@ -11831,7 +16186,19 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Cedron",
+            "Efraim",
+            "Gerico",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Golgota",
+            "Samaria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "647": {
         "titolo": "DCXLVII. Gamaliele si fa cristiano.",
@@ -11851,7 +16218,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Getsemani",
+            "Keriot"
+        ],
+        "coordinate": "-20.94,33.38"
     },
     "648": {
         "titolo": "DCXLVIII. Pietro si congeda da Maria Ss. dopo un colloquio con Giovanni.",
@@ -11869,7 +16241,17 @@ const archivioCapitoli = {
                 "Passione",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Efraim",
+            "Gerusalemme",
+            "Getsemani",
+            "Giudea",
+            "Samaria",
+            "Siria"
+        ],
+        "coordinate": "-113.38,87.1"
     },
     "649": {
         "titolo": "DCXLIX. Transito beato di Maria Ss.",
@@ -11893,7 +16275,18 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Cana",
+            "Egitto",
+            "Gerusalemme",
+            "Getsemani",
+            "Golgota",
+            "Isacco",
+            "Keriot",
+            "Nazaret"
+        ],
+        "coordinate": "-58.31,73.8"
     },
     "650": {
         "titolo": "DCL. Assunzione gloriosa di Maria Ss.",
@@ -11911,7 +16304,13 @@ const archivioCapitoli = {
                 "Miracolo",
                 "Passione"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betlemme",
+            "Gerusalemme",
+            "Getsemani"
+        ],
+        "coordinate": "-122,69"
     },
     "651": {
         "titolo": "DCLI. Riflessioni sul Transito di Maria Ss., sulla sua Assunzione e sulla sua Regalità.",
@@ -11929,7 +16328,12 @@ const archivioCapitoli = {
                 "Passione",
                 "Discorso"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Gerusalemme",
+            "Getsemani"
+        ],
+        "coordinate": "-116.9,70"
     },
     "652": {
         "titolo": "DCLII. Commiato all'Opera.",
@@ -11948,6 +16352,11 @@ const archivioCapitoli = {
                 "Discorso",
                 "Preghiera"
             ]
-        }
+        },
+        "luoghi_suggeriti": [
+            "Betania",
+            "Nazaret"
+        ],
+        "coordinate": "-113.38,87.1"
     }
 };

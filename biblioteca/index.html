@@ -244,11 +244,12 @@ body::before {
 }
 mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b22222; color: #8b0000; font-weight: bold; }
 
-#saveBookmarkBtn {
+#saveBookmarkBtn, #btnMappa {
     background: #3e2723; color: #ffd700; border: 1px solid #e5c27a;
     padding: 5px 15px; cursor: pointer; font-size: 0.9em; border-radius: 4px;
+    text-decoration: none; /* Rimuove la sottolineatura dal link */
 }
-#saveBookmarkBtn:hover { background: #5d4037; } 
+#saveBookmarkBtn:hover, #btnMappa:hover { background: #5d4037; }
 
 /* Stile pulsante Audio */
         #btnAudio {
@@ -878,7 +879,7 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
         <div id="scrollToTopBtn" onclick="modalScrollToTop()">↑</div>
         
         <div class="modal-content" id="modalContent">
-    <div class="modal-controls">
+    <<div class="modal-controls">
         <span style="font-size:0.9em; color:#5d4037; font-weight:bold;">
             <span id="currentChapterNum"></span>
         </span>
@@ -889,9 +890,10 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
         
         <span style="flex-grow: 1;"></span>
 
+        <a href="../mappa/index.html" target="_blank" id="btnMappa" style="margin-right: 10px;">🗺️ Mappa</a>
+
         <button id="saveBookmarkBtn" onclick="setBookmark()">🔖 Metti Segnalibro qui</button>
-    </div>
-        
+    </div>        
     <h2 id="modalTitle"></h2>
     <div id="modalText"></div>
     <a id="originalLink" href="#" target="_blank">📖 Leggi il testo completo sul sito ufficiale →</a>
@@ -1192,7 +1194,21 @@ function showSimpleSearchDetails() {
  function openChapter(n, p1 = null, p2 = null, bookmarkSnippet = null) {
     const cap = archivioCapitoli[n];
     if (!cap) return;
-
+// --- INIZIO NUOVO CODICE MAPPA ---
+    const btnMappa = document.getElementById('btnMappa');
+    
+    // Controlliamo che il pulsante esista nella pagina
+    if (btnMappa) { 
+        // Usiamo "cap.coordinate" perché la tua variabile si chiama "cap"
+        if (cap.coordinate) {
+            btnMappa.href = "../mappa/index.html?coords=" + cap.coordinate;
+            btnMappa.innerHTML = "🗺️ Mappa (Luogo Esatto)";
+        } else {
+            btnMappa.href = "../mappa/index.html";
+            btnMappa.innerHTML = "🗺️ Mappa Generale";
+        }
+    }
+    // --- FINE NUOVO CODICE MAPPA ---
     currentOpenChapter = n; 
     const numSpan = document.getElementById('currentChapterNum');
     if(numSpan) numSpan.innerText = "Capitolo " + n; 
