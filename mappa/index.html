@@ -234,6 +234,25 @@
         });
 
         inizializzaRicerca();
+        
+        // --- 5. LEGGI LE COORDINATE DALL'URL E CENTRA LA MAPPA ---
+        const urlParams = new URLSearchParams(window.location.search);
+        const coordsParam = urlParams.get('coords');
+
+        if (coordsParam) {
+            const parti = coordsParam.split(',');
+            const lat = parseFloat(parti[0]);
+            const lng = parseFloat(parti[1]);
+            const coordinateEsatte = [lat, lng];
+
+            // Diciamo alla mappa di volare esattamente in quel punto!
+            map.flyTo(coordinateEsatte, 5, { duration: 1.5 });
+            
+            // Aggiungiamo anche un marker animato per farlo risaltare
+            L.marker(coordinateEsatte, { icon: icone["sacro"] }).addTo(map)
+                .bindPopup("<b>Luogo del Capitolo</b>")
+                .openPopup();
+        }
     </script>
 </body>
 </html>
