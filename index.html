@@ -64,6 +64,26 @@
         .icon { font-size: 50px; margin-bottom: 15px; }
         h2 { margin: 10px 0 5px 0; font-size: 1.4rem; color: #0056b3; }
         p { margin: 0; color: #666; font-size: 0.9rem; }
+    /* STILE ICONA MAPPA PNG (PERGAMENA) */
+        .png-icon-map {
+            width: 70px;  /* Dimensione ottima per mostrare la pergamena */
+            height: 70px;
+            object-fit: contain; /* L'immagine si adatta senza deformarsi */
+            vertical-align: middle;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            
+            /* EFFETTO BASE ANTICO (SEPPIA) */
+            /* Rende l'immagine base un po' più opaca e color seppia */
+            filter: sepia(60%) brightness(0.95);
+        }
+        
+        /* Effetto al passaggio del mouse sull'intera card */
+        .card:hover .png-icon-map {
+            /* EFFETTO AL HOVER (COLORE VIVO) */
+            /* Rimuove l'effetto antico, accende la saturazione e la brillantezza */
+            filter: saturate(1.8) brightness(1.2) sepia(0%); 
+            transform: scale(1.05) rotate(-3deg); /* Un leggero ingrandimento e rotazione "viva" */
+        }
     </style>
 </head>
 <body>
@@ -79,7 +99,9 @@
         </a>
 
         <a href="mappa/index.html" class="card">
-            <div class="icon">🗺️</div>
+            <div class="icon">
+                <img src="mappa-pergamena.png" class="png-icon-map" alt="Mappa Pergamena Storica">
+            </div>
             <h2>Mappa Storica</h2>
             <p>Luoghi dell'Evangelo (Interattiva)</p>
         </a>
