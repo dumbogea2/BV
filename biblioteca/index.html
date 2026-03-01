@@ -245,6 +245,23 @@ body::before {
 mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b22222; color: #8b0000; font-weight: bold; }
 
 #saveBookmarkBtn, #btnMappa {
+    /* STILE ICONA MAPPA PNG (PERGAMENA) NEL MENU LETTURA */
+.png-icon-map-small {
+    width: 22px;  /* Più piccola per stare nel pulsante */
+    height: 22px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-right: 6px;
+    margin-top: -2px; /* Allinea perfettamente col testo */
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: sepia(60%) brightness(0.95); /* Effetto base antico */
+}
+
+/* Accensione al passaggio del mouse */
+#btnMappa:hover .png-icon-map-small {
+    filter: saturate(1.8) brightness(1.2) sepia(0%); 
+    transform: scale(1.1) rotate(-5deg);
+}
     background: #3e2723; color: #ffd700; border: 1px solid #e5c27a;
     padding: 5px 15px; cursor: pointer; font-size: 0.9em; border-radius: 4px;
     text-decoration: none; /* Rimuove la sottolineatura dal link */
@@ -890,7 +907,9 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
         
         <span style="flex-grow: 1;"></span>
 
-        <a href="../mappa/index.html" target="_blank" id="btnMappa" style="margin-right: 10px;">🗺️ Mappa</a>
+        <a href="../mappa/index.html" target="_blank" id="btnMappa" style="margin-right: 10px;">
+    <img src="../mappa-pergamena.png" class="png-icon-map-small" alt="Mappa"> Mappa
+</a>
 
         <button id="saveBookmarkBtn" onclick="setBookmark()">🔖 Metti Segnalibro qui</button>
     </div>        
@@ -1199,13 +1218,15 @@ function showSimpleSearchDetails() {
     
     // Controlliamo che il pulsante esista nella pagina
     if (btnMappa) { 
-        // Usiamo "cap.coordinate" perché la tua variabile si chiama "cap"
+        // Definiamo il codice dell'immagine pergamena da inserire sempre
+        const iconaMappaHtml = '<img src="../mappa-pergamena.png" class="png-icon-map-small" alt="Mappa">';
+
         if (cap.coordinate) {
             btnMappa.href = "../mappa/index.html?coords=" + cap.coordinate;
-            btnMappa.innerHTML = "🗺️ Mappa (Luogo Esatto)";
+            btnMappa.innerHTML = iconaMappaHtml + " Mappa (Luogo Esatto)";
         } else {
             btnMappa.href = "../mappa/index.html";
-            btnMappa.innerHTML = "🗺️ Mappa Generale";
+            btnMappa.innerHTML = iconaMappaHtml + " Mappa Generale";
         }
     }
     // --- FINE NUOVO CODICE MAPPA ---
@@ -1733,10 +1754,10 @@ function nascondiRisultati() {
 
     // --- FUNZIONI DI CONDIVISIONE E SINCRONIZZAZIONE (Bookmarks & Preferiti) ---
 
-    // IMPOSTAZIONE INDIRIZZO ONLINE
-    // Usiamo questo indirizzo fisso così i link funzionano anche se generati offline
-    const onlineBaseUrl = "https://dumbogea2.github.io/BV/biblioteca/index.html";
-
+    // IMPOSTAZIONE INDIRIZZO DINAMICO (OFFLINE E ONLINE)
+    // Rileva automaticamente se siamo su PC, chiavetta USB o internet, ricavando il percorso esatto
+    const onlineBaseUrl = window.location.href.split('?')[0];
+    
     // 1. Condividi Posizione (Segnalibro Singolo)
     function shareBookmark() {
         if (!activeBookmark) {
