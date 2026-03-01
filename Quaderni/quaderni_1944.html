@@ -27,15 +27,44 @@
         #chapter-scroll-area { overflow-y: auto; flex-grow: 1; }
         #chapter-list { list-style: none; padding: 0; margin: 0; }
         
-        /* ELEMENTI LISTA */
-        .chapter-item { 
-            padding: 12px 20px; border-bottom: 1px solid #dcd8ce; cursor: pointer; font-size: 15px; transition: background 0.2s; line-height: 1.4;
+        /* --- TIMELINE NELLA SIDEBAR --- */
+        #chapter-list { 
+            position: relative; padding: 10px 0; margin: 0; list-style: none; 
         }
-        .chapter-item:hover { background-color: rgba(220, 216, 206, 0.8); }
-        .chapter-item.active { background-color: rgba(201, 195, 176, 0.9); border-left: 5px solid #8b0000; }
         
-        .chapter-date { display: block; font-size: 0.9em; color: #666; margin-top: 3px; font-style: italic; }
-        .chapter-item.active .chapter-date { color: #333; font-weight: normal; }
+        /* 1. La linea verticale dorata */
+        #chapter-list::before {
+            content: ''; position: absolute; top: 0; bottom: 0; left: 24px;
+            width: 3px; background-color: #d1cbb8; z-index: 1;
+        }
+
+        .chapter-item { 
+            position: relative; padding: 15px 20px 15px 45px; 
+            border-bottom: 1px solid rgba(209, 203, 184, 0.4); 
+            cursor: pointer; font-size: 15px; transition: all 0.2s; line-height: 1.4;
+        }
+        
+        /* 2. Il pallino sulla linea per ogni data */
+        .chapter-item::after {
+            content: ''; position: absolute; left: 19px; top: 22px; width: 10px; height: 10px;
+            background-color: #e8e4db; border: 2px solid #8b0000; border-radius: 50%; z-index: 2;
+            transition: all 0.2s;
+        }
+
+        /* 3. Effetti al passaggio del mouse */
+        .chapter-item:hover { background-color: rgba(220, 216, 206, 0.8); }
+        .chapter-item:hover::after { background-color: #8b0000; }
+
+        /* 4. Effetto del capitolo attualmente in lettura */
+        .chapter-item.active { background-color: rgba(201, 195, 176, 0.9); }
+        .chapter-item.active::after { 
+            background-color: #ffd700; border-color: #8b0000; transform: scale(1.3); 
+        }
+        
+        .chapter-date { 
+            display: block; font-size: 0.85em; color: #8b0000; margin-top: 4px; font-weight: bold; 
+        }
+        .chapter-item.active .chapter-date { color: #5d4037; }
 
         /* --- MAIN CONTENT --- */
         #main-content {
