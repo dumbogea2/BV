@@ -12453,7 +12453,7 @@ const archivioCapitoli = {
             "Nazaret",
             "Sarepta"
         ],
-        "coordinate": "-16.07,31.61"
+        "coordinate": "-46.4,21.2"
     },
     "511": {
         "titolo": "DXI. In casa di Giovanni di Nobe, ancora una lode alla Corredentrice. Menzogne di Giuda Iscariota.",
