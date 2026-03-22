@@ -207,31 +207,41 @@
         button.nav-ctrl { padding: 10px 20px; cursor: pointer; background: #8b0000; color: white; border: none; border-radius: 4px; font-family: 'Georgia', serif; }
         button.nav-ctrl:disabled { background: #ccc; cursor: not-allowed; }
 
+        /* --- PULSANTE TOGGLE RICERCA (Nascosto su PC) --- */
+        .toggle-search-btn {
+            display: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 5px;
+            text-align: center;
+        }
+        
         /* --- ADATTAMENTO PER DISPOSITIVI MOBILI (fino a 900px per includere iPhone Max) --- */
         @media (max-width: 900px) {
             body { flex-direction: column; }
             
-            /* 1. Diamo il 60% dell'altezza alla sidebar e il 40% al testo */
-            #sidebar { width: 100%; height: 60vh; border-right: none; border-bottom: 3px solid #8b0000; }
-            #content-wrapper { padding: 10px; height: 40vh; }
+            /* Diamo 50% alla sidebar e 50% al testo, l'indice ha molto più spazio ora! */
+            #sidebar { width: 100%; height: 50vh; border-right: none; border-bottom: 3px solid #8b0000; }
+            #content-wrapper { padding: 10px; height: 50vh; }
             #main-content { padding: 15px; font-size: 16px; }
             
-            /* 2. Riduciamo gli ingombri superiori per liberare spazio per la lista dei capitoli */
-            .home-button-container { padding: 5px; flex-direction: row; justify-content: center; flex-wrap: wrap; }
-            .nav-btn { padding: 5px 10px; font-size: 12px; margin: 2px; }
+            /* Mostriamo il pulsante toggle per la ricerca */
+            .toggle-search-btn { display: block; }
             
-            .search-container { padding: 8px 15px; }
-            .local-search-options { margin-bottom: 5px; }
-            .search-container input { padding: 8px 30px 8px 8px; font-size: 13px; }
-            .btn-local-search { padding: 8px; font-size: 11px; margin-top: 5px; }
+            /* Nascondiamo la ricerca di default su mobile */
+            .search-container { display: none; padding: 10px; }
+            /* Questa classe verrà aggiunta dal JavaScript per mostrare la ricerca */
+            .search-container.show-search { display: block; }
+            
+            /* Ottimizziamo i bottoni per farli stare su due righe ordinate */
+            .home-button-container { padding: 5px; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+            .nav-btn { padding: 5px 8px; font-size: 12px; margin: 2px; flex: 1 1 45%; text-align: center; box-sizing: border-box; }
             
             #sidebar-header { padding: 8px; font-size: 14px; }
-            
-            /* 3. Pulsanti di navigazione a fine capitolo */
             .nav-buttons { flex-direction: column; gap: 10px; align-items: center; margin-top: 30px; }
             button.nav-ctrl { width: 100%; }
         }
-
+        
         /* --- STILE DI STAMPA PER RICERCA INTERNA --- */
         @media print {
             body { background: white !important; color: black !important; display: block !important; height: auto !important; }
@@ -262,6 +272,8 @@
             <a href="../index.html" class="nav-btn">🏠 Torna al Portale</a>
             <a href="ricerca.html" class="nav-btn">🔍 Ricerca Globale</a>
             <a href="#" id="btn-back-search" class="nav-btn" style="display:none; margin-top:5px;"></a>
+            
+            <button id="btn-toggle-search" class="nav-btn toggle-search-btn" onclick="toggleMobileSearch()">🔍 Cerca in questa pagina</button>
         </div>
         
         <div class="search-container">
@@ -538,6 +550,12 @@
                 setTimeout(() => loadChapter(parseInt(openIdx), true), 100);
             }
         });
+        /* --- FUNZIONE PER MOSTRARE/NASCONDERE LA RICERCA SU MOBILE --- */
+        function toggleMobileSearch() {
+            const searchContainer = document.querySelector('.search-container');
+            // 'toggle' aggiunge la classe se non c'è, o la rimuove se c'è già
+            searchContainer.classList.toggle('show-search');
+        }
     </script>
 </body>
 </html>
