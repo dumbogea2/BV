@@ -60,17 +60,7 @@
             background-color: #ffffff; 
             border-color: #b3d7ff;
         }
-        
-        /* Contenitore per icone/immagini per allineamento */
-        .icon, .icon-image-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80px; /* Altezza fissa per i contenitori delle icone per coerenza */
-            margin-bottom: 15px;
-        }
-
-        .icon { font-size: 50px; }
+        .icon { font-size: 50px; margin-bottom: 15px; }
         h2 { margin: 10px 0 5px 0; font-size: 1.4rem; color: #0056b3; }
         p { margin: 0; color: #666; font-size: 0.9rem; }
         
@@ -87,24 +77,6 @@
         .card:hover .png-icon-map {
             filter: saturate(1.8) brightness(1.2) sepia(0%); 
             transform: scale(1.05) rotate(-3deg); 
-        }
-
-        /* --- NUOVA SEZIONE PER L'ICONA DEL LIBRO --- */
-        /* STILE ICONA LIBRO PNG (COPERTINA AZARIA) */
-        .png-icon-book {
-            width: 100%;             /* Occupa tutto lo spazio disponibile nel suo contenitore */
-            max-width: 120px;       /* Ma non diventa mai più larga di 120px (per mantenerla iconica) */
-            height: auto;           /* Mantiene le proporzioni originali */
-            object-fit: contain;    /* Assicura che l'immagine intera sia visibile */
-            vertical-align: middle;
-            transition: transform 0.3s ease, filter 0.3s ease; /* Aggiunge animazioni fluide al passaggio del mouse */
-            filter: sepia(20%) brightness(0.9); /* Effetto vintage leggero di base */
-            border-radius: 4px;     /* Opzionale: arrotonda leggermente gli angoli per uniformità */
-        }
-        
-        .card:hover .png-icon-book {
-            filter: brightness(1.1) sepia(0%); /* Torna ai colori originali e più luminosa al passaggio del mouse */
-            transform: scale(1.05);           /* Si ingrandisce leggermente */
         }
     </style>
 </head>
@@ -135,9 +107,7 @@
         </a>
 
         <a href="Quaderni/libro_azaria.html" class="card">
-            <div class="icon-image-container">
-                <img src="libro_azaria_copertina.png" class="png-icon-book" alt="Copertina Libro di Azaria">
-            </div>
+            <div class="icon">📖</div>
             <h2>Libro di Azaria</h2>
             <p>Leggi il Libro di Azaria</p>
         </a>
