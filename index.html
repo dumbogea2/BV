@@ -89,22 +89,70 @@
             transform: scale(1.05) rotate(-3deg); 
         }
 
-        /* --- NUOVA SEZIONE PER L'ICONA DEL LIBRO --- */
         /* STILE ICONA LIBRO PNG (COPERTINA AZARIA) */
         .png-icon-book {
-            width: 100%;             /* Occupa tutto lo spazio disponibile nel suo contenitore */
-            max-width: 120px;       /* Ma non diventa mai più larga di 120px (per mantenerla iconica) */
-            height: auto;           /* Mantiene le proporzioni originali */
-            object-fit: contain;    /* Assicura che l'immagine intera sia visibile */
+            width: 100%;             
+            max-width: 120px;       
+            height: auto;           
+            object-fit: contain;    
             vertical-align: middle;
-            transition: transform 0.3s ease, filter 0.3s ease; /* Aggiunge animazioni fluide al passaggio del mouse */
-            filter: sepia(20%) brightness(0.9); /* Effetto vintage leggero di base */
-            border-radius: 4px;     /* Opzionale: arrotonda leggermente gli angoli per uniformità */
+            transition: transform 0.3s ease, filter 0.3s ease; 
+            filter: sepia(20%) brightness(0.9); 
+            border-radius: 4px;     
         }
         
         .card:hover .png-icon-book {
-            filter: brightness(1.1) sepia(0%); /* Torna ai colori originali e più luminosa al passaggio del mouse */
-            transform: scale(1.05);           /* Si ingrandisce leggermente */
+            filter: brightness(1.1) sepia(0%); 
+            transform: scale(1.05);           
+        }
+
+        /* STILE ICONA ROMANI PNG */
+        .png-icon-romani {
+            width: 100%;             
+            max-width: 150px;       
+            height: auto;           
+            object-fit: contain;    
+            vertical-align: middle;
+            transition: transform 0.3s ease, filter 0.3s ease; 
+            filter: sepia(10%) brightness(0.95); 
+            border-radius: 4px;     
+        }
+        
+        .card:hover .png-icon-romani {
+            filter: brightness(1.1) sepia(0%); 
+            transform: scale(1.05);           
+        }
+
+        /* STILE ICONA EVANGELO PNG */
+        .png-icon-evangelo {
+            width: 100%;             
+            max-width: 150px;       
+            height: auto;           
+            object-fit: contain;    
+            vertical-align: middle;
+            transition: transform 0.3s ease, filter 0.3s ease; 
+            filter: sepia(10%) brightness(0.95); 
+            border-radius: 4px;     
+        }
+        
+        .card:hover .png-icon-evangelo {
+            filter: brightness(1.1) sepia(0%); 
+            transform: scale(1.05);           
+        }
+
+        /* --- NUOVO STILE ICONA QUADERNI JPG --- */
+        .png-icon-quaderni {
+            width: 100%;             
+            max-width: 140px;       
+            height: auto;           
+            object-fit: contain;    
+            vertical-align: middle;
+            transition: transform 0.3s ease, filter 0.3s ease; 
+            border-radius: 6px;     
+        }
+        
+        .card:hover .png-icon-quaderni {
+            transform: scale(1.05);           
         }
     </style>
 </head>
@@ -115,9 +163,11 @@
     <div class="container">
         
         <a href="biblioteca/index.html" class="card">
-            <div class="icon">📚</div>
-            <h2>Accedi alla Biblioteca</h2>
-            <p>Versione Multi-devices</p>
+            <div class="icon-image-container">
+                <img src="EvangeloButton.png" class="png-icon-evangelo" alt="Copertina L'Evangelo di Maria Valtorta">
+            </div>
+            <h2>L'Evangelo come mi è stato rivelato</h2>
+            <p>di Maria Valtorta</p>
         </a>
 
         <a href="mappa/index.html" class="card">
@@ -129,7 +179,9 @@
         </a>
 
         <a href="Quaderni/home.html" class="card">
-            <div class="icon">✍️</div>
+            <div class="icon-image-container">
+                <img src="QuaderniButtonimg.jpg" class="png-icon-quaderni" alt="I Quaderni di Maria Valtorta">
+            </div>
             <h2>I Quaderni</h2>
             <p>1943, 1944, 45-50 e Quadernetti</p>
         </a>
@@ -141,10 +193,18 @@
             <h2>Libro di Azaria</h2>
             <p>Leggi il Libro di Azaria</p>
         </a>
+
+        <a href="Quaderni/lezioni_romani.html" class="card">
+            <div class="icon-image-container">
+                <img src="imgButtonRomani.png" class="png-icon-romani" alt="Epistola di Paolo ai Romani">
+            </div>
+            <h2>Epistola ai Romani</h2>
+            <p>Lezioni sull'Epistola di Paolo</p>
+        </a>
         
         <a href="video/video-presentazione.mp4" class="card">
             <div class="icon">🎬</div>
-            <h2>Video Presentazione</h2>
+            <h2>Video Presentatione</h2>
             <p>Guarda il filmato introduttivo</p>
         </a>
 
