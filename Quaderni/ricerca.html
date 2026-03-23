@@ -145,8 +145,9 @@
 <body>
 
     <div class="nav-links">
-        <a href="home.html" class="back-link">← Torna ai Quaderni / Quadernetti</a>
-        <a href="libro_azaria.html" class="back-link">Torna al Libro di Azaria →</a>
+        <a href="home.html" class="back-link">← Quaderni/Quadernetti</a>
+        <a href="libro_azaria.html" class="back-link">Libro di Azaria</a>
+        <a href="lezioni_romani.html" class="back-link">Epistola Paolo ai Romani →</a>
     </div>
 
     <div class="search-container">
@@ -184,6 +185,7 @@
     <script src="archivio_1945-1950.js"></script>
     <script src="Quadernetti.js"></script>
     <script src="archivio_azaria.js"></script>
+    <script src="archivio_romani.js"></script>
 
     <script>
         const LIBRARY = [
@@ -191,7 +193,8 @@
             { id: '1944',   name: 'Quaderni 1944',      data: (typeof quaderni_1944 !== 'undefined' ? quaderni_1944 : []),           file: 'quaderni_1944.html' },
             { id: '45-50',  name: 'Quaderni 1945-1950', data: (typeof quaderni_1945_1950 !== 'undefined' ? quaderni_1945_1950 : []), file: 'quaderni_1945-1950.html' },
             { id: 'quad',   name: 'Quadernetti',        data: (typeof quadernetti !== 'undefined' ? quadernetti : []),               file: 'quadernetti.html' },
-            { id: 'azaria', name: 'Libro di Azaria',    data: (typeof libro_azaria !== 'undefined' ? libro_azaria : []),             file: 'libro_azaria.html' }
+            { id: 'azaria', name: 'Libro di Azaria',    data: (typeof libro_azaria !== 'undefined' ? libro_azaria : []),             file: 'libro_azaria.html' },
+            { id: 'romani', name: "Lezioni sull'Epistola ai Romani", data: (typeof libro_romani !== 'undefined' ? libro_romani : []), file: 'lezioni_romani.html' }
         ];
 
         window.addEventListener('pageshow', (event) => {
