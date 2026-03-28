@@ -379,6 +379,7 @@
             .chapter-footer { page-break-inside: avoid; }
         }
     </style>
+    <script src="../cronologia.js"></script>
     <script src="Autobiografia.js"></script>
 </head>
 <body>
@@ -490,6 +491,16 @@
             
             let htmlTesto = cap.testo;
             
+            // --- SALVATAGGIO IN CRONOLOGIA ---
+            if (typeof salvaInCronologia === "function") {
+                // Il titolo è già in cap.lezione (es. "Capitolo 1")
+                let titoloCronologia = cap.lezione || ("Capitolo " + (index + 1));
+                
+                // Salviamo usando "Autobiografia" come nome dell'opera
+                salvaInCronologia(index, titoloCronologia, "Autobiografia", "Quaderni", "/autobiografia.html?idx=");
+            }
+            // ---------------------------------
+            
             if (isSearchActive && searchKeywords.length > 0) {
                 searchKeywords.forEach(kw => {
                     const regex = new RegExp("(" + kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")", "gi");
@@ -504,8 +515,6 @@
             textContainer.innerHTML = `${htmlTesto}`;
             document.getElementById('footer-container').innerHTML = `<div class="chapter-footer">${cp}${lh}</div>`;
             
-            document.getElementById('main-content').scrollTop = 0;
-            
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
             if(activeItem) { 
@@ -514,14 +523,28 @@
             }
             updateButtons();
 
-            // Mostriamo il tasto stampa fluttuante perché è stato caricato un capitolo
+            // Mostriamo il tasto stampa fluttuante
             floatingPrintBtn.style.display = 'flex';
 
+            // --- GESTIONE DELLO SCROLL (Nuova) ---
+            let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+            const chiave = "autobiografia_" + index; 
+
             if(fromSearch && searchKeywords.length > 0) {
+                document.getElementById('main-content').scrollTop = 0;
                 setTimeout(() => {
                     const mark = document.querySelector('.highlight');
                     if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
                 }, 300);
+            } else if (posizioni[chiave]) {
+                setTimeout(() => {
+                    const mainArea = document.getElementById('main-content');
+                    if (mainArea) {
+                        mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
+                    }
+                }, 300);
+            } else {
+                document.getElementById('main-content').scrollTop = 0;
             }
             
             if(window.innerWidth <= 900) {
@@ -713,6 +736,24 @@
             setTimeout(() => {
                 document.body.classList.remove('print-search-mode');
             }, 1000);
+        }
+        /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
+        const mainContentArea = document.getElementById('main-content');
+        let scrollTimeout;
+
+        if (mainContentArea) {
+            mainContentArea.addEventListener('scroll', function() {
+                if (typeof currentIndex !== "undefined" && currentIndex !== -1) {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(function() {
+                        let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+                        const chiave = "autobiografia_" + currentIndex; 
+                        
+                        posizioni[chiave] = mainContentArea.scrollTop; 
+                        localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
+                    }, 500);
+                }
+            });
         }
     </script>
 </body>

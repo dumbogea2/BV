@@ -307,7 +307,7 @@
             <div id="searchResults"></div>
         </div>
     </div>
-
+    <script src="../cronologia.js"></script>
     <script src="archivio_1944.js"></script>
     <script>
         let currentIndex = -1;
@@ -353,6 +353,16 @@
             
             let content = cap.testo;
             
+            // --- SALVATAGGIO IN CRONOLOGIA ---
+            if (typeof salvaInCronologia === "function") {
+                let dataFinale = cap.data || ("Capitolo " + index);
+                let titoloCronologia = "1944 - " + dataFinale; // Titolo personalizzato 1944
+                
+                // Salvataggio con URL specifico per il 1944
+                salvaInCronologia(index, titoloCronologia, "I Quaderni", "Quaderni", "/quaderni_1944.html?idx=");
+            }
+            // ---------------------------------
+
             // EVIDENZIAZIONE
             if (searchKeywords.length > 0) {
                 content = highlightText(content, searchKeywords);
@@ -364,8 +374,6 @@
             
             textContainer.innerHTML = `${content}<div class="chapter-footer">${cp}${lh}</div>`;
             
-            document.getElementById('main-content').scrollTop = 0;
-            
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
             if(activeItem) { activeItem.classList.add('active'); activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
@@ -374,11 +382,25 @@
             // Mostriamo il tasto stampa fluttuante
             floatingPrintBtn.style.display = 'flex';
 
-            if(autoScroll && searchKeywords.length > 0) {
+            // --- GESTIONE DELLO SCROLL (Nuova) ---
+            let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+            const chiave = "quaderni_1944_" + index; // Chiave univoca 1944
+
+            if (autoScroll && searchKeywords.length > 0) {
+                document.getElementById('main-content').scrollTop = 0;
                 setTimeout(() => {
                     const mark = document.querySelector('mark.highlight');
                     if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
                 }, 300);
+            } else if (posizioni[chiave]) {
+                setTimeout(() => {
+                    const mainArea = document.getElementById('main-content');
+                    if (mainArea) {
+                        mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
+                    }
+                }, 300);
+            } else {
+                document.getElementById('main-content').scrollTop = 0;
             }
         }
 
@@ -570,6 +592,25 @@
             setTimeout(() => {
                 document.body.classList.remove('print-search-mode');
             }, 1000);
+        }
+        /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
+        const mainContentArea = document.getElementById('main-content');
+        let scrollTimeout;
+
+        if (mainContentArea) {
+            mainContentArea.addEventListener('scroll', function() {
+                if (typeof currentIndex !== "undefined" && currentIndex !== -1) {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(function() {
+                        let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+                        // Usiamo la chiave univoca per il 1944
+                        const chiave = "quaderni_1944_" + currentIndex; 
+                        
+                        posizioni[chiave] = mainContentArea.scrollTop; 
+                        localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
+                    }, 500);
+                }
+            });
         }
     </script>
 </body>
