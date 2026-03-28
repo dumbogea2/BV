@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indice Progetto - BibliotecaValtortianaOnLine</title>
+    <title>Indice Progetto - BibliothecaValtortianaOnLine</title>
     <link rel="icon" type="image/png" href="home_sfondo.png">
     <link rel="apple-touch-icon" href="home_sfondo.png">
     <style>
@@ -182,9 +182,17 @@
 </head>
 <body>
 
-    <h1>Biblioteca-Valtortiana-OnLine</h1>
+    <h1>Bibliotheca-Valtortiana-OnLine</h1>
 
     <div class="container">
+    <div id="recentHistoryBox" class="card" style="display: none; grid-column: 1 / -1; text-align: left; align-items: flex-start;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 2px solid #e6e6da; padding-bottom: 10px; margin-bottom: 15px;">
+                <h2 style="margin: 0; font-size: 1.3rem; color: #0056b3;">🕒 Riprendi la lettura</h2>
+                <button onclick="clearGlobalHistory()" style="background-color: #fff; border: 1px solid #ccc; color: #333; cursor: pointer; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; transition: background 0.3s;">Svuota</button>
+            </div>
+            <div id="historyList" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                </div>
+        </div>
         
         <a href="biblioteca/index.html" class="card">
             <div class="icon-image-container">
@@ -255,6 +263,53 @@
         </a>
 
     </div>
+    <script>
+        function renderGlobalHistory() {
+            // Legge i dati salvati (se non ci sono, crea un array vuoto)
+            const history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+            const container = document.getElementById('recentHistoryBox');
+            const list = document.getElementById('historyList');
+
+            // Se la cronologia è vuota, nasconde il box
+            if (history.length === 0) {
+                container.style.display = "none";
+                return;
+            }
+
+            // Se c'è qualcosa, mostra il box e crea i pulsanti
+            container.style.display = "flex"; 
+            
+            // Creiamo i bottoni della cronologia in modo intelligente
+            list.innerHTML = history.map(item => {
+                
+                // 1. Partiamo dal nome dell'opera (es. "📖 Quadernetti")
+                let intestazioneBlu = "📖 " + item.opera;
+                
+                // 2. Aggiungiamo "- Cap. X" SOLO se stiamo leggendo L'Evangelo
+                if (item.opera === "L'Evangelo") {
+                    intestazioneBlu += " - Cap. " + item.id;
+                }
+
+                // 3. Costruiamo il pulsante
+                return `
+                <a href="${item.url}" style="text-decoration: none; background: #ffffff; border: 1px solid #e6e6da; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; color: #333;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 2px 5px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none'; this.style.boxShadow='none'">
+                    <span style="color: #0056b3; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">${intestazioneBlu}</span>
+                    <span style="font-size: 1rem; color: #444;">${item.titolo}</span>
+                </a>
+                `;
+            }).join('');
+        }
+
+        function clearGlobalHistory() {
+            if(confirm("Vuoi svuotare la cronologia delle letture recenti?")) {
+                localStorage.removeItem('valtorta_cronologia_globale');
+                renderGlobalHistory(); // Aggiorna la vista scomparendo
+            }
+        }
+
+        // Avvia la funzione appena la pagina ha finito di caricarsi
+        window.addEventListener('DOMContentLoaded', renderGlobalHistory);
+    </script>
 
 </body>
 </html>

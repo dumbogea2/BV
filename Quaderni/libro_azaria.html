@@ -361,6 +361,7 @@
 
     <button id="floating-print-btn" onclick="printChapter()" title="Stampa questa lezione" style="display: none;">🖨️</button>
 
+    <script src="../cronologia.js"></script>
     <script src="archivio_azaria.js"></script>
 
     <script>
@@ -406,6 +407,21 @@
             const cap = libro_azaria[index];
             let htmlTesto = cap.testo;
 
+            // --- SALVATAGGIO IN CRONOLOGIA ---
+            if (typeof salvaInCronologia === "function") {
+                // Creiamo un titolo pulito unendo la lezione e la data (se presente)
+                let titoloCronologia = cap.lezione;
+                if (cap.data) {
+                    titoloCronologia += " - " + cap.data;
+                } else if (cap.titolo) {
+                    titoloCronologia += " - " + cap.titolo;
+                }
+                
+                // Salviamo usando il 5° parametro personalizzato che avevamo creato per i Quaderni
+                salvaInCronologia(index, titoloCronologia, "Libro di Azaria", "Quaderni", "/libro_azaria.html?idx=");
+            }
+            // ---------------------------------
+
             if (isSearchActive && searchKeywords.length > 0) {
                 searchKeywords.forEach(kw => {
                     const regex = new RegExp("(" + kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")", "gi");
@@ -419,8 +435,6 @@
                 <h4 style="color:#888; font-style:italic;">${cap.data}</h4>
                 ${htmlTesto}
             `;
-            
-            document.getElementById('content-wrapper').scrollTop = 0;
             
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
@@ -436,6 +450,28 @@
 
             // Mostriamo il tasto stampa fluttuante
             floatingPrintBtn.style.display = 'flex';
+
+            // --- GESTIONE DELLO SCROLL (Nuova) ---
+            let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+            const chiave = "libro_azaria_" + index; // Chiave univoca specifica
+
+            if (fromSearch && searchKeywords.length > 0) {
+                document.getElementById('content-wrapper').scrollTop = 0;
+                setTimeout(() => {
+                    const mark = document.querySelector('.highlight');
+                    if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
+                }, 300);
+            } else if (posizioni[chiave]) {
+                setTimeout(() => {
+                    // Nota: qui la finestra che scorre si chiama 'content-wrapper'
+                    const mainArea = document.getElementById('content-wrapper');
+                    if (mainArea) {
+                        mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
+                    }
+                }, 300);
+            } else {
+                document.getElementById('content-wrapper').scrollTop = 0;
+            }
         }
 
         function nextChapter() { if (currentIndex < libro_azaria.length - 1) loadChapter(currentIndex + 1); }
@@ -614,6 +650,25 @@
             setTimeout(() => {
                 document.body.classList.remove('print-search-mode');
             }, 1000);
+        }
+        /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
+        // Ascoltiamo 'content-wrapper' perché è lì che avviene lo scorrimento in Azaria
+        const contentWrapperArea = document.getElementById('content-wrapper');
+        let scrollTimeout;
+
+        if (contentWrapperArea) {
+            contentWrapperArea.addEventListener('scroll', function() {
+                if (typeof currentIndex !== "undefined" && currentIndex !== -1) {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(function() {
+                        let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+                        const chiave = "libro_azaria_" + currentIndex; 
+                        
+                        posizioni[chiave] = contentWrapperArea.scrollTop; 
+                        localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
+                    }, 500);
+                }
+            });
         }
     </script>
 </body>

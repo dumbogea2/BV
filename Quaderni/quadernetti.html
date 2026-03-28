@@ -307,6 +307,7 @@
         </div>
     </div>
 
+    <script src="../cronologia.js"></script>
     <script src="Quadernetti.js"></script>
     <script>
         let currentIndex = -1;
@@ -378,6 +379,31 @@
             
             let content = cap.testo;
             
+            // --- SALVATAGGIO IN CRONOLOGIA (Senza riferimento al Capitolo) ---
+            if (typeof salvaInCronologia === "function") {
+                let titoloCronologia = "Quadernetti";
+                
+                // Andiamo a leggere la voce esatta nel menu laterale
+                const voceMenu = document.getElementById('item-' + index);
+                
+                if (voceMenu) {
+                    // Estraiamo SOLO la data (il sottotitolo), ignorando il "Capitolo X"
+                    const testoData = voceMenu.querySelector('.chapter-date') ? voceMenu.querySelector('.chapter-date').innerText : "";
+                    
+                    if (testoData.trim() !== "") {
+                        titoloCronologia += " - " + testoData;
+                    } else {
+                        // Se per caso non c'è la data, mettiamo un generico N. 1, N. 2...
+                        titoloCronologia += " - N." + (index + 1);
+                    }
+                } else {
+                    titoloCronologia += " - N." + (index + 1);
+                }
+                
+                // Salviamo nella cronologia globale pulita
+                salvaInCronologia(index, titoloCronologia, "Quadernetti", "Quaderni", "/quadernetti.html?idx=");
+            }
+            // ---------------------------------         
             // APPLICAZIONE EVIDENZIATORE
             if (searchKeywords.length > 0) {
                 content = highlightText(content, searchKeywords);
@@ -388,8 +414,6 @@
             const lh = `<div class="source-link"><a href="${lnk}" target="_blank">Leggi il capitolo originale sul sito</a></div>`;
             
             textContainer.innerHTML = `${content}<div class="chapter-footer">${cp}${lh}</div>`;
-            
-            document.getElementById('main-content').scrollTop = 0;
             
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
@@ -403,16 +427,28 @@
             // Mostriamo il tasto stampa fluttuante
             floatingPrintBtn.style.display = 'flex';
 
-            // SCROLL AUTOMATICO ALLA PAROLA TROVATA
-            if(autoScroll && searchKeywords.length > 0) {
+            // --- GESTIONE DELLO SCROLL (Nuova) ---
+            let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+            const chiave = "quadernetti_" + index; // Chiave univoca specifica
+
+            if (autoScroll && searchKeywords.length > 0) {
+                document.getElementById('main-content').scrollTop = 0;
                 setTimeout(() => {
                     const mark = document.querySelector('mark.highlight');
                     if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
                 }, 300);
+            } else if (posizioni[chiave]) {
+                setTimeout(() => {
+                    const mainArea = document.getElementById('main-content');
+                    if (mainArea) {
+                        mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
+                    }
+                }, 300);
+            } else {
+                document.getElementById('main-content').scrollTop = 0;
             }
         }
-
-        function highlightText(html, keywords) {
+            function highlightText(html, keywords) {
             let pattern = keywords.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
             if(!pattern) return html;
             const regex = new RegExp(`(${pattern})`, 'gi');
@@ -609,6 +645,25 @@
                 document.body.classList.remove('print-search-mode');
             }, 1000);
         }
+        /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
+        const mainContentArea = document.getElementById('main-content');
+        let scrollTimeout;
+
+        if (mainContentArea) {
+            mainContentArea.addEventListener('scroll', function() {
+                if (typeof currentIndex !== "undefined" && currentIndex !== -1) {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(function() {
+                        let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+                        // Usiamo la chiave univoca per i Quadernetti
+                        const chiave = "quadernetti_" + currentIndex; 
+                        
+                        posizioni[chiave] = mainContentArea.scrollTop; 
+                        localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
+                    }, 500);
+                }
+            });
+        }        
     </script>
 </body>
 </html>

@@ -308,6 +308,7 @@
         </div>
     </div>
 
+    <script src="../cronologia.js"></script> <script src="archivio_1943.js"></script>
     <script src="archivio_1943.js"></script>
     <script>
         let currentIndex = -1;
@@ -353,6 +354,17 @@
             
             let content = cap.testo;
             
+            // --- SALVATAGGIO IN CRONOLOGIA ---
+            if (typeof salvaInCronologia === "function") {
+                // Creiamo un titolo carino usando la data, se esiste
+                let dataFinale = cap.data || ("Capitolo " + index);
+                let titoloCronologia = "1943 - " + dataFinale;
+                
+                // Passiamo anche il nome del file corretto e "?idx=" al posto di "?ch="
+                salvaInCronologia(index, titoloCronologia, "I Quaderni", "Quaderni", "/quaderni_1943.html?idx=");
+            }
+            // ---------------------------------
+
             // EVIDENZIAZIONE
             if (searchKeywords.length > 0) {
                 content = highlightText(content, searchKeywords);
@@ -364,8 +376,6 @@
             
             textContainer.innerHTML = `${content}<div class="chapter-footer">${cp}${lh}</div>`;
             
-            document.getElementById('main-content').scrollTop = 0;
-            
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
             if(activeItem) { activeItem.classList.add('active'); activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
@@ -374,15 +384,32 @@
             // Mostriamo il tasto stampa fluttuante
             floatingPrintBtn.style.display = 'flex';
 
-            if(autoScroll && searchKeywords.length > 0) {
+            // --- GESTIONE DELLO SCROLL (Nuova) ---
+            let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+            const chiave = "quaderni_1943_" + index; // Chiave univoca per questo libro e capitolo
+
+            if (autoScroll && searchKeywords.length > 0) {
+                // Caso 1: Stiamo cercando una parola. Torna su e poi vai alla parola evidenziata.
+                document.getElementById('main-content').scrollTop = 0;
                 setTimeout(() => {
                     const mark = document.querySelector('mark.highlight');
                     if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
                 }, 300);
+            } else if (posizioni[chiave]) {
+                // Caso 2: C'è una posizione salvata e non stiamo facendo una ricerca. Torna al punto esatto.
+                setTimeout(() => {
+                    const mainArea = document.getElementById('main-content');
+                    if (mainArea) {
+                        mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
+                    }
+                }, 300);
+            } else {
+                // Caso 3: Nessuna posizione salvata. Vai semplicemente in cima.
+                document.getElementById('main-content').scrollTop = 0;
             }
-        }
-
-        function highlightText(html, keywords) {
+        } // <-- Fine della funzione loadChapter
+            
+            function highlightText(html, keywords) {
             let pattern = keywords.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
             if(!pattern) return html;
             const regex = new RegExp(`(${pattern})`, 'gi');
@@ -570,6 +597,26 @@
             setTimeout(() => {
                 document.body.classList.remove('print-search-mode');
             }, 1000);
+        }
+        /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
+        const mainContentArea = document.getElementById('main-content');
+        let scrollTimeout;
+
+        if (mainContentArea) {
+            mainContentArea.addEventListener('scroll', function() {
+                // Assicuriamoci che un capitolo sia effettivamente aperto
+                if (typeof currentIndex !== "undefined" && currentIndex !== -1) {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(function() {
+                        let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+                        // Usiamo la stessa chiave univoca creata sopra
+                        const chiave = "quaderni_1943_" + currentIndex; 
+                        
+                        posizioni[chiave] = mainContentArea.scrollTop; 
+                        localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
+                    }, 500); // Salva mezzo secondo dopo che l'utente ha smesso di scorrere
+                }
+            });
         }
     </script>
 </body>

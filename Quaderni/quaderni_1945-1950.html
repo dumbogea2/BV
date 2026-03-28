@@ -308,6 +308,7 @@
         </div>
     </div>
 
+    <script src="../cronologia.js"></script>
     <script src="archivio_1945-1950.js"></script>
     <script>
         let currentIndex = -1;
@@ -359,6 +360,25 @@
             
             let content = cap.testo;
             
+            // --- SALVATAGGIO IN CRONOLOGIA (Logica Specifica 45-50) ---
+            if (typeof salvaInCronologia === "function") {
+                let titoloCronologia = "Quaderni '45-'50";
+                
+                // Estrapola il titolo/data dal tag <h3> proprio come fa la ricerca
+                const matchH3 = cap.testo.match(/<h3>([\s\S]*?)<\/h3>/i);
+                if (matchH3) {
+                    titoloCronologia += " - " + matchH3[1].replace(/<[^>]+>/g, "").trim();
+                } else if (cap.data) {
+                    titoloCronologia += " - " + cap.data;
+                } else {
+                    titoloCronologia += " - Capitolo " + index;
+                }
+                
+                // Attenzione al nome del file esatto: quaderni_1945-1950.html
+                salvaInCronologia(index, titoloCronologia, "I Quaderni", "Quaderni", "/quaderni_1945-1950.html?idx=");
+            }
+            // ---------------------------------
+
             if (searchKeywords.length > 0) {
                 content = highlightText(content, searchKeywords);
             }
@@ -369,7 +389,6 @@
             
             textContainer.innerHTML = `${content}<div class="chapter-footer">${cp}${lh}</div>`;
             
-            document.getElementById('main-content').scrollTop = 0;
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
             if(activeItem) { activeItem.classList.add('active'); activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
@@ -378,11 +397,25 @@
             // Mostriamo il tasto stampa fluttuante
             floatingPrintBtn.style.display = 'flex';
 
-            if(autoScroll && searchKeywords.length > 0) {
+            // --- GESTIONE DELLO SCROLL (Nuova) ---
+            let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+            const chiave = "quaderni_1945_1950_" + index; // Chiave univoca specifica
+
+            if (autoScroll && searchKeywords.length > 0) {
+                document.getElementById('main-content').scrollTop = 0;
                 setTimeout(() => {
                     const mark = document.querySelector('mark.highlight');
                     if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
                 }, 300);
+            } else if (posizioni[chiave]) {
+                setTimeout(() => {
+                    const mainArea = document.getElementById('main-content');
+                    if (mainArea) {
+                        mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
+                    }
+                }, 300);
+            } else {
+                document.getElementById('main-content').scrollTop = 0;
             }
         }
 
@@ -577,6 +610,25 @@
             setTimeout(() => {
                 document.body.classList.remove('print-search-mode');
             }, 1000);
+        }
+        /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
+        const mainContentArea = document.getElementById('main-content');
+        let scrollTimeout;
+
+        if (mainContentArea) {
+            mainContentArea.addEventListener('scroll', function() {
+                if (typeof currentIndex !== "undefined" && currentIndex !== -1) {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(function() {
+                        let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+                        // Usiamo la chiave univoca per il 45-50
+                        const chiave = "quaderni_1945_1950_" + currentIndex; 
+                        
+                        posizioni[chiave] = mainContentArea.scrollTop; 
+                        localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
+                    }, 500);
+                }
+            });
         }
     </script>
 </body>

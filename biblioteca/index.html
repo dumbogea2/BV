@@ -919,7 +919,7 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
 </div>
         
             </div>
-
+<script src="../cronologia.js"></script>
     <script src="archivio.js"></script>
     
     <script>
@@ -1878,33 +1878,38 @@ function nascondiRisultati() {
             return; // Se importiamo preferiti, ci fermiamo qui
         }
 
-        // B. CONTROLLO SEGNALIBRO CONDIVISO
+        // B. CONTROLLO SEGNALIBRO CONDIVISO O CRONOLOGIA
         const syncCh = params.get('ch');
         if (syncCh) {
-            const syncTxt = params.get('txt') ? decodeURIComponent(params.get('txt')) : "";
-            const newBookmark = { 
-                chapter: parseInt(syncCh), 
-                snippet: syncTxt, 
-                date: new Date().toLocaleDateString() 
-            };
-
-            activeBookmark = newBookmark;
-            localStorage.setItem('valtorta_bookmark', JSON.stringify(activeBookmark));
+            const numCh = parseInt(syncCh);
+            const syncTxt = params.get('txt') ? decodeURIComponent(params.get('txt')) : null;
+            
+            // Salva il segnalibro SOLO se è stato condiviso un testo (se ha il parametro txt)
+            if (syncTxt) {
+                const newBookmark = { 
+                    chapter: numCh, 
+                    snippet: syncTxt, 
+                    date: new Date().toLocaleDateString() 
+                };
+                activeBookmark = newBookmark;
+                localStorage.setItem('valtorta_bookmark', JSON.stringify(activeBookmark));
+            }
             
             // Pulisce l'URL
             window.history.replaceState({}, document.title, window.location.pathname);
-
             if(typeof updateBookmarkUI === 'function') updateBookmarkUI();
 
+            // Apre il capitolo 
             setTimeout(() => {
                 if(typeof openChapter === 'function') {
-                    openChapter(newBookmark.chapter, null, null, newBookmark.snippet);
+                    openChapter(numCh);
                 }
             }, 500);
         } else {
             // Aggiorna UI normale
             if(typeof updateBookmarkUI === 'function') updateBookmarkUI();
         }
+        
     })();
            
       /* --- FUNZIONI GUIDA --- */
@@ -1974,5 +1979,63 @@ function printResults() {
     }, 500);
 }
    </script>
+<script>
+        // Ci assicuriamo che la funzione openChapter esista prima di modificarla
+        if (typeof openChapter === "function") {
+            const openChapterOriginale = openChapter; 
+            
+            const modalContent = document.getElementById('modalContent');
+            let scrollTimeout;
+
+            // 1. Ascoltiamo e salviamo lo scorrimento
+            if (modalContent) {
+                modalContent.addEventListener('scroll', function() {
+                    if (typeof currentOpenChapter !== "undefined" && currentOpenChapter !== null) {
+                        clearTimeout(scrollTimeout);
+                        scrollTimeout = setTimeout(function() {
+                            let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+                            const chiave = "biblioteca_" + currentOpenChapter;
+                            posizioni[chiave] = modalContent.scrollTop; 
+                            localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
+                        }, 500); 
+                    }
+                });
+            }
+            
+            // 2. Modifichiamo l'apertura del capitolo
+            openChapter = function(n, p1, p2, bs) {
+                
+                // NOVITÀ: Se c'è un segnalibro salvato per questo capitolo, carichiamolo forzatamente!
+                if (!bs && typeof activeBookmark !== "undefined" && activeBookmark && activeBookmark.chapter === n) {
+                    bs = activeBookmark.snippet;
+                }
+
+                // Salvataggio Cronologia
+                if(typeof archivioCapitoli !== "undefined" && archivioCapitoli[n] && typeof salvaInCronologia === "function") {
+                    salvaInCronologia(n, archivioCapitoli[n].titolo, "L'Evangelo", "biblioteca"); 
+                }
+                
+                // Apertura standard
+                openChapterOriginale(n, p1, p2, bs); 
+                
+                // 3. RIPRISTINO SCROLL (Solo se NON c'è un segnalibro attivo o una ricerca)
+                const ricercaInCorso = (p1 || p2 || bs);
+
+                if (!ricercaInCorso) {
+                    setTimeout(() => {
+                        let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+                        const chiave = "biblioteca_" + n;
+                        
+                        if (posizioni[chiave] && modalContent) {
+                            modalContent.scrollTo({
+                                top: posizioni[chiave],
+                                behavior: 'smooth' 
+                            });
+                        }
+                    }, 500); 
+                }
+            };
+        }
+    </script>
 </body>
 </html>
