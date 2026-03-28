@@ -140,7 +140,7 @@
             transform: scale(1.05);           
         }
 
-        /* --- NUOVO STILE ICONA QUADERNI JPG --- */
+        /* STILE ICONA QUADERNI JPG */
         .png-icon-quaderni {
             width: 100%;             
             max-width: 140px;       
@@ -152,6 +152,21 @@
         }
         
         .card:hover .png-icon-quaderni {
+            transform: scale(1.05);           
+        }
+
+        /* --- NUOVO STILE ICONA ARCHIVIO JPG --- */
+        .png-icon-archivio {
+            width: 100%;             
+            max-width: 150px;       
+            height: auto;           
+            object-fit: contain;    
+            vertical-align: middle;
+            transition: transform 0.3s ease, filter 0.3s ease; 
+            border-radius: 6px;     
+        }
+        
+        .card:hover .png-icon-archivio {
             transform: scale(1.05);           
         }
     </style>
@@ -215,7 +230,9 @@
         </a>
 
         <a href="archivio.html" class="card">
-            <div class="icon">📂</div>
+            <div class="icon-image-container">
+                <img src="ArchivioButton.jpg" class="png-icon-archivio" alt="Immagine Archivio Antico">
+            </div>
             <h2>Archivio e Volumi</h2>
             <p>Word ipertestuale e PDF</p>
         </a>
