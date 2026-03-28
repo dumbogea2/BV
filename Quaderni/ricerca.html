@@ -14,20 +14,22 @@
             display: flex; flex-direction: column; align-items: center;
         }
 
-        /* --- NUOVO STILE PER I LINK DI NAVIGAZIONE --- */
+        /* --- STILE PER I LINK DI NAVIGAZIONE AGGIORNATO --- */
         .nav-links {
             display: flex;
-            justify-content: space-between; /* Spazia i tasti alle estremità */
+            justify-content: center; /* Centra i tasti */
+            flex-wrap: wrap; /* Permette di andare a capo se lo schermo è piccolo */
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             margin-bottom: 15px;
-            gap: 15px;
+            gap: 20px;
         }
         .back-link { 
             color: #d4af37; 
             text-decoration: none; 
             font-weight: bold; 
             transition: color 0.2s;
+            text-align: center;
         }
         .back-link:hover { color: #fff; }
 
@@ -38,7 +40,7 @@
             padding: 30px; border-radius: 8px;
             border: 4px double #8b0000;
             box-shadow: 0 0 40px rgba(0,0,0,0.7);
-            position: relative; /* Importante per la X di chiusura */
+            position: relative; 
         }
         h1 { text-align: center; color: #8b0000; margin-top: 0; border-bottom: 2px solid #dcd8ce; padding-bottom: 20px; }
 
@@ -100,7 +102,7 @@
 
         /* ADATTAMENTO PER DISPOSITIVI MOBILI */
         @media (max-width: 600px) {
-            .nav-links { flex-direction: column; align-items: center; } /* Impila i tasti in verticale sui cellulari */
+            .nav-links { flex-direction: column; align-items: center; gap: 10px; } 
             .input-group { flex-direction: column; }
             .btn-search { width: 100%; }
         }
@@ -115,7 +117,7 @@
                 overflow: visible !important;
             }
             .nav-links, .search-container h1, .search-options, .input-group, #loading, .btn-print-pdf, .close-search {
-                display: none !important; /* Qui nascondiamo la barra nav-links durante la stampa */
+                display: none !important; 
             }
             .search-container {
                 border: none !important;
@@ -146,6 +148,7 @@
 
     <div class="nav-links">
         <a href="home.html" class="back-link">← Quaderni/Quadernetti</a>
+        <a href="autobiografia.html" class="back-link">Autobiografia</a>
         <a href="libro_azaria.html" class="back-link">Libro di Azaria</a>
         <a href="lezioni_romani.html" class="back-link">Epistola Paolo ai Romani →</a>
     </div>
@@ -186,15 +189,18 @@
     <script src="Quadernetti.js"></script>
     <script src="archivio_azaria.js"></script>
     <script src="archivio_romani.js"></script>
+    <script src="Autobiografia.js"></script>
 
     <script>
+        // Array aggiornato con il nuovo libro "Autobiografia"
         const LIBRARY = [
             { id: '1943',   name: 'Quaderni 1943',      data: (typeof quaderni_1943 !== 'undefined' ? quaderni_1943 : []),           file: 'quaderni_1943.html' },
             { id: '1944',   name: 'Quaderni 1944',      data: (typeof quaderni_1944 !== 'undefined' ? quaderni_1944 : []),           file: 'quaderni_1944.html' },
             { id: '45-50',  name: 'Quaderni 1945-1950', data: (typeof quaderni_1945_1950 !== 'undefined' ? quaderni_1945_1950 : []), file: 'quaderni_1945-1950.html' },
             { id: 'quad',   name: 'Quadernetti',        data: (typeof quadernetti !== 'undefined' ? quadernetti : []),               file: 'quadernetti.html' },
             { id: 'azaria', name: 'Libro di Azaria',    data: (typeof libro_azaria !== 'undefined' ? libro_azaria : []),             file: 'libro_azaria.html' },
-            { id: 'romani', name: "Lezioni sull'Epistola ai Romani", data: (typeof libro_romani !== 'undefined' ? libro_romani : []), file: 'lezioni_romani.html' }
+            { id: 'romani', name: "Lezioni sull'Epistola ai Romani", data: (typeof libro_romani !== 'undefined' ? libro_romani : []), file: 'lezioni_romani.html' },
+            { id: 'autobio', name: "Autobiografia",     data: (typeof autobiografia !== 'undefined' ? autobiografia : []),           file: 'autobiografia.html' }
         ];
 
         window.addEventListener('pageshow', (event) => {
@@ -361,6 +367,9 @@
                     
                     if (cap.lezione && cap.titolo) {
                         title = cap.lezione + " - " + cap.titolo;
+                    } else if (cap.lezione) {
+                        // Nuovo controllo: se ha solo "lezione" ma non "titolo" (es. Autobiografia)
+                        title = cap.lezione;
                     } else if (cap.data) {
                         title += " - " + cap.data;
                     } else {

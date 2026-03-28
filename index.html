@@ -61,12 +61,11 @@
             border-color: #b3d7ff;
         }
         
-        /* Contenitore per icone/immagini per allineamento */
         .icon, .icon-image-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 80px; /* Altezza fissa per i contenitori delle icone per coerenza */
+            height: 80px; 
             margin-bottom: 15px;
         }
 
@@ -74,7 +73,6 @@
         h2 { margin: 10px 0 5px 0; font-size: 1.4rem; color: #0056b3; }
         p { margin: 0; color: #666; font-size: 0.9rem; }
         
-        /* STILE ICONA MAPPA PNG (PERGAMENA) */
         .png-icon-map {
             width: 70px; 
             height: 70px;
@@ -89,7 +87,6 @@
             transform: scale(1.05) rotate(-3deg); 
         }
 
-        /* STILE ICONA LIBRO PNG (COPERTINA AZARIA) */
         .png-icon-book {
             width: 100%;             
             max-width: 120px;       
@@ -106,7 +103,6 @@
             transform: scale(1.05);           
         }
 
-        /* STILE ICONA ROMANI PNG */
         .png-icon-romani {
             width: 100%;             
             max-width: 150px;       
@@ -123,7 +119,6 @@
             transform: scale(1.05);           
         }
 
-        /* STILE ICONA EVANGELO PNG */
         .png-icon-evangelo {
             width: 100%;             
             max-width: 150px;       
@@ -140,7 +135,6 @@
             transform: scale(1.05);           
         }
 
-        /* STILE ICONA QUADERNI JPG */
         .png-icon-quaderni {
             width: 100%;             
             max-width: 140px;       
@@ -155,7 +149,6 @@
             transform: scale(1.05);           
         }
 
-        /* --- NUOVO STILE ICONA ARCHIVIO JPG --- */
         .png-icon-archivio {
             width: 100%;             
             max-width: 150px;       
@@ -167,6 +160,22 @@
         }
         
         .card:hover .png-icon-archivio {
+            transform: scale(1.05);           
+        }
+
+        /* --- NUOVO STILE ICONA AUTOBIOGRAFIA (CORRETTO) --- */
+        .png-icon-autobiografia {
+            max-width: 130px; 
+            max-height: 80px; /* ALTEZZA MASSIMA FORZATA PER EVITARE DEBORDAMENTI */
+            width: auto;      
+            height: auto;     
+            object-fit: contain; /* ASSICURA CHE L'INTERA IMMAGINE SIA VISIBILE SENZA RITAGLI E DENTRO I BORDI */
+            vertical-align: middle;
+            transition: transform 0.3s ease, filter 0.3s ease; 
+            border-radius: 6px;     
+        }
+        
+        .card:hover .png-icon-autobiografia {
             transform: scale(1.05);           
         }
     </style>
@@ -215,6 +224,14 @@
             </div>
             <h2>Epistola ai Romani</h2>
             <p>Lezioni sull'Epistola di Paolo</p>
+        </a>
+        
+        <a href="Quaderni/autobiografia.html" class="card">
+            <div class="icon-image-container">
+                <img src="AutobiografiaButton.png" class="png-icon-autobiografia" alt="Autobiografia">
+            </div>
+            <h2>Autobiografia</h2>
+            <p>La vita di Maria Valtorta</p>
         </a>
         
         <a href="video/video-presentazione.mp4" class="card">
