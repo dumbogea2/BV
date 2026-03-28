@@ -215,68 +215,96 @@
             margin-top: 5px;
             text-align: center;
         }
+
+        /* --- BOTTONE STAMPA FLUTTUANTE --- */
+        #floating-print-btn {
+            display: none; /* Parte nascosto finché non apri una lezione */
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            background-color: #8b0000;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: background-color 0.3s, transform 0.2s;
+            align-items: center;
+            justify-content: center;
+        }
         
-        /* --- ADATTAMENTO PER DISPOSITIVI MOBILI (fino a 900px per includere iPhone Max) --- */
+        #floating-print-btn:hover {
+            background-color: #a50000;
+            transform: scale(1.1);
+        }
+        
+        /* --- ADATTAMENTO PER DISPOSITIVI MOBILI --- */
         @media (max-width: 900px) {
             body { 
                 flex-direction: column; 
-                height: auto; /* Togliamo il blocco dell'altezza fissa */
+                height: auto; 
                 overflow-x: hidden;
             }
-            
-            /* La sidebar si adatta al suo contenuto, senza bloccare la lettura */
             #sidebar { 
                 width: 100%; 
                 height: auto; 
-                max-height: 40vh; /* L'indice occupa massimo il 40% dello schermo... */
-                overflow-y: auto; /* ...ma puoi scorrere dentro di esso! */
+                max-height: 40vh; 
+                overflow-y: auto; 
                 border-right: none; 
                 border-bottom: 3px solid #8b0000; 
                 flex-shrink: 0;
             }
-            
-            /* L'area del testo prende tutto lo spazio rimanente */
             #content-wrapper { 
                 padding: 10px; 
                 height: auto; 
                 min-height: 60vh;
-                overflow-y: visible; /* Eliminiamo la doppia barra di scorrimento su mobile */
+                overflow-y: visible; 
             }
-            
             #main-content { padding: 15px; font-size: 17px; line-height: 1.7; }
-            
             .toggle-search-btn { display: block; }
             .search-container { display: none; padding: 10px; }
             .search-container.show-search { display: block; }
-            
             .home-button-container { padding: 5px; flex-direction: row; flex-wrap: wrap; justify-content: center; }
             .nav-btn { padding: 5px 8px; font-size: 12px; margin: 2px; flex: 1 1 45%; text-align: center; box-sizing: border-box; }
-            
             #sidebar-header { padding: 8px; font-size: 14px; }
             .nav-buttons { flex-direction: column; gap: 10px; align-items: stretch; margin-top: 30px; }
-            button.nav-ctrl { width: 100%; padding: 12px; } /* Tasti più grandi per le dita */
-        } /* <--- PFine dell'adattamento per dispositivi mobili */
+            button.nav-ctrl { width: 100%; padding: 12px; } 
+
+            /* Adattiamo il bottone fluttuante per mobile */
+            #floating-print-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+        } 
                     
-        /* --- STILE DI STAMPA PER RICERCA INTERNA --- */
+        /* --- STILI DI STAMPA INTELLIGENTI --- */
         @media print {
-            body { background: white !important; color: black !important; display: block !important; height: auto !important; }
+            body { background: white !important; height: auto !important; overflow: visible !important; }
             
-            /* Nascondiamo tutta l'interfaccia non necessaria durante la stampa dei risultati */
-            .home-button-container, .search-container, #sidebar-header, .list-container, .close-search-btn, #content-wrapper {
+            /* Nascondiamo sempre i bottoni e i menu inutili su carta */
+            .nav-buttons, .home-button-container, .search-container, #sidebar-header, .list-container, .close-search-btn, .btn-print-pdf, .toggle-search-btn, #floating-print-btn {
                 display: none !important;
             }
-            
-            #sidebar { width: 100% !important; border: none !important; background: white !important; height: auto !important; display: block !important; }
-            
-            #search-results-overlay { display: block !important; max-height: none !important; border: none !important; }
 
-            .result-item.visited {
-                border-left-color: #555 !important;
-                background-color: #eee !important;
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact;         
-            }
-            .btn-print-pdf { display: none !important; } /* Nasconde il tasto stampa sul foglio stampato */
+            /* 1. Modalità Stampa Lezione (predefinita) */
+            body:not(.print-search-mode) #sidebar { display: none !important; }
+            body:not(.print-search-mode) #content-wrapper { display: block !important; padding: 0 !important; }
+            body:not(.print-search-mode) #main-content { box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
+
+            /* 2. Modalità Stampa Risultati di Ricerca (attivata da Javascript) */
+            body.print-search-mode #content-wrapper { display: none !important; } /* Nasconde il capitolo */
+            body.print-search-mode #sidebar { display: block !important; width: 100% !important; height: auto !important; border: none !important; background: white !important; position: static !important; }
+            body.print-search-mode #search-results-overlay { display: block !important; max-height: none !important; border: none !important; position: static !important; background: white !important; }
+            
+            /* Dettagli visivi per la stampa */
+            .result-item.visited { border-left-color: #555 !important; background-color: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
 </head>
@@ -344,6 +372,8 @@
         </div>
     </div>
 
+    <button id="floating-print-btn" onclick="printChapter()" title="Stampa questa lezione" style="display: none;">🖨️</button>
+
     <script src="archivio_romani.js"></script>
 
     <script>
@@ -354,6 +384,7 @@
         const resultsOverlay = document.getElementById('search-results-overlay');
         const resultsDiv = document.getElementById('local-results');
         const countDisplay = document.getElementById('search-count-display');
+        const floatingPrintBtn = document.getElementById('floating-print-btn'); // JS per il bottone stampa
         
         let isSearchActive = false;
         let searchKeywords = [];
@@ -417,7 +448,6 @@
                 </div>`;
             }
 
-            // Costruiamo l'HTML aggiungendo ${linkSito} alla fine
             textContainer.innerHTML = `
                 <h1 class="title-chapter">${cap.lezione}</h1>
                 <h3 style="color:#555; margin-top:-10px;">${cap.titolo}</h3>
@@ -439,6 +469,9 @@
             document.getElementById('btn-next').style.display = 'inline-block';
             document.getElementById('btn-prev').disabled = (currentIndex === 0);
             document.getElementById('btn-next').disabled = (currentIndex === libro_romani.length - 1);
+
+            // Mostriamo il tasto stampa fluttuante
+            floatingPrintBtn.style.display = 'flex';
         }
         
         function nextChapter() { if (currentIndex < libro_romani.length - 1) loadChapter(currentIndex + 1); }
@@ -533,10 +566,12 @@
             isSearchActive = true;
             searchKeywords = words;
             
-            // --- INSERIMENTO TASTO STAMPA PDF ---
-            const printBtn = `<button class="btn-print-pdf" onclick="window.print()" style="margin-left:15px; cursor:pointer; background:white; border:1px solid #8b0000; padding:2px 8px; border-radius:4px; color:#8b0000; font-size:11px; font-weight:bold;">🖨️ Stampa PDF</button>`;
+            // Nascondiamo il tasto stampa fluttuante perché ora stiamo guardando la ricerca
+            floatingPrintBtn.style.display = 'none';
+            
+            // --- INSERIMENTO TASTO STAMPA PDF (Aggiornato alla funzione intelligente) ---
+            const printBtn = `<button class="btn-print-pdf" onclick="printSearchResults()" style="margin-left:15px; cursor:pointer; background:white; border:1px solid #8b0000; padding:2px 8px; border-radius:4px; color:#8b0000; font-size:11px; font-weight:bold;">🖨️ Stampa PDF</button>`;
             countDisplay.innerHTML = `Trovati: ${results.length} ${printBtn}`;
-            // ------------------------------------
 
             resultsDiv.innerHTML = "";
             
@@ -573,7 +608,11 @@
             resultsOverlay.style.display = 'none';
             isSearchActive = false;
             searchKeywords = [];
-            if (currentIndex > -1) loadChapter(currentIndex);
+            
+            if (currentIndex > -1) {
+                floatingPrintBtn.style.display = 'flex';
+                loadChapter(currentIndex);
+            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -592,11 +631,24 @@
                 setTimeout(() => loadChapter(parseInt(openIdx), true), 100);
             }
         });
-        /* --- FUNZIONE PER MOSTRARE/NASCONDERE LA RICERCA SU MOBILE --- */
+        
         function toggleMobileSearch() {
             const searchContainer = document.querySelector('.search-container');
-            // 'toggle' aggiunge la classe se non c'è, o la rimuove se c'è già
             searchContainer.classList.toggle('show-search');
+        }
+
+        /* --- FUNZIONI DI STAMPA INTELLIGENTI --- */
+        function printChapter() {
+            document.body.classList.remove('print-search-mode');
+            window.print();
+        }
+
+        function printSearchResults() {
+            document.body.classList.add('print-search-mode');
+            window.print();
+            setTimeout(() => {
+                document.body.classList.remove('print-search-mode');
+            }, 1000);
         }
     </script>
 </body>

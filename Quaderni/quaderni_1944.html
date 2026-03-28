@@ -130,7 +130,7 @@
         .result-snippet { font-size: 0.9em; color: #444; font-style: italic; margin-top: 4px; }
         mark.highlight { background-color: #ffd700; color: #000; padding: 0 2px; border-radius: 2px; }
 
-        /* Tasto Fluttuante */
+        /* Tasto Fluttuante Ricerca */
         #btn-back-search {
             display: none; position: fixed; top: 100px; right: 30px;
             padding: 10px 20px; background-color: #d4af37; color: #2e1a05;
@@ -141,28 +141,72 @@
         }
         #btn-back-search:hover { transform: scale(1.05); background-color: #fff; }
 
+        /* --- NUOVO: BOTTONE STAMPA FLUTTUANTE --- */
+        #floating-print-btn {
+            display: none; 
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            background-color: #8b0000;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: background-color 0.3s, transform 0.2s;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #floating-print-btn:hover {
+            background-color: #a50000;
+            transform: scale(1.1);
+        }
+
         @media (max-width: 768px) { 
             body { flex-direction: column; } 
             #sidebar { width: 100%; height: auto; max-height: 300px; } 
             #main-content { padding: 20px; } 
             #btn-back-search { top: auto; bottom: 20px; right: 20px; } 
+
+            /* Adattamento bottone stampa mobile */
+            #floating-print-btn {
+                bottom: 80px; /* Alzato per non coprire il tasto "Torna ai Risultati" */
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
         }
         
-        /* --- INCOLLA QUI IL CODICE DI STAMPA --- */
+        /* --- STILI DI STAMPA INTELLIGENTI --- */
         @media print {
-            /* Nascondi l'interfaccia principale e i tasti */
-            #sidebar, #main-content, #btn-back-search, .close-search, .search-section, .btn-reset, .btn-print-pdf {
+            body { background: white !important; height: auto !important; overflow: visible !important; }
+
+            /* Elementi sempre nascosti in stampa */
+            #sidebar, #btn-back-search, .close-search, .search-section, .btn-reset, .btn-print-pdf, #floating-print-btn, #nav-buttons {
                 display: none !important;
             }
 
-            body {
+            /* 1. Modalità Stampa Capitolo (predefinita) */
+            body:not(.print-search-mode) #searchModal { display: none !important; }
+            body:not(.print-search-mode) #main-content {
+                display: block !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
                 background: white !important;
-                height: auto !important;
-                overflow: visible !important;
             }
 
-            /* Rendi visibile e stendi il modale */
-            #searchModal {
+            /* 2. Modalità Stampa Risultati di Ricerca (attivata da Javascript) */
+            body.print-search-mode #main-content { display: none !important; }
+            body.print-search-mode #searchModal {
                 position: static !important;
                 display: block !important;
                 background: white !important;
@@ -171,8 +215,7 @@
                 padding: 0 !important;
                 overflow: visible !important;
             }
-
-            .search-panel {
+            body.print-search-mode .search-panel {
                 border: none !important;
                 box-shadow: none !important;
                 width: 100% !important;
@@ -182,37 +225,30 @@
                 padding: 0 !important;
                 margin: 0 !important;
             }
-
-            .search-panel h2 {
+            body.print-search-mode .search-panel h2 {
                 color: black !important;
                 border-bottom: 2px solid #000;
-                text-align: left !important; 
+                text-align: left !important;
             }
-
-            #searchResults {
+            body.print-search-mode #searchResults {
                 display: block !important;
                 border: none !important;
             }
-
-            .result-item {
+            body.print-search-mode .result-item {
                 page-break-inside: avoid;
                 border: 1px solid #ccc !important;
                 color: black !important;
                 margin-bottom: 10px !important;
             }
-
-            /* Mantieni evidenza dei visitati (grigio scuro) per riferimento */
-            .result-item.visited {
+            body.print-search-mode .result-item.visited {
                 background-color: #eee !important;
                 border-left: 5px solid #555 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
         }
-        /* --- FINE CODICE DI STAMPA --- */
-
     </style> 
-    </head>
+</head>
 <body>
     <button id="btn-back-search" onclick="openSearch()">🔙 Torna ai Risultati</button>
 
@@ -237,6 +273,8 @@
             </div>
         </div>
     </div>
+
+    <button id="floating-print-btn" onclick="printChapter()" title="Stampa questo capitolo" style="display: none;">🖨️</button>
 
     <div id="searchModal">
         <div class="search-panel">
@@ -275,6 +313,7 @@
         let currentIndex = -1;
         const listElement = document.getElementById('chapter-list');
         const textContainer = document.getElementById('text-container');
+        const floatingPrintBtn = document.getElementById('floating-print-btn');
         
         let searchKeywords = []; 
         let isSearchActive = false; 
@@ -332,6 +371,9 @@
             if(activeItem) { activeItem.classList.add('active'); activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
             updateButtons();
 
+            // Mostriamo il tasto stampa fluttuante
+            floatingPrintBtn.style.display = 'flex';
+
             if(autoScroll && searchKeywords.length > 0) {
                 setTimeout(() => {
                     const mark = document.querySelector('mark.highlight');
@@ -363,11 +405,18 @@
             document.getElementById('searchModal').style.display = 'flex'; 
             document.getElementById('simpleInput').focus(); 
             document.getElementById('btn-back-search').style.display = 'none';
+            // Nascondiamo il bottone stampa fluttuante quando si apre la ricerca
+            floatingPrintBtn.style.display = 'none';
         }
         
         function closeSearch() { 
             document.getElementById('searchModal').style.display = 'none';
             if(isSearchActive) document.getElementById('btn-back-search').style.display = 'block';
+
+            // Rimostriamo il bottone di stampa se c'è un capitolo caricato
+            if (currentIndex > -1) {
+                floatingPrintBtn.style.display = 'flex';
+            }
         }
 
         function resetSearch() {
@@ -452,13 +501,13 @@
             if (results.length === 0) {
                 resultsDiv.innerHTML = '<div style="padding:10px; color:red;">Nessun risultato trovato.</div>';
             } else {
-                // --- INIZIO MODIFICA STAMPA ---
-            const printBtn = `<button class="btn-print-pdf" onclick="window.print()" style="float:right; cursor:pointer; background:none; border:1px solid #8b0000; padding:2px 8px; border-radius:4px; color:#8b0000; font-size:0.9em;">🖨️ Stampa PDF</button>`;
+                // --- AGGIORNATO: CHIAMA printSearchResults() ---
+                const printBtn = `<button class="btn-print-pdf" onclick="printSearchResults()" style="float:right; cursor:pointer; background:none; border:1px solid #8b0000; padding:2px 8px; border-radius:4px; color:#8b0000; font-size:0.9em;">🖨️ Stampa PDF</button>`;
 
-            resultsDiv.innerHTML = `<div style="margin-bottom:10px; font-weight:bold; overflow:hidden;">
-                Trovati ${results.length} risultati: ${printBtn}
-            </div>`;
-            // --- FINE MODIFICA STAMPA ---
+                resultsDiv.innerHTML = `<div style="margin-bottom:10px; font-weight:bold; overflow:hidden;">
+                    Trovati ${results.length} risultati: ${printBtn}
+                </div>`;
+
                 results.forEach(res => {
                     const div = document.createElement('div');
                     div.className = 'result-item';
@@ -476,40 +525,52 @@
                 });
             }
         }
-      /* --- RICEVITORE RICERCA GLOBALE --- */
-window.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
-    const openIdx = params.get('idx');
-    const keys = params.get('keys');
-    
-    if (openIdx !== null) {
-        if (keys) {
-            searchKeywords = decodeURIComponent(keys).split(',');
-            isSearchActive = true;
-            
-            const btnBack = document.getElementById('btn-back-search');
-            btnBack.style.display = 'block';
-            btnBack.innerText = "🌐 Torna alla Ricerca Globale";
-            btnBack.style.backgroundColor = "#5d4037";
-            btnBack.style.color = "#fff";
-            
-            // MODIFICA IMPORTANTE: Logica di ritorno semplificata
-            btnBack.onclick = function() {
-                // Tenta sempre di usare la cronologia del browser (mantiene i risultati)
-                if (history.length > 1) {
-                    history.back();
-                } else {
-                    // Fallback solo se non c'è cronologia
-                    window.location.href = 'ricerca.html';
-                }
-            };
-        }
         
-        setTimeout(() => {
-            loadChapter(parseInt(openIdx), true);
-        }, 100);
-    }
-});
-          </script>
+        /* --- RICEVITORE RICERCA GLOBALE --- */
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const openIdx = params.get('idx');
+            const keys = params.get('keys');
+            
+            if (openIdx !== null) {
+                if (keys) {
+                    searchKeywords = decodeURIComponent(keys).split(',');
+                    isSearchActive = true;
+                    
+                    const btnBack = document.getElementById('btn-back-search');
+                    btnBack.style.display = 'block';
+                    btnBack.innerText = "🌐 Torna alla Ricerca Globale";
+                    btnBack.style.backgroundColor = "#5d4037";
+                    btnBack.style.color = "#fff";
+                    
+                    btnBack.onclick = function() {
+                        if (history.length > 1) {
+                            history.back();
+                        } else {
+                            window.location.href = 'ricerca.html';
+                        }
+                    };
+                }
+                
+                setTimeout(() => {
+                    loadChapter(parseInt(openIdx), true);
+                }, 100);
+            }
+        });
+
+        /* --- FUNZIONI DI STAMPA INTELLIGENTI --- */
+        function printChapter() {
+            document.body.classList.remove('print-search-mode');
+            window.print();
+        }
+
+        function printSearchResults() {
+            document.body.classList.add('print-search-mode');
+            window.print();
+            setTimeout(() => {
+                document.body.classList.remove('print-search-mode');
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
