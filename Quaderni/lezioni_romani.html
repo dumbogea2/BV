@@ -243,16 +243,17 @@
         }
         
         /* --- ADATTAMENTO PER DISPOSITIVI MOBILI --- */
+        /* --- ADATTAMENTO PER DISPOSITIVI MOBILI --- */
         @media (max-width: 900px) {
             body { 
                 flex-direction: column; 
-                height: auto; 
-                overflow-x: hidden;
+                height: 100vh; /* MODIFICA: Blocca l'altezza della pagina */
+                overflow: hidden; /* MODIFICA: Impedisce alla pagina intera di scorrere */
             }
             #sidebar { 
                 width: 100%; 
                 height: auto; 
-                max-height: 40vh; 
+                max-height: 35vh; /* Altezza fissa per l'indice */
                 overflow-y: auto; 
                 border-right: none; 
                 border-bottom: 3px solid #8b0000; 
@@ -260,9 +261,9 @@
             }
             #content-wrapper { 
                 padding: 10px; 
-                height: auto; 
-                min-height: 60vh;
-                overflow-y: visible; 
+                flex-grow: 1; /* MODIFICA: Si espande nello spazio rimanente */
+                overflow-y: auto; /* MODIFICA: Fa scorrere SOLO il testo */
+                -webkit-overflow-scrolling: touch; /* Fluidità su schermi touch */
             }
             #main-content { padding: 15px; font-size: 17px; line-height: 1.7; }
             .toggle-search-btn { display: block; }
@@ -282,8 +283,7 @@
                 height: 50px;
                 font-size: 22px;
             }
-        } 
-                    
+        }                    
         /* --- STILI DI STAMPA INTELLIGENTI --- */
         @media print {
             body { background: white !important; height: auto !important; overflow: visible !important; }
