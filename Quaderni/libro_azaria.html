@@ -458,11 +458,12 @@
             if (fromSearch && searchKeywords.length > 0) {
                 document.getElementById('content-wrapper').scrollTop = 0;
                 setTimeout(() => {
-                    const mark = document.querySelector('.highlight');
+                    // MODIFICA QUI: Cerca l'evidenziazione SOLO dentro il testo del capitolo, ignorando la sidebar
+                    const mark = document.getElementById('text-container').querySelector('.highlight');
                     if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
                 }, 300);
             } else if (posizioni[chiave]) {
-                setTimeout(() => {
+              setTimeout(() => {
                     // Nota: qui la finestra che scorre si chiama 'content-wrapper'
                     const mainArea = document.getElementById('content-wrapper');
                     if (mainArea) {
@@ -670,6 +671,68 @@
                 }
             });
         }
+    </script>
+    <script>
+        // Esecuzione immediata: non aspetta il caricamento, agisce subito!
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromParam = urlParams.get('from');
+            
+            // Controlliamo se arriviamo dalla ricerca globale OPPURE universale
+            if (fromParam === 'globale' || fromParam === 'universale') {
+                
+                // 1. Iniettiamo le regole CSS responsive
+                const stileResponsive = document.createElement('style');
+                stileResponsive.innerHTML = `
+                    .pulsante-ricerca-dinamico {
+                        position: fixed; 
+                        bottom: 30px; 
+                        left: 300px; /* Spostato a sinistra */
+                        z-index: 10001; 
+                        background-color: #8b0000; 
+                        color: white; 
+                        border: 2px solid #f4ece0; 
+                        padding: 12px 20px; 
+                        border-radius: 50px; 
+                        cursor: pointer; 
+                        font-family: Georgia, serif; 
+                        font-size: 16px; 
+                        font-weight: bold; 
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
+                        transition: transform 0.2s;
+                        display: block !important; /* Sicurezza visiva */
+                    }
+                    .pulsante-ricerca-dinamico:hover {
+                        transform: scale(1.05);
+                    }
+                    /* Regole per adattarlo sui dispositivi mobili */
+                    @media (max-width: 900px) {
+                        .pulsante-ricerca-dinamico {
+                            bottom: 20px;
+                            left: 50%; /* Lo posiziona al centro */
+                            transform: translateX(-50%); /* Bilancia la centratura */
+                            font-size: 14px;
+                            padding: 10px 15px;
+                            white-space: nowrap; /* Evita che vada a capo */
+                        }
+                        .pulsante-ricerca-dinamico:hover {
+                            transform: translateX(-50%) scale(1.05);
+                        }
+                    }
+                `;
+                document.head.appendChild(stileResponsive);
+
+                // 2. Creiamo il bottone
+                const btn = document.createElement('button');
+                btn.innerHTML = '⬅ Torna alla Ricerca';
+                btn.className = 'pulsante-ricerca-dinamico';
+                
+                // Torna indietro nella cronologia
+                btn.onclick = () => window.history.back();
+                
+                document.body.appendChild(btn);
+            }
+        })();
     </script>
 </body>
 </html>

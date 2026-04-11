@@ -178,6 +178,20 @@
         .card:hover .png-icon-autobiografia {
             transform: scale(1.05);           
         }
+        /* --- STILE ICONA RICERCA UNIVERSALE --- */
+        .png-icon-ricerca {
+            width: 100%;             
+            max-width: 120px;        
+            height: auto;            
+            object-fit: contain;    
+            vertical-align: middle;
+            transition: transform 0.3s ease, filter 0.3s ease; 
+            border-radius: 6px;     
+        }
+        
+        .card:hover .png-icon-ricerca {
+            transform: scale(1.05);            
+        }
     </style>
 </head>
 <body>
@@ -242,6 +256,13 @@
             <p>La vita di Maria Valtorta</p>
         </a>
         
+        <a href="ricerca_universale.html" class="card">
+            <div class="icon-image-container">
+                <img src="ricerca_universale_button.png" class="png-icon-ricerca" alt="Tasto Ricerca Universale">
+            </div>
+            <h2>Ricerca Universale</h2>
+            <p>Cerca in tutte le opere, incluso L'Evangelo</p>
+        </a>        
         <a href="video/video-presentazione.mp4" class="card">
             <div class="icon">🎬</div>
             <h2>Video Presentatione</h2>
