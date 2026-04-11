@@ -702,5 +702,38 @@
             });
         }
     </script>
+    <script>
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromParam = urlParams.get('from');
+        if (fromParam === 'globale' || fromParam === 'universale') {
+            const stileResponsive = document.createElement('style');
+            stileResponsive.innerHTML = `
+                .pulsante-ricerca-dinamico {
+                    position: fixed; bottom: 30px; left: 250px; z-index: 10001; 
+                    background-color: #8b0000; color: white; border: 2px solid #f4ece0; 
+                    padding: 12px 20px; border-radius: 50px; cursor: pointer; 
+                    font-family: Georgia, serif; font-size: 16px; font-weight: bold; 
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: transform 0.2s;
+                    display: block !important;
+                }
+                .pulsante-ricerca-dinamico:hover { transform: scale(1.05); }
+                @media (max-width: 900px) {
+                    .pulsante-ricerca-dinamico {
+                        bottom: 20px; left: 50%; transform: translateX(-50%);
+                        font-size: 14px; padding: 10px 15px; white-space: nowrap;
+                    }
+                    .pulsante-ricerca-dinamico:hover { transform: translateX(-50%) scale(1.05); }
+                }
+            `;
+            document.head.appendChild(stileResponsive);
+            const btn = document.createElement('button');
+            btn.innerHTML = '⬅ Torna alla Ricerca';
+            btn.className = 'pulsante-ricerca-dinamico';
+            btn.onclick = () => window.history.back();
+            document.body.appendChild(btn);
+        }
+    })();
+</script>
 </body>
 </html>

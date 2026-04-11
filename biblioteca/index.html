@@ -2037,5 +2037,72 @@ function printResults() {
             };
         }
     </script>
+    <script>
+    // --- FUNZIONI PER RICERCA UNIVERSALE ---
+    
+    function evidenziaParoleInTesto(parole) {
+        // 1. Puntiamo al contenitore corretto presente in index.html
+        const container = document.getElementById('modalText'); 
+        if (!container) return;
+        
+        let html = container.innerHTML;
+        parole.forEach(parola => {
+            // Puliamo eventuali spazi vuoti extra
+            const pTrim = parola.trim();
+            if (pTrim.length < 3) return;
+            // Creiamo la regex per evidenziare la parola trovata
+            const regex = new RegExp(`(${pTrim})`, 'gi');
+            html = html.replace(regex, '<mark style="background-color: yellow; color: black; font-weight: bold; border-radius: 3px;">$1</mark>');
+        });
+        container.innerHTML = html;
+        
+        // Cerca la prima evidenziazione e scorre verso di essa
+        const firstMark = container.querySelector('mark');
+        if (firstMark) setTimeout(() => firstMark.scrollIntoView({ behavior: 'smooth', block: 'center' }), 500);
+    }
+
+    function createBackToSearchButton() {
+        const btn = document.createElement('button');
+        btn.innerHTML = '⬅ Torna alla Ricerca Universale'; // Rinominato
+        btn.style.cssText = 'position: fixed; bottom: 30px; right: 30px; z-index: 10001; background-color: #8b0000; color: white; border: 2px solid #f4ece0; padding: 12px 20px; border-radius: 50px; cursor: pointer; font-family: Georgia, serif; font-size: 16px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: transform 0.2s;';
+        
+        // Effetto hover al passaggio del mouse
+        btn.onmouseover = () => btn.style.transform = 'scale(1.05)';
+        btn.onmouseout = () => btn.style.transform = 'scale(1)';
+        
+        btn.onclick = () => window.history.back();
+        document.body.appendChild(btn);
+    }
+
+    // 2. Controllo dei parametri all'avvio (non cancella gli altri eventListener)
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const idParam = urlParams.get('idx');
+        const keysParam = urlParams.get('keys');
+        const fromUniversale = urlParams.get('from') === 'universale'; // Controlliamo il nuovo nome
+
+        if (idParam && typeof archivioCapitoli !== 'undefined' && archivioCapitoli[idParam]) {
+            // 3. Usiamo la funzione nativa di index.html per aprire il rotolo/capitolo
+            openChapter(parseInt(idParam)); 
+            
+            if (keysParam) {
+                const parole = decodeURIComponent(keysParam).split(',');
+                // Aspettiamo un attimo in più (600ms) per dare tempo al modale di aprirsi bene
+                setTimeout(() => evidenziaParoleInTesto(parole), 600); 
+            }
+            if (fromUniversale) {
+                createBackToSearchButton();
+            }
+        } else {
+            // Se non veniamo dalla ricerca universale, la griglia si carica da sola.
+            // Se hai la funzione loadLastChapter() in un file esterno cronologia.js, 
+            // decommenta le 3 righe qui sotto togliendo le doppie barre "//":
+            
+            // if (typeof loadLastChapter === 'function') {
+            //     loadLastChapter();
+            // }
+        }
+    });
+</script>
 </body>
 </html>
