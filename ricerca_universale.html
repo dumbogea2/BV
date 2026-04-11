@@ -66,6 +66,41 @@
             .input-group { flex-direction: column; }
             .btn-search { width: 100%; }
         }
+        /* STILE DI STAMPA PER RICERCA GLOBALE */
+        @media print {
+            body { 
+                background-color: white !important; 
+                background-image: none !important; 
+                color: black !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            .nav-links, .search-container h1, .search-options, .input-group, #loading, .btn-print-pdf, .close-search {
+                display: none !important; 
+            }
+            .search-container {
+                border: none !important;
+                box-shadow: none !important;
+                width: 100% !important;
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+            }
+            #globalResults { display: block !important; }
+            .result-item.visited {
+                border-left-color: #555 !important;
+                background-color: #eee !important;
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact;         
+            }
+            .book-title {
+                background-color: #333 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
     </style>
 </head>
 <body>
@@ -263,11 +298,12 @@
                 if (totalFound === 0) {
                     resContainer.innerHTML = "<p style='text-align:center; font-style:italic;'>Nessun risultato trovato in nessuna opera.</p>";
                 } else {
+                    const printBtn = `<button class="btn-print-pdf" onclick="window.print()" style="margin-left:15px; cursor:pointer; background:none; border:1px solid #8b0000; padding:5px 10px; border-radius:5px; color:#8b0000; font-weight:bold;">🖨️ Stampa elenco PDF</button>`;
                     resContainer.innerHTML = `<div style="text-align:center; margin-bottom:20px; color:#666;">
-                        Trovati <b>${totalFound}</b> risultati totali.
+                        Trovati <b>${totalFound}</b> risultati totali. ${printBtn}
                     </div>` + htmlOutput;
-                }
-            }, 50); 
+                }                
+                  }, 50); 
         }
 
         function searchInBook(data, terms, type, dist, bookName) {
