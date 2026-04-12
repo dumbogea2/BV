@@ -199,6 +199,18 @@
     <h1>Bibliotheca-Valtortiana-OnLine</h1>
 
     <div class="container">
+        <div class="card" style="grid-column: 1 / -1; text-align: left; align-items: flex-start;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 2px solid #e6e6da; padding-bottom: 10px; margin-bottom: 15px;">
+                <h2 style="margin: 0; font-size: 1.3rem; color: #0056b3;">💾 Gestione Dati</h2>
+            </div>
+            <div style="display: flex; gap: 10px; width: 100%; align-items: center;">
+                <button onclick="exportData()" style="background-color: #0056b3; border: none; color: white; cursor: pointer; padding: 10px 15px; border-radius: 5px; font-size: 0.9rem; transition: background 0.3s;">Salva Progressi</button>
+                <button onclick="document.getElementById('importFileInput').click()" style="background-color: #28a745; border: none; color: white; cursor: pointer; padding: 10px 15px; border-radius: 5px; font-size: 0.9rem; transition: background 0.3s;">Ripristina</button>
+                <input type="file" id="importFileInput" style="display: none;" accept=".json" onchange="importData(event)">
+            </div>
+            <p style="margin-top: 10px; font-size: 0.85rem; color: #666;">Salva la cronologia, i segnalibri e le posizioni di lettura in un file e ripristina quando vuoi per non perdere nulla.</p>
+        </div>
+
     <div id="recentHistoryBox" class="card" style="display: none; grid-column: 1 / -1; text-align: left; align-items: flex-start;">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 2px solid #e6e6da; padding-bottom: 10px; margin-bottom: 15px;">
                 <h2 style="margin: 0; font-size: 1.3rem; color: #0056b3;">🕒 Riprendi la lettura</h2>
@@ -330,6 +342,67 @@
 
         // Avvia la funzione appena la pagina ha finito di caricarsi
         window.addEventListener('DOMContentLoaded', renderGlobalHistory);
+
+        function exportData() {
+            let data = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                let key = localStorage.key(i);
+                if (key.startsWith('valtorta_')) {
+                    try {
+                        data[key] = JSON.parse(localStorage.getItem(key));
+                    } catch (e) {
+                        data[key] = localStorage.getItem(key);
+                    }
+                }
+            }
+            if (Object.keys(data).length === 0) {
+                alert("Nessun dato da esportare.");
+                return;
+            }
+            let blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = "bibliotheca_valtortiana_dati.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function importData(event) {
+    let file = event.target.files[0];
+    if (!file) return;
+
+    // Aggiungiamo un avviso per l'utente prima di procedere
+    if (!confirm("Attenzione: il ripristino sovrascriverà i progressi attuali non salvati. Vuoi continuare?")) {
+        event.target.value = ''; // Resettiamo l'input se l'utente annulla
+        return; 
+    }
+
+    let reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            let data = JSON.parse(e.target.result);
+            for (let key in data) {
+                if (key.startsWith('valtorta_')) {
+                    let value = data[key];
+                    if (typeof value === 'object') {
+                        localStorage.setItem(key, JSON.stringify(value));
+                    } else {
+                        localStorage.setItem(key, value);
+                    }
+                }
+            }
+            alert("Dati ripristinati con successo!");
+            renderGlobalHistory();
+        } catch (error) {
+            alert("Errore durante l'importazione dei dati: " + error.message);
+        }
+        event.target.value = '';
+    };
+    reader.readAsText(file);
+}
     </script>
 
 </body>
