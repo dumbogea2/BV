@@ -1278,6 +1278,10 @@ function showSimpleSearchDetails() {
     }
     // --- FINE NUOVO CODICE MAPPA ---
     currentOpenChapter = n; 
+
+    setTimeout(() => {
+        if (typeof window.ripristinaEvidenze === 'function') window.ripristinaEvidenze();
+    }, 400);
     const numSpan = document.getElementById('currentChapterNum');
     if(numSpan) numSpan.innerText = "Capitolo " + n; 
 
@@ -2017,7 +2021,8 @@ function printResults() {
     printWin.document.write('<h2>' + titleText + '</h2>');
     
     printWin.document.write(listContent);
-    printWin.document.write('</body></html>');
+    printWin.document.write('<script src="../appunti.js"></script>
+</body></html>');
 
     printWin.document.close();
     printWin.focus();
@@ -2156,5 +2161,6 @@ function printChapter() {
         }
     });
 </script>
+<script src="../appunti.js"></script>
 </body>
 </html>

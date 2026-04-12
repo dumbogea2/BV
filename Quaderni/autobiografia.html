@@ -516,6 +516,10 @@
             const lh = `<div class="source-link"><a href="${lnk}" target="_blank">Leggi il capitolo originale sul sito</a></div>`;
             
             textContainer.innerHTML = `${htmlTesto}`;
+
+            setTimeout(() => {
+                if (typeof window.ripristinaEvidenze === 'function') window.ripristinaEvidenze();
+            }, 100);
             document.getElementById('footer-container').innerHTML = `<div class="chapter-footer">${cp}${lh}</div>`;
             
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
@@ -793,5 +797,6 @@
             });
         }
     </script>
+<script src="../appunti.js"></script>
 </body>
 </html>

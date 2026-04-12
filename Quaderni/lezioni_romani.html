@@ -464,6 +464,10 @@
             }
 
             textContainer.innerHTML = `
+
+            setTimeout(() => {
+                if (typeof window.ripristinaEvidenze === 'function') window.ripristinaEvidenze();
+            }, 100);
                 <h1 class="title-chapter">${cap.lezione}</h1>
                 <h3 style="color:#555; margin-top:-10px;">${cap.titolo}</h3>
                 <h4 style="color:#888; font-style:italic;">${dataItaliana}</h4>
@@ -735,5 +739,6 @@
         }
     })();
 </script>
+<script src="../appunti.js"></script>
 </body>
 </html>
