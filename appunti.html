@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appunti ed Evidenze - BibliothecaValtortiana</title>
+    <link rel="icon" type="image/png" href="home_sfondo.png">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9; color: #333; margin: 0; padding: 20px;
+        }
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255, 255, 240, 0.95); padding: 15px 30px; border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px;
+        }
+        h1 { color: #2c3e50; margin: 0; font-size: 1.8rem; }
+        .back-btn {
+            background-color: #e6e6da; padding: 8px 15px; border-radius: 5px; text-decoration: none;
+            color: #333; font-weight: bold; border: 1px solid #ccc;
+        }
+        .controls {
+            display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;
+        }
+        select, button { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 1rem; }
+
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;
+        }
+        .card {
+            background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 5px solid #0056b3; display: flex; flex-direction: column;
+        }
+        .card.type-note { border-left-color: #28a745; }
+        .card-header {
+            display: flex; justify-content: space-between; font-size: 0.85rem; color: #666; margin-bottom: 10px;
+            border-bottom: 1px solid #eee; padding-bottom: 5px;
+        }
+        .book-title { font-weight: bold; color: #0056b3; }
+        .chapter-title { font-style: italic; }
+
+        .snippet {
+            background: #fdfdfd; font-style: italic; padding: 10px; border-left: 3px solid #ccc;
+            margin-bottom: 10px; font-size: 0.95rem; line-height: 1.4; color: #555;
+        }
+        .note-text {
+            background: #eaffea; padding: 10px; border-radius: 4px; margin-bottom: 10px; font-size: 0.95rem;
+        }
+        .actions { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
+        .link-btn {
+            color: white; background-color: #0056b3; padding: 5px 10px; text-decoration: none; border-radius: 4px; font-size: 0.85rem;
+        }
+        .del-btn {
+            background: none; border: none; color: #dc3545; cursor: pointer; font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>📝 I Miei Appunti ed Evidenze</h1>
+        <a href="index.html" class="back-btn">← Torna alla Home</a>
+    </div>
+
+    <div class="controls">
+        <select id="filterBook" onchange="renderAppunti()">
+            <option value="all">Tutti i Libri</option>
+            <option value="L'Evangelo">L'Evangelo</option>
+            <option value="Libro di Azaria">Libro di Azaria</option>
+            <option value="Epistola ai Romani">Epistola ai Romani</option>
+            <option value="Autobiografia">Autobiografia</option>
+            <option value="Quadernetti">Quadernetti</option>
+            <option value="Quaderni 1943">Quaderni 1943</option>
+            <option value="Quaderni 1944">Quaderni 1944</option>
+            <option value="Quaderni 1945-1950">Quaderni 1945-1950</option>
+        </select>
+        <select id="filterType" onchange="renderAppunti()">
+            <option value="all">Tutti (Note e Sottolineature)</option>
+            <option value="highlight">Solo Sottolineature</option>
+            <option value="note">Solo Note Personali</option>
+        </select>
+        <button onclick="clearAllAppunti()" style="background-color: #dc3545; color: white;">Svuota Tutto</button>
+    </div>
+
+    <div class="grid" id="appuntiGrid">
+        <!-- Generato dinamicamente -->
+    </div>
+
+    <script>
+        function getAppunti() {
+            let appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+
+            // Per retrocompatibilità, importiamo i vecchi segnalibri dell'Evangelo
+            let oldEvangeloFav = JSON.parse(localStorage.getItem('valtorta_bookmark'));
+            if (oldEvangeloFav) {
+                appunti.push({
+                    id: 'old_evangelo_' + Date.now(),
+                    type: 'highlight',
+                    book: "L'Evangelo",
+                    chapter: "Capitolo " + oldEvangeloFav.chapter,
+                    snippet: oldEvangeloFav.snippet,
+                    date: oldEvangeloFav.date || new Date().toLocaleDateString(),
+                    url: "biblioteca/index.html?cap=" + oldEvangeloFav.chapter
+                });
+                // Rimuoviamo il vecchio così non si duplica
+                localStorage.removeItem('valtorta_bookmark');
+                localStorage.setItem('valtorta_appunti', JSON.stringify(appunti));
+            }
+            return appunti;
+        }
+
+        function renderAppunti() {
+            const grid = document.getElementById('appuntiGrid');
+            const filterBook = document.getElementById('filterBook').value;
+            const filterType = document.getElementById('filterType').value;
+
+            let data = getAppunti();
+
+            // Filtri
+            if (filterBook !== 'all') data = data.filter(item => item.book === filterBook);
+            if (filterType !== 'all') data = data.filter(item => item.type === filterType);
+
+            // Ordina dal più recente al più vecchio
+            data.reverse();
+
+            if (data.length === 0) {
+                grid.innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: #777;'>Nessun appunto trovato con questi filtri.</p>";
+                return;
+            }
+
+            grid.innerHTML = data.map(item => {
+                const typeIcon = item.type === 'note' ? '📝 Nota' : '🖍️ Sottolineatura';
+                const cardClass = item.type === 'note' ? 'card type-note' : 'card';
+                const noteHtml = item.type === 'note' ? `<div class="note-text">${item.noteText}</div>` : '';
+
+                // Formatta l'URL rimuovendo l'eventuale slash iniziale che causa problemi relativi
+                let safeUrl = item.url.startsWith('/') ? item.url.substring(1) : item.url;
+
+                return `
+                <div class="${cardClass}">
+                    <div class="card-header">
+                        <span><span class="book-title">${item.book}</span> - <span class="chapter-title">${item.chapter}</span></span>
+                        <span>${item.date}</span>
+                    </div>
+                    <div style="font-size: 0.8rem; margin-bottom: 5px; color: ${item.type === 'note' ? '#28a745' : '#0056b3'}; font-weight: bold;">
+                        ${typeIcon}
+                    </div>
+                    ${noteHtml}
+                    <div class="snippet">"... ${item.snippet} ..."</div>
+
+                    <div class="actions">
+                        <a href="${safeUrl}" class="link-btn">Vai al testo →</a>
+                        <button class="del-btn" onclick="deleteAppunto('${item.id}')" title="Elimina">🗑️</button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function deleteAppunto(id) {
+            if (confirm("Sei sicuro di voler eliminare questo appunto?")) {
+                let data = getAppunti();
+                data = data.filter(item => item.id !== id);
+                localStorage.setItem('valtorta_appunti', JSON.stringify(data));
+                renderAppunti();
+            }
+        }
+
+        function clearAllAppunti() {
+            if (confirm("ATTENZIONE! Vuoi davvero eliminare TUTTI gli appunti e le sottolineature di tutti i libri? L'azione è irreversibile.")) {
+                localStorage.removeItem('valtorta_appunti');
+                renderAppunti();
+            }
+        }
+
+        // Avvio
+        renderAppunti();
+    </script>
+
+</body>
+</html>
