@@ -211,15 +211,17 @@
             <p style="margin-top: 10px; font-size: 0.85rem; color: #666;">Salva la cronologia, i segnalibri e le posizioni di lettura in un file e ripristina quando vuoi per non perdere nulla.</p>
         </div>
 
-    <div id="recentHistoryBox" class="card" style="display: none; grid-column: 1 / -1; text-align: left; align-items: flex-start;">
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 2px solid #e6e6da; padding-bottom: 10px; margin-bottom: 15px;">
-                <h2 style="margin: 0; font-size: 1.3rem; color: #0056b3;">🕒 Riprendi la lettura</h2>
-                <button onclick="clearGlobalHistory()" style="background-color: #fff; border: 1px solid #ccc; color: #333; cursor: pointer; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; transition: background 0.3s;">Svuota</button>
-            </div>
-            <div id="historyList" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
-                </div>
+     <div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 10px 0 30px 0;">
+            
+            <a href="mia_cronologia.html" style="display: inline-block; background-color: #e6f2ff; color: #0056b3; text-decoration: none; padding: 15px 30px; border-radius: 8px; font-size: 1.2rem; font-weight: bold; border: 2px solid #b3d7ff; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.2)'; this.style.backgroundColor='#cce5ff';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.15)'; this.style.backgroundColor='#e6f2ff';">
+                🕒 Riprendi la Lettura
+            </a>
+            
+            <a href="miei_appunti.html" style="display: inline-block; background-color: #e3dac9; color: #5d4037; text-decoration: none; padding: 15px 30px; border-radius: 8px; font-size: 1.2rem; font-weight: bold; border: 2px solid #d1cbb8; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.2)'; this.style.backgroundColor='#f4ece0';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.15)'; this.style.backgroundColor='#e3dac9';">
+                📝 I miei Appunti e Sottolineature
+            </a>
+            
         </div>
-        
         <a href="biblioteca/index.html" class="card">
             <div class="icon-image-container">
                 <img src="EvangeloButton.png" class="png-icon-evangelo" alt="Copertina L'Evangelo di Maria Valtorta">
@@ -297,53 +299,20 @@
 
     </div>
     <script>
-        function renderGlobalHistory() {
-            // Legge i dati salvati (se non ci sono, crea un array vuoto)
-            const history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
-            const container = document.getElementById('recentHistoryBox');
-            const list = document.getElementById('historyList');
-
-            // Se la cronologia è vuota, nasconde il box
-            if (history.length === 0) {
-                container.style.display = "none";
+            function exportData() {
+            // 1. Chiediamo conferma e spieghiamo all'utente come funziona
+            // Messaggio sintetico con avvertimenti tecnici
+            const messaggio = "💡 I tuoi progressi (note e cronologia) vengono salvati automaticamente in questo browser.\n\n" +
+                              "⚠️ ATTENZIONE: I dati andranno persi se cancelli la cronologia/cookie o se usi la navigazione in incognito (privata).\n\n" +
+                              "Vuoi scaricare un file di backup (.json) per sicurezza o per spostare i dati altrove?";
+            let vuoleScaricare = confirm(messaggio);
+            
+            // Se l'utente clicca "Annulla", fermiamo tutto
+            if (!vuoleScaricare) {
                 return;
             }
 
-            // Se c'è qualcosa, mostra il box e crea i pulsanti
-            container.style.display = "flex"; 
-            
-            // Creiamo i bottoni della cronologia in modo intelligente
-            list.innerHTML = history.map(item => {
-                
-                // 1. Partiamo dal nome dell'opera (es. "📖 Quadernetti")
-                let intestazioneBlu = "📖 " + item.opera;
-                
-                // 2. Aggiungiamo "- Cap. X" SOLO se stiamo leggendo L'Evangelo
-                if (item.opera === "L'Evangelo") {
-                    intestazioneBlu += " - Cap. " + item.id;
-                }
-
-                // 3. Costruiamo il pulsante
-                return `
-                <a href="${item.url}" style="text-decoration: none; background: #ffffff; border: 1px solid #e6e6da; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; color: #333;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 2px 5px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none'; this.style.boxShadow='none'">
-                    <span style="color: #0056b3; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">${intestazioneBlu}</span>
-                    <span style="font-size: 1rem; color: #444;">${item.titolo}</span>
-                </a>
-                `;
-            }).join('');
-        }
-
-        function clearGlobalHistory() {
-            if(confirm("Vuoi svuotare la cronologia delle letture recenti?")) {
-                localStorage.removeItem('valtorta_cronologia_globale');
-                renderGlobalHistory(); // Aggiorna la vista scomparendo
-            }
-        }
-
-        // Avvia la funzione appena la pagina ha finito di caricarsi
-        window.addEventListener('DOMContentLoaded', renderGlobalHistory);
-
-        function exportData() {
+            // 2. Se clicca "Ok", procediamo con la creazione del file
             let data = {};
             for (let i = 0; i < localStorage.length; i++) {
                 let key = localStorage.key(i);
@@ -355,21 +324,33 @@
                     }
                 }
             }
+            
             if (Object.keys(data).length === 0) {
-                alert("Nessun dato da esportare.");
+                alert("Nessun dato da esportare al momento. Inizia a leggere e prendere appunti!");
                 return;
             }
+            
+            // 3. Creazione del timestamp preciso (Data_Ora-Minuti)
+            const oraAttuale = new Date();
+            const dataGiorno = oraAttuale.toISOString().split('T')[0]; // Es: 2024-04-16
+            const ore = String(oraAttuale.getHours()).padStart(2, '0');
+            const minuti = String(oraAttuale.getMinutes()).padStart(2, '0');
+            const timestamp = `${dataGiorno}_${ore}-${minuti}`;
+
+            // 4. Generazione e download del file
             let blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
             let url = URL.createObjectURL(blob);
             let a = document.createElement('a');
             a.href = url;
-            a.download = "bibliotheca_valtortiana_dati.json";
+            
+            // Il nome del file ora includerà anche l'ora, es: bibliotheca_valtortiana_backup_2024-04-16_21-30.json
+            a.download = `bibliotheca_valtortiana_backup_${timestamp}.json`;
+            
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
-
         function importData(event) {
     let file = event.target.files[0];
     if (!file) return;
@@ -395,8 +376,7 @@
                 }
             }
             alert("Dati ripristinati con successo!");
-            renderGlobalHistory();
-        } catch (error) {
+     } catch (error) {
             alert("Errore durante l'importazione dei dati: " + error.message);
         }
         event.target.value = '';

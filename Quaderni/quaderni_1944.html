@@ -323,6 +323,10 @@
             loadChapter(0);
         } else {
             textContainer.innerHTML = "<p style='color:red'>Errore: Variabile 'quaderni_1944' non trovata.</p>";
+
+            setTimeout(() => {
+                if (typeof window.ripristinaEvidenze === 'function') window.ripristinaEvidenze();
+            }, 100);
         }
 
         function initMenu() {
@@ -373,6 +377,10 @@
             const lh = `<div class="source-link"><a href="${lnk}" target="_blank">Leggi il capitolo originale sul sito</a></div>`;
             
             textContainer.innerHTML = `${content}<div class="chapter-footer">${cp}${lh}</div>`;
+
+            setTimeout(() => {
+                if (typeof window.ripristinaEvidenze === 'function') window.ripristinaEvidenze();
+            }, 100);
             
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
@@ -613,5 +621,6 @@
             });
         }
     </script>
+<script src="../appunti.js"></script>
 </body>
 </html>

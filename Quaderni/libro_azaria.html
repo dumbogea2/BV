@@ -409,19 +409,13 @@
 
             // --- SALVATAGGIO IN CRONOLOGIA ---
             if (typeof salvaInCronologia === "function") {
-                // Creiamo un titolo pulito unendo la lezione e la data (se presente)
                 let titoloCronologia = cap.lezione;
-                if (cap.data) {
-                    titoloCronologia += " - " + cap.data;
-                } else if (cap.titolo) {
-                    titoloCronologia += " - " + cap.titolo;
-                }
-                
-                // Salviamo usando il 5° parametro personalizzato che avevamo creato per i Quaderni
+                if (cap.data) titoloCronologia += " - " + cap.data;
+                else if (cap.titolo) titoloCronologia += " - " + cap.titolo;
                 salvaInCronologia(index, titoloCronologia, "Libro di Azaria", "Quaderni", "/libro_azaria.html?idx=");
             }
-            // ---------------------------------
 
+            // Evidenziazione parole cercate (se arrivi dalla ricerca interna)
             if (isSearchActive && searchKeywords.length > 0) {
                 searchKeywords.forEach(kw => {
                     const regex = new RegExp("(" + kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")", "gi");
@@ -429,13 +423,22 @@
                 });
             }
 
+            // --- SCRITTURA DEL TESTO ---
             textContainer.innerHTML = `
                 <h1 class="title-chapter">${cap.lezione}</h1>
                 <h3 style="color:#555; margin-top:-10px;">${cap.titolo}</h3>
                 <h4 style="color:#888; font-style:italic;">${cap.data}</h4>
                 ${htmlTesto}
-            `;
-            
+            `; // <--- ASSICURATI CHE QUESTA CHIUSURA SIA QUI
+
+            // --- ATTIVAZIONE APPUNTI (Fuori dalle virgolette) ---
+            setTimeout(() => {
+                if (typeof window.ripristinaEvidenze === 'function') {
+                    window.ripristinaEvidenze();
+                }
+            }, 200);
+            // ------------------------------------------------
+
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
             if(activeItem) {
@@ -447,34 +450,27 @@
             document.getElementById('btn-next').style.display = 'inline-block';
             document.getElementById('btn-prev').disabled = (currentIndex === 0);
             document.getElementById('btn-next').disabled = (currentIndex === libro_azaria.length - 1);
-
-            // Mostriamo il tasto stampa fluttuante
             floatingPrintBtn.style.display = 'flex';
 
-            // --- GESTIONE DELLO SCROLL (Nuova) ---
+            // Gestione Scroll (Cronologia/Ricerca)
             let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
-            const chiave = "libro_azaria_" + index; // Chiave univoca specifica
+            const chiave = "libro_azaria_" + index;
 
             if (fromSearch && searchKeywords.length > 0) {
                 document.getElementById('content-wrapper').scrollTop = 0;
                 setTimeout(() => {
-                    // MODIFICA QUI: Cerca l'evidenziazione SOLO dentro il testo del capitolo, ignorando la sidebar
                     const mark = document.getElementById('text-container').querySelector('.highlight');
                     if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
                 }, 300);
             } else if (posizioni[chiave]) {
-              setTimeout(() => {
-                    // Nota: qui la finestra che scorre si chiama 'content-wrapper'
+                setTimeout(() => {
                     const mainArea = document.getElementById('content-wrapper');
-                    if (mainArea) {
-                        mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
-                    }
+                    if (mainArea) mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
                 }, 300);
             } else {
                 document.getElementById('content-wrapper').scrollTop = 0;
             }
         }
-
         function nextChapter() { if (currentIndex < libro_azaria.length - 1) loadChapter(currentIndex + 1); }
         function prevChapter() { if (currentIndex > 0) loadChapter(currentIndex - 1); }
 
@@ -734,5 +730,6 @@
             }
         })();
     </script>
+<script src="../appunti.js"></script>
 </body>
 </html>

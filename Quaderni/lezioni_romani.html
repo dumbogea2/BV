@@ -463,6 +463,7 @@
                 </div>`;
             }
 
+            // --- SCRITTURA DEL TESTO (Include i link originali) ---
             textContainer.innerHTML = `
                 <h1 class="title-chapter">${cap.lezione}</h1>
                 <h3 style="color:#555; margin-top:-10px;">${cap.titolo}</h3>
@@ -470,7 +471,13 @@
                 ${htmlTesto}
                 ${linkSito}
             `;
-            
+
+            // --- ATTIVAZIONE APPUNTI (Corretta: fuori dalle virgolette) ---
+            setTimeout(() => {
+                if (typeof window.ripristinaEvidenze === 'function') {
+                    window.ripristinaEvidenze();
+                }
+            }, 200);            
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
             if(activeItem) {
@@ -735,5 +742,6 @@
         }
     })();
 </script>
+<script src="../appunti.js"></script>
 </body>
 </html>

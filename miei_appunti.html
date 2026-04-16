@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I miei Appunti e Sottolineature</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0; padding: 20px;
+            background-color: #f4ece0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            width: 100%; max-width: 800px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px double #8b0000; padding-bottom: 15px; margin-bottom: 30px;
+        }
+        .header h1 { margin: 0; color: #8b0000; font-size: 24px; }
+        
+        /* Contenitore per i bottoni nell'header */
+        .header-buttons {
+            display: flex; align-items: center; gap: 15px;
+        }
+
+        .btn-back {
+            text-decoration: none; background-color: #8b0000; color: white;
+            padding: 8px 15px; border-radius: 4px; font-weight: bold; font-size: 14px;
+            transition: background 0.2s;
+        }
+        .btn-back:hover { background-color: #a50000; }
+        
+        /* Stile per il nuovo tasto Svuota Tutto */
+        #btn-svuota {
+            background-color: transparent; border: 2px solid #d32f2f; color: #d32f2f;
+            padding: 8px 15px; border-radius: 4px; font-weight: bold; font-size: 14px;
+            cursor: pointer; transition: 0.2s; display: none; /* Nascosto di default */
+        }
+        #btn-svuota:hover { background-color: #ffebee; }
+        
+        #appunti-container { width: 100%; max-width: 800px; }
+        
+        .book-group { margin-bottom: 40px; }
+        .book-title {
+            background-color: #d1cbb8; padding: 10px 15px; border-radius: 6px;
+            font-size: 18px; color: #5d4037; margin-bottom: 15px; border-left: 5px solid #8b0000;
+        }
+        
+        .appunto-card {
+            background: white; border: 1px solid #dcd8ce; border-radius: 8px;
+            padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .appunto-card:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+        
+        .appunto-header {
+            display: flex; justify-content: space-between; font-size: 12px; color: #666;
+            margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;
+        }
+        .appunto-tipo { font-weight: bold; text-transform: uppercase; }
+        .tipo-nota { color: #8b0000; }
+        .tipo-sottolineatura { color: #0056b3; }
+        
+        .appunto-snippet { font-style: italic; color: #555; margin-bottom: 10px; border-left: 3px solid #ccc; padding-left: 10px; }
+        .appunto-nota-testo { background-color: #fff8e1; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-weight: bold; }
+        
+        .appunto-actions { text-align: right; }
+        .btn-vai {
+            background-color: #5d4037; color: white; border: none; padding: 6px 12px;
+            border-radius: 4px; cursor: pointer; font-size: 12px; transition: 0.2s;
+        }
+        .btn-vai:hover { background-color: #8b0000; }
+        .btn-elimina {
+            background-color: transparent; color: #888; border: 1px solid #ccc; padding: 5px 10px;
+            border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 10px; transition: 0.2s;
+        }
+        .btn-elimina:hover { background-color: #ffebee; color: #d32f2f; border-color: #d32f2f; }
+
+        .empty-state { text-align: center; color: #666; font-style: italic; padding: 40px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>📝 I miei Appunti e Sottolineature</h1>
+        <div class="header-buttons">
+            <button id="btn-svuota" onclick="svuotaTutto()">🗑️ Svuota Tutto</button>
+            <a href="index.html" class="btn-back">🏠 Torna alla Home</a>
+        </div>
+    </div>
+
+    <div id="appunti-container"></div>
+
+    <script>
+        function renderAppunti() {
+            const container = document.getElementById('appunti-container');
+            const btnSvuota = document.getElementById('btn-svuota');
+            let appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+            
+            if (appunti.length === 0) {
+                container.innerHTML = `<div class="empty-state">Non hai ancora salvato appunti o sottolineature.<br>Seleziona del testo durante la lettura per iniziare!</div>`;
+                btnSvuota.style.display = 'none'; // Nascondi il tasto se non ci sono appunti
+                return;
+            }
+
+            btnSvuota.style.display = 'inline-block'; // Mostra il tasto se ci sono appunti
+
+            // Raggruppa gli appunti per libro
+            const appuntiPerLibro = appunti.reduce((acc, appunto) => {
+                if (!acc[appunto.book]) acc[appunto.book] = [];
+                acc[appunto.book].push(appunto);
+                return acc;
+            }, {});
+
+            container.innerHTML = '';
+
+            for (const [libro, lista] of Object.entries(appuntiPerLibro)) {
+                let htmlGroup = `<div class="book-group"><div class="book-title">📖 ${libro}</div>`;
+                
+                // Invertiamo l'array per mostrare i più recenti in alto
+                lista.reverse().forEach(item => {
+                    const isNota = item.type === 'note';
+                    const tipoLabel = isNota ? '📝 Nota Personale' : '🖍️ Sottolineatura';
+                    const tipoClass = isNota ? 'tipo-nota' : 'tipo-sottolineatura';
+                    
+                    let notaHtml = isNota ? `<div class="appunto-nota-testo">✍️ ${item.noteText}</div>` : '';
+                    
+                    // Costruzione Link Intelligente (con prefisso Quaderni/ se serve)
+                    let linkTarget = item.url;
+                    if (linkTarget.includes('.html') && !linkTarget.includes('/') && !linkTarget.startsWith('?')) {
+                        linkTarget = 'Quaderni/' + linkTarget;
+                    }
+                    let separator = linkTarget.includes('?') ? '&' : '?';
+                    linkTarget += separator + 'appId=' + item.id;
+                    if (linkTarget.startsWith('?cap=')) {
+                        linkTarget = 'biblioteca/index.html' + linkTarget;
+                    } else if (linkTarget.startsWith('?idx=')) {
+                        linkTarget = 'Quaderni/home.html' + linkTarget;
+                    } else if (linkTarget.startsWith('/')) {
+                        linkTarget = linkTarget.substring(1);
+                    }
+
+                    htmlGroup += `
+                        <div class="appunto-card">
+                            <div class="appunto-header">
+                                <span class="appunto-tipo ${tipoClass}">${tipoLabel}</span>
+                                <span>${item.chapter} | 🗓️ ${item.date}</span>
+                            </div>
+                            <div class="appunto-snippet">"${item.snippet}..."</div>
+                            ${notaHtml}
+                            <div class="appunto-actions">
+                                <button class="btn-elimina" onclick="eliminaAppunto('${item.id}')">🗑️ Elimina</button>
+                                <button class="btn-vai" onclick="window.location.href='${linkTarget}'">Vai al Capitolo ➔</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                htmlGroup += `</div>`;
+                container.innerHTML += htmlGroup;
+            }
+        }
+
+        function eliminaAppunto(id) {
+            if(confirm("Sei sicuro di voler eliminare questo appunto?")) {
+                let appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+                appunti = appunti.filter(a => a.id !== id);
+                localStorage.setItem('valtorta_appunti', JSON.stringify(appunti));
+                renderAppunti(); // Ricarica la lista
+            }
+        }
+
+        // --- NUOVA FUNZIONE: Svuota tutto ---
+        function svuotaTutto() {
+            if(confirm("⚠️ ATTENZIONE: Sei sicuro di voler eliminare TUTTI gli appunti e le sottolineature?\n\nQuesta azione eliminerà tutto definitivamente e non può essere annullata.")) {
+                localStorage.removeItem('valtorta_appunti'); // Cancella la chiave dal browser
+                renderAppunti(); // Ricarica la pagina per mostrare che è vuota
+            }
+        }
+
+        // Carica gli appunti all'avvio
+        window.onload = renderAppunti;
+    </script>
+</body>
+</html>

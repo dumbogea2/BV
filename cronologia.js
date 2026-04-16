@@ -21,7 +21,7 @@ function salvaInCronologia(idCapitolo, titoloCapitolo, nomeOpera, cartellaOpera,
     history = history.filter(item => item.url !== entry.url);
     history.unshift(entry);
 
-    if (history.length > 5) {
+    if (history.length > 10) {
         history.pop();
     }
 
