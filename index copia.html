@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -204,7 +204,7 @@
                 <div style="display: flex; gap: 10px;">
                     <a href="login.html" id="btnAccediCloud" style="display: none; background-color: #28a745; border: none; color: white; text-decoration: none; padding: 8px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">☁️ Accedi al Cloud</a>
                     
-                    <button id="btnCambiaPsw" onclick="cambiaPassword()" style="display: none; background-color: #f0ad4e; border: none; color: white; cursor: pointer; padding: 8px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">🔑 Password</button>
+                    <button id="btnCambiaPsw" onclick="cambiaPassword()" style="display: none; background-color: #f0ad4e; border: none; color: white; cursor: pointer; padding: 8px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">🔑 Cambia Password</button>
                     <button id="btnLogoutCloud" onclick="logoutCloud()" style="display: none; background-color: #d9534f; border: none; color: white; cursor: pointer; padding: 8px 12px; border-radius: 5px; font-size: 0.85rem; transition: background 0.3s; font-weight: bold;">🚪 Esci</button>
                 </div>
             </div>
@@ -293,7 +293,7 @@
         const isCloudMode = localStorage.getItem('modalita_lettura') === 'cloud';
         const isRunningOnServer = window.location.protocol.startsWith('http');
 
-        // Configurazione Firebase
+        // Configurazione Firebase (univoca per tutte le funzioni)
         const firebaseConfig = {
             apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
             authDomain: "appuntivaltorta.firebaseapp.com",
@@ -303,7 +303,7 @@
             appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
         };
 
-        // GESTIONE VISIBILITÀ PULSANTI
+        // GESTIONE VISIBILITÀ PULSANTI (Logica accorpata senza ripetizioni)
         if (isRunningOnServer) {
             if (isCloudMode) {
                 document.getElementById('btnLogoutCloud').style.display = 'block';
@@ -315,70 +315,41 @@
 
         // --- FUNZIONE: CAMBIA PASSWORD ---
         async function cambiaPassword() {
-            // 1. Chiediamo la password all'utente
             const nuovaPsw = prompt("Inserisci la tua nuova password (minimo 6 caratteri):");
-            
-            // Se l'utente clicca su "Annulla" nel prompt, interrompiamo tutto
-            if (nuovaPsw === null) {
-                return; 
-            }
-
-            // 2. Controllo rigoroso sulla lunghezza (trim() rimuove gli spazi vuoti all'inizio e alla fine)
-            if (nuovaPsw.trim().length < 6) {
-                alert("❌ Errore: La password inserita è troppo corta. Deve contenere almeno 6 caratteri.");
-                return; // Blocca l'esecuzione, non va avanti.
-            }
-
-            // 3. Se la password è valida, ci colleghiamo a Firebase
-            try {
-                const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
-                const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
-                
-                const app = fApp.getApps().length === 0 ? fApp.initializeApp(firebaseConfig) : fApp.getApp();
-                const auth = fAuth.getAuth(app);
-                
-                // NOVITÀ: Diciamo a Firebase di assicurarsi che i dati dell'utente siano caricati
-                await auth.authStateReady(); 
-                
-                // Ora prendiamo l'utente attuale in modo sicuro
-                const user = auth.currentUser;
-
-                if (user) {
-                    try {
-                        // Tentiamo di aggiornare la password
-                        await fAuth.updatePassword(user, nuovaPsw.trim());
-                        alert("✅ Password aggiornata con successo! Ricordati di usarla al prossimo accesso.");
-                    } catch (error) {
-                        // Firebase richiede un login recente per cambiare la password per motivi di sicurezza!
-                        if (error.code === 'auth/requires-recent-login') {
-                            alert("⚠️ SICUREZZA CLOUD:\nPer cambiare la password devi aver fatto l'accesso di recente.\n\n👉 Clicca su 'Esci', fai di nuovo il Login e poi riprova a cambiare la password.");
+            if (nuovaPsw && nuovaPsw.length >= 6) {
+                try {
+                    const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                    const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+                    const app = fApp.initializeApp(firebaseConfig, "cambio_psw_app");
+                    const auth = fAuth.getAuth(app);
+                    
+                    fAuth.onAuthStateChanged(auth, async (user) => {
+                        if (user) {
+                            try {
+                                await fAuth.updatePassword(user, nuovaPsw);
+                                alert("✅ Password aggiornata con successo!");
+                            } catch (error) {
+                                alert("Errore: " + error.message);
+                            }
                         } else {
-                            // Altri errori imprevisti
-                            alert("❌ Errore durante l'aggiornamento: " + error.message);
+                            alert("❌ Devi essere loggato nel Cloud.");
                         }
-                    }
-                } else {
-                    // L'utente non è davvero loggato nel sistema
-                    alert("❌ Errore: Non risulti collegato al Cloud. Fai il Login e riprova.");
-                }
-            } catch (e) { 
-                alert("❌ Errore di connessione a Firebase. Controlla la tua connessione internet."); 
-                console.error(e); 
+                    });
+                } catch (e) { alert("Errore di connessione."); }
             }
         }
+
         // --- FUNZIONE: LOGOUT ---
         async function logoutCloud() {
-            if(confirm("Vuoi disconnetterti dal Cloud e tornare alla modalità Offline?")) {
+            if(confirm("Vuoi disconnetterti dal Cloud?")) {
                 localStorage.removeItem('modalita_lettura');
                 try {
                     const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
                     const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
-                    
-                    // CORREZIONE: Chiude la sessione nell'app principale
-                    const app = fApp.getApps().length === 0 ? fApp.initializeApp(firebaseConfig) : fApp.getApp();
+                    const app = fApp.initializeApp(firebaseConfig, "logout_app");
                     const auth = fAuth.getAuth(app);
                     await fAuth.signOut(auth);
-                } catch(e) { console.log("Logout locale effettuato.", e); }
+                } catch(e) { console.log("Logout locale effettuato."); }
                 window.location.reload();
             }
         }
