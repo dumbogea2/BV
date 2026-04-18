@@ -1,10 +1,10 @@
 /**
  * Script universale per evidenziare il testo in blu e aggiungere note.
- * VERSIONE V18 - Editor Note Avanzato (Modal Personalizzato Multiriga)
+ * VERSIONE V20 - Fix Definitivo Posizione Popup (Fixed) e Selezione Lunga
  */
 
 (function() {
-    // 1. INIEZIONE STILI CSS (Inclusi i nuovi stili per l'Editor Note)
+    // 1. INIEZIONE STILI CSS
     const style = document.createElement('style');
     style.innerHTML = `
         .appunto-highlight { 
@@ -20,19 +20,19 @@
         }
         .appunto-note-marker:hover { background-color: #b22222; transform: scale(1.1); }
         
-        /* Popup piccolino per scegliere se sottolineare o notare */
+        /* NOVITA': position: fixed garantisce che sia sempre visibile sotto il mouse */
         #appunti-popup {
-            position: absolute; display: none; background: #fdfdfd; border: 1px solid #c0c0c0;
+            position: fixed; display: none; background: #fdfdfd; border: 1px solid #c0c0c0;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 999999 !important; padding: 6px; border-radius: 6px;
             flex-direction: column; gap: 5px; font-family: 'Segoe UI', sans-serif;
         }
-                #appunti-popup button {
+        #appunti-popup button {
             background-color: #0056b3; border: none; color: white; cursor: pointer;
             padding: 8px 12px; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s;
             display: flex; align-items: center; gap: 5px; justify-content: flex-start;
         }
 
-        /* --- NUOVO EDITOR NOTE AVANZATO --- */
+        /* --- EDITOR NOTE AVANZATO --- */
         #appunti-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 9999999 !important; display: none;
@@ -68,7 +68,7 @@
     `;
     document.head.appendChild(style);
 
-    // 2. CREAZIONE DOM DEL POPUP PICCOLO
+    // 2. CREAZIONE DOM
     const popup = document.createElement('div');
     popup.id = 'appunti-popup';
     popup.innerHTML = `
@@ -77,7 +77,6 @@
     `;
     document.body.appendChild(popup);
 
-    // 3. CREAZIONE DOM DEL NUOVO EDITOR NOTE
     const modalHTML = document.createElement('div');
     modalHTML.id = 'appunti-modal-overlay';
     modalHTML.innerHTML = `
@@ -96,7 +95,7 @@
     let currentSelectionText = "";
     let currentSelectionRange = null;
 
-    // --- LOGICA DEL NUOVO EDITOR ---
+    // --- LOGICA DEL MODAL ---
     let currentModalCallback = null;
 
     window.openCustomModal = function(title, snippetText, noteText, callback) {
@@ -116,7 +115,7 @@
 
     document.getElementById('appunti-modal-btn-cancel').addEventListener('click', () => {
         closeCustomModal();
-        window.getSelection().removeAllRanges(); // Deseleziona se si annulla
+        window.getSelection().removeAllRanges();
     });
 
     document.getElementById('appunti-modal-btn-save').addEventListener('click', () => {
@@ -125,52 +124,51 @@
         }
         closeCustomModal();
     });
-    // ---------------------------------
 
     function getReaderContainer() {
-        // Se siamo nell'Evangelo (nella cartella biblioteca), usiamo 'modalContent' come nel file originale
         if (window.location.pathname.includes('biblioteca')) {
             return document.getElementById('modalContent');
         }
-        // Altrimenti usiamo i contenitori standard per le altre pagine (Quaderni, Romani, ecc.)
         return document.getElementById('text-container') || 
                document.getElementById('content') || 
                document.getElementById('modalText-quaderni') ||
                document.querySelector('main');
     }
+
+    // --- NUOVA LOGICA: TOOLBAR FISSA IN BASSO ---
     document.addEventListener("selectionchange", () => {
-        const container = getReaderContainer();
-        if (!container) return;
-
         const sel = window.getSelection();
-        if (sel.rangeCount > 0) {
-            const range = sel.getRangeAt(0);
-            const text = sel.toString().trim();
-            
-            if (text.length > 5 && container.contains(range.commonAncestorContainer)) {
-                currentSelectionText = text;
-                currentSelectionRange = range.cloneRange();
-            } else {
-                currentSelectionText = "";
-                currentSelectionRange = null;
-            }
-        }
-    });
+        const text = sel.toString().trim();
 
-    document.addEventListener("mouseup", (e) => {
-        if (popup.contains(e.target) || document.getElementById('appunti-modal-box').contains(e.target)) return;
-        
-        // Rimosso isStudyPage(), ora si comporta esattamente come nel file appunti.js originale!
-        if (currentSelectionText.length > 5 && currentSelectionRange) {
-            const rect = currentSelectionRange.getBoundingClientRect();
+        // Evitiamo che appaia se sei dentro la modale degli appunti
+        const container = getReaderContainer();
+        if (!container || (document.activeElement && document.activeElement.id === 'appunti-modal-textarea')) {
+            return;
+        }
+
+        if (text.length > 5 && sel.rangeCount > 0) {
+            currentSelectionText = text;
+            currentSelectionRange = sel.getRangeAt(0).cloneRange();
+
+            // Mostriamo il popup e lo fissiamo in basso al centro
             popup.style.display = 'flex';
-            popup.style.top = (window.scrollY + rect.top - popup.offsetHeight - 10) + 'px';
-            popup.style.left = Math.max(10, window.scrollX + rect.left + (rect.width / 2) - (popup.offsetWidth / 2)) + 'px';
+            popup.style.position = 'fixed';
+            popup.style.bottom = '30px'; // Distanza dal fondo dello schermo
+            popup.style.left = '50%';
+            popup.style.transform = 'translateX(-50%)'; // Centratura perfetta
+            popup.style.top = 'auto'; // Resettiamo vecchi valori in alto
+            popup.style.zIndex = '9999';
         } else {
             popup.style.display = 'none';
         }
     });
 
+    // Impediamo che il click sui bottoni cancelli la selezione
+    popup.addEventListener('mousedown', (e) => {
+        e.preventDefault(); 
+    });
+    // -------------------------------------------------------------
+    // --- SALVATAGGIO E RIPRISTINO ---
     function getBookAndChapter() {
         let bookName = document.title;
         let chapterName = "";
@@ -214,10 +212,9 @@
             return;
         }
         
-        popup.style.display = 'none'; // Nasconde il menu piccolino
+        popup.style.display = 'none'; 
 
         if (type === "note") {
-            // Apre il nuovo Editor Avanzato
             window.openCustomModal("Scrivi la tua Nota", snippet, "", function(testo) {
                 if (testo && testo.trim() !== "") {
                     saveAppunto(type, snippet, testo.trim());
@@ -225,7 +222,6 @@
                 window.getSelection().removeAllRanges();
             });
         } else {
-            // Se è solo sottolineatura, salva diretto
             saveAppunto(type, snippet, "");
             window.getSelection().removeAllRanges();
         }
@@ -253,16 +249,21 @@
 
         const { bookName, urlForRestore } = getBookAndChapter();
         
+        // 1. PULIZIA E PREPARAZIONE
+        // Rimuoviamo evidenziazioni vecchie per resettare il testo allo stato originale
         container.querySelectorAll('.appunto-note-marker').forEach(el => el.remove());
         container.querySelectorAll('.appunto-highlight').forEach(el => {
             const parent = el.parentNode;
             if(parent) {
+                // Rimettiamo il testo fuori dallo span
                 while (el.firstChild) parent.insertBefore(el.firstChild, el);
                 parent.removeChild(el);
             }
         });
-        container.normalize();
+        // IMPORTANTE: "Incolla" di nuovo i pezzi di testo rotti in precedenza!
+        container.normalize(); 
 
+        // 2. RECUPERO APPUNTI
         let appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
         let currentCapAppunti = appunti.filter(a => {
             if (bookName === "L'Evangelo") return a.book === bookName && a.url.includes(urlForRestore.split('?')[1]);
@@ -270,31 +271,96 @@
         });
 
         let noteCounter = 1;
+
+        // 3. IL NUOVO MOTORE DI RICERCA (TreeWalker + Character Mapping)
         currentCapAppunti.forEach(annotation => {
-            let tokens = annotation.snippet.trim().split(/(\s+|[.,;:'"!?()\[\]«»“”‘’\-])/).filter(t => t.length > 0);
-            let fuzzyPattern = tokens.map(t => {
-                if (/\s+/.test(t)) return '(?:\\s|<[^>]+>|&nbsp;|&#160;)+';
-                return t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?:<[^>]+>)*';
-            }).join('');
+            const snippetStr = annotation.snippet;
+            if (!snippetStr || snippetStr.trim() === "") return;
 
-            let regex = new RegExp("(" + fuzzyPattern + ")", "i");
-            let isFirstNode = true;
-
-            container.innerHTML = container.innerHTML.replace(regex, function(match) {
-                let processed = match.replace(/(<[^>]+>)|([^<]+)/g, function(m, tag, text) {
-                    if (tag) return m; 
-                    if (!text || text.trim().length === 0) return m; 
-                    let attrId = isFirstNode ? `id="${annotation.id}"` : "";
-                    isFirstNode = false;
-                    return `<span ${attrId} class="appunto-highlight">${text}</span>`;
-                });
-                if (annotation.type === "note") {
-                    processed += `<span class="appunto-note-marker" onclick="window.gestisciNota(event, '${annotation.id}')">✎ ${noteCounter++}</span>`;
+            // A) Mappiamo ogni singolo carattere visibile della pagina alla sua esatta "scatola" (nodo html)
+            const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+            const charMap = []; 
+            let node;
+            
+            while ((node = walker.nextNode())) {
+                // Ignoriamo pezzi di codice nascosti
+                if (node.parentNode && ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(node.parentNode.nodeName)) continue;
+                
+                let text = node.nodeValue;
+                for (let i = 0; i < text.length; i++) {
+                    if (!/\s/.test(text[i])) { // Se NON è uno spazio o un a capo, lo salviamo in memoria
+                        charMap.push({ node: node, offset: i, char: text[i].toLowerCase() });
+                    }
                 }
-                return processed;
-            });
+            }
+
+            // B) Prepariamo la frase da cercare, compattandola senza spazi
+            const searchStr = snippetStr.replace(/\s+/g, '').toLowerCase();
+            const pageText = charMap.map(c => c.char).join('');
+            
+            // C) Troviamo l'inizio esatto della frase nel nostro "nastro" di caratteri
+            const matchStartIndex = pageText.indexOf(searchStr);
+
+            if (matchStartIndex !== -1) {
+                const matchEndIndex = matchStartIndex + searchStr.length - 1;
+                
+                // D) Raccogliamo tutti i nodi di testo in cui è spalmata la frase
+                const nodesInvolved = new Map();
+                for (let i = matchStartIndex; i <= matchEndIndex; i++) {
+                    let current = charMap[i];
+                    if (!nodesInvolved.has(current.node)) {
+                        nodesInvolved.set(current.node, { min: current.offset, max: current.offset });
+                    } else {
+                        let data = nodesInvolved.get(current.node);
+                        data.max = Math.max(data.max, current.offset); // Aggiorniamo l'ultimo carattere del nodo
+                    }
+                }
+
+                // E) Coloriamo chirurgicamente i pezzetti di testo, senza rompere l'HTML
+                let lastHighlightedNode = null;
+                let isFirst = true;
+
+                Array.from(nodesInvolved.entries()).forEach(([textNode, range]) => {
+                    let highlightEnd = range.max + 1;
+                    let highlightStart = range.min;
+
+                    // "Tagliamo" il nodo di testo a misura
+                    if (highlightEnd < textNode.nodeValue.length) {
+                        textNode.splitText(highlightEnd);
+                    }
+                    let highlightNode = textNode;
+                    if (highlightStart > 0) {
+                        highlightNode = textNode.splitText(highlightStart);
+                    }
+
+                    // Creiamo l'evidenziatore
+                    let span = document.createElement('span');
+                    span.className = 'appunto-highlight';
+                    if (isFirst) { 
+                        span.id = annotation.id; 
+                        isFirst = false; 
+                    }
+                    
+                    // Avvolgiamo il testo
+                    highlightNode.parentNode.insertBefore(span, highlightNode);
+                    span.appendChild(highlightNode);
+
+                    lastHighlightedNode = span;
+                });
+
+                // F) Aggiungiamo il bottoncino rosso (Nota) alla fine dell'ultimo pezzo colorato
+                if (annotation.type === "note" && lastHighlightedNode) {
+                    let noteBtn = document.createElement('span');
+                    noteBtn.className = 'appunto-note-marker';
+                    noteBtn.textContent = '✎ ' + (noteCounter++);
+                    noteBtn.onclick = (e) => window.gestisciNota(e, annotation.id);
+                    // Lo inseriamo subito dopo l'ultimo pezzo evidenziato
+                    lastHighlightedNode.parentNode.insertBefore(noteBtn, lastHighlightedNode.nextSibling);
+                }
+            }
         });
 
+        // 4. GESTIONE DELLO SCROLL AUTOMATICO (Quando torni dalla Cronologia)
         const params = new URLSearchParams(window.location.search);
         const targetAppId = params.get('appId');
         if (targetAppId) {
@@ -307,7 +373,7 @@
                 const targetEl = document.getElementById(targetAppId);
                 if (targetEl) {
                     targetEl.scrollIntoView({ behavior: 'auto', block: 'center' });
-                    
+                    // Effetto flash giallo per farti capire dove sei atterrato
                     targetEl.style.backgroundColor = "rgba(255, 235, 59, 0.4)";
                     setTimeout(() => targetEl.style.backgroundColor = "transparent", 800);
                     
@@ -318,7 +384,6 @@
             }, 150); 
         }
     }
-
     window.ripristinaEvidenze = ripristinaEvidenze;
     window.gestisciNota = function(event, noteId) {
         event.stopPropagation(); 
@@ -327,7 +392,6 @@
         if (index === -1) return;
         let nota = appunti[index];
         
-        // Usa il nuovo Editor Avanzato anche per modificare le note!
         window.openCustomModal("Modifica la tua Nota", nota.snippet, nota.noteText, function(nuovoTesto) {
             appunti[index].noteText = nuovoTesto.trim();
             localStorage.setItem('valtorta_appunti', JSON.stringify(appunti));

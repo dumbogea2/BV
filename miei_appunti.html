@@ -25,6 +25,24 @@
         .header-buttons {
             display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
         }
+        /* Stile per la tendina dei filtri */
+.appunti-filter-dropdown {
+    background-color: #fdfdfd;
+    border: 1px solid #8b0000;
+    color: #8b0000;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.appunti-filter-dropdown:hover {
+    background-color: #fcebeb;
+}
 
         /* --- PULSANTI AGGIORNATI CON ALLINEAMENTO PERFETTO --- */
         .btn-back {
@@ -139,10 +157,17 @@
     <div class="header">
         <h1>📝 I miei Appunti e Sottolineature</h1>
         <div class="header-buttons">
-            <button id="btn-word" onclick="esportaWord()">📘 Esporta Word</button>
-            <button id="btn-stampa" onclick="stampaPDF()">📄 PDF / Stampa</button>
-            <button id="btn-svuota" onclick="svuotaTutto()">🗑️ Elimina</button>
-            <a href="index.html" class="btn-back">🏠 Home</a>
+         <a href="index.html" class="btn-back">🏠 Home</a>
+         <button id="btn-svuota" onclick="svuotaTutto()">🗑️ Elimina</button>
+         <button id="btn-stampa" onclick="stampaPDF()">📄 PDF / Stampa</button>            
+         <button id="btn-word" onclick="esportaWord()">📘 Esporta Word</button>
+         
+         <select id="filtro-appunti" class="appunti-filter-dropdown">
+    <option value="all">Tutti (Note e Sottolineature)</option>
+    <option value="note">📝 Solo Note Testuali</option>
+    <option value="highlight">🖍️ Solo Sottolineature</option>
+</select>
+
         </div>
     </div>
 
@@ -201,10 +226,9 @@
                     } else if (linkTarget.startsWith('/')) {
                         linkTarget = linkTarget.substring(1);
                     }
-
                     htmlGroup += `
-                        <div class="appunto-card">
-                            <div class="appunto-header">
+                        <div class="appunto-card" data-type="${item.type}">
+                            <div class="appunto-header">                    
                                 <span class="appunto-tipo ${tipoClass}">${tipoLabel}</span>
                                 <span>${item.chapter} | 🗓️ ${item.date}</span>
                             </div>
@@ -283,6 +307,34 @@
             URL.revokeObjectURL(urlDownload);
         }
 
+        // --- LOGICA FILTRO A TENDINA ---
+        document.getElementById('filtro-appunti').addEventListener('change', function(e) {
+            const filtroSelezionato = e.target.value;
+            const tutteLeSchede = document.querySelectorAll('.appunto-card');
+            
+            tutteLeSchede.forEach(scheda => {
+                const tipoScheda = scheda.getAttribute('data-type');
+                
+                // Mostra se è "all" o se il tipo corrisponde, altrimenti nascondi
+                if (filtroSelezionato === 'all' || filtroSelezionato === tipoScheda) {
+                    scheda.style.display = 'block';
+                } else {
+                    scheda.style.display = 'none';
+                }
+            });
+
+            // Opzionale: Nascondere i titoli dei libri se non ci sono appunti visibili in quel libro
+            const gruppiLibri = document.querySelectorAll('.book-group');
+            gruppiLibri.forEach(gruppo => {
+                const schedeVisibili = gruppo.querySelectorAll('.appunto-card[style="display: block;"], .appunto-card:not([style*="display: none"])');
+                if (schedeVisibili.length === 0) {
+                    gruppo.style.display = 'none';
+                } else {
+                    gruppo.style.display = 'block';
+                }
+            });
+        });
+        // -------------------------------        
         window.onload = renderAppunti;
     </script>
 </body>
