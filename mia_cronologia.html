@@ -54,8 +54,58 @@
     <div id="cronologia-container"></div>
 
     <script>
-        function renderGlobalHistory() {
-            const history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+        // BIVIO LOGICO
+        const isCloudMode = localStorage.getItem('modalita_lettura') === 'cloud';
+        let utenteCloud = null;
+        let db = null, collection = null, getDocs = null, query = null, orderBy = null, limit = null, deleteDoc = null;
+
+        if (isCloudMode) {
+            (async function initFirebase() {
+                try {
+                    const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                    const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+                    const fDb = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+
+                    const firebaseConfig = {
+                        apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                        authDomain: "appuntivaltorta.firebaseapp.com",
+                        projectId: "appuntivaltorta",
+                        storageBucket: "appuntivaltorta.firebasestorage.app",
+                        messagingSenderId: "940851152715",
+                        appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+                    };
+
+                    const app = fApp.initializeApp(firebaseConfig);
+                    const auth = fAuth.getAuth(app);
+                    db = fDb.getFirestore(app);
+                    
+                    collection = fDb.collection; getDocs = fDb.getDocs; 
+                    query = fDb.query; orderBy = fDb.orderBy; limit = fDb.limit;
+                    deleteDoc = fDb.deleteDoc; fDb.doc;
+
+                    fAuth.onAuthStateChanged(auth, (user) => {
+                        if (user) { utenteCloud = user; renderGlobalHistory(); }
+                        else { window.location.href = "login.html"; }
+                    });
+                } catch(e) { console.error("Modalità Cloud non disponibile"); }
+            })();
+        } else {
+            window.onload = renderGlobalHistory;
+        }
+
+        async function renderGlobalHistory() {
+            let history = [];
+
+            if (isCloudMode) {
+                if (!utenteCloud || !db) return;
+                // Prendi gli ultimi 20 capitoli letti ordinati per tempo
+                const q = query(collection(db, `utenti/${utenteCloud.uid}/cronologia`), orderBy("timestamp", "desc"), limit(20));
+                const snapshot = await getDocs(q);
+                snapshot.forEach(doc => history.push(doc.data()));
+            } else {
+                history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+            }
+
             const container = document.getElementById('cronologia-container');
 
             if (history.length === 0) {
@@ -67,8 +117,14 @@
                 let intestazioneBlu = "📖 " + item.opera;
                 if (item.opera === "L'Evangelo") intestazioneBlu += " - Cap. " + item.id;
 
+                // Aggiustamento percorsi se necessario
+                let finalUrl = item.url;
+                if (!isCloudMode && !finalUrl.includes('/') && finalUrl.includes('.html')) {
+                    finalUrl = finalUrl; // Mantiene logica locale
+                }
+
                 return `
-                <a href="${item.url}" class="cronologia-card">
+                <a href="${finalUrl}" class="cronologia-card">
                     <div class="cronologia-header">${intestazioneBlu}</div>
                     <div class="cronologia-titolo">${item.titolo}</div>
                 </a>
@@ -76,14 +132,21 @@
             }).join('');
         }
 
-        function clearGlobalHistory() {
+        async function clearGlobalHistory() {
             if(confirm("Vuoi svuotare la cronologia delle letture recenti?")) {
-                localStorage.removeItem('valtorta_cronologia_globale');
-                renderGlobalHistory();
+                if (isCloudMode && utenteCloud && db) {
+                    const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/cronologia`));
+                    // Firebase richiede cancellazione singola per i documenti
+                    snapshot.forEach(async (documento) => {
+                        await deleteDoc(documento.ref);
+                    });
+                    setTimeout(renderGlobalHistory, 1000);
+                } else {
+                    localStorage.removeItem('valtorta_cronologia_globale');
+                    renderGlobalHistory();
+                }
             }
         }
-
-        window.onload = renderGlobalHistory;
     </script>
 </body>
 </html>

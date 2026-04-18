@@ -163,13 +163,12 @@
             transform: scale(1.05);           
         }
 
-        /* --- NUOVO STILE ICONA AUTOBIOGRAFIA (CORRETTO) --- */
         .png-icon-autobiografia {
             max-width: 130px; 
-            max-height: 80px; /* ALTEZZA MASSIMA FORZATA PER EVITARE DEBORDAMENTI */
+            max-height: 80px; 
             width: auto;      
             height: auto;     
-            object-fit: contain; /* ASSICURA CHE L'INTERA IMMAGINE SIA VISIBILE SENZA RITAGLI E DENTRO I BORDI */
+            object-fit: contain; 
             vertical-align: middle;
             transition: transform 0.3s ease, filter 0.3s ease; 
             border-radius: 6px;     
@@ -178,7 +177,7 @@
         .card:hover .png-icon-autobiografia {
             transform: scale(1.05);           
         }
-        /* --- STILE ICONA RICERCA UNIVERSALE --- */
+
         .png-icon-ricerca {
             width: 100%;             
             max-width: 120px;        
@@ -202,84 +201,77 @@
         <div class="card" style="grid-column: 1 / -1; text-align: left; align-items: flex-start;">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 2px solid #e6e6da; padding-bottom: 10px; margin-bottom: 15px;">
                 <h2 style="margin: 0; font-size: 1.3rem; color: #0056b3;">💾 Gestione Dati</h2>
+                <div style="display: flex; gap: 10px;">
+                    <a href="login.html" id="btnAccediCloud" style="display: none; background-color: #28a745; border: none; color: white; text-decoration: none; padding: 8px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">☁️ Accedi al Cloud</a>
+                    
+                    <button id="btnCambiaPsw" onclick="cambiaPassword()" style="display: none; background-color: #f0ad4e; border: none; color: white; cursor: pointer; padding: 8px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">🔑 Password</button>
+                    <button id="btnLogoutCloud" onclick="logoutCloud()" style="display: none; background-color: #d9534f; border: none; color: white; cursor: pointer; padding: 8px 12px; border-radius: 5px; font-size: 0.85rem; transition: background 0.3s; font-weight: bold;">🚪 Esci</button>
+                </div>
             </div>
             <div style="display: flex; gap: 10px; width: 100%; align-items: center;">
                 <button onclick="exportData()" style="background-color: #0056b3; border: none; color: white; cursor: pointer; padding: 10px 15px; border-radius: 5px; font-size: 0.9rem; transition: background 0.3s;">Salva Progressi</button>
                 <button onclick="document.getElementById('importFileInput').click()" style="background-color: #28a745; border: none; color: white; cursor: pointer; padding: 10px 15px; border-radius: 5px; font-size: 0.9rem; transition: background 0.3s;">Ripristina</button>
                 <input type="file" id="importFileInput" style="display: none;" accept=".json" onchange="importData(event)">
             </div>
-            <p style="margin-top: 10px; font-size: 0.85rem; color: #666;">Salva la cronologia, i segnalibri e le posizioni di lettura in un file e ripristina quando vuoi per non perdere nulla.</p>
+            <p style="margin-top: 10px; font-size: 0.85rem; color: #666;">Salva la cronologia e gli appunti in un file locale o usa il Cloud per sincronizzarli.</p>
         </div>
 
-     <div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 10px 0 30px 0;">
-            
-            <a href="mia_cronologia.html" style="display: inline-block; background-color: #e6f2ff; color: #0056b3; text-decoration: none; padding: 15px 30px; border-radius: 8px; font-size: 1.2rem; font-weight: bold; border: 2px solid #b3d7ff; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.2)'; this.style.backgroundColor='#cce5ff';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.15)'; this.style.backgroundColor='#e6f2ff';">
+        <div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 10px 0 30px 0;">
+            <a href="mia_cronologia.html" style="display: inline-block; background-color: #e6f2ff; color: #0056b3; text-decoration: none; padding: 15px 30px; border-radius: 8px; font-size: 1.2rem; font-weight: bold; border: 2px solid #b3d7ff; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s, background-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)';" onmouseout="this.style.transform='none';">
                 🕒 Riprendi la Lettura
             </a>
-            
-            <a href="miei_appunti.html" style="display: inline-block; background-color: #e3dac9; color: #5d4037; text-decoration: none; padding: 15px 30px; border-radius: 8px; font-size: 1.2rem; font-weight: bold; border: 2px solid #d1cbb8; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.2)'; this.style.backgroundColor='#f4ece0';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.15)'; this.style.backgroundColor='#e3dac9';">
+            <a href="miei_appunti.html" style="display: inline-block; background-color: #e3dac9; color: #5d4037; text-decoration: none; padding: 15px 30px; border-radius: 8px; font-size: 1.2rem; font-weight: bold; border: 2px solid #d1cbb8; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s, background-color 0.2s;" onmouseover="this.style.transform='translateY(-3px)';" onmouseout="this.style.transform='none';">
                 📝 I miei Appunti e Sottolineature
             </a>
-            
         </div>
+
         <a href="biblioteca/index.html" class="card">
             <div class="icon-image-container">
-                <img src="EvangeloButton.png" class="png-icon-evangelo" alt="Copertina L'Evangelo di Maria Valtorta">
+                <img src="EvangeloButton.png" class="png-icon-evangelo" alt="Copertina L'Evangelo">
             </div>
             <h2>L'Evangelo come mi è stato rivelato</h2>
             <p>di Maria Valtorta</p>
         </a>
 
         <a href="mappa/index.html" class="card">
-            <div class="icon">
-                <img src="mappa-pergamena.png" class="png-icon-map" alt="Mappa Pergamena Storica">
-            </div>
+            <div class="icon"><img src="mappa-pergamena.png" class="png-icon-map" alt="Mappa Storica"></div>
             <h2>Mappa Storica</h2>
             <p>Luoghi dell'Evangelo (Interattiva)</p>
         </a>
 
         <a href="Quaderni/home.html" class="card">
-            <div class="icon-image-container">
-                <img src="QuaderniButtonimg.jpg" class="png-icon-quaderni" alt="I Quaderni di Maria Valtorta">
-            </div>
+            <div class="icon-image-container"><img src="QuaderniButtonimg.jpg" class="png-icon-quaderni" alt="I Quaderni"></div>
             <h2>I Quaderni</h2>
             <p>1943, 1944, 45-50 e Quadernetti</p>
         </a>
 
         <a href="Quaderni/libro_azaria.html" class="card">
-            <div class="icon-image-container">
-                <img src="libro_azaria_copertina.png" class="png-icon-book" alt="Copertina Libro di Azaria">
-            </div>
+            <div class="icon-image-container"><img src="libro_azaria_copertina.png" class="png-icon-book" alt="Libro di Azaria"></div>
             <h2>Libro di Azaria</h2>
             <p>Leggi il Libro di Azaria</p>
         </a>
 
         <a href="Quaderni/lezioni_romani.html" class="card">
-            <div class="icon-image-container">
-                <img src="imgButtonRomani.png" class="png-icon-romani" alt="Epistola di Paolo ai Romani">
-            </div>
+            <div class="icon-image-container"><img src="imgButtonRomani.png" class="png-icon-romani" alt="Epistola ai Romani"></div>
             <h2>Epistola ai Romani</h2>
             <p>Lezioni sull'Epistola di Paolo</p>
         </a>
         
         <a href="Quaderni/autobiografia.html" class="card">
-            <div class="icon-image-container">
-                <img src="AutobiografiaButton.png" class="png-icon-autobiografia" alt="Autobiografia">
-            </div>
+            <div class="icon-image-container"><img src="AutobiografiaButton.png" class="png-icon-autobiografia" alt="Autobiografia"></div>
             <h2>Autobiografia</h2>
             <p>La vita di Maria Valtorta</p>
         </a>
         
         <a href="ricerca_universale.html" class="card">
-            <div class="icon-image-container">
-                <img src="ricerca_universale_button.png" class="png-icon-ricerca" alt="Tasto Ricerca Universale">
-            </div>
+            <div class="icon-image-container"><img src="ricerca_universale_button.png" class="png-icon-ricerca" alt="Ricerca Universale"></div>
             <h2>Ricerca Universale</h2>
-            <p>Cerca in tutte le opere, incluso L'Evangelo</p>
+            <p>Cerca in tutte le opere</p>
         </a>        
+
         <a href="video/video-presentazione.mp4" class="card">
             <div class="icon">🎬</div>
-            <h2>Video Presentatione</h2>
+            <h2>Video Presentazione</h2>
             <p>Guarda il filmato introduttivo</p>
         </a>
 
@@ -290,100 +282,114 @@
         </a>
 
         <a href="archivio.html" class="card">
-            <div class="icon-image-container">
-                <img src="ArchivioButton.jpg" class="png-icon-archivio" alt="Immagine Archivio Antico">
-            </div>
+            <div class="icon-image-container"><img src="ArchivioButton.jpg" class="png-icon-archivio" alt="Archivio"></div>
             <h2>Archivio e Volumi</h2>
             <p>Word ipertestuale e PDF</p>
         </a>
-
     </div>
-    <script>
-            function exportData() {
-            // 1. Chiediamo conferma e spieghiamo all'utente come funziona
-            // Messaggio sintetico con avvertimenti tecnici
-            const messaggio = "💡 I tuoi progressi (note e cronologia) vengono salvati automaticamente in questo browser.\n\n" +
-                              "⚠️ ATTENZIONE: I dati andranno persi se cancelli la cronologia/cookie o se usi la navigazione in incognito (privata).\n\n" +
-                              "Vuoi scaricare un file di backup (.json) per sicurezza o per spostare i dati altrove?";
-            let vuoleScaricare = confirm(messaggio);
-            
-            // Se l'utente clicca "Annulla", fermiamo tutto
-            if (!vuoleScaricare) {
-                return;
-            }
 
-            // 2. Se clicca "Ok", procediamo con la creazione del file
+    <script>
+        // --- LOGICA IBRIDA V22 (Cloud + Offline) ---
+        const isCloudMode = localStorage.getItem('modalita_lettura') === 'cloud';
+        const isRunningOnServer = window.location.protocol.startsWith('http');
+
+        // Configurazione Firebase (univoca per tutte le funzioni)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+            authDomain: "appuntivaltorta.firebaseapp.com",
+            projectId: "appuntivaltorta",
+            storageBucket: "appuntivaltorta.firebasestorage.app",
+            messagingSenderId: "940851152715",
+            appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+        };
+
+        // GESTIONE VISIBILITÀ PULSANTI (Logica accorpata senza ripetizioni)
+        if (isRunningOnServer) {
+            if (isCloudMode) {
+                document.getElementById('btnLogoutCloud').style.display = 'block';
+                document.getElementById('btnCambiaPsw').style.display = 'block';
+            } else {
+                document.getElementById('btnAccediCloud').style.display = 'block';
+            }
+        }
+
+        // --- FUNZIONE: CAMBIA PASSWORD ---
+        async function cambiaPassword() {
+            const nuovaPsw = prompt("Inserisci la tua nuova password (minimo 6 caratteri):");
+            if (nuovaPsw && nuovaPsw.length >= 6) {
+                try {
+                    const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                    const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+                    const app = fApp.initializeApp(firebaseConfig, "cambio_psw_app");
+                    const auth = fAuth.getAuth(app);
+                    
+                    fAuth.onAuthStateChanged(auth, async (user) => {
+                        if (user) {
+                            try {
+                                await fAuth.updatePassword(user, nuovaPsw);
+                                alert("✅ Password aggiornata con successo!");
+                            } catch (error) {
+                                alert("Errore: " + error.message);
+                            }
+                        } else {
+                            alert("❌ Devi essere loggato nel Cloud.");
+                        }
+                    });
+                } catch (e) { alert("Errore di connessione."); }
+            }
+        }
+
+        // --- FUNZIONE: LOGOUT ---
+        async function logoutCloud() {
+            if(confirm("Vuoi disconnetterti dal Cloud?")) {
+                localStorage.removeItem('modalita_lettura');
+                try {
+                    const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                    const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+                    const app = fApp.initializeApp(firebaseConfig, "logout_app");
+                    const auth = fAuth.getAuth(app);
+                    await fAuth.signOut(auth);
+                } catch(e) { console.log("Logout locale effettuato."); }
+                window.location.reload();
+            }
+        }
+
+        // --- FUNZIONI DATI LOCALI ---
+        function exportData() {
             let data = {};
             for (let i = 0; i < localStorage.length; i++) {
                 let key = localStorage.key(i);
                 if (key.startsWith('valtorta_')) {
-                    try {
-                        data[key] = JSON.parse(localStorage.getItem(key));
-                    } catch (e) {
-                        data[key] = localStorage.getItem(key);
-                    }
+                    try { data[key] = JSON.parse(localStorage.getItem(key)); } 
+                    catch (e) { data[key] = localStorage.getItem(key); }
                 }
             }
-            
-            if (Object.keys(data).length === 0) {
-                alert("Nessun dato da esportare al momento. Inizia a leggere e prendere appunti!");
-                return;
-            }
-            
-            // 3. Creazione del timestamp preciso (Data_Ora-Minuti)
-            const oraAttuale = new Date();
-            const dataGiorno = oraAttuale.toISOString().split('T')[0]; // Es: 2024-04-16
-            const ore = String(oraAttuale.getHours()).padStart(2, '0');
-            const minuti = String(oraAttuale.getMinutes()).padStart(2, '0');
-            const timestamp = `${dataGiorno}_${ore}-${minuti}`;
-
-            // 4. Generazione e download del file
-            let blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-            let url = URL.createObjectURL(blob);
-            let a = document.createElement('a');
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
             a.href = url;
-            
-            // Il nome del file ora includerà anche l'ora, es: bibliotheca_valtortiana_backup_2024-04-16_21-30.json
-            a.download = `bibliotheca_valtortiana_backup_${timestamp}.json`;
-            
-            document.body.appendChild(a);
+            a.download = `backup_valtorta_${new Date().toISOString().split('T')[0]}.json`;
             a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         }
+
         function importData(event) {
-    let file = event.target.files[0];
-    if (!file) return;
-
-    // Aggiungiamo un avviso per l'utente prima di procedere
-    if (!confirm("Attenzione: il ripristino sovrascriverà i progressi attuali non salvati. Vuoi continuare?")) {
-        event.target.value = ''; // Resettiamo l'input se l'utente annulla
-        return; 
-    }
-
-    let reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            let data = JSON.parse(e.target.result);
-            for (let key in data) {
-                if (key.startsWith('valtorta_')) {
-                    let value = data[key];
-                    if (typeof value === 'object') {
-                        localStorage.setItem(key, JSON.stringify(value));
-                    } else {
-                        localStorage.setItem(key, value);
+            const file = event.target.files[0];
+            if (!file || !confirm("Sovrascrivere i dati attuali?")) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    for (let key in data) {
+                        if (key.startsWith('valtorta_')) {
+                            localStorage.setItem(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]);
+                        }
                     }
-                }
-            }
-            alert("Dati ripristinati con successo!");
-     } catch (error) {
-            alert("Errore durante l'importazione dei dati: " + error.message);
+                    alert("Dati ripristinati!");
+                    window.location.reload();
+                } catch (err) { alert("File non valido."); }
+            };
+            reader.readAsText(file);
         }
-        event.target.value = '';
-    };
-    reader.readAsText(file);
-}
     </script>
-
 </body>
 </html>

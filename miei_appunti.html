@@ -174,26 +174,136 @@
     <div id="appunti-container"></div>
 
     <script>
-        function renderAppunti() {
+        // BIVIO LOGICO: Guarda se c'è il biglietto VIP nel browser
+        const isCloudMode = localStorage.getItem('modalita_lettura') === 'cloud';
+        let utenteCloud = null;
+        let db = null, doc = null, collection = null, getDocs = null, deleteDoc = null;
+
+        if (isCloudMode) {
+            // SCARICAMENTO DINAMICO: Solo se l'utente è in modalità Cloud
+            (async function initFirebase() {
+                try {
+                    const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                    const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+                    const fDb = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+
+                    const firebaseConfig = {
+                        apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                        authDomain: "appuntivaltorta.firebaseapp.com",
+                        projectId: "appuntivaltorta",
+                        storageBucket: "appuntivaltorta.firebasestorage.app",
+                        messagingSenderId: "940851152715",
+                        appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+                    };
+
+                    const app = fApp.initializeApp(firebaseConfig);
+                    const auth = fAuth.getAuth(app);
+                    db = fDb.getFirestore(app);
+                    
+                    doc = fDb.doc; collection = fDb.collection; getDocs = fDb.getDocs; deleteDoc = fDb.deleteDoc;
+
+                    fAuth.onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            utenteCloud = user;
+                            caricaDati(); 
+                        } else {
+                            // Sicurezza: ha il biglietto ma è disconnesso, lo mandiamo al login
+                            window.location.href = "login.html";
+                        }
+                    });
+                } catch(e) {
+                    console.error("Errore di connessione al Cloud", e);
+                }
+            })();
+        } else {
+            // Modalità Offline ZIP
+            window.addEventListener('load', caricaDati);
+        }
+
+        // --- BIVIO LETTURA DATI ---
+        async function caricaDati() {
+            let appuntiArray = [];
+
+            if (isCloudMode) {
+                if (!utenteCloud || !db) return; 
+                const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/appunti`));
+                snapshot.forEach((d) => { appuntiArray.push(d.data()); });
+            } else {
+                appuntiArray = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+            }
+
+            renderAppuntiHTML(appuntiArray);
+        }
+
+        // --- BIVIO ELIMINAZIONE DATI ---
+        window.eliminaAppunto = async function(id) {
+            if(confirm("Sei sicuro di voler eliminare questo appunto?")) {
+                if (isCloudMode && utenteCloud && db) {
+                    await deleteDoc(doc(db, `utenti/${utenteCloud.uid}/appunti`, id));
+                } else {
+                    let appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+                    appunti = appunti.filter(a => a.id !== id);
+                    localStorage.setItem('valtorta_appunti', JSON.stringify(appunti));
+                }
+                caricaDati(); 
+            }
+        };
+
+        window.svuotaTutto = async function() {
+            if(confirm("⚠️ ATTENZIONE: Sei sicuro di voler eliminare TUTTI gli appunti?")) {
+                if (isCloudMode && utenteCloud && db) {
+                    const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/appunti`));
+                    snapshot.forEach(async (documento) => {
+                        await deleteDoc(doc(db, `utenti/${utenteCloud.uid}/appunti`, documento.id));
+                    });
+                } else {
+                    localStorage.removeItem('valtorta_appunti');
+                }
+                setTimeout(caricaDati, 800);
+            }
+        };
+
+        // --- FUNZIONI DI STAMPA ED ESPORTAZIONE (Invariate) ---
+        window.stampaPDF = function() { window.print(); };
+
+        window.esportaWord = function() {
+            let contenitoreOriginale = document.getElementById('appunti-container');
+            let contenitoreClone = contenitoreOriginale.cloneNode(true);
+            let bottoniDaTogliere = contenitoreClone.querySelectorAll('.appunto-actions');
+            bottoniDaTogliere.forEach(btn => btn.remove());
+
+            let intestazioneIniziale = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Appunti Bibliotheca Valtortiana</title>";
+            let stileWord = "<style>body { font-family: 'Georgia', serif; color: #333; } .book-title { font-size: 18pt; font-weight: bold; background-color: #d1cbb8; padding: 10px; border-left: 5px solid #8b0000; margin-bottom: 15px; } .appunto-card { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; } .appunto-header { font-size: 10pt; color: #666; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; } .appunto-snippet { font-style: italic; color: #555; border-left: 3px solid #ccc; padding-left: 10px; margin-bottom: 10px; } .appunto-nota-testo { background-color: #fff8e1; padding: 10px; border: 1px solid #ffe082; font-weight: bold; margin-bottom: 10px; } .tipo-nota { color: #8b0000; font-weight: bold; } .tipo-sottolineatura { color: #0056b3; font-weight: bold; }</style></head><body>";
+            let titoloDocumento = "<h1 style='color: #8b0000; text-align: center;'>I miei Appunti e Sottolineature</h1><hr>";
+            let chiusura = "</body></html>";
+            
+            let htmlCompleto = intestazioneIniziale + stileWord + titoloDocumento + contenitoreClone.innerHTML + chiusura;
+            let blob = new Blob(['\ufeff', htmlCompleto], { type: 'application/msword' });
+            let urlDownload = URL.createObjectURL(blob);
+            let link = document.createElement("a");
+            const dataOggi = new Date().toISOString().split('T')[0];
+            link.download = `Appunti_Valtortiana_${dataOggi}.doc`;
+            link.href = urlDownload;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(urlDownload);
+        };
+
+        // --- FUNZIONE DI DISEGNO SCHERMO (Con Filtri V20) ---
+        function renderAppuntiHTML(appunti) {
             const container = document.getElementById('appunti-container');
             const btnSvuota = document.getElementById('btn-svuota');
             const btnStampa = document.getElementById('btn-stampa');
             const btnWord = document.getElementById('btn-word');
-            let appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
             
             if (appunti.length === 0) {
-                container.innerHTML = `<div class="empty-state">Non hai ancora salvato appunti o sottolineature.<br>Seleziona del testo durante la lettura per iniziare!</div>`;
-                btnSvuota.style.display = 'none'; 
-                btnStampa.style.display = 'none'; 
-                btnWord.style.display = 'none';
+                container.innerHTML = `<div class="empty-state">Non hai ancora salvato appunti o sottolineature in questa modalità.<br>Seleziona del testo per iniziare!</div>`;
+                btnSvuota.style.display = 'none'; btnStampa.style.display = 'none'; btnWord.style.display = 'none';
                 return;
             }
 
-            // NOTA: Poiché i bottoni ora hanno display: inline-flex nel CSS, 
-            // li riportiamo visibili usando 'inline-flex' invece di 'inline-block' per mantenere l'allineamento.
-            btnSvuota.style.display = 'inline-flex'; 
-            btnStampa.style.display = 'inline-flex'; 
-            btnWord.style.display = 'inline-flex'; 
+            btnSvuota.style.display = 'inline-flex'; btnStampa.style.display = 'inline-flex'; btnWord.style.display = 'inline-flex'; 
 
             const appuntiPerLibro = appunti.reduce((acc, appunto) => {
                 if (!acc[appunto.book]) acc[appunto.book] = [];
@@ -210,7 +320,6 @@
                     const isNota = item.type === 'note';
                     const tipoLabel = isNota ? '📝 Nota Personale' : '🖍️ Sottolineatura';
                     const tipoClass = isNota ? 'tipo-nota' : 'tipo-sottolineatura';
-                    
                     let notaHtml = isNota ? `<div class="appunto-nota-testo">✍️ ${item.noteText}</div>` : '';
                     
                     let linkTarget = item.url;
@@ -226,9 +335,11 @@
                     } else if (linkTarget.startsWith('/')) {
                         linkTarget = linkTarget.substring(1);
                     }
+
+                    // Aggiunto data-type per il filtro a tendina
                     htmlGroup += `
                         <div class="appunto-card" data-type="${item.type}">
-                            <div class="appunto-header">                    
+                            <div class="appunto-header">
                                 <span class="appunto-tipo ${tipoClass}">${tipoLabel}</span>
                                 <span>${item.chapter} | 🗓️ ${item.date}</span>
                             </div>
@@ -245,77 +356,19 @@
                 htmlGroup += `</div>`;
                 container.innerHTML += htmlGroup;
             }
+
+            // Riapplica il filtro se c'è già una selezione nella tendina
+            const eventoChange = new Event('change');
+            document.getElementById('filtro-appunti').dispatchEvent(eventoChange);
         }
 
-        function eliminaAppunto(id) {
-            if(confirm("Sei sicuro di voler eliminare questo appunto?")) {
-                let appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
-                appunti = appunti.filter(a => a.id !== id);
-                localStorage.setItem('valtorta_appunti', JSON.stringify(appunti));
-                renderAppunti(); 
-            }
-        }
-
-        function svuotaTutto() {
-            if(confirm("⚠️ ATTENZIONE: Sei sicuro di voler eliminare TUTTI gli appunti e le sottolineature?\n\nQuesta azione eliminerà tutto definitivamente e non può essere annullata.")) {
-                localStorage.removeItem('valtorta_appunti'); 
-                renderAppunti(); 
-            }
-        }
-
-        function stampaPDF() {
-            window.print();
-        }
-
-        function esportaWord() {
-            let contenitoreOriginale = document.getElementById('appunti-container');
-            let contenitoreClone = contenitoreOriginale.cloneNode(true);
-
-            let bottoniDaTogliere = contenitoreClone.querySelectorAll('.appunto-actions');
-            bottoniDaTogliere.forEach(btn => btn.remove());
-
-            let intestazioneIniziale = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Appunti Bibliotheca Valtortiana</title>";
-            
-            let stileWord = "<style>" +
-                "body { font-family: 'Georgia', serif; color: #333; }" +
-                ".book-title { font-size: 18pt; font-weight: bold; background-color: #d1cbb8; padding: 10px; border-left: 5px solid #8b0000; margin-bottom: 15px; }" +
-                ".appunto-card { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }" +
-                ".appunto-header { font-size: 10pt; color: #666; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; }" +
-                ".appunto-snippet { font-style: italic; color: #555; border-left: 3px solid #ccc; padding-left: 10px; margin-bottom: 10px; }" +
-                ".appunto-nota-testo { background-color: #fff8e1; padding: 10px; border: 1px solid #ffe082; font-weight: bold; margin-bottom: 10px; }" +
-                ".tipo-nota { color: #8b0000; font-weight: bold; }" +
-                ".tipo-sottolineatura { color: #0056b3; font-weight: bold; }" +
-                "</style></head><body>";
-                
-            let titoloDocumento = "<h1 style='color: #8b0000; text-align: center;'>I miei Appunti e Sottolineature</h1><hr>";
-            let chiusura = "</body></html>";
-            
-            let htmlCompleto = intestazioneIniziale + stileWord + titoloDocumento + contenitoreClone.innerHTML + chiusura;
-
-            let blob = new Blob(['\ufeff', htmlCompleto], { type: 'application/msword' });
-            let urlDownload = URL.createObjectURL(blob);
-            let link = document.createElement("a");
-            
-            const dataOggi = new Date().toISOString().split('T')[0];
-            link.download = `Appunti_Valtortiana_${dataOggi}.doc`;
-            
-            link.href = urlDownload;
-            document.body.appendChild(link);
-            link.click();
-            
-            document.body.removeChild(link);
-            URL.revokeObjectURL(urlDownload);
-        }
-
-        // --- LOGICA FILTRO A TENDINA ---
+        // --- MOTORE FILTRO A TENDINA (Invariato) ---
         document.getElementById('filtro-appunti').addEventListener('change', function(e) {
             const filtroSelezionato = e.target.value;
             const tutteLeSchede = document.querySelectorAll('.appunto-card');
             
             tutteLeSchede.forEach(scheda => {
                 const tipoScheda = scheda.getAttribute('data-type');
-                
-                // Mostra se è "all" o se il tipo corrisponde, altrimenti nascondi
                 if (filtroSelezionato === 'all' || filtroSelezionato === tipoScheda) {
                     scheda.style.display = 'block';
                 } else {
@@ -323,19 +376,12 @@
                 }
             });
 
-            // Opzionale: Nascondere i titoli dei libri se non ci sono appunti visibili in quel libro
             const gruppiLibri = document.querySelectorAll('.book-group');
             gruppiLibri.forEach(gruppo => {
                 const schedeVisibili = gruppo.querySelectorAll('.appunto-card[style="display: block;"], .appunto-card:not([style*="display: none"])');
-                if (schedeVisibili.length === 0) {
-                    gruppo.style.display = 'none';
-                } else {
-                    gruppo.style.display = 'block';
-                }
+                gruppo.style.display = schedeVisibili.length === 0 ? 'none' : 'block';
             });
         });
-        // -------------------------------        
-        window.onload = renderAppunti;
     </script>
 </body>
 </html>
