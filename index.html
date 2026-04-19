@@ -7,6 +7,45 @@
     <link rel="icon" type="image/png" href="home_sfondo.png">
     <link rel="apple-touch-icon" href="home_sfondo.png">
     <style>
+        /* Stile Pulsante Guida */
+.btn-guida {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #d4af37; /* Colore Oro */
+    color: #2e1a05;
+    padding: 8px 15px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    z-index: 2000; /* Lo tiene sopra tutto */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+    border: 1px solid #8b0000;
+}
+
+.btn-guida:hover {
+    background-color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+}
+
+/* Ottimizzazione Mobile (Responsive) */
+@media (max-width: 480px) {
+    .btn-guida span {
+        display: none; /* Nasconde la scritta "Istruzioni" su telefoni */
+    }
+    .btn-guida {
+        padding: 10px;
+        border-radius: 50%; /* Diventa un cerchio perfetto */
+        top: 15px;
+        right: 15px;
+    }
+}
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-image: url('sfondo.png'); 
@@ -194,7 +233,9 @@
     </style>
 </head>
 <body>
-
+<a href="istruzioni.html" class="btn-guida" title="Istruzioni e Guida">
+    ❓ <span>Istruzioni</span>
+</a>
     <h1>Bibliotheca-Valtortiana-OnLine</h1>
 
     <div class="container">
