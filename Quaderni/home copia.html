@@ -206,42 +206,5 @@
     </footer>
 
 <script src="../appunti.js"></script>
-<script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
-            authDomain: "appuntivaltorta.firebaseapp.com",
-            projectId: "appuntivaltorta",
-            storageBucket: "appuntivaltorta.firebasestorage.app",
-            messagingSenderId: "940851152715",
-            appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Controlliamo se stiamo navigando dal web (GitHub)
-        const isOnline = window.location.hostname.includes("github.io");
-
-        if (isOnline) {
-            // 1. Nascondiamo tutto subito per evitare che i furbetti leggano mentre carica!
-            document.body.style.display = "none";
-
-            // 2. Chiediamo a Firebase se l'utente è autenticato
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // È autorizzato! Rimettiamo in mostra la pagina
-                    document.body.style.display = "flex"; // o "block" a seconda della pagina
-                    localStorage.setItem('modalita_lettura', 'cloud');
-                } else {
-                    // Non è autorizzato! Lo rimandiamo al login.
-                    // Usiamo un percorso assoluto così funziona anche se siamo dentro le cartelle dei libri
-                    window.location.replace("/BV/login.html"); 
-                }
-            });
-        }
-    </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il Libro di Azaria</title>
+    <title>Lezioni sull'Epistola di Paolo ai Romani</title>
     <style>
         body {
             font-family: 'Georgia', serif;
@@ -12,7 +12,7 @@
             display: flex; 
             height: 100vh; 
             color: #333;
-            background-image: url('imgAzaria.png'); 
+            background-image: url('imgRomani.png'); 
             background-size: cover; 
             background-position: center; 
             background-repeat: no-repeat;
@@ -184,9 +184,9 @@
         .chapter-item:hover { background-color: rgba(255,255,255,0.8); }
         .chapter-item.active { background-color: #fff; border-left: 5px solid #8b0000; }
         
-        .azaria-lezione { font-weight: bold; color: #8b0000; font-size: 15px; display: block; }
-        .azaria-titolo { color: #333; font-size: 13px; display: block; }
-        .azaria-data { color: #666; font-style: italic; font-size: 11px; display: block; }
+        .romani-lezione { font-weight: bold; color: #8b0000; font-size: 15px; display: block; }
+        .romani-titolo { color: #333; font-size: 13px; display: block; }
+        .romani-data { color: #666; font-style: italic; font-size: 11px; display: block; }
 
         /* --- CONTENUTO PRINCIPALE --- */
         #content-wrapper { flex: 1; display: flex; justify-content: center; overflow-y: auto; padding: 40px; }
@@ -243,23 +243,37 @@
         }
         
         /* --- ADATTAMENTO PER DISPOSITIVI MOBILI --- */
+        /* --- ADATTAMENTO PER DISPOSITIVI MOBILI --- */
         @media (max-width: 900px) {
-            body { flex-direction: column; }
-            
-            #sidebar { width: 100%; height: 50vh; border-right: none; border-bottom: 3px solid #8b0000; }
-            #content-wrapper { padding: 10px; height: 50vh; }
-            #main-content { padding: 15px; font-size: 16px; }
-            
+            body { 
+                flex-direction: column; 
+                height: 100vh; /* MODIFICA: Blocca l'altezza della pagina */
+                overflow: hidden; /* MODIFICA: Impedisce alla pagina intera di scorrere */
+            }
+            #sidebar { 
+                width: 100%; 
+                height: auto; 
+                max-height: 35vh; /* Altezza fissa per l'indice */
+                overflow-y: auto; 
+                border-right: none; 
+                border-bottom: 3px solid #8b0000; 
+                flex-shrink: 0;
+            }
+            #content-wrapper { 
+                padding: 10px; 
+                flex-grow: 1; /* MODIFICA: Si espande nello spazio rimanente */
+                overflow-y: auto; /* MODIFICA: Fa scorrere SOLO il testo */
+                -webkit-overflow-scrolling: touch; /* Fluidità su schermi touch */
+            }
+            #main-content { padding: 15px; font-size: 17px; line-height: 1.7; }
             .toggle-search-btn { display: block; }
             .search-container { display: none; padding: 10px; }
             .search-container.show-search { display: block; }
-            
             .home-button-container { padding: 5px; flex-direction: row; flex-wrap: wrap; justify-content: center; }
             .nav-btn { padding: 5px 8px; font-size: 12px; margin: 2px; flex: 1 1 45%; text-align: center; box-sizing: border-box; }
-            
             #sidebar-header { padding: 8px; font-size: 14px; }
-            .nav-buttons { flex-direction: column; gap: 10px; align-items: center; margin-top: 30px; }
-            button.nav-ctrl { width: 100%; }
+            .nav-buttons { flex-direction: column; gap: 10px; align-items: stretch; margin-top: 30px; }
+            button.nav-ctrl { width: 100%; padding: 12px; } 
 
             /* Adattiamo il bottone fluttuante per mobile */
             #floating-print-btn {
@@ -269,8 +283,7 @@
                 height: 50px;
                 font-size: 22px;
             }
-        }
-        
+        }                    
         /* --- STILI DI STAMPA INTELLIGENTI --- */
         @media print {
             body { background: white !important; height: auto !important; overflow: visible !important; }
@@ -326,7 +339,7 @@
                 <input type="text" id="localWord2" placeholder="Seconda parola">
             </div>
 
-            <button class="btn-local-search" onclick="startAdvancedLocalSearch()">Cerca in Azaria</button>
+            <button class="btn-local-search" onclick="startAdvancedLocalSearch()">Cerca nelle Lezioni</button>
         </div>
         
         <div id="search-results-overlay">
@@ -346,9 +359,9 @@
     <div id="content-wrapper">
         <div id="main-content">
             <div id="text-container">
-                <h1 style="color:#8b0000;">Il Libro di Azaria</h1>
+                <h1 style="color:#8b0000;">Lezioni sull'Epistola di Paolo ai Romani</h1>
                 <p style="font-style: italic; line-height: 1.6; text-align: justify; margin-bottom: 25px; padding: 0 15px; border-left: 3px solid #d4af37;">
-                "Il Libro di Azaria è una delle opere minori di Maria Valtorta, scritta tra il 1946 e il 1947. Raccoglie i dettati del suo angelo custode, Azaria, che l'accompagnava spiritualmente. L'opera offre un profondo e luminoso commento alle letture delle Messe festive del Messale Romano, svelando le bellezze della liturgia, i misteri della fede e la costante e amorevole presenza del mondo angelico accanto all'uomo."
+                "Le Lezioni sull'Epistola di Paolo ai Romani costituiscono un profondo commento teologico e spirituale dettato a Maria Valtorta tra il 1948 e il 1950. Attraverso la voce del Divino Autore, l'opera illumina i temi centrali affrontati dall'Apostolo delle Genti: il mistero della Grazia, la giustificazione mediante la Fede, la vita nello Spirito e l'infinito Amore di Dio per l'umanità."
                 </p>
                 <p>Seleziona una Lezione dall'indice per iniziare la lettura.</p>
             </div>
@@ -362,7 +375,7 @@
     <button id="floating-print-btn" onclick="printChapter()" title="Stampa questa lezione" style="display: none;">🖨️</button>
 
     <script src="../cronologia.js"></script>
-    <script src="archivio_azaria.js"></script>
+    <script src="archivio_romani.js"></script>
 
     <script>
         let currentIndex = -1;
@@ -378,24 +391,24 @@
         let searchKeywords = [];
 
         window.onload = function() {
-            if (typeof libro_azaria === 'undefined') {
-                alert("Errore: Impossibile caricare archivio_azaria.js");
+            if (typeof libro_romani === 'undefined') {
+                alert("Errore: Impossibile caricare archivio_romani.js");
                 return;
             }
-            countLabel.innerText = libro_azaria.length;
+            countLabel.innerText = libro_romani.length;
             renderList();
         };
 
         function renderList() {
             listElement.innerHTML = "";
-            libro_azaria.forEach((cap, index) => {
+            libro_romani.forEach((cap, index) => {
                 let li = document.createElement('li');
                 li.className = 'chapter-item';
                 li.id = 'item-' + index;
                 li.innerHTML = `
-                    <span class="azaria-lezione">${cap.lezione}</span>
-                    <span class="azaria-titolo">${cap.titolo}</span>
-                    <span class="azaria-data">${cap.data}</span>
+                    <span class="romani-lezione">${cap.lezione}</span>
+                    <span class="romani-titolo">${cap.titolo}</span>
+                    <span class="romani-data">${cap.data}</span>
                 `;
                 li.onclick = () => loadChapter(index);
                 listElement.appendChild(li);
@@ -404,18 +417,23 @@
 
         function loadChapter(index, fromSearch = false) {
             currentIndex = index;
-            const cap = libro_azaria[index];
+            const cap = libro_romani[index];
             let htmlTesto = cap.testo;
 
             // --- SALVATAGGIO IN CRONOLOGIA ---
             if (typeof salvaInCronologia === "function") {
                 let titoloCronologia = cap.lezione;
-                if (cap.data) titoloCronologia += " - " + cap.data;
-                else if (cap.titolo) titoloCronologia += " - " + cap.titolo;
-                salvaInCronologia(index, titoloCronologia, "Libro di Azaria", "Quaderni", "/libro_azaria.html?idx=");
+                if (cap.data) {
+                    titoloCronologia += " - " + cap.data;
+                } else if (cap.titolo) {
+                    titoloCronologia += " - " + cap.titolo;
+                }
+                
+                // Salviamo usando "Epistola ai Romani" come nome dell'opera
+                salvaInCronologia(index, titoloCronologia, "Epistola ai Romani", "Quaderni", "/lezioni_romani.html?idx=");
             }
+            // ---------------------------------
 
-            // Evidenziazione parole cercate (se arrivi dalla ricerca interna)
             if (isSearchActive && searchKeywords.length > 0) {
                 searchKeywords.forEach(kw => {
                     const regex = new RegExp("(" + kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")", "gi");
@@ -423,22 +441,43 @@
                 });
             }
 
-            // --- SCRITTURA DEL TESTO ---
+            // --- TRUCCO PER LA DATA ITALIANA ---
+            let dataItaliana = cap.data; 
+            if (cap.data && cap.data.includes('-')) {
+                let parti = cap.data.split('-'); 
+                if (parti.length === 3) {
+                    dataItaliana = parti[2] + '-' + parti[1] + '-' + parti[0];
+                }
+            }
+
+            // --- CREAZIONE DEL RIQUADRO LINK ---
+            let linkSito = "";
+            let urlDestinazione = cap.url_lezione ? cap.url_lezione : cap.url_versetto;
+            
+            if (urlDestinazione) {
+                linkSito = `
+                <div style="text-align: center; margin-top: 40px; margin-bottom: 20px;">
+                    <a href="${urlDestinazione}" target="_blank" style="background-color: #8b0000; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; font-family: sans-serif; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); transition: all 0.3s;">
+                        📖 Leggi la lezione sul sito
+                    </a>
+                </div>`;
+            }
+
+            // --- SCRITTURA DEL TESTO (Include i link originali) ---
             textContainer.innerHTML = `
                 <h1 class="title-chapter">${cap.lezione}</h1>
                 <h3 style="color:#555; margin-top:-10px;">${cap.titolo}</h3>
-                <h4 style="color:#888; font-style:italic;">${cap.data}</h4>
+                <h4 style="color:#888; font-style:italic;">${dataItaliana}</h4>
                 ${htmlTesto}
-            `; // <--- ASSICURATI CHE QUESTA CHIUSURA SIA QUI
+                ${linkSito}
+            `;
 
-            // --- ATTIVAZIONE APPUNTI (Fuori dalle virgolette) ---
+            // --- ATTIVAZIONE APPUNTI (Corretta: fuori dalle virgolette) ---
             setTimeout(() => {
                 if (typeof window.ripristinaEvidenze === 'function') {
                     window.ripristinaEvidenze();
                 }
-            }, 200);
-            // ------------------------------------------------
-
+            }, 200);            
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
             if(activeItem) {
@@ -449,29 +488,33 @@
             document.getElementById('btn-prev').style.display = 'inline-block';
             document.getElementById('btn-next').style.display = 'inline-block';
             document.getElementById('btn-prev').disabled = (currentIndex === 0);
-            document.getElementById('btn-next').disabled = (currentIndex === libro_azaria.length - 1);
+            document.getElementById('btn-next').disabled = (currentIndex === libro_romani.length - 1);
+
+            // Mostriamo il tasto stampa fluttuante
             floatingPrintBtn.style.display = 'flex';
 
-            // Gestione Scroll (Cronologia/Ricerca)
+            // --- GESTIONE DELLO SCROLL (Nuova) ---
             let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
-            const chiave = "libro_azaria_" + index;
+            const chiave = "lezioni_romani_" + index; 
 
             if (fromSearch && searchKeywords.length > 0) {
                 document.getElementById('content-wrapper').scrollTop = 0;
                 setTimeout(() => {
-                    const mark = document.getElementById('text-container').querySelector('.highlight');
+                    const mark = document.querySelector('.highlight');
                     if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
                 }, 300);
             } else if (posizioni[chiave]) {
                 setTimeout(() => {
                     const mainArea = document.getElementById('content-wrapper');
-                    if (mainArea) mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
+                    if (mainArea) {
+                        mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
+                    }
                 }, 300);
             } else {
                 document.getElementById('content-wrapper').scrollTop = 0;
             }
-        }
-        function nextChapter() { if (currentIndex < libro_azaria.length - 1) loadChapter(currentIndex + 1); }
+        }        
+        function nextChapter() { if (currentIndex < libro_romani.length - 1) loadChapter(currentIndex + 1); }
         function prevChapter() { if (currentIndex > 0) loadChapter(currentIndex - 1); }
 
         /* --- LOGICA RICERCA AVANZATA INTERNA --- */
@@ -520,7 +563,7 @@
                 terms = [w1, w2];
             }
 
-            libro_azaria.forEach((cap, idx) => {
+            libro_romani.forEach((cap, idx) => {
                 let cleanText = cap.testo.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").toLowerCase();
                 let found = false;
                 let snippet = "";
@@ -628,10 +671,9 @@
                 setTimeout(() => loadChapter(parseInt(openIdx), true), 100);
             }
         });
-        /* --- FUNZIONE PER MOSTRARE/NASCONDERE LA RICERCA SU MOBILE --- */
+        
         function toggleMobileSearch() {
             const searchContainer = document.querySelector('.search-container');
-            // 'toggle' aggiunge la classe se non c'è, o la rimuove se c'è già
             searchContainer.classList.toggle('show-search');
         }
 
@@ -649,7 +691,6 @@
             }, 1000);
         }
         /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
-        // Ascoltiamo 'content-wrapper' perché è lì che avviene lo scorrimento in Azaria
         const contentWrapperArea = document.getElementById('content-wrapper');
         let scrollTimeout;
 
@@ -659,7 +700,7 @@
                     clearTimeout(scrollTimeout);
                     scrollTimeout = setTimeout(function() {
                         let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
-                        const chiave = "libro_azaria_" + currentIndex; 
+                        const chiave = "lezioni_romani_" + currentIndex; 
                         
                         posizioni[chiave] = contentWrapperArea.scrollTop; 
                         localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
@@ -669,104 +710,38 @@
         }
     </script>
     <script>
-        // Esecuzione immediata: non aspetta il caricamento, agisce subito!
-        (function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const fromParam = urlParams.get('from');
-            
-            // Controlliamo se arriviamo dalla ricerca globale OPPURE universale
-            if (fromParam === 'globale' || fromParam === 'universale') {
-                
-                // 1. Iniettiamo le regole CSS responsive
-                const stileResponsive = document.createElement('style');
-                stileResponsive.innerHTML = `
-                    .pulsante-ricerca-dinamico {
-                        position: fixed; 
-                        bottom: 30px; 
-                        left: 300px; /* Spostato a sinistra */
-                        z-index: 10001; 
-                        background-color: #8b0000; 
-                        color: white; 
-                        border: 2px solid #f4ece0; 
-                        padding: 12px 20px; 
-                        border-radius: 50px; 
-                        cursor: pointer; 
-                        font-family: Georgia, serif; 
-                        font-size: 16px; 
-                        font-weight: bold; 
-                        box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
-                        transition: transform 0.2s;
-                        display: block !important; /* Sicurezza visiva */
-                    }
-                    .pulsante-ricerca-dinamico:hover {
-                        transform: scale(1.05);
-                    }
-                    /* Regole per adattarlo sui dispositivi mobili */
-                    @media (max-width: 900px) {
-                        .pulsante-ricerca-dinamico {
-                            bottom: 20px;
-                            left: 50%; /* Lo posiziona al centro */
-                            transform: translateX(-50%); /* Bilancia la centratura */
-                            font-size: 14px;
-                            padding: 10px 15px;
-                            white-space: nowrap; /* Evita che vada a capo */
-                        }
-                        .pulsante-ricerca-dinamico:hover {
-                            transform: translateX(-50%) scale(1.05);
-                        }
-                    }
-                `;
-                document.head.appendChild(stileResponsive);
-
-                // 2. Creiamo il bottone
-                const btn = document.createElement('button');
-                btn.innerHTML = '⬅ Torna alla Ricerca';
-                btn.className = 'pulsante-ricerca-dinamico';
-                
-                // Torna indietro nella cronologia
-                btn.onclick = () => window.history.back();
-                
-                document.body.appendChild(btn);
-            }
-        })();
-    </script>
-<script src="../appunti.js"></script>
-<script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
-            authDomain: "appuntivaltorta.firebaseapp.com",
-            projectId: "appuntivaltorta",
-            storageBucket: "appuntivaltorta.firebasestorage.app",
-            messagingSenderId: "940851152715",
-            appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Controlliamo se stiamo navigando dal web (GitHub)
-        const isOnline = window.location.hostname.includes("github.io");
-
-        if (isOnline) {
-            // 1. Nascondiamo tutto subito per evitare che i furbetti leggano mentre carica!
-            document.body.style.display = "none";
-
-            // 2. Chiediamo a Firebase se l'utente è autenticato
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // È autorizzato! Rimettiamo in mostra la pagina
-                    document.body.style.display = "flex"; // o "block" a seconda della pagina
-                    localStorage.setItem('modalita_lettura', 'cloud');
-                } else {
-                    // Non è autorizzato! Lo rimandiamo al login.
-                    // Usiamo un percorso assoluto così funziona anche se siamo dentro le cartelle dei libri
-                    window.location.replace("/BV/login.html"); 
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromParam = urlParams.get('from');
+        if (fromParam === 'globale' || fromParam === 'universale') {
+            const stileResponsive = document.createElement('style');
+            stileResponsive.innerHTML = `
+                .pulsante-ricerca-dinamico {
+                    position: fixed; bottom: 30px; left: 250px; z-index: 10001; 
+                    background-color: #8b0000; color: white; border: 2px solid #f4ece0; 
+                    padding: 12px 20px; border-radius: 50px; cursor: pointer; 
+                    font-family: Georgia, serif; font-size: 16px; font-weight: bold; 
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: transform 0.2s;
+                    display: block !important;
                 }
-            });
+                .pulsante-ricerca-dinamico:hover { transform: scale(1.05); }
+                @media (max-width: 900px) {
+                    .pulsante-ricerca-dinamico {
+                        bottom: 20px; left: 50%; transform: translateX(-50%);
+                        font-size: 14px; padding: 10px 15px; white-space: nowrap;
+                    }
+                    .pulsante-ricerca-dinamico:hover { transform: translateX(-50%) scale(1.05); }
+                }
+            `;
+            document.head.appendChild(stileResponsive);
+            const btn = document.createElement('button');
+            btn.innerHTML = '⬅ Torna alla Ricerca';
+            btn.className = 'pulsante-ricerca-dinamico';
+            btn.onclick = () => window.history.back();
+            document.body.appendChild(btn);
         }
-    </script>
+    })();
+</script>
+<script src="../appunti.js"></script>
 </body>
 </html>

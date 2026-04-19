@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il Libro di Azaria</title>
+    <title>Autobiografia</title>
     <style>
         body {
             font-family: 'Georgia', serif;
@@ -12,9 +12,9 @@
             display: flex; 
             height: 100vh; 
             color: #333;
-            background-image: url('imgAzaria.png'); 
+            background-image: url('Autobiografia.png'); 
             background-size: cover; 
-            background-position: center; 
+            background-position: center top; 
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
@@ -41,7 +41,7 @@
             gap: 5px; 
             flex-direction: column; 
         }
-        
+
         .nav-btn { 
             text-decoration: none; 
             color: #8b0000; 
@@ -179,33 +179,93 @@
         /* --- LISTA CAPITOLI --- */
         #sidebar-header { padding: 15px; background-color: rgba(209, 203, 184, 0.9); font-weight: bold; text-align: center; border-bottom: 1px solid #c0b9a3; flex-shrink: 0; }
         .list-container { flex: 1; overflow-y: auto; }
-        #chapter-list { list-style: none; padding: 0; margin: 0; }
+        #index-list { list-style: none; padding: 0; margin: 0; }
+        
         .chapter-item { padding: 15px 20px; border-bottom: 1px solid #dcd8ce; cursor: pointer; font-size: 14px; transition: 0.2s; line-height: 1.4; }
         .chapter-item:hover { background-color: rgba(255,255,255,0.8); }
-        .chapter-item.active { background-color: #fff; border-left: 5px solid #8b0000; }
-        
-        .azaria-lezione { font-weight: bold; color: #8b0000; font-size: 15px; display: block; }
-        .azaria-titolo { color: #333; font-size: 13px; display: block; }
-        .azaria-data { color: #666; font-style: italic; font-size: 11px; display: block; }
+        .chapter-item.active { background-color: #fff; border-left: 5px solid #8b0000; font-weight: bold; }
 
         /* --- CONTENUTO PRINCIPALE --- */
-        #content-wrapper { flex: 1; display: flex; justify-content: center; overflow-y: auto; padding: 40px; }
-        #main-content { 
-            background-color: rgba(255, 255, 255, 0.95); 
-            max-width: 800px; 
-            width: 100%; 
-            padding: 40px 60px; 
-            border-radius: 8px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-            font-size: 18px; 
-            line-height: 1.6; 
-            height: fit-content; 
+        #content-wrapper {
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column;
+            overflow: hidden;
+            background: transparent; 
+        }
+
+        #main-content {
+            flex-grow: 1; 
+            padding: 40px; 
+            overflow-y: auto; 
+            box-sizing: border-box; 
+            background-color: rgba(255, 255, 255, 0.85); 
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); 
+            margin: 20px; 
+            border-radius: 8px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            width: calc(100% - 40px);
+        }
+
+        .nav-buttons {
+            display: flex; 
+            justify-content: space-between; 
+            margin-top: 30px; 
+            padding-top: 20px; 
+            border-top: 1px solid #ccc; 
+        }
+
+        .nav-ctrl {
+            background-color: #8b0000; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 14px; 
+            transition: background 0.3s; 
+        }
+
+        .nav-ctrl:hover { background-color: #a52a2a; }
+        .nav-ctrl:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        .chapter-footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #d1cbb8;
+            text-align: center;
         }
         
-        h1.title-chapter { color: #8b0000; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-top:0; }
-        .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 20px; border-top: 1px solid #ccc; }
-        button.nav-ctrl { padding: 10px 20px; cursor: pointer; background: #8b0000; color: white; border: none; border-radius: 4px; font-family: 'Georgia', serif; }
-        button.nav-ctrl:disabled { background: #ccc; cursor: not-allowed; }
+        .copyright-text {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        .source-link {
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .source-link a {
+            color: #8b0000;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            border: 1px solid #8b0000;
+            padding: 5px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            background-color: white;
+        }
+        
+        .source-link a:hover {
+            background-color: #8b0000;
+            color: white;
+        }
 
         /* --- PULSANTE TOGGLE RICERCA (Nascosto su PC) --- */
         .toggle-search-btn {
@@ -218,7 +278,7 @@
 
         /* --- BOTTONE STAMPA FLUTTUANTE --- */
         #floating-print-btn {
-            display: none; /* Parte nascosto finché non apri una lezione */
+            display: none; /* Parte nascosto finché non apri un capitolo */
             position: fixed;
             bottom: 30px;
             right: 40px;
@@ -233,6 +293,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             z-index: 1000;
             transition: background-color 0.3s, transform 0.2s;
+            display: flex;
             align-items: center;
             justify-content: center;
         }
@@ -241,14 +302,40 @@
             background-color: #a50000;
             transform: scale(1.1);
         }
-        
-        /* --- ADATTAMENTO PER DISPOSITIVI MOBILI --- */
+
+        /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 900px) {
-            body { flex-direction: column; }
+            body { 
+                flex-direction: column; 
+                height: 100vh; /* MODIFICA: Blocca l'altezza della pagina */
+                overflow: hidden; /* MODIFICA: Impedisce alla pagina intera di scorrere */
+            }
             
-            #sidebar { width: 100%; height: 50vh; border-right: none; border-bottom: 3px solid #8b0000; }
-            #content-wrapper { padding: 10px; height: 50vh; }
-            #main-content { padding: 15px; font-size: 16px; }
+            #sidebar { 
+                width: 100%; 
+                height: auto; 
+                max-height: 35vh; /* Altezza fissa per l'indice */
+                overflow-y: auto; 
+                border-right: none; 
+                border-bottom: 3px solid #8b0000; 
+                flex-shrink: 0;
+            }
+            
+            #content-wrapper { 
+                padding: 10px; 
+                flex-grow: 1; /* Si espande nello spazio rimanente */
+                height: 65vh; /* Assicura un limite di altezza */
+                overflow: hidden; 
+            }
+            
+            #main-content { 
+                margin: 0;
+                padding: 15px;
+                width: 100%;
+                height: 100%; /* Occupa tutto il content-wrapper disponibile */
+                overflow-y: auto; /* MODIFICA: Fa scorrere SOLO il testo e salva la cronologia! */
+                -webkit-overflow-scrolling: touch; /* Fluidità su schermi touch */
+            }
             
             .toggle-search-btn { display: block; }
             .search-container { display: none; padding: 10px; }
@@ -258,8 +345,8 @@
             .nav-btn { padding: 5px 8px; font-size: 12px; margin: 2px; flex: 1 1 45%; text-align: center; box-sizing: border-box; }
             
             #sidebar-header { padding: 8px; font-size: 14px; }
-            .nav-buttons { flex-direction: column; gap: 10px; align-items: center; margin-top: 30px; }
-            button.nav-ctrl { width: 100%; }
+            .nav-buttons { flex-direction: column; gap: 10px; align-items: stretch; margin-top: 30px; }
+            button.nav-ctrl { width: 100%; padding: 12px; }
 
             /* Adattiamo il bottone fluttuante per mobile */
             #floating-print-btn {
@@ -270,7 +357,7 @@
                 font-size: 22px;
             }
         }
-        
+
         /* --- STILI DI STAMPA INTELLIGENTI --- */
         @media print {
             body { background: white !important; height: auto !important; overflow: visible !important; }
@@ -280,7 +367,7 @@
                 display: none !important;
             }
 
-            /* 1. Modalità Stampa Lezione (predefinita) */
+            /* 1. Modalità Stampa Capitolo (predefinita) */
             body:not(.print-search-mode) #sidebar { display: none !important; }
             body:not(.print-search-mode) #content-wrapper { display: block !important; padding: 0 !important; }
             body:not(.print-search-mode) #main-content { box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
@@ -292,8 +379,11 @@
             
             /* Dettagli visivi per la stampa */
             .result-item.visited { border-left-color: #555 !important; background-color: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .chapter-footer { page-break-inside: avoid; }
         }
     </style>
+    <script src="../cronologia.js"></script>
+    <script src="Autobiografia.js"></script>
 </head>
 <body>
 
@@ -326,7 +416,7 @@
                 <input type="text" id="localWord2" placeholder="Seconda parola">
             </div>
 
-            <button class="btn-local-search" onclick="startAdvancedLocalSearch()">Cerca in Azaria</button>
+            <button class="btn-local-search" onclick="startAdvancedLocalSearch()">Cerca nell'Autobiografia</button>
         </div>
         
         <div id="search-results-overlay">
@@ -337,85 +427,83 @@
             <div id="local-results"></div>
         </div>
 
-        <div id="sidebar-header">Indice Lezioni (<span id="count">0</span>)</div>
+        <div id="sidebar-header">Indice Capitoli (<span id="count">0</span>)</div>
         <div class="list-container">
-            <ul id="chapter-list"></ul>
+            <ul id="index-list"></ul>
         </div>
     </div>
 
     <div id="content-wrapper">
         <div id="main-content">
             <div id="text-container">
-                <h1 style="color:#8b0000;">Il Libro di Azaria</h1>
-                <p style="font-style: italic; line-height: 1.6; text-align: justify; margin-bottom: 25px; padding: 0 15px; border-left: 3px solid #d4af37;">
-                "Il Libro di Azaria è una delle opere minori di Maria Valtorta, scritta tra il 1946 e il 1947. Raccoglie i dettati del suo angelo custode, Azaria, che l'accompagnava spiritualmente. L'opera offre un profondo e luminoso commento alle letture delle Messe festive del Messale Romano, svelando le bellezze della liturgia, i misteri della fede e la costante e amorevole presenza del mondo angelico accanto all'uomo."
+                <h1 style="color:#8b0000;">Autobiografia</h1>
+                <p style="font-style: italic; background-color: rgba(255, 255, 255, 0.85); border-radius: 8px; line-height: 1.6; text-align: justify; margin-bottom: 25px; padding: 0 15px; border-left: 3px solid #d4af37;">
+                "L'Autobiografia di Maria Valtorta è un'opera scritta nel 1943 per obbedienza al suo direttore spirituale. In queste pagine, l'autrice ripercorre con estrema sincerità la sua vita, le sue gioie, le sue innumerevoli sofferenze e la sua profonda evoluzione interiore, offrendo una testimonianza della sua anima e della sua progressiva, totale offerta a Dio."
                 </p>
-                <p>Seleziona una Lezione dall'indice per iniziare la lettura.</p>
+                <p>Seleziona un Capitolo dall'indice per iniziare la lettura.</p>
             </div>
             <div class="nav-buttons">
                 <button class="nav-ctrl" id="btn-prev" onclick="prevChapter()" style="display:none;">← Precedente</button>
                 <button class="nav-ctrl" id="btn-next" onclick="nextChapter()" style="display:none;">Successivo →</button>
             </div>
+
+            <div id="footer-container"></div>
         </div>
     </div>
 
-    <button id="floating-print-btn" onclick="printChapter()" title="Stampa questa lezione" style="display: none;">🖨️</button>
-
-    <script src="../cronologia.js"></script>
-    <script src="archivio_azaria.js"></script>
+    <button id="floating-print-btn" onclick="printChapter()" title="Stampa questo capitolo" style="display: none;">🖨️</button>
 
     <script>
-        let currentIndex = -1;
-        const listElement = document.getElementById('chapter-list');
+        const indexList = document.getElementById('index-list');
         const textContainer = document.getElementById('text-container');
         const countLabel = document.getElementById('count');
         const resultsOverlay = document.getElementById('search-results-overlay');
         const resultsDiv = document.getElementById('local-results');
         const countDisplay = document.getElementById('search-count-display');
-        const floatingPrintBtn = document.getElementById('floating-print-btn'); // JS per il bottone stampa
-        
-        let isSearchActive = false;
+        const floatingPrintBtn = document.getElementById('floating-print-btn'); // Diciamo al JS dove trovare il bottone
+
+        let currentIndex = -1;
         let searchKeywords = [];
+        let isSearchActive = false;
 
         window.onload = function() {
-            if (typeof libro_azaria === 'undefined') {
-                alert("Errore: Impossibile caricare archivio_azaria.js");
+            if (typeof autobiografia === 'undefined') {
+                alert("Errore: Impossibile caricare Autobiografia.js");
                 return;
             }
-            countLabel.innerText = libro_azaria.length;
+            countLabel.innerText = autobiografia.length;
             renderList();
         };
 
+        // POPOLA L'INDICE
         function renderList() {
-            listElement.innerHTML = "";
-            libro_azaria.forEach((cap, index) => {
-                let li = document.createElement('li');
+            indexList.innerHTML = "";
+            autobiografia.forEach((cap, index) => {
+                const li = document.createElement('li');
                 li.className = 'chapter-item';
                 li.id = 'item-' + index;
-                li.innerHTML = `
-                    <span class="azaria-lezione">${cap.lezione}</span>
-                    <span class="azaria-titolo">${cap.titolo}</span>
-                    <span class="azaria-data">${cap.data}</span>
-                `;
+                li.innerHTML = `<strong>${cap.lezione}</strong>`;
                 li.onclick = () => loadChapter(index);
-                listElement.appendChild(li);
+                indexList.appendChild(li);
             });
         }
 
         function loadChapter(index, fromSearch = false) {
             currentIndex = index;
-            const cap = libro_azaria[index];
+            const cap = autobiografia[index];
+            
             let htmlTesto = cap.testo;
-
+            
             // --- SALVATAGGIO IN CRONOLOGIA ---
             if (typeof salvaInCronologia === "function") {
-                let titoloCronologia = cap.lezione;
-                if (cap.data) titoloCronologia += " - " + cap.data;
-                else if (cap.titolo) titoloCronologia += " - " + cap.titolo;
-                salvaInCronologia(index, titoloCronologia, "Libro di Azaria", "Quaderni", "/libro_azaria.html?idx=");
+                // Il titolo è già in cap.lezione (es. "Capitolo 1")
+                let titoloCronologia = cap.lezione || ("Capitolo " + (index + 1));
+                
+                // Salviamo usando "Autobiografia" come nome dell'opera
+                salvaInCronologia(index, titoloCronologia, "Autobiografia", "Quaderni", "/autobiografia.html?idx=");
             }
-
-            // Evidenziazione parole cercate (se arrivi dalla ricerca interna)
+            // ---------------------------------
+            
             if (isSearchActive && searchKeywords.length > 0) {
                 searchKeywords.forEach(kw => {
                     const regex = new RegExp("(" + kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")", "gi");
@@ -423,56 +511,75 @@
                 });
             }
 
+            const cp = `<div class="copyright-text"><br>Tutti i documenti sono tratti scrupolosamente dalle Opere delle ultime edizioni del Centro Editoriale Valtortiano (CEV)<br>Tutti i diritti d’autore sono riservati alla Fondazione Maria Valtorta CEV onlus<br>info@valtortamaria.com</div>`;
+            const lnk = cap.url || "http://www.valtortamaria.com";
+            const lh = `<div class="source-link"><a href="${lnk}" target="_blank">Leggi il capitolo originale sul sito</a></div>`;
+            
             // --- SCRITTURA DEL TESTO ---
             textContainer.innerHTML = `
                 <h1 class="title-chapter">${cap.lezione}</h1>
-                <h3 style="color:#555; margin-top:-10px;">${cap.titolo}</h3>
-                <h4 style="color:#888; font-style:italic;">${cap.data}</h4>
                 ${htmlTesto}
-            `; // <--- ASSICURATI CHE QUESTA CHIUSURA SIA QUI
+            `;
 
-            // --- ATTIVAZIONE APPUNTI (Fuori dalle virgolette) ---
+            // --- ATTIVAZIONE APPUNTI ---
             setTimeout(() => {
                 if (typeof window.ripristinaEvidenze === 'function') {
                     window.ripristinaEvidenze();
                 }
             }, 200);
-            // ------------------------------------------------
 
+            document.getElementById('footer-container').innerHTML = `<div class="chapter-footer">${cp}${lh}</div>`;
+            
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
-            if(activeItem) {
-                activeItem.classList.add('active');
-                if(!fromSearch) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            if(activeItem) { 
+                activeItem.classList.add('active'); 
+                if(!fromSearch) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); 
             }
+            updateButtons();
 
-            document.getElementById('btn-prev').style.display = 'inline-block';
-            document.getElementById('btn-next').style.display = 'inline-block';
-            document.getElementById('btn-prev').disabled = (currentIndex === 0);
-            document.getElementById('btn-next').disabled = (currentIndex === libro_azaria.length - 1);
+            // Mostriamo il tasto stampa fluttuante
             floatingPrintBtn.style.display = 'flex';
 
-            // Gestione Scroll (Cronologia/Ricerca)
+            // --- GESTIONE DELLO SCROLL (Nuova) ---
             let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
-            const chiave = "libro_azaria_" + index;
+            const chiave = "autobiografia_" + index; 
 
-            if (fromSearch && searchKeywords.length > 0) {
-                document.getElementById('content-wrapper').scrollTop = 0;
+            if(fromSearch && searchKeywords.length > 0) {
+                document.getElementById('main-content').scrollTop = 0;
                 setTimeout(() => {
+                    // Punta direttamente al testo per evitare di fermarsi sulle parole dell'indice
                     const mark = document.getElementById('text-container').querySelector('.highlight');
                     if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
                 }, 300);
             } else if (posizioni[chiave]) {
                 setTimeout(() => {
-                    const mainArea = document.getElementById('content-wrapper');
-                    if (mainArea) mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
+                    const mainArea = document.getElementById('main-content');
+                    if (mainArea) {
+                        mainArea.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
+                    }
                 }, 300);
             } else {
-                document.getElementById('content-wrapper').scrollTop = 0;
+                document.getElementById('main-content').scrollTop = 0;
+            }
+            
+            if(window.innerWidth <= 900) {
+                document.querySelector('.search-container').classList.remove('show-search');
             }
         }
-        function nextChapter() { if (currentIndex < libro_azaria.length - 1) loadChapter(currentIndex + 1); }
+
+        function nextChapter() { if (currentIndex < autobiografia.length - 1) loadChapter(currentIndex + 1); }
         function prevChapter() { if (currentIndex > 0) loadChapter(currentIndex - 1); }
+        function updateButtons() {
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+            
+            btnPrev.style.display = 'block';
+            btnNext.style.display = 'block';
+            
+            btnPrev.disabled = (currentIndex === 0);
+            btnNext.disabled = (currentIndex === autobiografia.length - 1);
+        }
 
         /* --- LOGICA RICERCA AVANZATA INTERNA --- */
         
@@ -480,7 +587,6 @@
             const type = document.querySelector('input[name="localType"]:checked').value;
             document.getElementById('localSimpleBox').style.display = (type === 'simple') ? 'block' : 'none';
             document.getElementById('localProximityBox').style.display = (type === 'proximity') ? 'flex' : 'none';
-            
             document.getElementById('resetProximityBtn').style.display = (type === 'proximity') ? 'inline' : 'none';
         }
 
@@ -520,7 +626,7 @@
                 terms = [w1, w2];
             }
 
-            libro_azaria.forEach((cap, idx) => {
+            autobiografia.forEach((cap, idx) => {
                 let cleanText = cap.testo.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").toLowerCase();
                 let found = false;
                 let snippet = "";
@@ -551,7 +657,7 @@
                     }
                 }
                 if (found) {
-                    let fullTitle = cap.lezione + (cap.titolo ? " - " + cap.titolo : "");
+                    let fullTitle = cap.lezione;
                     results.push({ idx: idx, titolo: fullTitle, snippet: snippet });
                 }
             });
@@ -566,7 +672,6 @@
             // Nascondiamo il tasto stampa fluttuante perché ora stiamo guardando la ricerca
             floatingPrintBtn.style.display = 'none';
             
-            // --- INSERIMENTO TASTO STAMPA PDF (Aggiornato alla funzione intelligente) ---
             const printBtn = `<button class="btn-print-pdf" onclick="printSearchResults()" style="margin-left:15px; cursor:pointer; background:white; border:1px solid #8b0000; padding:2px 8px; border-radius:4px; color:#8b0000; font-size:11px; font-weight:bold;">🖨️ Stampa PDF</button>`;
             countDisplay.innerHTML = `Trovati: ${results.length} ${printBtn}`;
 
@@ -607,6 +712,7 @@
             searchKeywords = [];
             
             if (currentIndex > -1) {
+                // Se chiudiamo la ricerca e un capitolo era aperto, mostriamo di nuovo il bottone fluttuante
                 floatingPrintBtn.style.display = 'flex';
                 loadChapter(currentIndex);
             }
@@ -616,22 +722,54 @@
             const params = new URLSearchParams(window.location.search);
             const openIdx = params.get('idx');
             const keys = params.get('keys');
+            const fromParam = params.get('from');
+
             if (openIdx !== null) {
                 if (keys) {
                     searchKeywords = decodeURIComponent(keys).split(',');
                     isSearchActive = true;
                     const btnBack = document.getElementById('btn-back-search');
-                    btnBack.style.display = 'block';
-                    btnBack.innerText = "🌐 Torna alla Ricerca";
-                    btnBack.onclick = () => history.back();
+                    if (btnBack) {
+                        btnBack.style.display = 'block';
+                        btnBack.innerText = "🌐 Torna alla Ricerca";
+                        btnBack.onclick = () => history.back();
+                    }
                 }
                 setTimeout(() => loadChapter(parseInt(openIdx), true), 100);
             }
+
+            // Inserimento del tasto fluttuante (a 250px)
+            if (fromParam === 'globale' || fromParam === 'universale') {
+                const stileResponsive = document.createElement('style');
+                stileResponsive.innerHTML = `
+                    .pulsante-ricerca-dinamico {
+                        position: fixed; bottom: 30px; left: 250px; z-index: 10001; 
+                        background-color: #8b0000; color: white; border: 2px solid #f4ece0; 
+                        padding: 12px 20px; border-radius: 50px; cursor: pointer; 
+                        font-family: Georgia, serif; font-size: 16px; font-weight: bold; 
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: transform 0.2s;
+                        display: block !important;
+                    }
+                    .pulsante-ricerca-dinamico:hover { transform: scale(1.05); }
+                    @media (max-width: 900px) {
+                        .pulsante-ricerca-dinamico {
+                            bottom: 20px; left: 50%; transform: translateX(-50%);
+                            font-size: 14px; padding: 10px 15px; white-space: nowrap;
+                        }
+                        .pulsante-ricerca-dinamico:hover { transform: translateX(-50%) scale(1.05); }
+                    }
+                `;
+                document.head.appendChild(stileResponsive);
+                const btn = document.createElement('button');
+                btn.innerHTML = '⬅ Torna alla Ricerca';
+                btn.className = 'pulsante-ricerca-dinamico';
+                btn.onclick = () => window.history.back();
+                document.body.appendChild(btn);
+            }
         });
-        /* --- FUNZIONE PER MOSTRARE/NASCONDERE LA RICERCA SU MOBILE --- */
+
         function toggleMobileSearch() {
             const searchContainer = document.querySelector('.search-container');
-            // 'toggle' aggiunge la classe se non c'è, o la rimuove se c'è già
             searchContainer.classList.toggle('show-search');
         }
 
@@ -649,124 +787,24 @@
             }, 1000);
         }
         /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
-        // Ascoltiamo 'content-wrapper' perché è lì che avviene lo scorrimento in Azaria
-        const contentWrapperArea = document.getElementById('content-wrapper');
+        const mainContentArea = document.getElementById('main-content');
         let scrollTimeout;
 
-        if (contentWrapperArea) {
-            contentWrapperArea.addEventListener('scroll', function() {
+        if (mainContentArea) {
+            mainContentArea.addEventListener('scroll', function() {
                 if (typeof currentIndex !== "undefined" && currentIndex !== -1) {
                     clearTimeout(scrollTimeout);
                     scrollTimeout = setTimeout(function() {
                         let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
-                        const chiave = "libro_azaria_" + currentIndex; 
+                        const chiave = "autobiografia_" + currentIndex; 
                         
-                        posizioni[chiave] = contentWrapperArea.scrollTop; 
+                        posizioni[chiave] = mainContentArea.scrollTop; 
                         localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
                     }, 500);
                 }
             });
         }
     </script>
-    <script>
-        // Esecuzione immediata: non aspetta il caricamento, agisce subito!
-        (function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const fromParam = urlParams.get('from');
-            
-            // Controlliamo se arriviamo dalla ricerca globale OPPURE universale
-            if (fromParam === 'globale' || fromParam === 'universale') {
-                
-                // 1. Iniettiamo le regole CSS responsive
-                const stileResponsive = document.createElement('style');
-                stileResponsive.innerHTML = `
-                    .pulsante-ricerca-dinamico {
-                        position: fixed; 
-                        bottom: 30px; 
-                        left: 300px; /* Spostato a sinistra */
-                        z-index: 10001; 
-                        background-color: #8b0000; 
-                        color: white; 
-                        border: 2px solid #f4ece0; 
-                        padding: 12px 20px; 
-                        border-radius: 50px; 
-                        cursor: pointer; 
-                        font-family: Georgia, serif; 
-                        font-size: 16px; 
-                        font-weight: bold; 
-                        box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
-                        transition: transform 0.2s;
-                        display: block !important; /* Sicurezza visiva */
-                    }
-                    .pulsante-ricerca-dinamico:hover {
-                        transform: scale(1.05);
-                    }
-                    /* Regole per adattarlo sui dispositivi mobili */
-                    @media (max-width: 900px) {
-                        .pulsante-ricerca-dinamico {
-                            bottom: 20px;
-                            left: 50%; /* Lo posiziona al centro */
-                            transform: translateX(-50%); /* Bilancia la centratura */
-                            font-size: 14px;
-                            padding: 10px 15px;
-                            white-space: nowrap; /* Evita che vada a capo */
-                        }
-                        .pulsante-ricerca-dinamico:hover {
-                            transform: translateX(-50%) scale(1.05);
-                        }
-                    }
-                `;
-                document.head.appendChild(stileResponsive);
-
-                // 2. Creiamo il bottone
-                const btn = document.createElement('button');
-                btn.innerHTML = '⬅ Torna alla Ricerca';
-                btn.className = 'pulsante-ricerca-dinamico';
-                
-                // Torna indietro nella cronologia
-                btn.onclick = () => window.history.back();
-                
-                document.body.appendChild(btn);
-            }
-        })();
-    </script>
 <script src="../appunti.js"></script>
-<script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
-            authDomain: "appuntivaltorta.firebaseapp.com",
-            projectId: "appuntivaltorta",
-            storageBucket: "appuntivaltorta.firebasestorage.app",
-            messagingSenderId: "940851152715",
-            appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Controlliamo se stiamo navigando dal web (GitHub)
-        const isOnline = window.location.hostname.includes("github.io");
-
-        if (isOnline) {
-            // 1. Nascondiamo tutto subito per evitare che i furbetti leggano mentre carica!
-            document.body.style.display = "none";
-
-            // 2. Chiediamo a Firebase se l'utente è autenticato
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // È autorizzato! Rimettiamo in mostra la pagina
-                    document.body.style.display = "flex"; // o "block" a seconda della pagina
-                    localStorage.setItem('modalita_lettura', 'cloud');
-                } else {
-                    // Non è autorizzato! Lo rimandiamo al login.
-                    // Usiamo un percorso assoluto così funziona anche se siamo dentro le cartelle dei libri
-                    window.location.replace("/BV/login.html"); 
-                }
-            });
-        }
-    </script>
 </body>
 </html>

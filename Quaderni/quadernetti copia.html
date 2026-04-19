@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quaderni 1945-1950</title>
+    <title>Quadernetti</title>
     <style>
         body {
             font-family: 'Georgia', serif;
             margin: 0; padding: 0; display: flex; height: 100vh; color: #333;
             /* SFONDO */
-            background-image: url('Quaderni3.png');
+            background-image: url('Quadernetti.png');
             background-size: cover; background-position: center; background-repeat: no-repeat;
         }
         
@@ -22,7 +22,7 @@
         
         .nav-btn { text-decoration: none; color: #8b0000; font-weight: bold; font-size: 0.95em; display: block; padding: 8px; border: 1px solid #8b0000; border-radius: 4px; background-color: #f4f1ea; transition: all 0.3s; cursor: pointer; }
         .nav-btn:hover { background-color: #8b0000; color: white; }
-        
+
         #sidebar-header { padding: 15px; background-color: rgba(232, 228, 219, 0.6); font-weight: bold; text-align: center; border-bottom: 1px solid #c0b9a3; flex-shrink: 0; }
         #chapter-scroll-area { overflow-y: auto; flex-grow: 1; }
         #chapter-list { list-style: none; padding: 0; margin: 0; }
@@ -65,7 +65,7 @@
             display: block; font-size: 0.85em; color: #8b0000; margin-top: 4px; font-weight: bold; 
         }
         .chapter-item.active .chapter-date { color: #5d4037; }
-
+        
         /* --- MAIN CONTENT --- */
         #main-content {
             flex-grow: 1; padding: 40px 60px; overflow-y: auto; line-height: 1.8; font-size: 18px; max-width: 100%;
@@ -107,12 +107,12 @@
         }
         .btn-search:hover { background-color: #a50000; }
 
-        /* NUOVO TASTO RESET */
+        /* TASTO RESET */
         .btn-reset {
             background-color: #5d4037; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em;
         }
         .btn-reset:hover { background-color: #3e2723; }
-        
+
         /* RISULTATI RICERCA */
         #searchResults { margin-top: 10px; border-top: 2px solid #dcd8ce; padding-top: 15px; }
         .result-item {
@@ -120,7 +120,6 @@
         }
         .result-item:hover { background-color: #fff8e1; border-color: #ffd700; }
         
-        /* Stile per risultato visitato */
         .result-item.visited { 
             background-color: #e8e4db; border-left: 5px solid #d4af37; color: #555; box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
         }
@@ -130,7 +129,7 @@
         .result-snippet { font-size: 0.9em; color: #444; font-style: italic; margin-top: 4px; }
         mark.highlight { background-color: #ffd700; color: #000; padding: 0 2px; border-radius: 2px; }
 
-        /* Tasto Fluttuante "Torna ai Risultati" */
+        /* Tasto Fluttuante Ricerca */
         #btn-back-search {
             display: none; position: fixed; top: 100px; right: 30px;
             padding: 10px 20px; background-color: #d4af37; color: #2e1a05;
@@ -228,7 +227,7 @@
             body.print-search-mode .search-panel h2 {
                 color: black !important;
                 border-bottom: 2px solid #000;
-                text-align: left !important;
+                text-align: left !important; 
             }
             body.print-search-mode #searchResults {
                 display: block !important;
@@ -246,7 +245,7 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
-        } 
+        }
     </style> 
 </head>
 <body>
@@ -279,12 +278,12 @@
     <div id="searchModal">
         <div class="search-panel">
             <div class="close-search" onclick="closeSearch()">✕</div>
-            <h2 style="margin-top:0; color:#8b0000; text-align:center;">Ricerca</h2>
+            <h2 style="margin-top:0; color:#8b0000; text-align:center;">Ricerca nei Quadernetti</h2>
             
             <div class="search-section">
                 <span class="search-title">Ricerca Semplice (parola o frase esatta)</span>
                 <div class="input-group">
-                    <input type="text" id="simpleInput" placeholder="Es. Apocalisse...">
+                    <input type="text" id="simpleInput" placeholder="Es. Spirito Santo...">
                     <button class="btn-search" onclick="doSimpleSearch()">Cerca</button>
                 </div>
             </div>
@@ -292,14 +291,14 @@
             <div class="search-section" style="border-bottom:none; margin-bottom:5px;">
                 <span class="search-title">Ricerca per Concordanze (vicinanza)</span>
                 <div class="input-group">
-                    <input type="text" id="word1" placeholder="Parola 1 (es. Pietro)">
+                    <input type="text" id="word1" placeholder="Parola 1 (es. Maria)">
                     <input type="number" id="distance" value="20" style="width:60px;" title="Distanza max parole">
-                    <input type="text" id="word2" placeholder="Parola 2 (es. Chiavi)">
+                    <input type="text" id="word2" placeholder="Parola 2 (es. Luce)">
                     <button class="btn-search" onclick="doProximitySearch()">Trova</button>
                 </div>
                 <div style="font-size:0.8em; color:#666; margin-top:5px;">Trova due parole distanti al massimo N parole l'una dall'altra.</div>
             </div>
-
+            
             <div style="text-align:right; margin-bottom:5px;">
                 <button class="btn-reset" onclick="resetSearch()">🗑️ Pulisci Tutto</button>
             </div>
@@ -309,47 +308,67 @@
     </div>
 
     <script src="../cronologia.js"></script>
-    <script src="archivio_1945-1950.js"></script>
+    <script src="Quadernetti.js"></script>
     <script>
         let currentIndex = -1;
         const listElement = document.getElementById('chapter-list');
         const textContainer = document.getElementById('text-container');
         const floatingPrintBtn = document.getElementById('floating-print-btn');
         
+        // VARIABILI GLOBALI RICERCA
         let searchKeywords = []; 
-        let isSearchActive = false; 
+        let isSearchActive = false;
 
-        if (typeof quaderni_1945_1950 !== 'undefined') { initMenu(); loadChapter(0); } else { textContainer.innerHTML = "<p style='color:red'>Errore: Variabile 'quaderni_1945_1950' non trovata.</p>"; }
+        if (typeof quadernetti !== 'undefined') {
+            initMenu();
+            loadChapter(0);
+        } else {
+            textContainer.innerHTML = "<p style='color:red'>Errore: Variabile 'quadernetti' non trovata.</p>";
 
             setTimeout(() => {
                 if (typeof window.ripristinaEvidenze === 'function') window.ripristinaEvidenze();
             }, 100);
-        
+        }
+
         function initMenu() {
-            quaderni_1945_1950.forEach((cap, index) => {
+            quadernetti.forEach((cap, index) => {
                 const li = document.createElement('li');
                 li.className = 'chapter-item';
                 li.id = 'item-' + index;
 
-                let titoloPrincipale = "Quaderni '45-'50";
-                let dataFinale = cap.data || "";
+                // --- LOGICA SPECIFICA QUADERNETTI PER IL MENU LATERAL ---
+                let titoloPrincipale = "Quadernetti";
+                let dataFinale = "";
+                let foundChapter = null;
+                let foundDate = null;
 
-                if (cap.testo) {
-                    const matchH3 = cap.testo.match(/<h3>([\s\S]*?)<\/h3>/i);
-                    if (matchH3 && matchH3[1]) {
-                        const dateRegex = /\b(\d{1,2})\s+([a-zA-Zà-ùÀ-Ù]+)\s+(19\d{2}|9\d{2})\b/g;
-                        let match; let lastMatch = null;
-                        while ((match = dateRegex.exec(matchH3[1])) !== null) { lastMatch = match; }
-                        if (lastMatch) {
-                            let year = lastMatch[3];
-                            if (year.length === 3) year = "1" + year;
-                            dataFinale = lastMatch[1] + " " + lastMatch[2] + " " + year;
+                try {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = cap.testo;
+                    const children = tempDiv.children;
+                    if (children.length >= 3) {
+                        const rigaCapitolo = children[1].innerText;
+                        const matchCap = rigaCapitolo.match(/Capitolo\s*\d+/i);
+                        if (matchCap) {
+                            foundChapter = matchCap[0];
+                            foundChapter = foundChapter.charAt(0).toUpperCase() + foundChapter.slice(1).toLowerCase();
                         }
+                        foundDate = children[2].innerText.trim();
                     }
+                } catch (e) { console.log("Errore parsing indice " + index, e); }
+
+                if (foundChapter) titoloPrincipale += " - " + foundChapter;
+                if (foundDate) dataFinale = foundDate;
+                else {
+                    dataFinale = cap.data || "";
+                    if (cap.anno) dataFinale += " " + cap.anno;
                 }
+
                 li.innerHTML = `<strong>${titoloPrincipale}</strong><span class="chapter-date">${dataFinale}</span>`;
+                
                 li.onclick = () => {
-                    searchKeywords = []; 
+                    // RESET STATO RICERCA AL CLICK MANUALE
+                    searchKeywords = [];
                     isSearchActive = false;
                     document.getElementById('btn-back-search').style.display = 'none';
                     loadChapter(index);
@@ -359,30 +378,37 @@
         }
 
         function loadChapter(index, autoScroll = false) {
-            currentIndex = index; 
-            const cap = quaderni_1945_1950[index];
+            currentIndex = index;
+            const cap = quadernetti[index];
             
             let content = cap.testo;
             
-            // --- SALVATAGGIO IN CRONOLOGIA (Logica Specifica 45-50) ---
+            // --- SALVATAGGIO IN CRONOLOGIA (Senza riferimento al Capitolo) ---
             if (typeof salvaInCronologia === "function") {
-                let titoloCronologia = "Quaderni '45-'50";
+                let titoloCronologia = "Quadernetti";
                 
-                // Estrapola il titolo/data dal tag <h3> proprio come fa la ricerca
-                const matchH3 = cap.testo.match(/<h3>([\s\S]*?)<\/h3>/i);
-                if (matchH3) {
-                    titoloCronologia += " - " + matchH3[1].replace(/<[^>]+>/g, "").trim();
-                } else if (cap.data) {
-                    titoloCronologia += " - " + cap.data;
+                // Andiamo a leggere la voce esatta nel menu laterale
+                const voceMenu = document.getElementById('item-' + index);
+                
+                if (voceMenu) {
+                    // Estraiamo SOLO la data (il sottotitolo), ignorando il "Capitolo X"
+                    const testoData = voceMenu.querySelector('.chapter-date') ? voceMenu.querySelector('.chapter-date').innerText : "";
+                    
+                    if (testoData.trim() !== "") {
+                        titoloCronologia += " - " + testoData;
+                    } else {
+                        // Se per caso non c'è la data, mettiamo un generico N. 1, N. 2...
+                        titoloCronologia += " - N." + (index + 1);
+                    }
                 } else {
-                    titoloCronologia += " - Capitolo " + index;
+                    titoloCronologia += " - N." + (index + 1);
                 }
                 
-                // Attenzione al nome del file esatto: quaderni_1945-1950.html
-                salvaInCronologia(index, titoloCronologia, "I Quaderni", "Quaderni", "/quaderni_1945-1950.html?idx=");
+                // Salviamo nella cronologia globale pulita
+                salvaInCronologia(index, titoloCronologia, "Quadernetti", "Quaderni", "/quadernetti.html?idx=");
             }
-            // ---------------------------------
-
+            // ---------------------------------         
+            // APPLICAZIONE EVIDENZIATORE
             if (searchKeywords.length > 0) {
                 content = highlightText(content, searchKeywords);
             }
@@ -399,7 +425,11 @@
             
             document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById('item-' + index);
-            if(activeItem) { activeItem.classList.add('active'); activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+            if (activeItem) {
+                activeItem.classList.add('active');
+                activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
             updateButtons();
 
             // Mostriamo il tasto stampa fluttuante
@@ -407,7 +437,7 @@
 
             // --- GESTIONE DELLO SCROLL (Nuova) ---
             let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
-            const chiave = "quaderni_1945_1950_" + index; // Chiave univoca specifica
+            const chiave = "quadernetti_" + index; // Chiave univoca specifica
 
             if (autoScroll && searchKeywords.length > 0) {
                 document.getElementById('main-content').scrollTop = 0;
@@ -426,8 +456,7 @@
                 document.getElementById('main-content').scrollTop = 0;
             }
         }
-
-        function highlightText(html, keywords) {
+            function highlightText(html, keywords) {
             let pattern = keywords.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
             if(!pattern) return html;
             const regex = new RegExp(`(${pattern})`, 'gi');
@@ -437,11 +466,14 @@
             });
         }
 
-        function nextChapter() { if (currentIndex < quaderni_1945_1950.length - 1) loadChapter(currentIndex + 1); }
+        function nextChapter() { if (currentIndex < quadernetti.length - 1) loadChapter(currentIndex + 1); }
         function prevChapter() { if (currentIndex > 0) loadChapter(currentIndex - 1); }
-        function updateButtons() { document.getElementById('btn-prev').disabled = (currentIndex === 0); document.getElementById('btn-next').disabled = (currentIndex === quaderni_1945_1950.length - 1); }
+        function updateButtons() {
+            document.getElementById('btn-prev').disabled = (currentIndex === 0);
+            document.getElementById('btn-next').disabled = (currentIndex === quadernetti.length - 1);
+        }
 
-        // --- RICERCA AVANZATA ---
+        // --- MOTORE DI RICERCA ---
         
         function openSearch() { 
             document.getElementById('searchModal').style.display = 'flex'; 
@@ -453,29 +485,23 @@
         
         function closeSearch() { 
             document.getElementById('searchModal').style.display = 'none';
-            if(isSearchActive) {
-                document.getElementById('btn-back-search').style.display = 'block';
-            }
+            if(isSearchActive) document.getElementById('btn-back-search').style.display = 'block';
+
             // Rimostriamo il bottone di stampa se c'è un capitolo caricato
             if (currentIndex > -1) {
                 floatingPrintBtn.style.display = 'flex';
             }
         }
-        
+
         function resetSearch() {
-            // Svuota i campi
             document.getElementById('simpleInput').value = "";
             document.getElementById('word1').value = "";
             document.getElementById('word2').value = "";
             document.getElementById('distance').value = "20";
-            
-            // Svuota i risultati
             document.getElementById('searchResults').innerHTML = "";
-            
-            // Rimette il focus sul primo campo
             document.getElementById('simpleInput').focus();
         }
-
+        
         document.getElementById('searchModal').addEventListener('click', function(e) {
             if (e.target === this) closeSearch();
         });
@@ -502,11 +528,12 @@
             const p2 = terms[1] ? terms[1].toLowerCase() : null;
             let results = [];
 
-            quaderni_1945_1950.forEach((cap, idx) => {
+            quadernetti.forEach((cap, idx) => {
                 let cleanText = (cap.testo).replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").toLowerCase();
                 let found = false;
                 let snippet = "";
 
+                // ALGORITMO RICERCA
                 if (type === "simple") {
                     if (cleanText.includes(p1)) {
                         found = true;
@@ -539,9 +566,16 @@
                 }
 
                 if (found) {
-                    let title = "Quaderni '45-'50";
-                    const matchH3 = cap.testo.match(/<h3>([\s\S]*?)<\/h3>/i);
-                    if (matchH3) title += " - " + matchH3[1].replace(/<[^>]+>/g, "").trim();
+                    // GENERAZIONE TITOLO RISULTATO (Adattata per Quadernetti)
+                    let title = "Quadernetti";
+                    // Cerchiamo di estrarre "Capitolo X" dal testo pulito se presente
+                    const matchCap = cap.testo.match(/Capitolo\s*\d+/i);
+                    if(matchCap) {
+                        title += " - " + matchCap[0];
+                    } else {
+                        title += " - N." + (idx + 1); // Fallback
+                    }
+                    
                     results.push({ idx: idx, title: title, snippet: snippet });
                 }
             });
@@ -629,53 +663,16 @@
                     clearTimeout(scrollTimeout);
                     scrollTimeout = setTimeout(function() {
                         let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
-                        // Usiamo la chiave univoca per il 45-50
-                        const chiave = "quaderni_1945_1950_" + currentIndex; 
+                        // Usiamo la chiave univoca per i Quadernetti
+                        const chiave = "quadernetti_" + currentIndex; 
                         
                         posizioni[chiave] = mainContentArea.scrollTop; 
                         localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
                     }, 500);
                 }
             });
-        }
+        }        
     </script>
 <script src="../appunti.js"></script>
-<script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
-            authDomain: "appuntivaltorta.firebaseapp.com",
-            projectId: "appuntivaltorta",
-            storageBucket: "appuntivaltorta.firebasestorage.app",
-            messagingSenderId: "940851152715",
-            appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Controlliamo se stiamo navigando dal web (GitHub)
-        const isOnline = window.location.hostname.includes("github.io");
-
-        if (isOnline) {
-            // 1. Nascondiamo tutto subito per evitare che i furbetti leggano mentre carica!
-            document.body.style.display = "none";
-
-            // 2. Chiediamo a Firebase se l'utente è autenticato
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // È autorizzato! Rimettiamo in mostra la pagina
-                    document.body.style.display = "flex"; // o "block" a seconda della pagina
-                    localStorage.setItem('modalita_lettura', 'cloud');
-                } else {
-                    // Non è autorizzato! Lo rimandiamo al login.
-                    // Usiamo un percorso assoluto così funziona anche se siamo dentro le cartelle dei libri
-                    window.location.replace("/BV/login.html"); 
-                }
-            });
-        }
-    </script>
 </body>
 </html>
