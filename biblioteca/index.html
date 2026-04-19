@@ -1510,7 +1510,7 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     // È autorizzato! Rimettiamo in mostra la pagina
-                    document.body.style.display = "flex"; // o "block" a seconda della pagina
+                    document.body.style.display = "block";
                     localStorage.setItem('modalita_lettura', 'cloud');
                 } else {
                     // Non è autorizzato! Lo rimandiamo al login.
