@@ -497,8 +497,8 @@
             if (!file) return;
 
             const avviso = isCloudMode 
-                ? "⚠️ ATTENZIONE: Stai per caricare questo backup nel tuo account CLOUD.\nI dati esistenti potrebbero essere sovrascritti o aggiornati.\nVuoi procedere?" 
-                : "⚠️ ATTENZIONE: Vuoi ripristinare questo backup nella memoria locale?\nI progressi offline attuali verranno sovrascritti.";
+                ? "☁️ SINCRONIZZAZIONE CLOUD:\nStai per caricare questo backup nel tuo account online.\nI nuovi appunti verranno AGGIUNTI e quelli esistenti AGGIORNATI (nessun dato online verrà cancellato).\n\nVuoi procedere?" 
+                : "💾 RIPRISTINO OFFLINE:\n⚠️ ATTENZIONE: Stai per ripristinare il backup nella memoria del dispositivo.\nI progressi offline attuali verranno COMPLETAMENTE CANCELLATI e SOSTITUITI da quelli del file.\n\nVuoi procedere?";
             
             if (!confirm(avviso)) {
                 event.target.value = ''; // Resetta l'input
