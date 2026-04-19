@@ -68,6 +68,14 @@
             display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
         }
         #btn-word:hover { background-color: #004494; }
+        
+        #btn-toggle-tendine {
+            background-color: #d1cbb8; border: none; color: #5d4037;
+            padding: 8px 15px; border-radius: 4px; font-weight: bold; font-size: 14px;
+            cursor: pointer; transition: 0.2s; display: none;
+            display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+        }
+        #btn-toggle-tendine:hover { background-color: #c4bdae; }
 
         #btn-svuota {
             background-color: transparent; border: 2px solid #d32f2f; color: #d32f2f;
@@ -80,10 +88,24 @@
         
         #appunti-container { width: 100%; max-width: 800px; }
         
-        .book-group { margin-bottom: 40px; }
+        .book-group { margin-bottom: 20px; }
+        
+        /* Stili per la nuova tendina */
+        .libro-tendina {
+            width: 100%;
+        }
+        
+        /* Modifichiamo il titolo per farlo diventare un pulsante interattivo */
         .book-title {
             background-color: #d1cbb8; padding: 10px 15px; border-radius: 6px;
             font-size: 18px; color: #5d4037; margin-bottom: 15px; border-left: 5px solid #8b0000;
+            cursor: pointer; /* Fa comparire la manina del mouse */
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .book-title:hover {
+            background-color: #c4bdae; /* Scurisce leggermente quando ci passi sopra */
         }
         
         .appunto-card {
@@ -156,8 +178,11 @@
 
     <div class="header">
         <h1>📝 I miei Appunti e Sottolineature</h1>
-        <div class="header-buttons">
+    <div class="header-buttons">
          <a href="index.html" class="btn-back">🏠 Home</a>
+         
+         <button id="btn-toggle-tendine" onclick="toggleTutteLeTendine()">🔽 Comprimi Tutti</button>
+         
          <button id="btn-svuota" onclick="svuotaTutto()">🗑️ Elimina</button>
          <button id="btn-stampa" onclick="stampaPDF()">📄 PDF / Stampa</button>            
          <button id="btn-word" onclick="esportaWord()">📘 Esporta Word</button>
@@ -263,6 +288,31 @@
             }
         };
 
+// --- FUNZIONE ESPANDI/COMPRIMI TUTTO ---
+        window.toggleTutteLeTendine = function() {
+            // Cerchiamo tutte le tendine nella pagina
+            const tendine = document.querySelectorAll('.libro-tendina');
+            const btn = document.getElementById('btn-toggle-tendine');
+            
+            // Controlliamo cosa dice attualmente il pulsante
+            const isComprimendo = btn.innerText.includes('Comprimi');
+
+            // Passiamo in rassegna ogni tendina e la apriamo o chiudiamo
+            tendine.forEach(tendina => {
+                if (isComprimendo) {
+                    tendina.removeAttribute('open'); // Chiudi
+                } else {
+                    tendina.setAttribute('open', ''); // Apri
+                }
+            });
+
+            // Aggiorniamo il testo e l'icona del pulsante
+            if (isComprimendo) {
+                btn.innerHTML = '▶️ Espandi Tutti';
+            } else {
+                btn.innerHTML = '🔽 Comprimi Tutti';
+            }
+        };
         // --- FUNZIONI DI STAMPA ED ESPORTAZIONE (Invariate) ---
         window.stampaPDF = function() { window.print(); };
 
@@ -296,15 +346,17 @@
             const btnSvuota = document.getElementById('btn-svuota');
             const btnStampa = document.getElementById('btn-stampa');
             const btnWord = document.getElementById('btn-word');
+            const btnToggle = document.getElementById('btn-toggle-tendine'); // <-- Aggiungi questa riga
             
             if (appunti.length === 0) {
-                container.innerHTML = `<div class="empty-state">Non hai ancora salvato appunti o sottolineature in questa modalità.<br>Seleziona del testo per iniziare!</div>`;
+                container.innerHTML = `<div class="empty-state">Non hai ancora salvato appunti...</div>`;
                 btnSvuota.style.display = 'none'; btnStampa.style.display = 'none'; btnWord.style.display = 'none';
+                btnToggle.style.display = 'none'; // <-- Aggiungi questa riga
                 return;
             }
 
             btnSvuota.style.display = 'inline-flex'; btnStampa.style.display = 'inline-flex'; btnWord.style.display = 'inline-flex'; 
-
+            btnToggle.style.display = 'inline-flex'; // <-- Aggiungi questa riga
             const appuntiPerLibro = appunti.reduce((acc, appunto) => {
                 if (!acc[appunto.book]) acc[appunto.book] = [];
                 acc[appunto.book].push(appunto);
@@ -314,7 +366,13 @@
             container.innerHTML = '';
 
             for (const [libro, lista] of Object.entries(appuntiPerLibro)) {
-                let htmlGroup = `<div class="book-group"><div class="book-title">📖 ${libro}</div>`;
+                // Aggiungiamo 'open' dentro il tag details
+                let htmlGroup = `
+                <div class="book-group">
+                    <details class="libro-tendina" open>
+                        <summary class="book-title">📖 ${libro}</summary>
+                        <div class="libro-contenuto">
+                `;
                 
                 lista.reverse().forEach(item => {
                     const isNota = item.type === 'note';
@@ -353,7 +411,12 @@
                     `;
                 });
                 
-                htmlGroup += `</div>`;
+                // Dobbiamo chiudere il div libro-contenuto, il tag details e il div book-group
+                htmlGroup += `
+                        </div>
+                    </details>
+                </div>`;
+                
                 container.innerHTML += htmlGroup;
             }
 
