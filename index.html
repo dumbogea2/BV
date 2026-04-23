@@ -242,8 +242,15 @@
         <div class="card" style="grid-column: 1 / -1; text-align: left; align-items: flex-start;">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 2px solid #e6e6da; padding-bottom: 10px; margin-bottom: 15px;">
                 <h2 style="margin: 0; font-size: 1.3rem; color: #0056b3;">💾 Gestione Dati</h2>
-                <div style="display: flex; gap: 10px;">
-                    <a href="login.html" id="btnAccediCloud" style="display: none; background-color: #28a745; border: none; color: white; text-decoration: none; padding: 8px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">☁️ Accedi al Cloud</a>
+                
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    
+                    <a href="login.html" id="btnAccediCloud" style="display: none; background-color: #28a745; border: none; color: white; text-decoration: none; padding: 8px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">☁️ Attiva Cloud</a>
+                    
+                    <div id="userBadge" style="display: none; background-color: #e3dac9; border: 1px solid #d1cbb8; color: #5d4037; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; align-items: center; gap: 8px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);">
+                        <span style="font-size: 1.1rem;">👤</span> 
+                        <span id="userEmailTxt" style="font-family: 'Georgia', serif; font-style: italic;"></span>
+                    </div>
                     
                     <button id="btnCambiaPsw" onclick="cambiaPassword()" style="display: none; background-color: #f0ad4e; border: none; color: white; cursor: pointer; padding: 8px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">🔑 Cambia Password</button>
                     <button id="btnLogoutCloud" onclick="logoutCloud()" style="display: none; background-color: #d9534f; border: none; color: white; cursor: pointer; padding: 8px 12px; border-radius: 5px; font-size: 0.85rem; transition: background 0.3s; font-weight: bold;">🚪 Esci</button>
@@ -344,18 +351,11 @@
             appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
         };
 
-        // GESTIONE VISIBILITÀ PULSANTI
-        if (isRunningOnServer) {
-            if (isCloudMode) {
-                document.getElementById('btnLogoutCloud').style.display = 'block';
-                document.getElementById('btnCambiaPsw').style.display = 'block';
-                // --- NOVITÀ: Testi chiari per il Cloud ---
-                document.getElementById('btnExport').innerText = "☁️ Scarica Backup Cloud";
-                document.getElementById('btnImport').innerText = "☁️ Importa nel Cloud";
-                document.getElementById('txtGestioneDati').innerText = "Scarica un backup dei tuoi dati online, oppure carica un vecchio salvataggio nel Cloud per sincronizzarlo su tutti i dispositivi.";
-            } else {
-                document.getElementById('btnAccediCloud').style.display = 'block';
-            }
+        // GESTIONE TESTI (La visibilità dei bottoni è gestita in fondo dal modulo Firebase)
+        if (isRunningOnServer && isCloudMode) {
+            document.getElementById('btnExport').innerText = "☁️ Scarica Backup Cloud";
+            document.getElementById('btnImport').innerText = "☁️ Importa nel Cloud";
+            document.getElementById('txtGestioneDati').innerText = "Scarica un backup dei tuoi dati online, oppure carica un vecchio salvataggio nel Cloud per sincronizzarlo su tutti i dispositivi.";
         }
 
         // --- FUNZIONE: CAMBIA PASSWORD ---
@@ -587,23 +587,45 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Controlliamo se stiamo navigando dal web (GitHub)
-        const isOnline = window.location.hostname.includes("github.io");
+        // Controlliamo se stiamo navigando dal web (GitHub o server)
+        const isOnline = window.location.protocol.startsWith('http');
 
         if (isOnline) {
-            // 1. Nascondiamo tutto subito per evitare che i furbetti leggano mentre carica!
-            document.body.style.display = "none";
+            // 1. Nascondiamo temporaneamente la pagina se siamo su GitHub
+            if (window.location.hostname.includes("github.io")) {
+                 document.body.style.display = "none";
+            }
 
-            // 2. Chiediamo a Firebase se l'utente è autenticato
+            // 2. Ascoltatore Firebase "Globale" per Online
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    // È autorizzato! Rimettiamo in mostra la pagina
-                    document.body.style.display = "flex"; // o "block" a seconda della pagina
+                    // È autorizzato!
+                    document.body.style.display = "flex"; 
                     localStorage.setItem('modalita_lettura', 'cloud');
+                    
+                    // COMPILA IL BADGE
+                    const badge = document.getElementById('userBadge');
+                    const emailTxt = document.getElementById('userEmailTxt');
+                    if (badge && emailTxt) {
+                        emailTxt.innerText = user.email;
+                        badge.style.display = 'inline-flex';
+                    }
+                    
+                    // MOSTRA I PULSANTI CLOUD
+                    document.getElementById('btnCambiaPsw').style.display = 'block';
+                    document.getElementById('btnLogoutCloud').style.display = 'block';
+                    document.getElementById('btnAccediCloud').style.display = 'none'; // Nasconde se già loggato
+
                 } else {
-                    // Non è autorizzato! Lo rimandiamo al login.
-                    // Usiamo un percorso assoluto così funziona anche se siamo dentro le cartelle dei libri
-                    window.location.replace("/BV/login.html"); 
+                    // Non è autorizzato.
+                    if (window.location.hostname.includes("github.io")) {
+                        // Su GitHub forziamo il redirect
+                        window.location.replace("/BV/login.html"); 
+                    } else {
+                        // Siamo su un server locale (es. test), mostriamo il tasto "Attiva Cloud"
+                        document.body.style.display = "flex";
+                        document.getElementById('btnAccediCloud').style.display = 'block';
+                    }
                 }
             });
         }
