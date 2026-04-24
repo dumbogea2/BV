@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
         if (window.location.hostname.includes("github.io")) {
-            document.body.style.display = "none";
+            document.documentElement.style.display = 'none';
         }
     </script>
     <link rel="stylesheet" href="leaflet/leaflet.css" />
@@ -283,8 +283,10 @@
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     // È autorizzato! Sblocchiamo la pagina nascosta dal guardiano
-                    document.body.style.display = "flex"; // o "block" a seconda della pagina
-                    
+                    document.documentElement.style.display = '';
+                    // Nota: nella mappa usiamo "" (vuoto) per lasciare che il CSS originale (riga 14) 
+                    // gestisca il display: flex; height: 100% ecc.
+                    document.body.style.display = ""; 
                     localStorage.setItem('modalita_lettura', 'cloud');
                 } else {
                     // Non è autorizzato! Lo rimandiamo al login.
