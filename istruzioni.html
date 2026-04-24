@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script>
+        if (window.location.hostname.includes("github.io")) {
+            document.documentElement.style.display = 'none';
+        }
+    </script>
+    
     <title>Guida alla Bibliotheca - Istruzioni</title>
     <style>
         body {
@@ -206,12 +213,13 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        const isOnline = window.location.hostname.includes("github.io");
+       const isOnline = window.location.hostname.includes("github.io");
 
         if (isOnline) {
-            document.body.style.display = "none";
             onAuthStateChanged(auth, (user) => {
                 if (user) {
+                    // Sblocchiamo la pagina
+                    document.documentElement.style.display = '';
                     document.body.style.display = "flex"; // Usiamo flex per centrare il contenuto
                     localStorage.setItem('modalita_lettura', 'cloud');
                 } else {

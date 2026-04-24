@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script>
+        if (window.location.hostname.includes("github.io")) {
+            document.documentElement.style.display = 'none';
+        }
+    </script>
     <title>I miei Appunti e Sottolineature</title>
     <style>
         body {
@@ -466,13 +472,13 @@
         const isOnline = window.location.hostname.includes("github.io");
 
         if (isOnline) {
-            // 1. Nascondiamo tutto subito per evitare che i furbetti leggano mentre carica!
-            document.body.style.display = "none";
+            // (Rimossa la vecchia regola document.body.style.display = "none" perché c'è il guardiano in alto)
 
-            // 2. Chiediamo a Firebase se l'utente è autenticato
+            // Chiediamo a Firebase se l'utente è autenticato
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    // È autorizzato! Rimettiamo in mostra la pagina
+                    // È autorizzato! Sblocchiamo la pagina nascosta dal guardiano
+                    document.documentElement.style.display = '';
                     document.body.style.display = "flex"; // o "block" a seconda della pagina
                     localStorage.setItem('modalita_lettura', 'cloud');
                 } else {
@@ -482,6 +488,6 @@
                 }
             });
         }
-    </script>
+            </script>
 </body>
 </html>

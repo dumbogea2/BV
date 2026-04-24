@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script>
+        if (window.location.hostname.includes("github.io")) {
+            document.documentElement.style.display = 'none';
+        }
+    </script>
+    
     <title>Indice Progetto - BibliothecaValtortianaOnLine</title>
     <link rel="icon" type="image/png" href="home_sfondo.png">
     <link rel="apple-touch-icon" href="home_sfondo.png">
@@ -617,15 +625,11 @@
         const isOnline = window.location.protocol.startsWith('http');
 
         if (isOnline) {
-            // 1. Nascondiamo temporaneamente la pagina se siamo su GitHub
-            if (window.location.hostname.includes("github.io")) {
-                 document.body.style.display = "none";
-            }
-
             // 2. Ascoltatore Firebase "Globale" per Online
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    // È autorizzato!
+                    // È autorizzato! Sblocchiamo la pagina nascosta dal guardiano
+                    document.documentElement.style.display = '';
                     document.body.style.display = "flex"; 
                     localStorage.setItem('modalita_lettura', 'cloud');
                     

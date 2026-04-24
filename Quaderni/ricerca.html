@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script>
+        if (window.location.hostname.includes("github.io")) {
+            document.documentElement.style.display = 'none';
+        }
+    </script>
+
     <title>Ricerca Globale - Opere Valtorta</title>
     <style>
         body {
@@ -452,22 +459,19 @@
         const isOnline = window.location.hostname.includes("github.io");
 
         if (isOnline) {
-            // 1. Nascondiamo tutto subito per evitare che i furbetti leggano mentre carica!
-            document.body.style.display = "none";
-
-            // 2. Chiediamo a Firebase se l'utente è autenticato
+            // Chiediamo a Firebase se l'utente è autenticato
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    // È autorizzato! Rimettiamo in mostra la pagina
-                    document.body.style.display = "flex"; // o "block" a seconda della pagina
+                    // È autorizzato! Sblocchiamo la pagina nascosta dal guardiano
+                    document.documentElement.style.display = '';
+                    document.body.style.display = "flex"; 
                     localStorage.setItem('modalita_lettura', 'cloud');
                 } else {
                     // Non è autorizzato! Lo rimandiamo al login.
-                    // Usiamo un percorso assoluto così funziona anche se siamo dentro le cartelle dei libri
                     window.location.replace("/BV/login.html"); 
                 }
             });
         }
-    </script>
+            </script>
 </body>
 </html>
