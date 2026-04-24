@@ -58,7 +58,8 @@ async function salvaInCronologia(idCapitolo, titoloCapitolo, nomeOpera, cartella
         let history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
         history = history.filter(item => item.url !== entry.url);
         history.unshift(entry);
-        if (history.length > 15) history.pop();
+        // Abbiamo cambiato il limite da 15 a 20 per uniformarlo alla modalità Cloud
+        if (history.length > 20) history.pop();
         localStorage.setItem('valtorta_cronologia_globale', JSON.stringify(history));
     }
 }

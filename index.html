@@ -460,6 +460,18 @@
                         let arrCrono = [];
                         cronoSnap.forEach(d => arrCrono.push(d.data()));
                         data['valtorta_cronologia_globale'] = arrCrono;
+                        
+                        // --- NOVITÀ: Prendi Preferiti dal cloud ---
+                        const prefSnap = await fDb.getDoc(fDb.doc(db, `utenti/${user.uid}/config`, "preferiti"));
+                        if (prefSnap.exists() && prefSnap.data().lista) {
+                            data['valtorta_favs'] = prefSnap.data().lista;
+                        }
+
+                        // --- NOVITÀ: Prendi Segnalibro dal cloud ---
+                        const segnSnap = await fDb.getDoc(fDb.doc(db, `utenti/${user.uid}/config`, "segnalibro"));
+                        if (segnSnap.exists() && !segnSnap.data().cancellato) {
+                            data['valtorta_bookmark'] = segnSnap.data();
+                        }
                     } else {
                         alert("Devi effettuare l'accesso per scaricare i dati dal Cloud.");
                         btn.innerText = testoOriginale; return;
@@ -469,8 +481,8 @@
                 // 2. AGGIUNGE SEMPRE I DATI LOCALI RESIDUI (come le impostazioni di scorrimento)
                 for (let i = 0; i < localStorage.length; i++) {
                     let key = localStorage.key(i);
-                    // Evitiamo di sovrascrivere appunti e cronologia se li abbiamo appena presi dal cloud
-                    if (key.startsWith('valtorta_') && (!isCloudMode || (key !== 'valtorta_appunti' && key !== 'valtorta_cronologia_globale'))) {
+                    // Evitiamo di sovrascrivere appunti, cronologia, preferiti e segnalibro se li abbiamo appena presi dal cloud
+                    if (key.startsWith('valtorta_') && (!isCloudMode || (key !== 'valtorta_appunti' && key !== 'valtorta_cronologia_globale' && key !== 'valtorta_favs' && key !== 'valtorta_bookmark'))) {
                         try { data[key] = JSON.parse(localStorage.getItem(key)); } 
                         catch (e) { data[key] = localStorage.getItem(key); }
                     }
@@ -545,6 +557,20 @@
                                 await fDb.setDoc(fDb.doc(cronoRef, docId), cr);
                             }
                         }
+
+                        // --- NOVITÀ: Carica Preferiti nel DB ---
+                        if (data['valtorta_favs'] && Array.isArray(data['valtorta_favs'])) {
+                            await fDb.setDoc(fDb.doc(db, `utenti/${user.uid}/config`, "preferiti"), {
+                                lista: data['valtorta_favs'],
+                                ultimoAggiornamento: new Date().getTime()
+                            });
+                        }
+
+                        // --- NOVITÀ: Carica Segnalibro nel DB ---
+                        if (data['valtorta_bookmark']) {
+                            await fDb.setDoc(fDb.doc(db, `utenti/${user.uid}/config`, "segnalibro"), data['valtorta_bookmark']);
+                        }
+
                         alert("✅ Dati sincronizzati con successo nel Cloud!");
                     } 
                     
@@ -552,7 +578,7 @@
                     for (let key in data) {
                         if (key.startsWith('valtorta_')) {
                             // Se siamo sul cloud, NON sovrascriviamo le liste locali per non fare confusione, tranne i settings
-                            if (isCloudMode && (key === 'valtorta_appunti' || key === 'valtorta_cronologia_globale')) continue;
+                            if (isCloudMode && (key === 'valtorta_appunti' || key === 'valtorta_cronologia_globale' || key === 'valtorta_favs' || key === 'valtorta_bookmark')) continue;
                             localStorage.setItem(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]);
                         }
                     }

@@ -521,6 +521,7 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
 
 <script src="../cronologia.js"></script>
 <script src="archivio.js"></script>
+<script src="../sincronizzazione.js"></script>
 
 <script>
     // --- FIX: Sistema di Sicurezza per caricamento Preferiti ---
@@ -563,13 +564,36 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         const idx = bookmarks.indexOf(n);
         if (idx > -1) { bookmarks.splice(idx, 1); el.classList.remove('is-fav'); }
         else { bookmarks.push(n); el.classList.add('is-fav'); }
-        localStorage.setItem('valtorta_favs', JSON.stringify(bookmarks));
+        
+        // CONTROLLO BIVIO LOGICO
+        const usaCloud = localStorage.getItem('modalita_lettura') === 'cloud';
+
+        if (usaCloud && typeof salvaPreferitiCloud === "function") {
+            // --- ☁️ SALVATAGGIO CLOUD ---
+            salvaPreferitiCloud(bookmarks);
+        } else {
+            // --- 📱 SALVATAGGIO LOCALE (Offline) ---
+            localStorage.setItem('valtorta_favs', JSON.stringify(bookmarks));
+        }
     }
 
     function clearAllFavs() {
-        if(confirm("Cancellare tutti i preferiti salvati nell'archivio?")) { bookmarks = []; localStorage.removeItem('valtorta_favs'); createGrid(); }
-    }
+        if(confirm("Cancellare tutti i preferiti salvati nell'archivio?")) { 
+            bookmarks = []; 
+            createGrid(); 
+            
+            // CONTROLLO BIVIO LOGICO
+            const usaCloud = localStorage.getItem('modalita_lettura') === 'cloud';
 
+            if (usaCloud && typeof salvaPreferitiCloud === "function") {
+                // --- ☁️ SVUOTA CLOUD ---
+                salvaPreferitiCloud(bookmarks);
+            } else {
+                // --- 📱 SVUOTA LOCALE (Offline) ---
+                localStorage.removeItem('valtorta_favs'); 
+            }
+        }
+    }
     function toggleFavFilter() {
         showOnlyFavs = !showOnlyFavs;
         document.getElementById('favToggleBtn').classList.toggle('active', showOnlyFavs);
@@ -982,7 +1006,17 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         }
         
         activeBookmark = { chapter: currentOpenChapter, snippet: text, date: new Date().toLocaleDateString() };
-        localStorage.setItem('valtorta_bookmark', JSON.stringify(activeBookmark));
+        
+        // --- BIVIO LOGICO: CLOUD O LOCALE ---
+        const usaCloud = localStorage.getItem('modalita_lettura') === 'cloud';
+        
+        if (usaCloud && typeof salvaSegnalibroCloud === "function") {
+            // Salva su Firebase
+            salvaSegnalibroCloud(activeBookmark);
+        } else {
+            // Salva nel dispositivo
+            localStorage.setItem('valtorta_bookmark', JSON.stringify(activeBookmark));
+        }
         
         alert("🔖 Segnalibro salvato!");
         
@@ -995,7 +1029,18 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         if(!activeBookmark) return;
         if(confirm("Vuoi rimuovere definitivamente il segnalibro dal Capitolo " + activeBookmark.chapter + "?")) {
             activeBookmark = null;
-            localStorage.removeItem('valtorta_bookmark');
+            
+            // --- BIVIO LOGICO: CLOUD O LOCALE ---
+            const usaCloud = localStorage.getItem('modalita_lettura') === 'cloud';
+            
+            if (usaCloud && typeof salvaSegnalibroCloud === "function") {
+                // Svuota su Firebase (passando null)
+                salvaSegnalibroCloud(null);
+            } else {
+                // Svuota dal dispositivo
+                localStorage.removeItem('valtorta_bookmark');
+            }
+            
             updateBookmarkUI();
             createGrid(); 
         }
@@ -1027,6 +1072,20 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         tempSelectedText = ""; 
         oldOpenChapter(n, p1, p2, bs); 
     };
+    
+    // --- FUNZIONE RICEVENTE: Applica i dati scaricati dal Cloud ---
+    function applicaDatiDalCloud(preferitiCloud, segnalibroCloud) {
+        console.log("📥 Dati ricevuti dal Cloud. Aggiornamento interfaccia...");
+        
+        // Sostituiamo i dati locali con quelli freschi del Cloud
+        bookmarks = preferitiCloud || [];
+        activeBookmark = segnalibroCloud;
+        
+        // Ridisegniamo le stelline, il segnalibro e i filtri
+        updateBookmarkUI();
+        createGrid();
+        filterEverything();
+    }
     
     // --- FIX: Avvio Pulito e Sicuro ---
     updateBookmarkUI();
