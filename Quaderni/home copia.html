@@ -6,7 +6,7 @@
     
     <script>
         if (window.location.hostname.includes("github.io")) {
-            document.documentElement.style.visibility = 'hidden';
+            document.documentElement.style.display = 'none';
         }
     </script>
 
@@ -233,13 +233,18 @@
         const isOnline = window.location.hostname.includes("github.io");
 
         if (isOnline) {
+            // 1. Nascondiamo tutto subito per evitare che i furbetti leggano mentre carica!
+            document.body.style.display = "none";
+
+            // 2. Chiediamo a Firebase se l'utente è autenticato
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    // È autorizzato! Ripristiniamo la visibilità e impostiamo FLEX
-                    document.documentElement.style.visibility = '';
-                    document.body.style.display = "flex"; 
+                    // È autorizzato! Rimettiamo in mostra la pagina
+                    document.body.style.display = "flex"; // o "block" a seconda della pagina
                     localStorage.setItem('modalita_lettura', 'cloud');
                 } else {
+                    // Non è autorizzato! Lo rimandiamo al login.
+                    // Usiamo un percorso assoluto così funziona anche se siamo dentro le cartelle dei libri
                     window.location.replace("/BV/login.html"); 
                 }
             });
