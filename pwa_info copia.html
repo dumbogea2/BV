@@ -1,14 +1,7 @@
 <!DOCTYPE html>
 <html lang="it">
-    <head>
+<head>
     <meta charset="UTF-8">
-    
-    <script>
-        if (window.location.hostname.includes("github.io")) {
-            document.documentElement.style.visibility = 'hidden';
-        }
-    </script>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Versione App (PWA) - Bibliotheca Valtortiana</title>
     <style>
@@ -91,38 +84,6 @@
                 installBtn.style.display = 'none';
             }
         });
-    </script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
-            authDomain: "appuntivaltorta.firebaseapp.com",
-            projectId: "appuntivaltorta",
-            storageBucket: "appuntivaltorta.firebasestorage.app",
-            messagingSenderId: "940851152715",
-            appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        const isOnline = window.location.hostname.includes("github.io");
-
-        if (isOnline) {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // È autorizzato! Sblocchiamo la visibilità
-                    document.documentElement.style.visibility = '';
-                    localStorage.setItem('modalita_lettura', 'cloud');
-                } else {
-                    // Non è autorizzato! Lo rimandiamo al login principale
-                    window.location.replace("login.html"); 
-                }
-            });
-        }
     </script>
 </body>
 </html>
