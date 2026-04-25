@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Versione App (PWA) - Bibliotheca Valtortiana</title>
+    <style>
+        body { font-family: 'Georgia', serif; background-color: #f4ece0; color: #333; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .info-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 5px solid #d4af37; max-width: 600px; text-align: center; }
+        h1 { color: #8b0000; }
+        .feature-list { text-align: left; margin: 20px 0; line-height: 1.6; }
+        .btn-install { background-color: #28a745; color: white; padding: 15px 30px; border: none; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; display: none; transition: 0.3s; margin-top: 20px; }
+        .btn-install:hover { background-color: #218838; transform: scale(1.05); }
+        .btn-back { display: block; margin-top: 30px; color: #8b0000; text-decoration: none; font-weight: bold; }
+        
+        /* Box Avviso Backup */
+        .backup-warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .backup-warning b { color: #8b0000; }
+    </style>
+</head>
+<body>
+
+    <div class="info-card">
+        <h1>📱 Porta la Bibliotheca sempre con te</h1>
+        <p>Puoi installare questo sito come una vera <b>App (PWA)</b> sul tuo dispositivo.</p>
+        
+        <div class="feature-list">
+            <ul>
+                <li><b>Icona dedicata:</b> Accedi direttamente dalla tua schermata Home.</li>
+                <li><b>Vero Offline:</b> Consulta l'indice e le mappe anche senza connessione internet.</li>
+                <li><b>Schermo Intero:</b> Naviga senza le barre del browser per una lettura più immersiva.</li>
+                <li><b>Continuità:</b> I tuoi dati Cloud si sincronizzano anche qui.</li>
+            </ul>
+        </div>
+
+        <div class="backup-warning">
+            ⚠️ <b>Nota sulla sicurezza dei dati:</b><br>
+            In modalità <b>Offline</b>, i tuoi dati (appunti, stelline e segnalibri) sono salvati nella memoria del browser. Se effettui una pulizia della cronologia o della cache del telefono, questi dati potrebbero andare perduti.<br><br>
+            👉 Ti raccomandiamo di usare regolarmente la funzione <b>"Salva Backup Locale"</b> nella home del portale per scaricare un file di sicurezza del tuo lavoro.
+        </div>
+
+        <button id="installBtn" class="btn-install">✨ Installa Ora l'App</button>
+        <p id="installManual" style="font-size: 0.9rem; color: #666;">
+            Se non vedi il tasto, clicca sui tre puntini del browser (o l'icona condividi su iPhone) e seleziona <b>"Aggiungi a schermata Home"</b>.
+        </p>
+
+        <a href="index.html" class="btn-back">⬅ Continua a usare il Browser</a>
+    </div>
+
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        // Ascolta l'evento di installazione del browser
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'inline-block'; // Mostra il tasto solo se l'installazione è possibile
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('Utente ha accettato l\'installazione');
+                }
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

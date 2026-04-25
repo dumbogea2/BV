@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -12,6 +11,7 @@
     </script>
     
     <title>Indice Progetto - BibliothecaValtortianaOnLine</title>
+    <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="home_sfondo.png">
     <link rel="apple-touch-icon" href="home_sfondo.png">
     <style>
@@ -281,8 +281,15 @@
             </a>
         </div>
 
+        <a href="pwa_info.html" class="card" style="border: 2px solid #d4af37; background: rgba(255, 252, 240, 0.98);">
+            <div class="icon">📱</div>
+            <h2 style="color: #8b0000;">Installa come App</h2>
+            <p>Scopri come aggiungere la Bibliotheca alla tua schermata Home e usarla senza browser.</p>
+        </a>
+
         <a href="biblioteca/index.html" class="card">
-            <div class="icon-image-container">
+        
+                    <div class="icon-image-container">
                 <img src="EvangeloButton.png" class="png-icon-evangelo" alt="Copertina L'Evangelo">
             </div>
             <h2>L'Evangelo come mi è stato rivelato</h2>
@@ -657,6 +664,15 @@
                         document.getElementById('btnAccediCloud').style.display = 'block';
                     }
                 }
+            });
+        }
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('PWA: Motore Offline pronto!', reg))
+                    .catch(err => console.log('PWA: Errore motore offline', err));
             });
         }
     </script>
