@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v13'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v15'; // Versione aggiornata per forzare il ricaricamento
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
@@ -38,7 +38,7 @@ const urlsToCache = [
   './mappa/img/citta.svg',
   './mappa/img/acqua.svg',
   './mappa/img/sacro.svg',
-  './mappa_palestina/blank.png' // Immagine di fallback
+  './mappa_palestina/blank.png', // Immagine di fallback
 
   // --- BIBLIOTECA PRINCIPALE ---
   './biblioteca/index.html',
