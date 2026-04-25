@@ -93,20 +93,30 @@
                     fAuth.onAuthStateChanged(auth, (user) => {
                         if (user) { utenteCloud = user; renderGlobalHistory(); }
                         else { window.location.href = "login.html"; }
+                    // --- INIZIO MODIFICA 3A ---
                     });
-                } catch(e) { console.error("Modalità Cloud non disponibile"); }
+                } catch(e) { 
+                    console.error("Modalità Cloud non disponibile");
+                    // Avvia la grafica anche se Firebase è irraggiungibile
+                    renderGlobalHistory(); 
+                }
             })();
         } else {
+// --- FINE MODIFICA 3A ---
             window.onload = renderGlobalHistory;
         }
 
+       // --- INIZIO MODIFICA 3B ---
         async function renderGlobalHistory() {
             let history = [];
 
             if (isCloudMode) {
-                if (!utenteCloud || !db) return;
-                
-                if (!navigator.onLine) {
+                if (!utenteCloud || !db) {
+                    // Modalità Aereo Estrema
+                    history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+                } else if (!navigator.onLine) {
+// --- FINE MODIFICA 3B ---
+       
                     // Modalità Aereo: carica istantaneo
                     history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
                 } else {

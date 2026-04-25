@@ -37,6 +37,7 @@ if (isCloudMode) {
             collection = fDb.collection;
             getDocs = fDb.getDocs;
 
+            // --- INIZIO MODIFICA 1A ---
             fAuth.onAuthStateChanged(auth, (user) => {
                 if (user) {
                     utenteCloud = user;
@@ -45,8 +46,11 @@ if (isCloudMode) {
             });
         } catch (e) {
             console.error("Errore connessione Cloud:", e);
+            // Se offline, Firebase fallisce: forziamo la lettura locale!
+            setTimeout(window.ripristinaEvidenze, 500);
         }
     })();
+// --- FINE MODIFICA 1A ---            
 }
 
 // ---------------------------------------------------------
@@ -250,11 +254,14 @@ window.ripristinaEvidenze = async function() {
                 appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
             }
         }
-    } else if (!isCloudMode) {
+    // --- INIZIO MODIFICA 1B ---
+    } else if (!isCloudMode || (isCloudMode && (!utenteCloud || !db))) {
+        // Se non c'è il Cloud, OPPURE se c'è ma siamo offline (db è nullo), leggi dal locale!
         appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
     } else {
         return; 
     }
+// --- FINE MODIFICA 1B ---
 
     let currentCapAppunti = appunti.filter(a => {
         if (bookName === "L'Evangelo") return a.book === bookName && a.url.includes(urlForRestore.split('?')[1]);

@@ -242,23 +242,31 @@
                             window.location.href = "login.html";
                         }
                     });
+                // --- INIZIO MODIFICA 2A ---
                 } catch(e) {
                     console.error("Errore di connessione al Cloud", e);
+                    // Se Firebase fallisce, avvia comunque la lettura dei dati!
+                    caricaDati();
                 }
             })();
         } else {
-            // Modalità Offline ZIP
+// --- FINE MODIFICA 2A ---
+                            // Modalità Offline ZIP
             window.addEventListener('load', caricaDati);
         }
 
         // --- BIVIO LETTURA DATI ---
+        // --- INIZIO MODIFICA 2B ---
         async function caricaDati() {
             let appuntiArray = [];
 
             if (isCloudMode) {
-                if (!utenteCloud || !db) return; 
-                
-                if (!navigator.onLine) {
+                if (!utenteCloud || !db) {
+                    // Modalità Aereo Estrema (Firebase non è riuscito a caricarsi)
+                    appuntiArray = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+                } else if (!navigator.onLine) {
+// --- FINE MODIFICA 2B ---
+        
                     // Modalità Aereo: scatta il caricamento locale
                     appuntiArray = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
                 } else {
