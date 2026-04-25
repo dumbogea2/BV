@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v11'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v12'; // Versione aggiornata per forzare il ricaricamento
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
@@ -113,7 +113,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// --- INIZIO MODIFICA 3 (FETCH BLINDATO) ---
+// --- INIZIO FETCH BLINDATO V12 (FIX SCHERMATA BIANCA) ---
 self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith(self.location.origin)) return;
 
@@ -136,13 +136,19 @@ self.addEventListener('fetch', (event) => {
         }
         return networkResponse;
       } catch (error) {
-        // 4. Modalità Offline Estrema
+        // 4. Modalità Offline Estrema (BUGFIX SCHERMATA BIANCA)
         if (event.request.mode === 'navigate') {
-          return cache.match('./index.html') || cache.match('/');
+          // ASPETTIAMO che la cache trovi la home page usando percorsi diversi
+          let fallback = await cache.match('./index.html', { ignoreSearch: true });
+          if (!fallback) fallback = await cache.match('./', { ignoreSearch: true });
+          if (!fallback) fallback = await cache.match('/', { ignoreSearch: true });
+          
+          if (fallback) return fallback;
         }
+        // Se proprio non c'è nulla, non far crashare l'app ma restituisci un vuoto controllato
         return new Response('', { status: 404, statusText: 'Offline' });
       }
     })
   );
 });
-// --- FINE MODIFICA 3 ---
+// --- FINE FETCH BLINDATO V12 ---
