@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v9'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v10'; // Versione aggiornata per forzare il ricaricamento
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
@@ -106,36 +106,40 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Gestione richieste migliorata per evitare "Schermate Bianche" su Safari
+// --- INIZIO NUOVO BLOCCO FETCH (BULLETPROOF PER SAFARI) ---
 self.addEventListener('fetch', (event) => {
+  // Ignora le richieste verso altri siti (es. i server di Firebase)
   if (!event.request.url.startsWith(self.location.origin)) return;
 
   event.respondWith(
-    // INIZIO MODIFICA: Aggiunto { ignoreSearch: true } per ignorare i ?cap= o ?appId=
-    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-    // FINE MODIFICA
-      // 1. Se è in cache, restituiscilo subito (velocità massima)
-      if (cachedResponse) return cachedResponse;
+    caches.open(CACHE_NAME).then(async (cache) => {
+      // 1. Prima prova: cerca il file esatto (con eventuale ?)
+      let response = await cache.match(event.request);
+      if (response) return response;
 
-      // 2. Se non è in cache, prova a scaricarlo
-      return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
+      // 2. IL TRUCCO DELLE FORBICI: Tagliamo via il ? per aggirare il bug di Safari
+      const urlSenzaParametri = event.request.url.split('?')[0];
+      response = await cache.match(urlSenzaParametri);
+      if (response) return response;
+
+      // 3. Se non è in memoria, prova a scaricarlo da internet
+      try {
+        const networkResponse = await fetch(event.request);
+        // Salva nel salvadanaio dinamico per la prossima volta
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          cache.put(event.request, networkResponse.clone());
         }
-        // Lo salva in cache per la prossima volta (Caching Dinamico)
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
         return networkResponse;
-      }).catch(() => {
-        // 3. SE SEI OFFLINE e il file non è in cache, mostra una pagina di cortesia o l'indice
+      } catch (error) {
+        // 4. SEI OFFLINE (Internet fallito) e il file non c'è
+        // Se l'utente stava cercando di aprire una pagina HTML, mostragli la Home
         if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
+          return cache.match('./index.html') || cache.match('/');
         }
-        // Per immagini o script mancanti, restituisce una risposta vuota (non blocca l'app)
+        // Altrimenti restituisci una risposta vuota per non bloccare l'app
         return new Response('', { status: 404, statusText: 'Offline' });
-      });
+      }
     })
   );
 });
+// --- FINE NUOVO BLOCCO FETCH ---
