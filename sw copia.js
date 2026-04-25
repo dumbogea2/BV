@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v13'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v12'; // Versione aggiornata per forzare il ricaricamento
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
@@ -38,7 +38,6 @@ const urlsToCache = [
   './mappa/img/citta.svg',
   './mappa/img/acqua.svg',
   './mappa/img/sacro.svg',
-  './mappa_palestina/blank.png' // Immagine di fallback
 
   // --- BIBLIOTECA PRINCIPALE ---
   './biblioteca/index.html',
@@ -82,55 +81,22 @@ const urlsToCache = [
   // --- PRESENTAZIONE ---
   './presentazione/index.html'
 ];
-// --- FUNZIONE PER CALCOLARE LE IMMAGINI DELLA MAPPA (Livelli 0, 1, 2, 3) ---
-function generaTileMappe() {
-    const tiles = [];
-    const maxZoom = 3; // Precarica fino al livello 3
-    
-    for (let z = 0; z <= maxZoom; z++) {
-        let maxCoord = Math.pow(2, z) - 1; // Calcola quante immagini ci sono per questo zoom
-        for (let x = 0; x <= maxCoord; x++) {
-            for (let y = 0; y <= maxCoord; y++) {
-                tiles.push(`./mappa_palestina/${z}/${x}/${y}.jpg`);
-            }
-        }
-    }
-    return tiles;
-}
-// --- INIZIO PASSO 3 (INSTALLAZIONE RESILIENTE + MAPPE OFFLINE) ---
+
+// --- INIZIO MODIFICA 2 (INSTALLAZIONE RESILIENTE) ---
+// Installazione: scarica i file uno ad uno. Se uno fallisce, non blocca l'app!
 self.addEventListener('install', (event) => {
-    self.skipWaiting(); // Forza il Service Worker ad attivarsi subito
-
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(async (cache) => {
-            console.log("1. Inizio caching dei file base (App e Libri)...");
-            
-            // Scarica i file base uno ad uno (se uno fallisce, non blocca gli altri)
-            await Promise.all(
-                urlsToCache.map(url => {
-                    return cache.add(url).catch(err => console.log('File base saltato (non trovato):', url));
-                })
-            );
-
-            console.log("2. Inizio caching silente delle mappe (Livelli 0-3)...");
-            const mapTiles = generaTileMappe();
-            
-            // Loop sicuro: se una tile della mappa non esiste, passa semplicemente alla successiva
-            for (const url of mapTiles) {
-                try {
-                    const response = await fetch(url);
-                    if (response.ok) {
-                        await cache.put(url, response);
-                    }
-                } catch (e) {
-                    // Errore silenzioso: la tile non c'è, nessun problema.
-                }
-            }
-            console.log("3. Installazione e Download Offline completati con successo!");
+  self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return Promise.all(
+        urlsToCache.map(url => {
+          return cache.add(url).catch(err => console.log('File saltato (non trovato):', url));
         })
-    );
+      );
+    })
+  );
 });
-// --- FINE PASSO 3 ---
+// --- FINE MODIFICA 2 ---
 
 // Attivazione: Pulisce le vecchie cache se cambiamo versione
 self.addEventListener('activate', (event) => {
