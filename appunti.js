@@ -196,16 +196,21 @@ async function saveAppunto(type, snippet, noteText) {
         date: new Date().toLocaleDateString()
     };
 
+    // 1. SALVA SEMPRE IN LOCALE PER PRIMA COSA (Istanteo per PWA Offline)
+    let appuntiLocali = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+    appuntiLocali.push(nuovoAppunto);
+    localStorage.setItem('valtorta_appunti', JSON.stringify(appuntiLocali));
+    
+    // Aggiorna la grafica immediatamente
+    window.ripristinaEvidenze();
+
+    // 2. INVIA AL CLOUD SE ONLINE
     if (isCloudMode && utenteCloud && db) {
-        // Salva su Firebase
-        await setDoc(doc(db, `utenti/${utenteCloud.uid}/appunti`, newId), nuovoAppunto);
-        window.ripristinaEvidenze();
-    } else {
-        // Salva in Locale
-        let appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
-        appunti.push(nuovoAppunto);
-        localStorage.setItem('valtorta_appunti', JSON.stringify(appunti));
-        window.ripristinaEvidenze();
+        try {
+            await setDoc(doc(db, `utenti/${utenteCloud.uid}/appunti`, newId), nuovoAppunto);
+        } catch(e) {
+            console.warn("Sei Offline: Appunto salvato solo nel dispositivo.");
+        }
     }
 }
 
@@ -229,9 +234,22 @@ window.ripristinaEvidenze = async function() {
     container.normalize(); 
 
     let appunti = [];
+    
+    // LETTURA INTELLIGENTE: Cloud o Locale?
     if (isCloudMode && utenteCloud && db) {
-        const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/appunti`));
-        snapshot.forEach((d) => appunti.push(d.data()));
+        if (!navigator.onLine) {
+            // Se sei in aereo, carica all'istante dal locale senza aspettare Firebase
+            appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+        } else {
+            try {
+                const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/appunti`));
+                snapshot.forEach((d) => appunti.push(d.data()));
+                // Copia di sicurezza per i futuri offline
+                localStorage.setItem('valtorta_appunti', JSON.stringify(appunti));
+            } catch(e) {
+                appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+            }
+        }
     } else if (!isCloudMode) {
         appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
     } else {
@@ -330,8 +348,14 @@ window.gestisciNota = async function(event, noteId) {
     let appunti = [];
     
     if (isCloudMode && utenteCloud && db) {
-        const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/appunti`));
-        snapshot.forEach((d) => appunti.push(d.data()));
+        if (!navigator.onLine) {
+            appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+        } else {
+            try {
+                const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/appunti`));
+                snapshot.forEach((d) => appunti.push(d.data()));
+            } catch(e) { appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || []; }
+        }
     } else {
         appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
     }
@@ -342,13 +366,17 @@ window.gestisciNota = async function(event, noteId) {
     
     window.openCustomModal("Modifica la tua Nota", nota.snippet, nota.noteText, async function(nuovoTesto) {
         nota.noteText = nuovoTesto.trim();
-        if (isCloudMode && utenteCloud && db) {
-            await setDoc(doc(db, `utenti/${utenteCloud.uid}/appunti`, nota.id), nota);
-        } else {
-            appunti[index] = nota;
-            localStorage.setItem('valtorta_appunti', JSON.stringify(appunti));
-        }
+        
+        // Salva sempre prima in locale
+        appunti[index] = nota;
+        localStorage.setItem('valtorta_appunti', JSON.stringify(appunti));
         window.ripristinaEvidenze();
+
+        // Tenta il Cloud in background
+        if (isCloudMode && utenteCloud && db) {
+            try { await setDoc(doc(db, `utenti/${utenteCloud.uid}/appunti`, nota.id), nota); }
+            catch(e) { console.warn("Offline: Nota salvata localmente"); }
+        }
     });
 };
 

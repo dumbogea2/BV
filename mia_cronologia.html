@@ -105,10 +105,21 @@
 
             if (isCloudMode) {
                 if (!utenteCloud || !db) return;
-                // Prendi gli ultimi 20 capitoli letti ordinati per tempo
-                const q = query(collection(db, `utenti/${utenteCloud.uid}/cronologia`), orderBy("timestamp", "desc"), limit(20));
-                const snapshot = await getDocs(q);
-                snapshot.forEach(doc => history.push(doc.data()));
+                
+                if (!navigator.onLine) {
+                    // Modalità Aereo: carica istantaneo
+                    history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+                } else {
+                    try {
+                        const q = query(collection(db, `utenti/${utenteCloud.uid}/cronologia`), orderBy("timestamp", "desc"), limit(20));
+                        const snapshot = await getDocs(q);
+                        snapshot.forEach(doc => history.push(doc.data()));
+                        // Copia locale per sicurezza
+                        localStorage.setItem('valtorta_cronologia_globale', JSON.stringify(history));
+                    } catch(e) {
+                        history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+                    }
+                }
             } else {
                 history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
             }
@@ -124,10 +135,9 @@
                 let intestazioneBlu = "📖 " + item.opera;
                 if (item.opera === "L'Evangelo") intestazioneBlu += " - Cap. " + item.id;
 
-                // Aggiustamento percorsi se necessario
                 let finalUrl = item.url;
                 if (!isCloudMode && !finalUrl.includes('/') && finalUrl.includes('.html')) {
-                    finalUrl = finalUrl; // Mantiene logica locale
+                    finalUrl = finalUrl; 
                 }
 
                 return `
@@ -141,17 +151,18 @@
 
         async function clearGlobalHistory() {
             if(confirm("Vuoi svuotare la cronologia delle letture recenti?")) {
+                // Svuota sempre il locale
+                localStorage.removeItem('valtorta_cronologia_globale');
+                
                 if (isCloudMode && utenteCloud && db) {
-                    const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/cronologia`));
-                    // Firebase richiede cancellazione singola per i documenti
-                    snapshot.forEach(async (documento) => {
-                        await deleteDoc(documento.ref);
-                    });
-                    setTimeout(renderGlobalHistory, 1000);
-                } else {
-                    localStorage.removeItem('valtorta_cronologia_globale');
-                    renderGlobalHistory();
+                    try {
+                        const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/cronologia`));
+                        snapshot.forEach(async (documento) => {
+                            await deleteDoc(documento.ref);
+                        });
+                    } catch(e) { console.warn("Offline: Impossibile svuotare il cloud ora."); }
                 }
+                setTimeout(renderGlobalHistory, 500);
             }
         }
     </script>

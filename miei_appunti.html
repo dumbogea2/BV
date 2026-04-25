@@ -257,8 +257,20 @@
 
             if (isCloudMode) {
                 if (!utenteCloud || !db) return; 
-                const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/appunti`));
-                snapshot.forEach((d) => { appuntiArray.push(d.data()); });
+                
+                if (!navigator.onLine) {
+                    // Modalità Aereo: scatta il caricamento locale
+                    appuntiArray = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+                } else {
+                    try {
+                        const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/appunti`));
+                        snapshot.forEach((d) => { appuntiArray.push(d.data()); });
+                        // Aggiorna il salvadanaio locale
+                        localStorage.setItem('valtorta_appunti', JSON.stringify(appuntiArray));
+                    } catch(e) {
+                        appuntiArray = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+                    }
+                }
             } else {
                 appuntiArray = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
             }
@@ -269,12 +281,15 @@
         // --- BIVIO ELIMINAZIONE DATI ---
         window.eliminaAppunto = async function(id) {
             if(confirm("Sei sicuro di voler eliminare questo appunto?")) {
+                // 1. Rimuove dal dispositivo locale sempre
+                let appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
+                appunti = appunti.filter(a => a.id !== id);
+                localStorage.setItem('valtorta_appunti', JSON.stringify(appunti));
+
+                // 2. Rimuove dal cloud se connesso
                 if (isCloudMode && utenteCloud && db) {
-                    await deleteDoc(doc(db, `utenti/${utenteCloud.uid}/appunti`, id));
-                } else {
-                    let appunti = JSON.parse(localStorage.getItem('valtorta_appunti')) || [];
-                    appunti = appunti.filter(a => a.id !== id);
-                    localStorage.setItem('valtorta_appunti', JSON.stringify(appunti));
+                    try { await deleteDoc(doc(db, `utenti/${utenteCloud.uid}/appunti`, id)); }
+                    catch(e) { console.warn("Offline: eliminato solo localmente"); }
                 }
                 caricaDati(); 
             }
@@ -282,15 +297,18 @@
 
         window.svuotaTutto = async function() {
             if(confirm("⚠️ ATTENZIONE: Sei sicuro di voler eliminare TUTTI gli appunti?")) {
+                // Svuota sempre il locale
+                localStorage.removeItem('valtorta_appunti');
+                
                 if (isCloudMode && utenteCloud && db) {
-                    const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/appunti`));
-                    snapshot.forEach(async (documento) => {
-                        await deleteDoc(doc(db, `utenti/${utenteCloud.uid}/appunti`, documento.id));
-                    });
-                } else {
-                    localStorage.removeItem('valtorta_appunti');
+                    try {
+                        const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/appunti`));
+                        snapshot.forEach(async (documento) => {
+                            await deleteDoc(doc(db, `utenti/${utenteCloud.uid}/appunti`, documento.id));
+                        });
+                    } catch(e) {}
                 }
-                setTimeout(caricaDati, 800);
+                setTimeout(caricaDati, 500);
             }
         };
 
