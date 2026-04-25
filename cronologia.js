@@ -48,19 +48,21 @@ async function salvaInCronologia(idCapitolo, titoloCapitolo, nomeOpera, cartella
         timestamp: new Date().getTime()
     };
 
+    // --- 1. SALVATAGGIO LOCALE (Sempre, garantisce il funzionamento Offline) ---
+    let history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+    history = history.filter(item => item.url !== entry.url);
+    history.unshift(entry);
+    if (history.length > 20) history.pop();
+    localStorage.setItem('valtorta_cronologia_globale', JSON.stringify(history));
+
+    // --- 2. SALVATAGGIO CLOUD (Prova a inviare in background se attivo) ---
     if (isCloudModeCron && utenteCloudCron && dbCron) {
-        // --- SALVATAGGIO CLOUD ---
-        // Usiamo l'URL come ID (pulito dai caratteri vietati) per evitare duplicati dello stesso capitolo
-        const docId = urlCompleto.replace(/[/\\?%*:|"<>]/g, '_');
-        await setDocCron(docCron(dbCron, `utenti/${utenteCloudCron.uid}/cronologia`, docId), entry);
-    } else {
-        // --- SALVATAGGIO LOCALE (Offline) ---
-        let history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
-        history = history.filter(item => item.url !== entry.url);
-        history.unshift(entry);
-        // Abbiamo cambiato il limite da 15 a 20 per uniformarlo alla modalità Cloud
-        if (history.length > 20) history.pop();
-        localStorage.setItem('valtorta_cronologia_globale', JSON.stringify(history));
+        try {
+            const docId = urlCompleto.replace(/[/\\?%*:|"<>]/g, '_');
+            await setDocCron(docCron(dbCron, `utenti/${utenteCloudCron.uid}/cronologia`, docId), entry);
+        } catch (e) {
+            console.warn("Sei offline: Cronologia salvata localmente.", e);
+        }
     }
 }
 

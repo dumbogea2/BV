@@ -84,31 +84,38 @@ if (isCloudModeSync) {
 
 // 1. Salva i Preferiti (Stelline)
 async function salvaPreferitiCloud(listaPreferiti) {
-    // Controlliamo che il cloud sia attivo e che l'utente sia stato riconosciuto
+    // Salva SEMPRE in locale prima
+    localStorage.setItem('valtorta_favs', JSON.stringify(listaPreferiti));
+
     if (isCloudModeSync && utenteCloudSync && dbSync) {
         try {
-            // Creiamo o aggiorniamo un documento chiamato "preferiti" dentro la cartella "config" dell'utente
             await setDocSync(docSync(dbSync, `utenti/${utenteCloudSync.uid}/config`, "preferiti"), {
                 lista: listaPreferiti,
                 ultimoAggiornamento: new Date().getTime()
             });
             console.log("Preferiti sincronizzati correttamente sul Cloud!");
         } catch (error) {
-            console.error("Errore durante il salvataggio dei preferiti:", error);
+            console.warn("Offline: Preferiti salvati in locale.", error);
         }
     }
 }
 
 // 2. Salva il Segnalibro
 async function salvaSegnalibroCloud(segnalibro) {
+    // Salva SEMPRE in locale prima
+    if (segnalibro) {
+        localStorage.setItem('valtorta_bookmark', JSON.stringify(segnalibro));
+    } else {
+        localStorage.removeItem('valtorta_bookmark');
+    }
+
     if (isCloudModeSync && utenteCloudSync && dbSync) {
         try {
-            // Se il segnalibro esiste lo salviamo, se è nullo (perché l'utente l'ha cancellato) salviamo un indicatore vuoto
             const dataToSave = segnalibro ? segnalibro : { cancellato: true };
             await setDocSync(docSync(dbSync, `utenti/${utenteCloudSync.uid}/config`, "segnalibro"), dataToSave);
             console.log("Segnalibro sincronizzato sul Cloud!");
         } catch (error) {
-            console.error("Errore durante il salvataggio del segnalibro:", error);
+            console.warn("Offline: Segnalibro salvato in locale.", error);
         }
     }
 }

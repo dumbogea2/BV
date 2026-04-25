@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v5'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v6'; // Versione aggiornata per forzare il ricaricamento
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
@@ -104,39 +104,34 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Gestione richieste: CACHING DINAMICO
+// Gestione richieste migliorata per evitare "Schermate Bianche" su Safari
 self.addEventListener('fetch', (event) => {
-  // Ignora richieste verso domini esterni (come Firebase) o estensioni Chrome
-  if (!event.request.url.startsWith(self.location.origin)) {
-    return;
-  }
+  if (!event.request.url.startsWith(self.location.origin)) return;
 
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // 1. Se in cache, usa la cache
-        if (response) {
-          return response;
+    caches.match(event.request).then((cachedResponse) => {
+      // 1. Se è in cache, restituiscilo subito (velocità massima)
+      if (cachedResponse) return cachedResponse;
+
+      // 2. Se non è in cache, prova a scaricarlo
+      return fetch(event.request).then((networkResponse) => {
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
         }
-
-        // 2. Se non c'è, scaricalo da internet e salvalo in background
-        return fetch(event.request).then(
-          (networkResponse) => {
-            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-              return networkResponse;
-            }
-
-            const responseToCache = networkResponse.clone();
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-
-            return networkResponse;
-          }
-        ).catch(() => {
-            // Se fallisce (es. utente offline e pagina mai visitata), non fare nulla per ora
+        // Lo salva in cache per la prossima volta (Caching Dinamico)
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
         });
-      })
+        return networkResponse;
+      }).catch(() => {
+        // 3. SE SEI OFFLINE e il file non è in cache, mostra una pagina di cortesia o l'indice
+        if (event.request.mode === 'navigate') {
+          return caches.match('./index.html');
+        }
+        // Per immagini o script mancanti, restituisce una risposta vuota (non blocca l'app)
+        return new Response('', { status: 404, statusText: 'Offline' });
+      });
+    })
   );
 });
