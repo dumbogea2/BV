@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <script>
+        // Guardiano Sicuro V2
         if (window.location.hostname.includes("github.io")) {
-            document.documentElement.style.visibility = 'hidden';
+            if (navigator.onLine) {
+                document.documentElement.style.display = 'none';
+            }
         }
     </script>
 
@@ -213,37 +216,44 @@
     </footer>
 
 <script src="../appunti.js"></script>
-<script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
-            authDomain: "appuntivaltorta.firebaseapp.com",
-            projectId: "appuntivaltorta",
-            storageBucket: "appuntivaltorta.firebasestorage.app",
-            messagingSenderId: "940851152715",
-            appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Controlliamo se stiamo navigando dal web (GitHub)
+<script>
+    // --- CONTROLLO ACCESSO DINAMICO V2 (Specifico per FLEX) ---
+    (async function checkAuthQuaderniFlex() {
         const isOnline = window.location.hostname.includes("github.io");
-
         if (isOnline) {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // È autorizzato! Ripristiniamo la visibilità e impostiamo FLEX
-                    document.documentElement.style.visibility = '';
-                    document.body.style.display = "flex"; 
-                    localStorage.setItem('modalita_lettura', 'cloud');
-                } else {
-                    window.location.replace("/BV/login.html"); 
-                }
-            });
+            try {
+                const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                    authDomain: "appuntivaltorta.firebaseapp.com",
+                    projectId: "appuntivaltorta",
+                    storageBucket: "appuntivaltorta.firebasestorage.app",
+                    messagingSenderId: "940851152715",
+                    appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+                };
+
+                const app = fApp.getApps().length === 0 ? fApp.initializeApp(firebaseConfig) : fApp.getApp();
+                const auth = fAuth.getAuth(app);
+
+                fAuth.onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        // Ripristina la visibilità con FLEX
+                        document.documentElement.style.display = '';
+                        document.body.style.display = "flex"; 
+                        localStorage.setItem('modalita_lettura', 'cloud');
+                    } else {
+                        window.location.replace("/BV/login.html"); 
+                    }
+                });
+            } catch (error) {
+                console.warn("Modalità offline attiva.");
+                document.documentElement.style.display = '';
+                document.body.style.display = "flex";
+            }
         }
-    </script>
+    })();
+</script>
 </body>
 </html>

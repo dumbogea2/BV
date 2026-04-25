@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <script>
+        // Guardiano Sicuro V2
         if (window.location.hostname.includes("github.io")) {
-            document.documentElement.style.display = 'none';
+            if (navigator.onLine) {
+                document.documentElement.style.display = 'none';
+            }
         }
     </script>
-
     <title>Ricerca Universale - Bibliotheca Valtortiana</title>
     <style>
         body {
@@ -421,39 +423,43 @@
             return results;
         }
             </script>
-            <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+            <script>
+        // --- CONTROLLO ACCESSO DINAMICO V2 (Anti-Crash Offline) ---
+        (async function checkAuthStandard() {
+            const isOnline = window.location.hostname.includes("github.io");
+            if (isOnline) {
+                try {
+                    const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                    const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
-            authDomain: "appuntivaltorta.firebaseapp.com",
-            projectId: "appuntivaltorta",
-            storageBucket: "appuntivaltorta.firebasestorage.app",
-            messagingSenderId: "940851152715",
-            appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
-        };
+                    const firebaseConfig = {
+                        apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                        authDomain: "appuntivaltorta.firebaseapp.com",
+                        projectId: "appuntivaltorta",
+                        storageBucket: "appuntivaltorta.firebasestorage.app",
+                        messagingSenderId: "940851152715",
+                        appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+                    };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+                    const app = fApp.getApps().length === 0 ? fApp.initializeApp(firebaseConfig) : fApp.getApp();
+                    const auth = fAuth.getAuth(app);
 
-        // Controlliamo se stiamo navigando dal web (GitHub)
-        const isOnline = window.location.hostname.includes("github.io");
-
-        if (isOnline) {
-            // Chiediamo a Firebase se l'utente è autenticato
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // È autorizzato! Sblocchiamo la pagina nascosta dal guardiano
+                    fAuth.onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            document.documentElement.style.display = '';
+                            document.body.style.display = "flex"; 
+                            localStorage.setItem('modalita_lettura', 'cloud');
+                        } else {
+                            window.location.replace("/BV/login.html"); 
+                        }
+                    });
+                } catch (error) {
+                    console.warn("Modalità offline attiva.");
                     document.documentElement.style.display = '';
-                    document.body.style.display = "flex"; 
-                    localStorage.setItem('modalita_lettura', 'cloud');
-                } else {
-                    // Non è autorizzato! Lo rimandiamo al login.
-                    window.location.replace("/BV/login.html"); 
+                    document.body.style.display = "flex";
                 }
-            });
-        }
-            </script>
+            }
+        })();
+    </script>
 </body>
 </html>
