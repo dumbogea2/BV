@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v8'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v9'; // Versione aggiornata per forzare il ricaricamento
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
@@ -111,7 +111,9 @@ self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith(self.location.origin)) return;
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
+    // INIZIO MODIFICA: Aggiunto { ignoreSearch: true } per ignorare i ?cap= o ?appId=
+    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+    // FINE MODIFICA
       // 1. Se è in cache, restituiscilo subito (velocità massima)
       if (cachedResponse) return cachedResponse;
 
