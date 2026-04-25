@@ -272,7 +272,7 @@
             <p id="txtGestioneDati" style="margin-top: 10px; font-size: 0.85rem; color: #666;">Salva la cronologia e gli appunti in un file sul tuo computer per usarli offline.</p>
               <div id="downloadSection" style="width: 100%; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc;">
                 <h3 style="margin: 0 0 10px 0; font-size: 1.1rem; color: #8b0000;">✈️ Modalità Aereo (Download Completo)</h3>
-                <p style="font-size: 0.85rem; color: #555; margin-bottom: 15px;">Scarica tutti i testi e le mappe sul dispositivo per la lettura senza internet (Consigliato Wi-Fi per evitare costi di connessione).</p>
+                <p style="font-size: 0.85rem; color: #555; margin-bottom: 15px;">Scarica tutti i testi e le mappe sul dispositivo per la lettura senza internet <br><b>(Consigliato Wi-Fi per evitare costi di connessione)</b>.</p>
                 
                 <button id="btnDownloadOffline" onclick="scaricaTuttoOffline()" style="background-color: #8b0000; border: none; color: white; cursor: pointer; padding: 10px 15px; border-radius: 5px; font-size: 0.9rem; font-weight: bold; width: 100%;">
                     ⬇️ Inizia Download Completo
@@ -692,33 +692,77 @@
     <script>
         // --- FUNZIONE: DOWNLOAD MANAGER PER L'OFFLINE TOTALE ---
         async function scaricaTuttoOffline() {
-            // ATTENZIONE: Qui devi elencare tutti i file "pesanti" o i capitoli che vuoi che l'utente scarichi
-            // Puoi aggiungere file a questa lista in futuro.
+            // LISTA COMPLETA E CORRETTA (Sincronizzata con sw.js)
             const fileDaScaricare = [
-                './biblioteca/index.html',
-                './biblioteca/archivio.js',
-                './Quaderni/home.html',
-                './Quaderni/quaderni_1943.html',
-                './Quaderni/archivio_1943.js',
-                './Quaderni/quaderni_1944.html',
-                './Quaderni/archivio_1944.js',
-                './Quaderni/quaderni_1945-1950.html',
-                './Quaderni/archivio_1945-1950.js',
-                './Quaderni/quadernetti.html',
-                './Quaderni/Quadernetti.js',
-                './Quaderni/libro_azaria.html',
-                './Quaderni/archivio_azaria.js',
-                './Quaderni/lezioni_romani.html',
-                './Quaderni/archivio_romani.js',
-                './Quaderni/autobiografia.html',
-                './Quaderni/Autobiografia.js',
+                // --- PAGINE PRINCIPALI E SCRIPT ---
+                './index.html',
+                './login.html',
+                './pwa_info.html',
+                './istruzioni.html',
+                './mia_cronologia.html',
+                './miei_appunti.html',
                 './ricerca_universale.html',
                 './ricerca.html',
                 './archivio.html',
+                './cronologia.js',
+                './sincronizzazione.js',
+                './appunti.js',
+
+                // --- IMMAGINI E SFONDI DELLA HOME ---
+                './sfondo.png',
+                './sfondo2.png',
+                './home_sfondo.png',
+                './EvangeloButton.png',
+                './mappa-pergamena.png',
+                './QuaderniButtonimg.jpg',
+                './libro_azaria_copertina.png',
+                './imgButtonRomani.png',
+                './AutobiografiaButton.png',
+                './ricerca_universale_button.png',
+                './ArchivioButton.jpg',
+
+                // --- MAPPA (Librerie e icone di base) ---
                 './mappa/index.html',
+                './mappa/leaflet/leaflet.css',
                 './mappa/leaflet/leaflet.js',
-                './mappa/leaflet/leaflet.css'
-                // Se i testi dell'Evangelo sono in altri file .js o .html, aggiungili qui!
+                './mappa/img/citta.svg',
+                './mappa/img/acqua.svg',
+                './mappa/img/sacro.svg',
+
+                // --- BIBLIOTECA PRINCIPALE ---
+                './biblioteca/index.html',
+                './biblioteca/archivio.js',
+                './biblioteca/sfondo.png',
+                './biblioteca/handmadepaper.png',
+
+                // --- QUADERNI E OPERE MINORI ---
+                './Quaderni/home.html',
+                './Quaderni/Quaderni-home.png',
+                './Quaderni/handmadepaper.png',
+                './Quaderni/quaderni_1943.html',
+                './Quaderni/archivio_1943.js',
+                './Quaderni/Quaderni1.png',
+                './Quaderni/quaderni_1944.html',
+                './Quaderni/archivio_1944.js',
+                './Quaderni/Quaderni2.png',
+                './Quaderni/quaderni_1945-1950.html',
+                './Quaderni/archivio_1945-1950.js',
+                './Quaderni/Quaderni3.png',
+                './Quaderni/quadernetti.html',
+                './Quaderni/Quadernetti.js',
+                './Quaderni/Quadernetti.png',
+                './Quaderni/libro_azaria.html',
+                './Quaderni/archivio_azaria.js',
+                './Quaderni/imgAzaria.png',
+                './Quaderni/lezioni_romani.html',
+                './Quaderni/archivio_romani.js',
+                './Quaderni/imgRomani.png',
+                './Quaderni/autobiografia.html',
+                './Quaderni/Autobiografia.js',
+                './Quaderni/Autobiografia.png',
+
+                // --- PRESENTAZIONE ---
+                './presentazione/index.html'
             ];
 
             const btn = document.getElementById('btnDownloadOffline');
@@ -726,15 +770,16 @@
             const dlProgress = document.getElementById('dlProgress');
             const dlStatus = document.getElementById('dlStatus');
 
-            // Avvia UI
+            // Avvia UI (Resetta gli stili in caso di click multipli)
             btn.style.display = 'none';
             progressContainer.style.display = 'block';
+            dlStatus.style.cssText = "text-align: center; font-size: 0.85rem; font-weight: bold; color: #0056b3; margin-top: 5px;";
             dlProgress.max = fileDaScaricare.length;
             dlProgress.value = 0;
 
             try {
                 // Apriamo la "cassaforte" del Service Worker
-                const cacheName = 'valtorta-cache-v3'; // Deve corrispondere a quello in sw.js
+                const cacheName = 'valtorta-cache-v5'; // Sincronizzato con sw.js
                 const cache = await caches.open(cacheName);
                 
                 let scaricati = 0;
@@ -757,15 +802,26 @@
                     dlProgress.value = scaricati;
                 }
 
-                // Fine!
-                dlStatus.style.color = "#28a745";
-                dlStatus.innerHTML = "✅ <b>Download completato!</b><br>Chiudi completamente l'App e riaprila (senza cliccare su 'Esci') per rendere subito visibili i contenuti in modalità offline.";
+                // --- FINE: MESSAGGIO AD ALTO IMPATTO ---
+                dlStatus.style.color = "#155724";
+                dlStatus.style.backgroundColor = "#d4edda";
+                dlStatus.style.padding = "15px";
+                dlStatus.style.border = "2px solid #c3e6cb";
+                dlStatus.style.borderRadius = "8px";
+                dlStatus.style.fontSize = "1rem";
+                dlStatus.style.lineHeight = "1.5";
+                dlStatus.innerHTML = "🎉 <b>DOWNLOAD COMPLETATO!</b> 🎉<br><br>L'intera Bibliotheca è ora al sicuro nel tuo dispositivo.<br>👉 <b>Chiudi completamente l'App e riaprila</b> (senza premere 'Esci') per usare subito i contenuti offline.";
+                
+                // Nasconde la barra ma lascia il messaggio più a lungo
+                dlProgress.style.display = 'none';
+                
                 setTimeout(() => {
                     btn.style.display = 'block';
                     btn.innerText = "✅ Libreria Aggiornata";
                     btn.style.backgroundColor = "#28a745";
                     progressContainer.style.display = 'none';
-                }, 4000);
+                    dlProgress.style.display = 'block'; // Ripristina per futuri click
+                }, 8000); // 8 secondi di tempo per leggere con calma
 
             } catch (error) {
                 console.error("Errore durante il caching:", error);
