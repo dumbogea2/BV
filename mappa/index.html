@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
-        // Guardiano Sicuro V2
+        // Guardiano Leaflet: Usa visibility per non rovinare le dimensioni della mappa
         if (window.location.hostname.includes("github.io")) {
             if (navigator.onLine) {
-                document.documentElement.style.display = 'none';
+                document.documentElement.style.visibility = 'hidden';
             }
         }
     </script>
@@ -263,26 +263,19 @@
         }
     </script>
     <script>
-        // --- CONTROLLO ACCESSO DINAMICO V2 (Anti-Crash Offline + FIX MAPPA) ---
+        // --- INIZIO MODIFICA: CONTROLLO ACCESSO DINAMICO (Specifico per Leaflet) ---
         (async function checkAuthMappa() {
             const isOnline = window.location.hostname.includes("github.io");
-
-            // FUNZIONE SALVA-MAPPA: Sblocca la visibilità e costringe Leaflet a ricalcolare le dimensioni
-            function sbloccaERicalcola() {
-                document.documentElement.style.display = '';
+            
+            // Funzione interna per mostrare la pagina correttamente
+            function mostraPagina() {
+                document.documentElement.style.visibility = '';
                 document.body.style.display = "block"; 
-                
-                // Il ritardo di 100ms dà al browser il tempo di "dipingere" la pagina prima di ricalcolare
-                setTimeout(() => {
-                    if (typeof map !== 'undefined') {
-                        map.invalidateSize();
-                        console.log("Mappa ricalcolata con successo!");
-                    }
-                }, 100);
             }
 
             if (isOnline) {
                 try {
+                    // Caricamento dinamico dei moduli Firebase
                     const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
                     const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
 
@@ -301,20 +294,21 @@
                     fAuth.onAuthStateChanged(auth, (user) => {
                         if (user) {
                             localStorage.setItem('modalita_lettura', 'cloud');
-                            sbloccaERicalcola(); // Chiama la funzione magica (Online)
+                            mostraPagina();
                         } else {
                             window.location.replace("/BV/login.html"); 
                         }
                     });
                 } catch (error) {
-                    console.warn("Modalità offline attiva.");
-                    sbloccaERicalcola(); // Chiama la funzione magica (Offline)
+                    console.warn("Modalità offline attiva o Firebase non raggiungibile.");
+                    mostraPagina(); // Sblocca la mappa per l'uso offline (Aereo)
                 }
             } else {
-                // Modalità di sviluppo locale (dal tuo Mac)
-                sbloccaERicalcola(); 
+                // Se siamo in locale (sviluppo su Mac)
+                mostraPagina();
             }
         })();
+        // --- FINE MODIFICA ---
     </script>
 </body>
 </html>
