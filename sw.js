@@ -1,8 +1,10 @@
-const CACHE_NAME = 'valtorta-cache-v7'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v8'; // Versione aggiornata per forzare il ricaricamento
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
-  // --- PAGINE PRINCIPALI E SCRIPT ---
+ // --- PAGINE PRINCIPALI E SCRIPT ---
+  '/',           // FONDAMENTALE: Salva la radice del sito per l'avvio da icona su iPhone
+  './',          // FONDAMENTALE: Sicurezza aggiuntiva per i percorsi relativi
   './index.html',
   './login.html',
   './pwa_info.html',
