@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v6'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v7'; // Versione aggiornata per forzare il ricaricamento
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
@@ -10,7 +10,7 @@ const urlsToCache = [
   './mia_cronologia.html',
   './miei_appunti.html',
   './ricerca_universale.html',
-  './ricerca.html',
+  './Quaderni/ricerca.html',
   './archivio.html',
   './cronologia.js',
   './sincronizzazione.js',
