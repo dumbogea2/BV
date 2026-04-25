@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <script>
+        // Guardiano Sicuro V2: Nasconde solo se c'è internet
         if (window.location.hostname.includes("github.io")) {
-            document.documentElement.style.display = 'none';
+            if (navigator.onLine) {
+                document.documentElement.style.display = 'none';
+            }
         }
     </script>
     
@@ -271,7 +274,7 @@
             </div>
             <p id="txtGestioneDati" style="margin-top: 10px; font-size: 0.85rem; color: #666;">Salva la cronologia e gli appunti in un file sul tuo computer per usarli offline.</p>
               <div id="downloadSection" style="width: 100%; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc;">
-                <h3 style="margin: 0 0 10px 0; font-size: 1.1rem; color: #8b0000;">✈️ Modalità Aereo (Download Completo)</h3>
+                <h3 style="margin: 0 0 10px 0; font-size: 1.1rem; color: #8b0000;">✈️ Modalità Aereo: Scarica la Bibliotheca (lettura offline)</h3>
                 <p style="font-size: 0.85rem; color: #555; margin-bottom: 15px;">Scarica tutti i testi e le mappe sul dispositivo per la lettura senza internet <br><b>(Consigliato Wi-Fi per evitare costi di connessione)</b>.</p>
                 
                 <button id="btnDownloadOffline" onclick="scaricaTuttoOffline()" style="background-color: #8b0000; border: none; color: white; cursor: pointer; padding: 10px 15px; border-radius: 5px; font-size: 0.9rem; font-weight: bold; width: 100%;">
@@ -625,60 +628,67 @@
             reader.readAsText(file);
         }
     </script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    <script>
+        // --- CONTROLLO ACCESSO DINAMICO V2 (Anti-Crash Offline) ---
+        (async function checkAuthIndex() {
+            const isOnline = window.location.protocol.startsWith('http');
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
-            authDomain: "appuntivaltorta.firebaseapp.com",
-            projectId: "appuntivaltorta",
-            storageBucket: "appuntivaltorta.firebasestorage.app",
-            messagingSenderId: "940851152715",
-            appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
-        };
+            if (isOnline) {
+                try {
+                    const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                    const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+                    const firebaseConfig = {
+                        apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                        authDomain: "appuntivaltorta.firebaseapp.com",
+                        projectId: "appuntivaltorta",
+                        storageBucket: "appuntivaltorta.firebasestorage.app",
+                        messagingSenderId: "940851152715",
+                        appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+                    };
 
-        // Controlliamo se stiamo navigando dal web (GitHub o server)
-        const isOnline = window.location.protocol.startsWith('http');
+                    const app = fApp.getApps().length === 0 ? fApp.initializeApp(firebaseConfig) : fApp.getApp();
+                    const auth = fAuth.getAuth(app);
 
-        if (isOnline) {
-            // 2. Ascoltatore Firebase "Globale" per Online
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // È autorizzato! Sblocchiamo la pagina nascosta dal guardiano
+                    fAuth.onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            // Online e loggato: Sblocca la pagina
+                            document.documentElement.style.display = '';
+                            document.body.style.display = "flex"; 
+                            localStorage.setItem('modalita_lettura', 'cloud');
+                            
+                            // COMPILA IL BADGE
+                            const badge = document.getElementById('userBadge');
+                            const emailTxt = document.getElementById('userEmailTxt');
+                            if (badge && emailTxt) {
+                                emailTxt.innerText = user.email;
+                                badge.style.display = 'inline-flex';
+                            }
+                            
+                            // MOSTRA I PULSANTI CLOUD
+                            document.getElementById('btnCambiaPsw').style.display = 'block';
+                            document.getElementById('btnLogoutCloud').style.display = 'block';
+                            document.getElementById('btnAccediCloud').style.display = 'none';
+                        } else {
+                            // Non autorizzato: manda al login
+                            if (window.location.hostname.includes("github.io")) {
+                                window.location.replace("/BV/login.html"); 
+                            } else {
+                                // Test locale
+                                document.documentElement.style.display = '';
+                                document.body.style.display = "flex";
+                                document.getElementById('btnAccediCloud').style.display = 'block';
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.warn("Sei offline o Firebase è bloccato. Avvio modalità locale.");
+                    // Sblocca la grafica (Paracadute di sicurezza)
                     document.documentElement.style.display = '';
-                    document.body.style.display = "flex"; 
-                    localStorage.setItem('modalita_lettura', 'cloud');
-                    
-                    // COMPILA IL BADGE
-                    const badge = document.getElementById('userBadge');
-                    const emailTxt = document.getElementById('userEmailTxt');
-                    if (badge && emailTxt) {
-                        emailTxt.innerText = user.email;
-                        badge.style.display = 'inline-flex';
-                    }
-                    
-                    // MOSTRA I PULSANTI CLOUD
-                    document.getElementById('btnCambiaPsw').style.display = 'block';
-                    document.getElementById('btnLogoutCloud').style.display = 'block';
-                    document.getElementById('btnAccediCloud').style.display = 'none'; // Nasconde se già loggato
-
-                } else {
-                    // Non è autorizzato.
-                    if (window.location.hostname.includes("github.io")) {
-                        // Su GitHub forziamo il redirect
-                        window.location.replace("/BV/login.html"); 
-                    } else {
-                        // Siamo su un server locale (es. test), mostriamo il tasto "Attiva Cloud"
-                        document.body.style.display = "flex";
-                        document.getElementById('btnAccediCloud').style.display = 'block';
-                    }
+                    document.body.style.display = "flex";
                 }
-            });
-        }
+            }
+        })();
     </script>
     <script>
         if ('serviceWorker' in navigator) {
