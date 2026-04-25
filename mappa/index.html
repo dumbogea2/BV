@@ -263,9 +263,24 @@
         }
     </script>
     <script>
-        // --- CONTROLLO ACCESSO DINAMICO V2 (Anti-Crash Offline) ---
+        // --- CONTROLLO ACCESSO DINAMICO V2 (Anti-Crash Offline + FIX MAPPA) ---
         (async function checkAuthMappa() {
             const isOnline = window.location.hostname.includes("github.io");
+
+            // FUNZIONE SALVA-MAPPA: Sblocca la visibilità e costringe Leaflet a ricalcolare le dimensioni
+            function sbloccaERicalcola() {
+                document.documentElement.style.display = '';
+                document.body.style.display = "block"; 
+                
+                // Il ritardo di 100ms dà al browser il tempo di "dipingere" la pagina prima di ricalcolare
+                setTimeout(() => {
+                    if (typeof map !== 'undefined') {
+                        map.invalidateSize();
+                        console.log("Mappa ricalcolata con successo!");
+                    }
+                }, 100);
+            }
+
             if (isOnline) {
                 try {
                     const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
@@ -285,20 +300,19 @@
 
                     fAuth.onAuthStateChanged(auth, (user) => {
                         if (user) {
-                            // È autorizzato! Ripristiniamo la visibilità
-                            document.documentElement.style.display = '';
-                            document.body.style.display = "block"; 
                             localStorage.setItem('modalita_lettura', 'cloud');
+                            sbloccaERicalcola(); // Chiama la funzione magica (Online)
                         } else {
                             window.location.replace("/BV/login.html"); 
                         }
                     });
                 } catch (error) {
                     console.warn("Modalità offline attiva.");
-                    // In caso di offline, sblocca la pagina
-                    document.documentElement.style.display = '';
-                    document.body.style.display = "block";
+                    sbloccaERicalcola(); // Chiama la funzione magica (Offline)
                 }
+            } else {
+                // Modalità di sviluppo locale (dal tuo Mac)
+                sbloccaERicalcola(); 
             }
         })();
     </script>
