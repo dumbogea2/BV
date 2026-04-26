@@ -5,9 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
-        // Nascondi la pagina SOLO se siamo su GitHub E c'è una connessione internet.
-        // Se siamo offline (PWA), lasciamo visibile per permettere il caricamento locale.
-        if (window.location.hostname.includes("github.io") && navigator.onLine) {
+        if (window.location.hostname.includes("github.io")) {
             document.documentElement.style.visibility = 'hidden';
         }
     </script>
@@ -277,48 +275,21 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        const isGithub = window.location.hostname.includes("github.io");
+        // Controlliamo se stiamo navigando dal web (GitHub)
+        const isOnline = window.location.hostname.includes("github.io");
 
-        // Funzione per mostrare la pagina e "riparare" la mappa
-        function mostraMappaERipara() {
-            document.documentElement.style.visibility = '';
-            document.body.style.display = "block"; 
-            
-            // Diamo 100 millisecondi al browser per applicare i CSS, poi ricalcoliamo
-            setTimeout(() => {
-                map.invalidateSize(); // <-- QUESTO RISOLVE IL PROBLEMA DEI 0 PIXEL
-                
-                // Ricentriamo la mappa correttamente in base a se ci sono o meno coordinate nell'URL
-                if (coordsParam) {
-                    const parti = coordsParam.split(',');
-                    const coordinateEsatte = [parseFloat(parti[0]), parseFloat(parti[1])];
-                    map.flyTo(coordinateEsatte, 5, { duration: 0 }); // Centra subito sul marker
+        if (isOnline) {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // È autorizzato! Ripristiniamo la visibilità
+                    document.documentElement.style.visibility = '';
+                    document.body.style.display = "block"; 
+                    localStorage.setItem('modalita_lettura', 'cloud');
                 } else {
-                    map.fitBounds(bounds); // Centra sulla mappa generale
+                    window.location.replace("/BV/login.html"); 
                 }
-            }, 100);
+            });
         }
-
-        if (isGithub) {
-            // Se siamo su GitHub MA siamo in modalità aereo (offline tramite PWA)
-            if (!navigator.onLine) {
-                console.log("Modalità PWA Offline rilevata. Salto il controllo Auth.");
-                mostraMappaERipara();
-            } else {
-                // Se siamo online, procediamo col controllo Firebase
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        localStorage.setItem('modalita_lettura', 'cloud');
-                        mostraMappaERipara();
-                    } else {
-                        window.location.replace("/BV/login.html"); 
-                    }
-                });
-            }
-        } else {
-            // Modalità Distro Locale (es. PC offline tramite ZIP)
-            mostraMappaERipara();
-        }
-    </script>
+            </script>
 </body>
 </html>
