@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v26'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v27'; // Versione aggiornata per forzare il ricaricamento
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
@@ -39,7 +39,7 @@ const urlsToCache = [
   './mappa/img/citta.svg',
   './mappa/img/acqua.svg',
   './mappa/img/sacro.svg',
-  './mappa_palestina/blank.png', // Immagine di fallback
+  './mappa/mappa_palestina/blank.png', // Immagine di fallback
 
   // --- BIBLIOTECA PRINCIPALE ---
   './biblioteca/index.html',
@@ -81,21 +81,55 @@ const urlsToCache = [
   './Quaderni/Autobiografia.png',
   
 ];
-// --- FUNZIONE PER CALCOLARE LE IMMAGINI DELLA MAPPA (Livelli 0, 1, 2, 3) ---
-function generaTileMappe() {
-    const tiles = [];
-    const maxZoom = 3; // Precarica fino al livello 3
-    
-    for (let z = 0; z <= maxZoom; z++) {
-        let maxCoord = Math.pow(2, z) - 1; // Calcola quante immagini ci sono per questo zoom
-        for (let x = 0; x <= maxCoord; x++) {
-            for (let y = 0; y <= maxCoord; y++) {
-                tiles.push(`./mappa_palestina/${z}/${x}/${y}.jpg`);
-            }
-        }
-    }
-    return tiles;
-}
+// --- ELENCO ESATTO DELLE IMMAGINI DELLA MAPPA (Livelli 0, 1, 2, 3) ---
+const mapTilesList = [
+  // Livello Zoom 0 (1 immagine)
+  './mappa/mappa_palestina/0/0/0.jpg',
+  
+  // Livello Zoom 1 (4 immagini)
+  './mappa/mappa_palestina/1/0/0.jpg',
+  './mappa/mappa_palestina/1/0/1.jpg',
+  './mappa/mappa_palestina/1/1/0.jpg',
+  './mappa/mappa_palestina/1/1/1.jpg',
+  
+  // Livello Zoom 2 (9 immagini)
+  './mappa/mappa_palestina/2/0/0.jpg',
+  './mappa/mappa_palestina/2/0/1.jpg',
+  './mappa/mappa_palestina/2/0/2.jpg',
+  './mappa/mappa_palestina/2/1/0.jpg',
+  './mappa/mappa_palestina/2/1/1.jpg',
+  './mappa/mappa_palestina/2/1/2.jpg',
+  './mappa/mappa_palestina/2/2/0.jpg',
+  './mappa/mappa_palestina/2/2/1.jpg',
+  './mappa/mappa_palestina/2/2/2.jpg',
+  
+  // Livello Zoom 3 (25 immagini)
+  './mappa/mappa_palestina/3/0/0.jpg',
+  './mappa/mappa_palestina/3/0/1.jpg',
+  './mappa/mappa_palestina/3/0/2.jpg',
+  './mappa/mappa_palestina/3/0/3.jpg',
+  './mappa/mappa_palestina/3/0/4.jpg',
+  './mappa/mappa_palestina/3/1/0.jpg',
+  './mappa/mappa_palestina/3/1/1.jpg',
+  './mappa/mappa_palestina/3/1/2.jpg',
+  './mappa/mappa_palestina/3/1/3.jpg',
+  './mappa/mappa_palestina/3/1/4.jpg',
+  './mappa/mappa_palestina/3/2/0.jpg',
+  './mappa/mappa_palestina/3/2/1.jpg',
+  './mappa/mappa_palestina/3/2/2.jpg',
+  './mappa/mappa_palestina/3/2/3.jpg',
+  './mappa/mappa_palestina/3/2/4.jpg',
+  './mappa/mappa_palestina/3/3/0.jpg',
+  './mappa/mappa_palestina/3/3/1.jpg',
+  './mappa/mappa_palestina/3/3/2.jpg',
+  './mappa/mappa_palestina/3/3/3.jpg',
+  './mappa/mappa_palestina/3/3/4.jpg',
+  './mappa/mappa_palestina/3/4/0.jpg',
+  './mappa/mappa_palestina/3/4/1.jpg',
+  './mappa/mappa_palestina/3/4/2.jpg',
+  './mappa/mappa_palestina/3/4/3.jpg',
+  './mappa/mappa_palestina/3/4/4.jpg'
+];
 // --- INIZIO PASSO 3 (INSTALLAZIONE RESILIENTE + MAPPE OFFLINE) ---
 self.addEventListener('install', (event) => {
     self.skipWaiting(); // Forza il Service Worker ad attivarsi subito
@@ -111,18 +145,19 @@ self.addEventListener('install', (event) => {
                 })
             );
 
-            console.log("2. Inizio caching silente delle mappe (Livelli 0-3)...");
-            const mapTiles = generaTileMappe();
+            console.log("2. Inizio caching silente delle mappe usando lista esatta...");
             
-            // Loop sicuro: se una tile della mappa non esiste, passa semplicemente alla successiva
-            for (const url of mapTiles) {
+            // Usiamo direttamente l'array che abbiamo creato sopra
+            for (const url of mapTilesList) {
                 try {
                     const response = await fetch(url);
                     if (response.ok) {
                         await cache.put(url, response);
+                    } else {
+                        console.log('Immagine mappa non trovata sul server:', url);
                     }
                 } catch (e) {
-                    // Errore silenzioso: la tile non c'è, nessun problema.
+                    // Errore silenzioso
                 }
             }
             console.log("3. Installazione e Download Offline completati con successo!");

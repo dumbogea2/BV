@@ -690,7 +690,7 @@
             }
         })();
     </script>
-    <script>
+    
        <script>
         // --- INIZIO MODIFICA 1: Rilevamento automatico aggiornamenti PWA (Con Banner) ---
         if ('serviceWorker' in navigator) {
@@ -735,25 +735,34 @@
         }
         // --- FINE MODIFICA 1 ---
     </script>   
-    <script>
-        // --- FUNZIONE PER LE MAPPE (Aggiunta in index.html) ---
-        function generaTileMappe() {
-            const tiles = [];
-            const maxZoom = 3; // Precarica fino al livello 3
-            
-            for (let z = 0; z <= maxZoom; z++) {
-                let maxCoord = Math.pow(2, z) - 1; 
-                for (let x = 0; x <= maxCoord; x++) {
-                    for (let y = 0; y <= maxCoord; y++) {
-                        tiles.push(`./mappa_palestina/${z}/${x}/${y}.jpg`);
-                    }
-                }
-            }
-            return tiles;
-        }
+    
+        <script>
+        // --- ELENCO ESATTO DELLE IMMAGINI DELLA MAPPA (Livelli 0, 1, 2, 3) ---
+        const mapTilesList = [
+          // Livello Zoom 0
+          './mappa/mappa_palestina/0/0/0.jpg',
+          // Livello Zoom 1
+          './mappa/mappa_palestina/1/0/0.jpg', './mappa/mappa_palestina/1/0/1.jpg',
+          './mappa/mappa_palestina/1/1/0.jpg', './mappa/mappa_palestina/1/1/1.jpg',
+          // Livello Zoom 2
+          './mappa/mappa_palestina/2/0/0.jpg', './mappa/mappa_palestina/2/0/1.jpg', './mappa/mappa_palestina/2/0/2.jpg',
+          './mappa/mappa_palestina/2/1/0.jpg', './mappa/mappa_palestina/2/1/1.jpg', './mappa/mappa_palestina/2/1/2.jpg',
+          './mappa/mappa_palestina/2/2/0.jpg', './mappa/mappa_palestina/2/2/1.jpg', './mappa/mappa_palestina/2/2/2.jpg',
+          // Livello Zoom 3
+          './mappa/mappa_palestina/3/0/0.jpg', './mappa/mappa_palestina/3/0/1.jpg', './mappa/mappa_palestina/3/0/2.jpg',
+          './mappa/mappa_palestina/3/0/3.jpg', './mappa/mappa_palestina/3/0/4.jpg', './mappa/mappa_palestina/3/1/0.jpg',
+          './mappa/mappa_palestina/3/1/1.jpg', './mappa/mappa_palestina/3/1/2.jpg', './mappa/mappa_palestina/3/1/3.jpg',
+          './mappa/mappa_palestina/3/1/4.jpg', './mappa/mappa_palestina/3/2/0.jpg', './mappa/mappa_palestina/3/2/1.jpg',
+          './mappa/mappa_palestina/3/2/2.jpg', './mappa/mappa_palestina/3/2/3.jpg', './mappa/mappa_palestina/3/2/4.jpg',
+          './mappa/mappa_palestina/3/3/0.jpg', './mappa/mappa_palestina/3/3/1.jpg', './mappa/mappa_palestina/3/3/2.jpg',
+          './mappa/mappa_palestina/3/3/3.jpg', './mappa/mappa_palestina/3/3/4.jpg', './mappa/mappa_palestina/3/4/0.jpg',
+          './mappa/mappa_palestina/3/4/1.jpg', './mappa/mappa_palestina/3/4/2.jpg', './mappa/mappa_palestina/3/4/3.jpg',
+          './mappa/mappa_palestina/3/4/4.jpg'
+        ];
+
         // --- INIZIO MODIFICA 2: Download Manager Intelligente ---
         async function scaricaTuttoOffline() {
-            // LISTA COMPLETA AGGIORNATA (Rimossa la presentazione, aggiunto offline.html e blank.png)
+            // LISTA COMPLETA AGGIORNATA
             const fileDaScaricare = [
                 // --- PAGINE PRINCIPALI E SCRIPT ---
                 './index.html',
@@ -790,7 +799,7 @@
                 './mappa/img/citta.svg',
                 './mappa/img/acqua.svg',
                 './mappa/img/sacro.svg',
-                './mappa_palestina/blank.png',
+                './mappa/mappa_palestina/blank.png',
 
                 // --- BIBLIOTECA PRINCIPALE ---
                 './biblioteca/index.html',
@@ -824,9 +833,9 @@
                 './Quaderni/Autobiografia.js',
                 './Quaderni/Autobiografia.png'
             ];
-            // Uniamo le immagini della mappa alla lista dei file da scaricare!
-            const mapTiles = generaTileMappe();
-            const listaCompleta = fileDaScaricare.concat(mapTiles);
+            
+            // Uniamo le immagini della mappa alla lista dei file da scaricare usando il nostro elenco esatto!
+            const listaCompleta = fileDaScaricare.concat(mapTilesList);
             
             const btn = document.getElementById('btnDownloadOffline');
             const progressContainer = document.getElementById('progressContainer');
@@ -841,9 +850,9 @@
             dlProgress.value = 0;
 
             try {
-                // IL TRUCCO: Trova l'ultima versione della cache creata dal Service Worker in automatico!
+                // Trova l'ultima versione della cache creata dal Service Worker in automatico!
                 const chiaviCache = await caches.keys();
-                let cacheName = 'valtorta-cache-v22'; // Nome di sicurezza
+                let cacheName = 'valtorta-cache-v22'; // Nome di sicurezza di base
                 for (let key of chiaviCache) {
                     if (key.startsWith('valtorta-cache-v')) {
                         cacheName = key; // Prende quella attuale, qualunque essa sia
