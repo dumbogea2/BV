@@ -661,9 +661,9 @@
 
                 fAuth.onAuthStateChanged(auth, (user) => {
                     if (user) {
-                        // Ripristina la visibilità con BLOCK
+                        // Ripristina la visibilità con flex
                         document.documentElement.style.display = '';
-                        document.body.style.display = "block"; 
+                        document.body.style.display = "flex"; 
                         localStorage.setItem('modalita_lettura', 'cloud');
                     } else {
                         window.location.replace("/BV/login.html"); 
@@ -672,7 +672,7 @@
             } catch (error) {
                 console.warn("Modalità offline attiva.");
                 document.documentElement.style.display = '';
-                document.body.style.display = "block";
+                document.body.style.display = "flex";
             }
         }
     })();
