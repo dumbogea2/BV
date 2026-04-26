@@ -691,28 +691,72 @@
         })();
     </script>
     <script>
+        // --- INIZIO MODIFICA 1: Rilevamento automatico aggiornamenti PWA ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('PWA: Motore Offline pronto!', reg))
-                    .catch(err => console.log('PWA: Errore motore offline', err));
+                navigator.serviceWorker.register('./sw.js').then(reg => {
+                    console.log('PWA: Motore Offline pronto!', reg);
+
+                    // Controlla se c'è un nuovo Service Worker appena scaricato
+                    reg.onupdatefound = () => {
+                        const installingWorker = reg.installing;
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed') {
+                                if (navigator.serviceWorker.controller) {
+                                    // Avvisa l'utente e ricarica la pagina per applicare le modifiche
+                                    console.log("Nuovo aggiornamento trovato.");
+                                    if(confirm("È disponibile un aggiornamento della Bibliotheca! Vuoi ricaricare la pagina per applicarlo ora?")) {
+                                        window.location.reload();
+                                    }
+                                }
+                            }
+                        };
+                    };
+                }).catch(err => console.log('PWA: Errore motore offline', err));
+
+                // Questo comando assicura che la pagina si ricarichi correttamente quando il nuovo motore prende il controllo
+                let refreshing = false;
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (!refreshing) {
+                        window.location.reload();
+                        refreshing = true;
+                    }
+                });
             });
         }
+        // --- FINE MODIFICA 1 ---
     </script>
     <script>
-        // --- FUNZIONE: DOWNLOAD MANAGER PER L'OFFLINE TOTALE ---
+    <script>
+        // --- FUNZIONE PER LE MAPPE (Aggiunta in index.html) ---
+        function generaTileMappe() {
+            const tiles = [];
+            const maxZoom = 3; // Precarica fino al livello 3
+            
+            for (let z = 0; z <= maxZoom; z++) {
+                let maxCoord = Math.pow(2, z) - 1; 
+                for (let x = 0; x <= maxCoord; x++) {
+                    for (let y = 0; y <= maxCoord; y++) {
+                        tiles.push(`./mappa_palestina/${z}/${x}/${y}.jpg`);
+                    }
+                }
+            }
+            return tiles;
+        }
+        // --- INIZIO MODIFICA 2: Download Manager Intelligente ---
         async function scaricaTuttoOffline() {
-            // LISTA COMPLETA E CORRETTA (Sincronizzata con sw.js)
+            // LISTA COMPLETA AGGIORNATA (Rimossa la presentazione, aggiunto offline.html e blank.png)
             const fileDaScaricare = [
                 // --- PAGINE PRINCIPALI E SCRIPT ---
                 './index.html',
+                './offline.html',
                 './login.html',
                 './pwa_info.html',
                 './istruzioni.html',
                 './mia_cronologia.html',
                 './miei_appunti.html',
                 './ricerca_universale.html',
-                './ricerca.html',
+                './Quaderni/ricerca.html',
                 './archivio.html',
                 './cronologia.js',
                 './sincronizzazione.js',
@@ -738,6 +782,7 @@
                 './mappa/img/citta.svg',
                 './mappa/img/acqua.svg',
                 './mappa/img/sacro.svg',
+                './mappa_palestina/blank.png',
 
                 // --- BIBLIOTECA PRINCIPALE ---
                 './biblioteca/index.html',
@@ -769,35 +814,41 @@
                 './Quaderni/imgRomani.png',
                 './Quaderni/autobiografia.html',
                 './Quaderni/Autobiografia.js',
-                './Quaderni/Autobiografia.png',
-
-                // --- PRESENTAZIONE ---
-                './presentazione/index.html'
+                './Quaderni/Autobiografia.png'
             ];
-
+            // Uniamo le immagini della mappa alla lista dei file da scaricare!
+            const mapTiles = generaTileMappe();
+            const listaCompleta = fileDaScaricare.concat(mapTiles);
+            
             const btn = document.getElementById('btnDownloadOffline');
             const progressContainer = document.getElementById('progressContainer');
             const dlProgress = document.getElementById('dlProgress');
             const dlStatus = document.getElementById('dlStatus');
 
-            // Avvia UI (Resetta gli stili in caso di click multipli)
+            // Avvia UI
             btn.style.display = 'none';
             progressContainer.style.display = 'block';
             dlStatus.style.cssText = "text-align: center; font-size: 0.85rem; font-weight: bold; color: #0056b3; margin-top: 5px;";
-            dlProgress.max = fileDaScaricare.length;
+            dlProgress.max = listaCompleta.length;
             dlProgress.value = 0;
 
             try {
-                // Apriamo la "cassaforte" del Service Worker
-                const cacheName = 'valtorta-cache-v9'; // Sincronizzato con sw.js
-                const cache = await caches.open(cacheName);
+                // IL TRUCCO: Trova l'ultima versione della cache creata dal Service Worker in automatico!
+                const chiaviCache = await caches.keys();
+                let cacheName = 'valtorta-cache-v22'; // Nome di sicurezza
+                for (let key of chiaviCache) {
+                    if (key.startsWith('valtorta-cache-v')) {
+                        cacheName = key; // Prende quella attuale, qualunque essa sia
+                    }
+                }
                 
+                const cache = await caches.open(cacheName);
                 let scaricati = 0;
 
-                // Scarica ogni file uno ad uno e aggiorna la barra
-                for (let i = 0; i < fileDaScaricare.length; i++) {
-                    const url = fileDaScaricare[i];
-                    dlStatus.innerText = `Scaricamento in corso... (${scaricati} di ${fileDaScaricare.length})`;
+                // Scarica ogni file
+                for (let i = 0; i < listaCompleta.length; i++) {
+                    const url = listaCompleta[i];
+                    dlStatus.innerText = `Scaricamento in corso... (${scaricati} di ${listaCompleta.length})`;
                     
                     try {
                         const response = await fetch(url);
@@ -812,7 +863,7 @@
                     dlProgress.value = scaricati;
                 }
 
-                // --- FINE: MESSAGGIO AD ALTO IMPATTO ---
+                // Messaggio completamento
                 dlStatus.style.color = "#155724";
                 dlStatus.style.backgroundColor = "#d4edda";
                 dlStatus.style.padding = "15px";
@@ -822,7 +873,6 @@
                 dlStatus.style.lineHeight = "1.5";
                 dlStatus.innerHTML = "🎉 <b>DOWNLOAD COMPLETATO!</b> 🎉<br><br>L'intera Bibliotheca è ora al sicuro nel tuo dispositivo.<br>👉 <b>Chiudi completamente l'App e riaprila</b> (senza premere 'Esci') per usare subito i contenuti offline. Attendere ...";
                 
-                // Nasconde la barra ma lascia il messaggio più a lungo
                 dlProgress.style.display = 'none';
                 
                 setTimeout(() => {
@@ -830,8 +880,8 @@
                     btn.innerText = "✅ Libreria Aggiornata";
                     btn.style.backgroundColor = "#28a745";
                     progressContainer.style.display = 'none';
-                    dlProgress.style.display = 'block'; // Ripristina per futuri click
-                }, 8000); // 8 secondi di tempo per leggere con calma
+                    dlProgress.style.display = 'block';
+                }, 8000); 
 
             } catch (error) {
                 console.error("Errore durante il caching:", error);
@@ -840,8 +890,9 @@
                 btn.style.display = 'block';
             }
         }
+        // --- FINE MODIFICA 2 ---
     </script>
-    <script>
+        <script>
         // --- GESTIONE VISIBILITÀ INTELLIGENTE (Nasconde il download se offline) ---
         function checkNetworkStatus() {
             const dlSection = document.getElementById('downloadSection');
