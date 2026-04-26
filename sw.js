@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v19'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v20'; // Versione aggiornata per forzare il ricaricamento
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
@@ -6,6 +6,7 @@ const urlsToCache = [
   '/',           // FONDAMENTALE: Salva la radice del sito per l'avvio da icona su iPhone
   './',          // FONDAMENTALE: Sicurezza aggiuntiva per i percorsi relativi
   './index.html',
+  './offline.html',
   './login.html',
   './pwa_info.html',
   './istruzioni.html',
@@ -78,9 +79,7 @@ const urlsToCache = [
   './Quaderni/autobiografia.html',
   './Quaderni/Autobiografia.js',
   './Quaderni/Autobiografia.png',
-
-  // --- PRESENTAZIONE ---
-  './presentazione/index.html'
+  
 ];
 // --- FUNZIONE PER CALCOLARE LE IMMAGINI DELLA MAPPA (Livelli 0, 1, 2, 3) ---
 function generaTileMappe() {

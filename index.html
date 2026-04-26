@@ -342,18 +342,17 @@
             <p>Cerca in tutte le opere</p>
         </a>        
 
-        <a href="video/video-presentazione.mp4" class="card">
+        <a href="video/video-presentazione.mp4" class="card" onclick="controllaConnessione(event)">
             <div class="icon">🎬</div>
             <h2>Video Presentazione</h2>
             <p>Guarda il filmato introduttivo</p>
         </a>
 
-        <a href="presentazione/index.html" class="card">
+        <a href="presentazione/index.html" class="card" onclick="controllaConnessione(event)">
             <div class="icon">🖥️</div>
             <h2>Presentazione Web</h2>
             <p>Sfoglia la presentazione interattiva</p>
         </a>
-
         <a href="archivio.html" class="card">
             <div class="icon-image-container"><img src="ArchivioButton.jpg" class="png-icon-archivio" alt="Archivio"></div>
             <h2>Archivio e Volumi</h2>
@@ -862,5 +861,18 @@
         window.addEventListener('online', checkNetworkStatus);
         window.addEventListener('offline', checkNetworkStatus);
     </script>
+    <script>
+    // Questa funzione controlla se c'è internet prima di far aprire un link
+    function controllaConnessione(event) {
+        // Se non c'è internet (navigator.onLine è falso)
+        if (!navigator.onLine) {
+            // Blocchiamo l'azione predefinita del link (non lo facciamo aprire)
+            event.preventDefault(); 
+            // Rimandiamo l'utente alla nostra bella pagina di cortesia
+            window.location.href = "offline.html"; 
+        }
+        // Se c'è internet, la funzione non fa nulla e il link si apre normalmente!
+    }
+</script>
 </body>
 </html>
