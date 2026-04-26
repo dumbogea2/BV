@@ -691,50 +691,42 @@
         })();
     </script>
     <script>
-       <script>
-        // --- INIZIO MODIFICA 1: Rilevamento automatico aggiornamenti PWA (Con Banner) ---
+        // --- INIZIO MODIFICA 1: Rilevamento automatico aggiornamenti PWA ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').then(reg => {
                     console.log('PWA: Motore Offline pronto!', reg);
+
+                    // Controlla se c'è un nuovo Service Worker appena scaricato
+                    reg.onupdatefound = () => {
+                        const installingWorker = reg.installing;
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed') {
+                                if (navigator.serviceWorker.controller) {
+                                    // Avvisa l'utente e ricarica la pagina per applicare le modifiche
+                                    console.log("Nuovo aggiornamento trovato.");
+                                    if(confirm("È disponibile un aggiornamento della Bibliotheca! Vuoi ricaricare la pagina per applicarlo ora?")) {
+                                        window.location.reload();
+                                    }
+                                }
+                            }
+                        };
+                    };
                 }).catch(err => console.log('PWA: Errore motore offline', err));
 
-                // Il nuovo Service Worker ha preso il controllo (grazie a skipWaiting)
+                // Questo comando assicura che la pagina si ricarichi correttamente quando il nuovo motore prende il controllo
                 let refreshing = false;
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
                     if (!refreshing) {
-                        // Creiamo un bellissimo banner HTML direttamente via codice!
-                        const banner = document.createElement('div');
-                        
-                        // Stile del banner (Sfondo scuro, bordo oro, in basso al centro)
-                        banner.style.cssText = "position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #2c3e50; color: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; gap: 15px; font-family: 'Segoe UI', sans-serif; border: 2px solid #d4af37; width: 90%; max-width: 400px; justify-content: center; flex-wrap: wrap;";
-                        
-                        // Contenuto del banner (Testo e Pulsanti)
-                        banner.innerHTML = `
-                            <span style="font-weight: bold; font-size: 1.05rem; text-align: center; width: 100%;">✨ Aggiornamento App disponibile!</span>
-                            <button id="btnAggiornaOra" style="background-color: #28a745; border: none; color: white; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.3s; flex: 1;">Ricarica Ora</button>
-                            <button id="btnAggiornaDopo" style="background: transparent; border: 1px solid #ccc; color: white; padding: 10px 15px; border-radius: 6px; cursor: pointer; flex: 1;">Dopo</button>
-                        `;
-                        
-                        // Aggiungiamo il banner alla pagina
-                        document.body.appendChild(banner);
-
-                        // Se l'utente clicca "Ricarica Ora"
-                        document.getElementById('btnAggiornaOra').addEventListener('click', () => {
-                            refreshing = true;
-                            window.location.reload(); // Ricarica e applica l'aggiornamento
-                        });
-
-                        // Se l'utente clicca "Dopo", nascondiamo il banner per non dare fastidio
-                        document.getElementById('btnAggiornaDopo').addEventListener('click', () => {
-                            banner.style.display = 'none';
-                        });
+                        window.location.reload();
+                        refreshing = true;
                     }
                 });
             });
         }
         // --- FINE MODIFICA 1 ---
-    </script>   
+    </script>
+   
     <script>
         // --- FUNZIONE PER LE MAPPE (Aggiunta in index.html) ---
         function generaTileMappe() {
