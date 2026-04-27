@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v28'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v30'; // Versione aggiornata per forzare il ricaricamento
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
