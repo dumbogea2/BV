@@ -28,6 +28,18 @@
         }
         .home-btn:hover { background-color: #f0f0f0; color: #000; }
 
+/* PULSANTE RESET (Ricarica vista intera) */
+        .reset-btn {
+            position: absolute; top: 135px; left: 10px; z-index: 1000;
+            background: white; padding: 5px; border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            width: 40px; height: 44px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 24px; color: #333;
+            border: none; transition: background-color 0.3s;
+        }
+        .reset-btn:hover { background-color: #f0f0f0; color: #000; }
+
         /* BARRA DI RICERCA */
         .search-container {
             position: absolute; top: 20px; left: 60px; z-index: 1000;
@@ -45,6 +57,7 @@
     <div id="live-coords" class="coord-box">0.0 , 0.0</div>
 
     <a href="../index.html" class="home-btn" title="Torna al Portale">🏠</a>
+    <button onclick="resetMappa()" class="reset-btn" title="Reset Vista Mappa">🎯</button>
 
     <div class="search-container">
         <input type="text" id="public-search" class="search-input" list="places-list" placeholder="Cerca un luogo..." onchange="cercaLuogo(this.value)">
@@ -208,13 +221,32 @@
             "via bassa per Betania e Gerico (riq. alto sx)": { "coords": [-61.97, 44.89], "tipo": "citta" }
         };
 
-        // --- 3. CONFIGURAZIONE MAPPA ---
-        var map = L.map('map', { crs: L.CRS.Simple, minZoom: 0, maxZoom: 6, zoomSnap: 0.1 });
+        // --- 3. CONFIGURAZIONE MAPPA E ZOOM DINAMICO ---
+        // Rileviamo se siamo offline sulla PWA
+        const isGithubMode = window.location.hostname.includes("github.io");
+        const isPwaOfflineMode = isGithubMode && !navigator.onLine;
+
+        // Se offline, limite a 3. Altrimenti 6 (Online o Desktop)
+        // Usiamo "window." così la variabile è visibile in tutto il file
+        window.maxZoomConsentito = isPwaOfflineMode ? 3 : 6;
+
+        var map = L.map('map', { 
+            crs: L.CRS.Simple, 
+            minZoom: 0, 
+            maxZoom: window.maxZoomConsentito, 
+            zoomSnap: 0.1 
+        });
+        
         var bounds = [[-156, 0], [0, 132]];
 
-        L.tileLayer('mappa_palestina/{z}/{y}/{x}.jpg', { minZoom: 0, maxZoom: 6, noWrap: true }).addTo(map);
+        // Manteniamo il TUO percorso originale {z}/{y}/{x}
+        L.tileLayer('mappa_palestina/{z}/{y}/{x}.jpg', { 
+            minZoom: 0, 
+            maxZoom: window.maxZoomConsentito, 
+            noWrap: true 
+        }).addTo(map);
+        
         map.fitBounds(bounds);
-
         // --- 4. FUNZIONI ---
         function inizializzaRicerca() {
             var dataList = document.getElementById('places-list');
@@ -229,37 +261,60 @@
             var dati = database[nome];
             if (dati) {
                 var tipoIcona = icone[dati.tipo] || icone["default"];
-                map.flyTo(dati.coords, 5, { duration: 1.5 });
+                
+                // Sceglie il minimo tra lo zoom voluto (5) e il limite (3 o 6)
+                const zoomTarget = Math.min(5, window.maxZoomConsentito);
+                
+                map.flyTo(dati.coords, zoomTarget, { duration: 1.5 });
                 L.marker(dati.coords, { icon: tipoIcona }).addTo(map)
                     .bindPopup("<b>" + nome + "</b><br>Tipo: " + dati.tipo)
                     .openPopup();
             }
         };
-
         map.on('mousemove', function(e) {
             document.getElementById('live-coords').innerText = e.latlng.lat.toFixed(1) + " , " + e.latlng.lng.toFixed(1);
         });
 
         inizializzaRicerca();
         
+        // --- INIZIO FUNZIONE RESET MAPPA ---
+        window.resetMappa = function() {
+            // 1. Rimuove le coordinate dall'URL (se presenti) senza ricaricare la pagina
+            const url = new URL(window.location);
+            url.searchParams.delete('coords');
+            window.history.pushState({}, '', url);
+            window.coordsParam = null;
+
+            // 2. Riporta la mappa alla visualizzazione d'insieme
+            map.fitBounds(bounds);
+            
+            // 3. Chiude eventuali popup (fumetti) rimasti aperti
+            map.closePopup();
+        };
+        // --- FINE FUNZIONE RESET MAPPA ---
+
         // --- 5. LEGGI LE COORDINATE DALL'URL E CENTRA LA MAPPA ---
         const urlParams = new URLSearchParams(window.location.search);
-        const coordsParam = urlParams.get('coords');
+        
+        // SALVIAMO LA VARIABILE IN 'WINDOW' PER RENDERLA GLOBALE
+        window.coordsParam = urlParams.get('coords'); 
 
-        if (coordsParam) {
-            const parti = coordsParam.split(',');
+        if (window.coordsParam) {
+            const parti = window.coordsParam.split(',');
             const lat = parseFloat(parti[0]);
             const lng = parseFloat(parti[1]);
             const coordinateEsatte = [lat, lng];
 
-            // Diciamo alla mappa di volare esattamente in quel punto!
-            map.flyTo(coordinateEsatte, 5, { duration: 1.5 });
+            // Diciamo alla mappa di volare esattamente in quel punto, rispettando i limiti!
+            const zoomTarget = Math.min(5, window.maxZoomConsentito);
+            map.flyTo(coordinateEsatte, zoomTarget, { duration: 1.5 });
             
             // Aggiungiamo anche un marker animato per farlo risaltare
             L.marker(coordinateEsatte, { icon: icone["sacro"] }).addTo(map)
                 .bindPopup("<b>Luogo del Capitolo</b>")
                 .openPopup();
         }
+        
     </script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -289,10 +344,13 @@
                 map.invalidateSize(); // <-- QUESTO RISOLVE IL PROBLEMA DEI 0 PIXEL
                 
                 // Ricentriamo la mappa correttamente in base a se ci sono o meno coordinate nell'URL
-                if (coordsParam) {
-                    const parti = coordsParam.split(',');
+                // USIAMO 'window.coordsParam' PER LEGGERE LA VARIABILE GLOBALE
+                if (window.coordsParam) {
+                    const parti = window.coordsParam.split(',');
                     const coordinateEsatte = [parseFloat(parti[0]), parseFloat(parti[1])];
-                    map.flyTo(coordinateEsatte, 5, { duration: 0 }); // Centra subito sul marker
+                    
+                    const zoomTarget = Math.min(5, window.maxZoomConsentito);
+                    map.flyTo(coordinateEsatte, zoomTarget, { duration: 0 }); // Centra subito sul marker
                 } else {
                     map.fitBounds(bounds); // Centra sulla mappa generale
                 }
