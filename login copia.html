@@ -71,16 +71,6 @@
             text-decoration: none;
         }
         .offline-link:hover { text-decoration: underline; }
-        
-        .forgot-password-link {
-            display: block;
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: #8b0000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .forgot-password-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -98,19 +88,17 @@
         </div>
         
         <button id="btnLogin">Accedi al Cloud</button>
-        
-        <a id="btnResetPassword" class="forgot-password-link">Hai dimenticato la password?</a>
-
         <div id="error-msg">Credenziali non valide. Riprova.</div>
 
         <a href="index.html" class="offline-link">Continua in modalità offline (Salvataggio locale)</a>
     </div>
 
     <script type="module">
+        // Importiamo solo le funzioni che ci servono da Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+        // Le tue chiavi segrete
         const firebaseConfig = {
             apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
             authDomain: "appuntivaltorta.firebaseapp.com",
@@ -120,21 +108,23 @@
             appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
         };
 
+        // Inizializziamo Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
 
         // --- LOGICA MOSTRA/NASCONDI PASSWORD ---
         const togglePassword = document.querySelector('#togglePassword');
         const passwordField = document.querySelector('#password');
 
         togglePassword.addEventListener('click', function () {
+            // Cambia il tipo di input (da password a testo e viceversa)
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordField.setAttribute('type', type);
+            
+            // Cambia l'icona (Occhio aperto / Occhio chiuso)
             this.textContent = type === 'password' ? '👁️' : '🙈';
         });
-
-        // --- GESTIONE ACCESSO CLOUD E TENTATIVI ---
+        // Gestione del bottone di accesso
         document.getElementById('btnLogin').addEventListener('click', () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -148,79 +138,24 @@
                 return;
             }
 
+            // Tentativo di login con Firebase
             signInWithEmailAndPassword(auth, email, password)
-                .then(async (userCredential) => {
-                    // SUCCESSO! Registriamo l'evento "login"
-                    try {
-                        await addDoc(collection(db, "statistiche_accessi"), {
-                            email_utente: userCredential.user.email,
-                            tipo_evento: "login", 
-                            data_evento: new Date().toISOString()
-                        });
-                    } catch (e) {
-                        console.error("Non è stato possibile registrare la statistica: ", e);
-                    }
-
+                .then((userCredential) => {
+                    // SUCCESSO!
+                    // Salviamo un "gettone" nel browser per ricordarci che l'utente è in modalità Cloud
                     localStorage.setItem('modalita_lettura', 'cloud');
+                    
+                    // Lo mandiamo alla home del libro
                     window.location.href = "index.html"; 
                 })
-                .catch(async (error) => {
-                    // ERRORE! L'accesso è fallito. 
-                    // Mostriamo il messaggio all'utente...
-                    console.error(error.code, error.message);
-                    errorMsg.innerText = "Accesso negato. Controlla le credenziali o la tua connessione internet.";
-                    errorMsg.style.display = 'block';
-                    
-                    // ...e registriamo il TENTATIVO FALLITO nel database!
-                    try {
-                        await addDoc(collection(db, "statistiche_accessi"), {
-                            email_utente: email, // Salviamo l'email che è stata digitata
-                            tipo_evento: "tentativo_fallito", // Etichetta speciale
-                            motivo_errore: error.code, // Salviamo il codice di errore di Firebase
-                            data_evento: new Date().toISOString()
-                        });
-                        console.log("Tentativo fallito registrato nelle statistiche.");
-                    } catch (e) {
-                        console.error("Non è stato possibile registrare il tentativo fallito: ", e);
-                    }
-                });
-        });
-
-        // --- GESTIONE RESET PASSWORD ---
-        document.getElementById('btnResetPassword').addEventListener('click', () => {
-            const email = document.getElementById('email').value;
-            const errorMsg = document.getElementById('error-msg');
-            
-            errorMsg.style.display = 'none';
-
-            if(!email) {
-                errorMsg.innerText = "Per favore, inserisci la tua email nel campo qui sopra per reimpostare la password.";
-                errorMsg.style.display = 'block';
-                return;
-            }
-
-            sendPasswordResetEmail(auth, email)
-                .then(async () => {
-                    alert("Email di ripristino inviata! Controlla la tua casella di posta (anche nello spam).");
-                    
-                    try {
-                        await addDoc(collection(db, "statistiche_accessi"), {
-                            email_utente: email,
-                            tipo_evento: "reset_password", 
-                            data_evento: new Date().toISOString()
-                        });
-                    } catch (e) {
-                        console.error("Errore salvataggio statistica: ", e);
-                    }
-                })
                 .catch((error) => {
-                    console.error("Errore reset password:", error.code);
-                    errorMsg.innerText = "Non risulta nessun invito per questa email. Controlla di averla scritta bene.";
+                    // ERRORE (password sbagliata, utente inesistente)
+                    console.error(error.code, error.message);
+                    errorMsg.innerText = "Accesso negato. Controlla le credenziali o chiedi l'invito all'amministratore.";
                     errorMsg.style.display = 'block';
                 });
         });
-
-        // --- GESTIONE OFFLINE / GITHUB PAGES ---
+        // --- NOVITÀ: Nascondi il tasto offline se siamo su GitHub ---
         const isOnline = window.location.hostname.includes("github.io");
         if (isOnline) {
             document.querySelector('.offline-link').style.display = 'none';

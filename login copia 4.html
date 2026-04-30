@@ -72,6 +72,7 @@
         }
         .offline-link:hover { text-decoration: underline; }
         
+        /* Stile per il link della password dimenticata */
         .forgot-password-link {
             display: block;
             margin-top: 15px;
@@ -99,18 +100,24 @@
         
         <button id="btnLogin">Accedi al Cloud</button>
         
+        <!-- Link per il reset della password -->
         <a id="btnResetPassword" class="forgot-password-link">Hai dimenticato la password?</a>
 
         <div id="error-msg">Credenziali non valide. Riprova.</div>
 
+        <!-- Link originale per la modalità offline preservato -->
         <a href="index.html" class="offline-link">Continua in modalità offline (Salvataggio locale)</a>
     </div>
 
     <script type="module">
+        // Importiamo le funzioni di base e di autenticazione da Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        
+        // Importiamo le funzioni per il database Firestore
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        // Le tue chiavi segrete
         const firebaseConfig = {
             apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
             authDomain: "appuntivaltorta.firebaseapp.com",
@@ -120,6 +127,7 @@
             appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
         };
 
+        // Inizializziamo Firebase, Autenticazione e Database
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -134,7 +142,7 @@
             this.textContent = type === 'password' ? '👁️' : '🙈';
         });
 
-        // --- GESTIONE ACCESSO CLOUD E TENTATIVI ---
+        // --- GESTIONE ACCESSO CLOUD ---
         document.getElementById('btnLogin').addEventListener('click', () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -150,39 +158,26 @@
 
             signInWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
-                    // SUCCESSO! Registriamo l'evento "login"
+                    // SUCCESSO! Registriamo l'evento "login" nel database
                     try {
                         await addDoc(collection(db, "statistiche_accessi"), {
                             email_utente: userCredential.user.email,
                             tipo_evento: "login", 
                             data_evento: new Date().toISOString()
                         });
+                        console.log("Statistica di accesso registrata!");
                     } catch (e) {
                         console.error("Non è stato possibile registrare la statistica: ", e);
                     }
 
+                    // Salviamo in locale che siamo in modalità cloud e andiamo alla home
                     localStorage.setItem('modalita_lettura', 'cloud');
                     window.location.href = "index.html"; 
                 })
-                .catch(async (error) => {
-                    // ERRORE! L'accesso è fallito. 
-                    // Mostriamo il messaggio all'utente...
+                .catch((error) => {
                     console.error(error.code, error.message);
                     errorMsg.innerText = "Accesso negato. Controlla le credenziali o la tua connessione internet.";
                     errorMsg.style.display = 'block';
-                    
-                    // ...e registriamo il TENTATIVO FALLITO nel database!
-                    try {
-                        await addDoc(collection(db, "statistiche_accessi"), {
-                            email_utente: email, // Salviamo l'email che è stata digitata
-                            tipo_evento: "tentativo_fallito", // Etichetta speciale
-                            motivo_errore: error.code, // Salviamo il codice di errore di Firebase
-                            data_evento: new Date().toISOString()
-                        });
-                        console.log("Tentativo fallito registrato nelle statistiche.");
-                    } catch (e) {
-                        console.error("Non è stato possibile registrare il tentativo fallito: ", e);
-                    }
                 });
         });
 
@@ -203,12 +198,14 @@
                 .then(async () => {
                     alert("Email di ripristino inviata! Controlla la tua casella di posta (anche nello spam).");
                     
+                    // SUCCESSO! Registriamo l'evento "reset_password" nel database
                     try {
                         await addDoc(collection(db, "statistiche_accessi"), {
                             email_utente: email,
                             tipo_evento: "reset_password", 
                             data_evento: new Date().toISOString()
                         });
+                        console.log("Statistica di reset registrata!");
                     } catch (e) {
                         console.error("Errore salvataggio statistica: ", e);
                     }
@@ -221,6 +218,7 @@
         });
 
         // --- GESTIONE OFFLINE / GITHUB PAGES ---
+        // Nascondi il tasto offline se siamo online su GitHub
         const isOnline = window.location.hostname.includes("github.io");
         if (isOnline) {
             document.querySelector('.offline-link').style.display = 'none';
