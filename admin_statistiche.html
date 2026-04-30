@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pannello Admin - Statistiche</title>
+    <style>
+        body { font-family: 'Georgia', serif; background-color: #f4ece0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h1 { color: #8b0000; text-align: center; }
+        input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background-color: #8b0000; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; margin-bottom: 10px; }
+        button:hover { background-color: #a50000; }
+        .btn-success { background-color: #28a745; }
+        .btn-success:hover { background-color: #218838; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #8b0000; color: white; }
+        #dashboard, #error-msg { display: none; }
+        #error-msg { color: red; text-align: center; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📊 Statistiche Accessi</h1>
+    
+    <!-- SEZIONE LOGIN ADMIN -->
+    <div id="login-section">
+        <p>Accedi con l'email di Amministratore per scaricare i dati.</p>
+        <div id="error-msg"></div>
+        <input type="email" id="adminEmail" placeholder="Email Amministratore" required>
+        <input type="password" id="adminPassword" placeholder="Password" required>
+        <button id="btnLogin">Accedi al Pannello</button>
+    </div>
+
+    <!-- SEZIONE DASHBOARD (Nascosta fino al login) -->
+    <div id="dashboard">
+        <p>Benvenuto Admin! Ecco gli ultimi eventi registrati.</p>
+        <button id="btnScaricaCSV" class="btn-success">⬇️ Scarica tutto in formato Excel (CSV)</button>
+        <button id="btnLogout" style="background-color: #666;">Esci</button>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data e Ora</th>
+                    <th>Email Utente</th>
+                    <th>Tipo Evento</th>
+                    <th>Dettagli Errore</th>
+                </tr>
+            </thead>
+            <tbody id="tabella-corpo">
+                <!-- I dati verranno inseriti qui dal codice JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // LE TUE CHIAVI FIREBASE
+    const firebaseConfig = {
+        apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+        authDomain: "appuntivaltorta.firebaseapp.com",
+        projectId: "appuntivaltorta",
+        storageBucket: "appuntivaltorta.firebasestorage.app",
+        messagingSenderId: "940851152715",
+        appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let datiStatistiche = []; // Variabile per salvare i dati pronti per il CSV
+
+    // Gestione Login
+    document.getElementById('btnLogin').addEventListener('click', () => {
+        const email = document.getElementById('adminEmail').value;
+        const password = document.getElementById('adminPassword').value;
+        const errorMsg = document.getElementById('error-msg');
+        
+        signInWithEmailAndPassword(auth, email, password).catch(error => {
+            errorMsg.innerText = "Credenziali errate o non autorizzate.";
+            errorMsg.style.display = 'block';
+        });
+    });
+
+    // Gestione Logout
+    document.getElementById('btnLogout').addEventListener('click', () => {
+        signOut(auth);
+    });
+
+    // Controllo dello stato utente (Login/Logout)
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            // Se l'utente è loggato, mostra la dashboard e nascondi il login
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            caricaDati();
+        } else {
+            // Se non è loggato, mostra il login
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+    });
+
+    // Funzione per scaricare i dati da Firestore e mostrarli
+    async function caricaDati() {
+        const tabella = document.getElementById('tabella-corpo');
+        tabella.innerHTML = "<tr><td colspan='4'>Caricamento dati in corso...</td></tr>";
+        datiStatistiche = [];
+
+        try {
+            const snapshot = await getDocs(collection(db, "statistiche_accessi"));
+            let htmlRighe = "";
+            
+            // Estraiamo i dati
+            snapshot.forEach((doc) => {
+                datiStatistiche.push(doc.data());
+            });
+
+            // Ordiniamo dal più recente al più vecchio
+            datiStatistiche.sort((a, b) => new Date(b.data_evento) - new Date(a.data_evento));
+
+            // Creiamo le righe della tabella
+            datiStatistiche.forEach(dato => {
+                const dataFormattata = new Date(dato.data_evento).toLocaleString('it-IT');
+                const errore = dato.motivo_errore ? dato.motivo_errore : "-";
+                
+                htmlRighe += `<tr>
+                    <td>${dataFormattata}</td>
+                    <td>${dato.email_utente}</td>
+                    <td><strong>${dato.tipo_evento}</strong></td>
+                    <td>${errore}</td>
+                </tr>`;
+            });
+
+            tabella.innerHTML = htmlRighe.length ? htmlRighe : "<tr><td colspan='4'>Nessun dato trovato.</td></tr>";
+
+        } catch (error) {
+            console.error(error);
+            tabella.innerHTML = "<tr><td colspan='4' style='color:red;'>Errore di permessi. Assicurati che l'email utilizzata sia quella autorizzata nelle regole di sicurezza.</td></tr>";
+        }
+    }
+
+    // Funzione per generare e scaricare il CSV
+    document.getElementById('btnScaricaCSV').addEventListener('click', () => {
+        if(datiStatistiche.length === 0) {
+            alert("Non ci sono dati da scaricare.");
+            return;
+        }
+
+        // Intestazioni delle colonne per Excel
+        let csvContent = "Data e Ora,Email Utente,Tipo Evento,Errore\n";
+
+        // Aggiungiamo i dati riga per riga
+        datiStatistiche.forEach(dato => {
+            const dataFormattata = new Date(dato.data_evento).toLocaleString('it-IT');
+            const errore = dato.motivo_errore ? dato.motivo_errore : "";
+            // Creiamo la riga separata da virgole
+            csvContent += `"${dataFormattata}","${dato.email_utente}","${dato.tipo_evento}","${errore}"\n`;
+        });
+
+        // Creiamo il file e simuliamo il click per il download
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "Statistiche_Accessi_Valtorta.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+</script>
+
+</body>
+</html>
