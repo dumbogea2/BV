@@ -128,7 +128,28 @@
             background-color: #a50000;
             transform: scale(1.05);
         }
+/* Stili per la sezione di chiusura e la linea beige */
+        .footer-guida {
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            margin-top: 30px;
+        }
 
+        .linea-beige {
+            border: none;
+            height: 1px;
+            background-color: #d1cbb8; /* Colore beige a contrasto col rosso */
+            width: 80%; /* La linea occuperà l'80% della larghezza */
+            margin: 0 auto 15px auto; /* Centra la linea e lascia spazio sotto */
+        }
+
+        .footer-guida p {
+            color: #5d4037; /* Colore marrone scuro per legare con lo sfondo */
+            font-style: italic;
+            font-size: 1.1em;
+            margin: 0;
+        }
         @media (max-width: 600px) {
             .header h1 { font-size: 2em; }
             .grid-container { grid-template-columns: 1fr; }
@@ -138,8 +159,8 @@
 <body>
 
     <div class="header">
-        <h1>📜 Guida alla Bibliotheca</h1>
-        <p>Esplora tutte le funzionalità avanzate create per facilitare lo studio, la ricerca e la meditazione delle Opere.</p>
+        <h1>📜 Guida alla Bibliotheca Valtortiana</h1>
+        <p>Benvenuto, questa guida ti aiuterà a navigare tra le opere di Maria Valtorta utilizzando tutti gli strumenti digitali avanzati progettati per lo studio, la ricerca e la meditazione delle Opere.</p>
     </div>
 
     <div class="grid-container">
@@ -149,15 +170,15 @@
             <h2>Modalità Ibrida (Cloud & Offline)</h2>
             <p>Il portale si adatta alle tue esigenze di lettura:</p>
             <ul>
-                <li><b>Accesso Cloud:</b> Usa le tue credenziali per sincronizzare automaticamente i tuoi appunti e le tue letture su qualsiasi dispositivo (PC, Tablet, Smartphone).</li>
-                <li><b>Modalità Offline:</b> Se navighi senza internet dai tuoi file locali, i tuoi dati vengono salvati in modo sicuro direttamente nel browser del tuo dispositivo.</li>
+                <li><b>Accesso Cloud:</b> Usa le tue credenziali per sincronizzare automaticamente i tuoi appunti le sottolineature e la cronologia e le tue letture su qualsiasi dispositivo (PC, Tablet, Smartphone).</li>
+                <li><b>Modalità Offline:</b> Se navighi senza internet dai tuoi file locali, i tuoi dati vengono salvati in modo sicuro direttamente nel browser del tuo dispositivo.<br>Ricorda di fare un backup periodico se usi questa modalità!</li>
             </ul>
         </div>
 
         <div class="feature-card">
             <div class="icon">🔍</div>
             <h2>Motore di Ricerca Avanzato</h2>
-            <p>Non perderti mai tra i volumi. Usa la Ricerca Universale per trovare ciò che cerchi in una frazione di secondo:</p>
+            <p>Uno degli strumenti più potenti della Bibliotheca. Puoi cercare in tutte le opere contemporaneamente. Usa la <b>Ricerca Universale</b> per trovare ciò che cerchi in una frazione di secondo:</p>
             <ul>
                 <li><b>Ricerca Semplice:</b> Trova singole parole o frasi in un'opera o nell'intero archivio.</li>
                 <li><b>Parole Multiple:</b> Cerca intersezioni complesse in modo esatto.</li>
@@ -170,32 +191,50 @@
             <h2>Appunti e Sottolineature</h2>
             <p>Interagisci con il testo come faresti con un libro cartaceo:</p>
             <ul>
-                <li>Seleziona il testo durante la lettura per <b>evidenziarlo</b> a colori.</li>
-                <li>Aggiungi <b>Note Personali</b> agganciate ai paragrafi.</li>
-                <li>Accedi alla tua bacheca personale per rivedere tutto, filtrare i risultati ed <b>esportarli in PDF o Microsoft Word</b> per stamparli.</li>
+                <li>Seleziona una porzione di testo durante la lettura, apparirà un menu rapido per <b>evidenziare il brano in blu.</b> </li>
+                <li>Aggiungi <b>Note Personali.</b> Oltre a sottolineare, puoi aggiungere commenti o riflessioni personali legati a specifici paragrafi. Le note appaiono come piccoli marker numerati accanto al testo.</li>
+                <li>Nella sezione "I miei Appunti", puoi rivedere tutto il tuo lavoro, filtrarlo per opera o tipo, ed <b>esportarlo in PDF o Microsoft Word</b> per la stampa.</li>
             </ul>
         </div>
 
         <div class="feature-card">
             <div class="icon">🕒</div>
-            <h2>Cronologia Intelligente</h2>
+            <h2>Cronologia e Navigazione</h2>
             <p>Il sistema tiene traccia dei tuoi progressi di lettura.</p>
             <ul>
-                <li>Salvataggio automatico del capitolo attualmente in lettura.</li>
+                <li>Nella sezione <b>"Riprendi la lettura"</b> troverai gli ultimi 20 capitoli aperti in ogni opera.</li>
                 <li>Memoria della <b>posizione di scorrimento</b> (scroll): se chiudi la pagina, riprenderai esattamente dalla riga in cui ti eri fermato.</li>
+                <li><b>Segnalibri nell'Evangelo:</b> puoi apporre un segnalibro 🔖 per marcare un punto di interesse specifico da ritrovare rapidamente.</li>
+
             </ul>
         </div>
 
         <div class="feature-card">
             <div class="icon">🗺️</div>
-            <h2>Geolocalizzazione e Luoghi</h2>
-            <p>Uno strumento speciale per l'analisi dei luoghi visitati.</p>
+            <h2>Mappe e Analisi dei Luoghi</h2>
+            <p>Esplora la geografia dell'Evangelo:</p>
             <ul>
-                <li>Analisi automatica del testo per individuare città e regioni geografiche (es. Cafarnao, Gerusalemme).</li>
-                <li>Associazione con coordinate precise per future mappature interattive.</li>
+                <li><b>Mappa Storica:</b> Una mappa interattiva (disponibile anche offline) che mostra i luoghi citati (es. Cafarnao, Gerusalemme).</li>
+                <li><b>Analizzatore Luoghi:</b> Uno strumento tecnico che scansiona i capitoli per identificare città e regioni, facilitando la comprensione del contesto geografico.</li>
+            </ul>
+        </div>
+        
+        <div class="feature-card">
+            <div class="icon">📱</div>
+            <h2>Utilizzo Offline e PWA</h2>
+            <p>Puoi installare la Bibliotheca sul tuo smartphone o PC come una vera applicazione:</p>
+            <ul>
+                <li>Usa la funzione <b>"Aggiungi a schermata Home"</b> per avere l'icona sul desktop. Istruzioni dettagliate nel menu specifico.</li>
+                <li>Grazie alla tecnologia PWA, una volta scaricati i contenuti, potrai consultare i testi e le mappe anche in totale assenza di connessione internet.</li>
             </ul>
         </div>
 
+    </div>
+
+    <!-- Nuova sezione di chiusura -->
+    <div class="footer-guida">
+        <hr class="linea-beige">
+        <p>Bibliotheca Valtortiana - Strumenti Avanzati per lo Studio e la Meditazione</p>
     </div>
 
     <a href="index.html" class="btn-back">🏠 Torna al Portale Principale</a>
