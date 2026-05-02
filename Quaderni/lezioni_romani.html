@@ -73,20 +73,22 @@
         }
 
         .local-search-options { 
-            font-size: 0.83em;
+            font-size: 0.85em;
             margin-bottom: 10px; 
             color: #5d4037; 
             font-weight: bold;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px 8px;
         }
         .local-search-options label { 
             cursor: pointer; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 4px;
+            display: inline-block;
+            margin: 2px 8px 2px 0;
             white-space: nowrap;
+        }
+        .local-search-options label input[type="radio"] {
+            width: 14px;
+            height: 14px;
+            margin: 0 2px 0 0;
+            vertical-align: middle;
         }
 
         #resetProximityBtn {
@@ -338,10 +340,10 @@
         
         <div class="search-container">
             <div class="local-search-options">
-                <label style="cursor:pointer;"><input type="radio" name="localType" value="simple_partial" checked onchange="toggleLocalMode()"> Semplice Parziale</label>
-                <label style="cursor:pointer;"><input type="radio" name="localType" value="simple_exact" onchange="toggleLocalMode()"> Semplice Esatta</label>
-                <label style="cursor:pointer;"><input type="radio" name="localType" value="or_exact" onchange="toggleLocalMode()"> Multipla Esatta</label>
-                <label style="cursor:pointer;"><input type="radio" name="localType" value="proximity" onchange="toggleLocalMode()"> Concordanze</label>
+                <label ><input type="radio" name="localType" value="simple_partial" checked onchange="toggleLocalMode()"> Semplice Parziale</label>
+                <label ><input type="radio" name="localType" value="simple_exact" onchange="toggleLocalMode()"> Semplice Esatta</label>
+                <label ><input type="radio" name="localType" value="or_exact" onchange="toggleLocalMode()"> Multipla Esatta</label>
+                <label ><input type="radio" name="localType" value="proximity" onchange="toggleLocalMode()"> Concordanze</label>
                 <span id="resetProximityBtn" style="display:none;" onclick="clearProximitySearch()">[✖ Reset]</span>
             </div>
 
