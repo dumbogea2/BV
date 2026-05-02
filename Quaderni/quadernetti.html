@@ -291,19 +291,31 @@
             <h2 style="margin-top:0; color:#8b0000; text-align:center;">Ricerca nei Quadernetti</h2>
             
             <div class="search-section">
-                <span class="search-title">Ricerca Semplice (parola o frase esatta)</span>
-                <div class="input-group">
-                    <input type="text" id="simpleInput" placeholder="Es. Spirito Santo...">
+                <span class="search-title">Tipo di ricerca:</span>
+                <div style="margin-bottom:10px;">
+                    <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="simple_partial" checked onchange="toggleLocalMode()"> Semplice Parziale</label>
+                    <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="simple_exact" onchange="toggleLocalMode()"> Semplice Esatta</label>
+                    <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="or_exact" onchange="toggleLocalMode()"> Multipla Esatta</label>
+                    <label style="cursor:pointer;"><input type="radio" name="localType" value="proximity" onchange="toggleLocalMode()"> Concordanze</label>
+                </div>
+                <div id="localSimpleBox" class="input-group">
+                    <input type="text" id="simpleInput" placeholder="Es. Guerra...">
+                    <button class="btn-search" onclick="doSimpleSearch()">Cerca</button>
+                </div>
+                <div id="localOrBox" class="input-group" style="display:none;">
+                    <input type="text" id="orWord1" placeholder="Parola 1">
+                    <strong style="align-self:center; color:#8b0000;">OPPURE</strong>
+                    <input type="text" id="orWord2" placeholder="Parola 2">
                     <button class="btn-search" onclick="doSimpleSearch()">Cerca</button>
                 </div>
             </div>
 
-            <div class="search-section" style="border-bottom:none; margin-bottom:5px;">
+            <div id="localProximitySection" class="search-section" style="border-bottom:none; margin-bottom:5px; display:none;">
                 <span class="search-title">Ricerca per Concordanze (vicinanza)</span>
                 <div class="input-group">
-                    <input type="text" id="word1" placeholder="Parola 1 (es. Maria)">
+                    <input type="text" id="word1" placeholder="Parola 1">
                     <input type="number" id="distance" value="20" style="width:60px;" title="Distanza max parole">
-                    <input type="text" id="word2" placeholder="Parola 2 (es. Luce)">
+                    <input type="text" id="word2" placeholder="Parola 2">
                     <button class="btn-search" onclick="doProximitySearch()">Trova</button>
                 </div>
                 <div style="font-size:0.8em; color:#666; margin-top:5px;">Trova due parole distanti al massimo N parole l'una dall'altra.</div>
@@ -420,7 +432,7 @@
             // ---------------------------------         
             // APPLICAZIONE EVIDENZIATORE
             if (searchKeywords.length > 0) {
-                content = highlightText(content, searchKeywords);
+                content = highlightText(content, searchKeywords, searchIsPartial);
             }
 
             const cp = `<div class="copyright-text"><br>Tutti i documenti sono tratti scrupolosamente dalle Opere delle ultime edizioni del Centro Editoriale Valtortiano (CEV)<br>Tutti i diritti d’autore sono riservati alla Fondazione Maria Valtorta CEV onlus<br>info@valtortamaria.com</div>`;
@@ -466,10 +478,17 @@
                 document.getElementById('main-content').scrollTop = 0;
             }
         }
-            function highlightText(html, keywords) {
+            function highlightText(html, keywords, partial = false) {
             let pattern = keywords.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
             if(!pattern) return html;
-            const regex = new RegExp(`(${pattern})`, 'gi');
+            let regex;
+            if (partial) {
+                // Parziale: evidenzia anche dentro altre parole
+                regex = new RegExp('(' + pattern + ')', 'gi');
+            } else {
+                // Esatta: \p{L} per confini di parola Unicode (evita benedice, giudice ecc.)
+                regex = new RegExp('(?<!\\p{L})(' + pattern + ')(?!\\p{L})', 'giu');
+            }
             return html.replace(/(<[^>]+>)|([^<]+)/g, (m, tag, text) => {
                 if (tag) return tag;
                 return text.replace(regex, '<mark class="highlight">$&</mark>');
@@ -516,10 +535,25 @@
             if (e.target === this) closeSearch();
         });
 
+        function toggleLocalMode() {
+            const type = document.querySelector('input[name="localType"]:checked').value;
+            document.getElementById('localSimpleBox').style.display = (type === 'simple_partial' || type === 'simple_exact') ? 'flex' : 'none';
+            document.getElementById('localOrBox').style.display = (type === 'or_exact') ? 'flex' : 'none';
+            document.getElementById('localProximitySection').style.display = (type === 'proximity') ? 'block' : 'none';
+        }
+
         function doSimpleSearch() {
-            const val = document.getElementById('simpleInput').value.trim();
-            if (val.length < 3) { alert("Inserisci almeno 3 caratteri"); return; }
-            performSearch([val], "simple");
+            const type = document.querySelector('input[name="localType"]:checked').value;
+            if (type === 'or_exact') {
+                const w1 = document.getElementById('orWord1').value.trim();
+                const w2 = document.getElementById('orWord2').value.trim();
+                if (!w1 || !w2) { alert("Inserisci entrambe le parole"); return; }
+                performSearch([w1, w2], "or_exact");
+            } else {
+                const val = document.getElementById('simpleInput').value.trim();
+                if (val.length < 3) { alert("Inserisci almeno 3 caratteri"); return; }
+                performSearch([val], type); // 'simple_partial' o 'simple_exact'
+            }
         }
 
         function doProximitySearch() {
@@ -544,18 +578,52 @@
                 let snippet = "";
 
                 // ALGORITMO RICERCA
-                if (type === "simple") {
+                if (type === "simple_partial") {
+                    // Parziale: trova anche dentro altre parole
                     if (cleanText.includes(p1)) {
                         found = true;
                         const pos = cleanText.indexOf(p1);
-                        snippet = "..." + cleanText.substring(Math.max(0, pos - 40), Math.min(cleanText.length, pos + 60)) + "...";
+                        const safeP = p1.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
+                        const raw = "..." + cleanText.substring(Math.max(0, pos - 40), Math.min(cleanText.length, pos + 60)) + "...";
+                        snippet = raw.replace(new RegExp(safeP, 'gi'), '<mark class="highlight">$&</mark>');
+                    }
+                } else if (type === "simple" || type === "simple_exact") {
+                    const safeP1 = p1.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
+                    const exactRe = new RegExp('(?<!\\p{L})' + safeP1 + '(?!\\p{L})', 'iu');
+                    const m = cleanText.match(exactRe);
+                    if (m) {
+                        found = true;
+                        const pos = m.index;
+                        const raw = "..." + cleanText.substring(Math.max(0, pos - 40), Math.min(cleanText.length, pos + 60)) + "...";
+                        snippet = raw.replace(new RegExp('(?<!\\p{L})(' + safeP1 + ')(?!\\p{L})', 'giu'), '<mark class="highlight">$1</mark>');
+                    }
+                } else if (type === "or_exact") {
+                    const safeP1 = p1.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
+                    const safeP2 = p2.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
+                    const exactRegex = new RegExp('(?<!\\p{L})(' + safeP1 + '|' + safeP2 + ')(?!\\p{L})', 'iu');
+                    const match = cleanText.match(exactRegex);
+                    if (match) {
+                        found = true;
+                        const pos = match.index;
+                        const raw = "..." + cleanText.substring(Math.max(0, pos - 40), Math.min(cleanText.length, pos + 60)) + "...";
+                        snippet = raw.replace(new RegExp('(?<!\\p{L})(' + safeP1 + '|' + safeP2 + ')(?!\\p{L})', 'giu'), '<mark class="highlight">$1</mark>');
                     }
                 } else if (type === "proximity") {
+                    // Concordanze: ricerca esatta con confini di parola Unicode
+                    const safeP1c = p1.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\$&');
+                    const safeP2c = p2 ? p2.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\$&') : '';
+                    const exactRe1 = new RegExp('(?<!\p{L})' + safeP1c + '(?!\p{L})', 'iu');
+                    const exactRe2 = p2 ? new RegExp('(?<!\p{L})' + safeP2c + '(?!\p{L})', 'iu') : null;
+                    const hlWord = (text, word) => {
+                        const safeW = word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\$&');
+                        const re = new RegExp('(?<!\p{L})(' + safeW + ')(?!\p{L})', 'giu');
+                        return text.replace(re, '<mark class="highlight">$1</mark>');
+                    };
                     const words = cleanText.split(/\s+/).filter(w => w.length > 0);
                     let idx1 = [], idx2 = [];
-                    words.forEach((w, i) => { 
-                        if (w.includes(p1)) idx1.push(i);
-                        if (w.includes(p2)) idx2.push(i);
+                    words.forEach((w, i) => {
+                        if (exactRe1.test(w)) idx1.push(i);
+                        if (exactRe2 && exactRe2.test(w)) idx2.push(i);
                     });
                     
                     if (idx1.length > 0 && idx2.length > 0) {
@@ -570,7 +638,9 @@
                             found = true;
                             const start = Math.max(0, bestPos - 10);
                             const end = Math.min(words.length, bestPos + dist + 10);
-                            snippet = "..." + words.slice(start, end).join(" ") + "...";
+                            let rawSnippet = "..." + words.slice(start, end).join(" ") + "...";
+                            snippet = hlWord(rawSnippet, p1);
+                            if (p2) snippet = hlWord(snippet, p2);
                         }
                     }
                 }
@@ -623,11 +693,13 @@
             const params = new URLSearchParams(window.location.search);
             const openIdx = params.get('idx');
             const keys = params.get('keys');
+            const mode = params.get('mode'); // 'partial' o 'exact'
             
             if (openIdx !== null) {
                 if (keys) {
                     searchKeywords = decodeURIComponent(keys).split(',');
                     isSearchActive = true;
+                    searchIsPartial = (mode === 'partial');
                     
                     const btnBack = document.getElementById('btn-back-search');
                     btnBack.style.display = 'block';

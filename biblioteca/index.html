@@ -636,8 +636,13 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             const cap = archivioCapitoli[n];
             let matchesSearch = (val === "" || n.toString() === val);
             if (val.length >= 3 && cap) {
-                const occ = (cap.titolo + " " + cap.testo).toUpperCase().split(val).length - 1;
-                if (occ > 0) { matchesSearch = true; t += occ; c++; }
+                const fullText = (cap.titolo + " " + cap.testo).toUpperCase().replace(/<[^>]+>/g, ' ');
+                // Filtro visuale: parziale (mostra il rotolo anche se la parola è dentro un'altra)
+                if (fullText.includes(val)) matchesSearch = true;
+                // Contatore: esatto (solo parole intere, coerente con l'elenco anteprime)
+                const exactMatches = fullText.match(/[A-Z0-9ÀÈÉÌÒÙÁÉÍÓÚ]+/g) || [];
+                const exactOcc = exactMatches.filter(w => w === val).length;
+                if (exactOcc > 0) { t += exactOcc; c++; }
             }
             const matchesFav = !showOnlyFavs || bookmarks.includes(n);
             const matchesIndex = !indexRange || (n >= indexRange.s && n <= indexRange.e);
@@ -1502,7 +1507,7 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
 </script>
 
 <script>
-    function evidenziaParoleInTesto(parole) {
+    function evidenziaParoleInTesto(parole, partial = false) {
         const container = document.getElementById('modalText'); 
         if (!container) return;
         
@@ -1510,8 +1515,21 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         parole.forEach(parola => {
             const pTrim = parola.trim();
             if (pTrim.length < 3) return;
-            const regex = new RegExp(`(${pTrim})`, 'gi');
-            html = html.replace(regex, '<mark style="background-color: yellow; color: black; font-weight: bold; border-radius: 3px;">$1</mark>');
+            const safeP = pTrim.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            let regex;
+            if (partial) {
+                // Parziale: evidenzia anche dentro altre parole (es. "dice" in "benedice")
+                regex = new RegExp('(' + safeP + ')', 'gi');
+                html = html.replace(/>([^<]*)</g, (match, text) => {
+                    return '>' + text.replace(regex, '<mark style="background-color: yellow; color: black; font-weight: bold; border-radius: 3px;">$1</mark>') + '<';
+                });
+            } else {
+                // Esatta: \p{L} per confini di parola Unicode (evita benedice, giudice ecc.)
+                regex = new RegExp('(?<!\\p{L})(' + safeP + ')(?!\\p{L})', 'giu');
+                html = html.replace(/>([^<]*)</g, (match, text) => {
+                    return '>' + text.replace(regex, '<mark style="background-color: yellow; color: black; font-weight: bold; border-radius: 3px;">$1</mark>') + '<';
+                });
+            }
         });
         container.innerHTML = html;
         
@@ -1535,6 +1553,7 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         const urlParams = new URLSearchParams(window.location.search);
         const idParam = urlParams.get('idx') || urlParams.get('cap') || urlParams.get('ch');
         const keysParam = urlParams.get('keys');
+        const modeParam = urlParams.get('mode');
         const fromUniversale = urlParams.get('from') === 'universale';
 
         if (idParam && typeof archivioCapitoli !== 'undefined' && archivioCapitoli[idParam]) {
@@ -1542,7 +1561,8 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             
             if (keysParam) {
                 const parole = decodeURIComponent(keysParam).split(',');
-                setTimeout(() => evidenziaParoleInTesto(parole), 600); 
+                const isPartial = (modeParam === 'partial');
+                setTimeout(() => evidenziaParoleInTesto(parole, isPartial), 600); 
             }
             if (fromUniversale) {
                 createBackToSearchButton();

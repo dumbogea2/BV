@@ -73,12 +73,21 @@
         }
 
         .local-search-options { 
-            font-size: 0.85em; 
+            font-size: 0.83em;
             margin-bottom: 10px; 
             color: #5d4037; 
             font-weight: bold;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px 8px;
         }
-        .local-search-options label { cursor: pointer; margin-right: 5px; }
+        .local-search-options label { 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 4px;
+            white-space: nowrap;
+        }
 
         #resetProximityBtn {
             cursor: pointer;
@@ -322,7 +331,7 @@
             #sidebar { 
                 width: 100%; 
                 height: auto; 
-                max-height: 35vh; /* Altezza fissa per l'indice */
+                max-height: 40vh; /* Altezza fissa per l'indice */
                 overflow-y: auto; 
                 border-right: none; 
                 border-bottom: 3px solid #8b0000; 
@@ -401,13 +410,15 @@
             <a href="ricerca.html" class="nav-btn">🔍 Ricerca Globale</a>
             <a href="#" id="btn-back-search" class="nav-btn" style="display:none; margin-top:5px;"></a>
             
-            <button id="btn-toggle-search" class="nav-btn toggle-search-btn" onclick="toggleMobileSearch()">🔍 Cerca in questa pagina</button>
+            <button id="btn-toggle-search" class="nav-btn toggle-search-btn" onclick="toggleMobileSearch()">🔍 Cerca nell'Autobiografia</button>
         </div>
         
         <div class="search-container">
             <div class="local-search-options">
-                <label><input type="radio" name="localType" value="simple" checked onclick="toggleLocalMode()"> Semplice</label>
-                <label><input type="radio" name="localType" value="proximity" onclick="toggleLocalMode()"> Concordanze</label>
+                <label style="cursor:pointer;"><input type="radio" name="localType" value="simple_partial" checked onchange="toggleLocalMode()"> Semplice Parziale</label>
+                <label style="cursor:pointer;"><input type="radio" name="localType" value="simple_exact" onchange="toggleLocalMode()"> Semplice Esatta</label>
+                <label style="cursor:pointer;"><input type="radio" name="localType" value="or_exact" onchange="toggleLocalMode()"> Multipla Esatta</label>
+                <label style="cursor:pointer;"><input type="radio" name="localType" value="proximity" onchange="toggleLocalMode()"> Concordanze</label>
                 <span id="resetProximityBtn" style="display:none;" onclick="clearProximitySearch()">[✖ Reset]</span>
             </div>
 
@@ -415,6 +426,12 @@
                 <div class="input-wrapper">
                     <input type="text" id="local-search-input" placeholder="Cerca parola o frase..." onkeyup="checkClearBtn(this)">
                     <span class="clear-input" id="clearBtn" onclick="clearLocalSearch()">✕</span>
+                </div>
+                <div id="localOrBox" class="input-group" style="display:none;">
+                    <input type="text" id="orWord1" placeholder="Parola 1">
+                    <strong style="align-self:center; color:#8b0000;">OPPURE</strong>
+                    <input type="text" id="orWord2" placeholder="Parola 2">
+                    <button class="btn-search" onclick="doLocalSearch()">Cerca</button>
                 </div>
             </div>
 
@@ -514,8 +531,19 @@
             
             if (isSearchActive && searchKeywords.length > 0) {
                 searchKeywords.forEach(kw => {
-                    const regex = new RegExp("(" + kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")", "gi");
-                    htmlTesto = htmlTesto.replace(regex, "<span class='highlight'>$1</span>");
+                    const safeKw = kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    // Usa \p{L} (Unicode letter) per evitare di evidenziare parole parziali
+                    // es. "dice" non evidenzia "benedice" o "giudice"
+                    let regex;
+                    if (searchIsPartial) {
+                        regex = new RegExp('(' + safeKw + ')', 'gi');
+                    } else {
+                        regex = new RegExp('(?<!\\p{L})(' + safeKw + ')(?!\\p{L})', 'giu');
+                    }
+                    // Applica solo al testo visibile, non agli attributi dei tag HTML
+                    htmlTesto = htmlTesto.replace(/>([^<]*)</g, (match, text) => {
+                        return '>' + text.replace(regex, "<span class='highlight'>$1</span>") + '<';
+                    });
                 });
             }
 
@@ -593,9 +621,10 @@
         
         function toggleLocalMode() {
             const type = document.querySelector('input[name="localType"]:checked').value;
-            document.getElementById('localSimpleBox').style.display = (type === 'simple') ? 'block' : 'none';
-            document.getElementById('localProximityBox').style.display = (type === 'proximity') ? 'flex' : 'none';
-            document.getElementById('resetProximityBtn').style.display = (type === 'proximity') ? 'inline' : 'none';
+            document.getElementById('localSimpleBox').style.display = (type === 'simple_partial' || type === 'simple_exact') ? 'flex' : 'none';
+            const orBox = document.getElementById('localOrBox');
+            if (orBox) orBox.style.display = (type === 'or_exact') ? 'flex' : 'none';
+            document.getElementById('localProxBox').style.display = (type === 'proximity') ? 'flex' : 'none';
         }
 
         function checkClearBtn(input) {
@@ -622,10 +651,15 @@
             let terms = [];
             let dist = 30;
 
-            if (type === 'simple') {
+            if (type === 'simple_partial' || type === 'simple_exact') {
                 const val = document.getElementById('local-search-input').value.trim().toLowerCase();
                 if (val.length < 3) { alert("Inserisci almeno 3 lettere."); return; }
                 terms = [val];
+            } else if (type === 'or_exact') {
+                const w1 = document.getElementById('orWord1').value.trim().toLowerCase();
+                const w2 = document.getElementById('orWord2').value.trim().toLowerCase();
+                if (!w1 || !w2) { alert("Inserisci entrambe le parole."); return; }
+                terms = [w1, w2];
             } else {
                 const w1 = document.getElementById('localWord1').value.trim().toLowerCase();
                 const w2 = document.getElementById('localWord2').value.trim().toLowerCase();
@@ -639,18 +673,52 @@
                 let found = false;
                 let snippet = "";
 
-                if (type === 'simple') {
+                if (type === 'simple_partial') {
+                    // Parziale: trova anche dentro altre parole
                     if (cleanText.includes(terms[0])) {
                         found = true;
-                        let pos = cleanText.indexOf(terms[0]);
-                        snippet = "..." + cleanText.substring(Math.max(0, pos - 40), Math.min(cleanText.length, pos + 60)) + "...";
+                        const pos = cleanText.indexOf(terms[0]);
+                        const safeT = terms[0].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                        const raw = "..." + cleanText.substring(Math.max(0, pos - 40), Math.min(cleanText.length, pos + 60)) + "...";
+                        snippet = raw.replace(new RegExp(safeT, 'gi'), '<mark class="highlight">$&</mark>');
+                    }
+                } else if (type === 'simple_exact' || type === 'simple') {
+                    const safeT = terms[0].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    const exactRe = new RegExp('(?<!\\p{L})' + safeT + '(?!\\p{L})', 'iu');
+                    const m = cleanText.match(exactRe);
+                    if (m) {
+                        found = true;
+                        const pos = m.index;
+                        const raw = "..." + cleanText.substring(Math.max(0, pos - 40), Math.min(cleanText.length, pos + 60)) + "...";
+                        snippet = raw.replace(new RegExp('(?<!\\p{L})(' + safeT + ')(?!\\p{L})', 'giu'), '<mark class="highlight">$1</mark>');
+                    }
+                } else if (type === 'or_exact') {
+                    const safeP1 = terms[0].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    const safeP2 = terms[1].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    const exactRegex = new RegExp('(?<!\\p{L})(' + safeP1 + '|' + safeP2 + ')(?!\\p{L})', 'iu');
+                    const match = cleanText.match(exactRegex);
+                    if (match) {
+                        found = true;
+                        const pos = match.index;
+                        const raw = "..." + cleanText.substring(Math.max(0, pos - 40), Math.min(cleanText.length, pos + 60)) + "...";
+                        snippet = raw.replace(new RegExp('(?<!\\p{L})(' + safeP1 + '|' + safeP2 + ')(?!\\p{L})', 'giu'), '<mark class="highlight">$1</mark>');
                     }
                 } else {
+                    // Concordanze: ricerca esatta con confini di parola Unicode
+                    const safeP1c = terms[0].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    const safeP2c = terms[1].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    const exactRe1 = new RegExp('(?<!\\p{L})' + safeP1c + '(?!\\p{L})', 'iu');
+                    const exactRe2 = new RegExp('(?<!\\p{L})' + safeP2c + '(?!\\p{L})', 'iu');
+                    const hlWord = (text, word) => {
+                        const safeW = word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                        const re = new RegExp('(?<!\\p{L})(' + safeW + ')(?!\\p{L})', 'giu');
+                        return text.replace(re, '<mark class="highlight">$1</mark>');
+                    };
                     const words = cleanText.split(/\s+/).filter(w => w.length > 0);
                     let idx1 = [], idx2 = [];
                     words.forEach((w, i) => {
-                        if (w.includes(terms[0])) idx1.push(i);
-                        if (w.includes(terms[1])) idx2.push(i);
+                        if (exactRe1.test(w)) idx1.push(i);
+                        if (exactRe2.test(w)) idx2.push(i);
                     });
                     if (idx1.length > 0 && idx2.length > 0) {
                         let minD = Infinity; let bestPos = 0;
@@ -660,12 +728,14 @@
                         }); });
                         if (minD <= dist) {
                             found = true;
-                            snippet = "..." + words.slice(Math.max(0, bestPos - 10), bestPos + dist + 10).join(" ") + "...";
+                            let rawSnippet = "..." + words.slice(Math.max(0, bestPos - 10), bestPos + dist + 10).join(" ") + "...";
+                            snippet = hlWord(rawSnippet, terms[0]);
+                            snippet = hlWord(snippet, terms[1]);
                         }
                     }
                 }
                 if (found) {
-                    let fullTitle = cap.lezione;
+                    let fullTitle = (cap.lezione || '') + (cap.titolo ? " - " + cap.titolo : '') + (cap.data ? " (" + cap.data + ")" : '');
                     results.push({ idx: idx, titolo: fullTitle, snippet: snippet });
                 }
             });
@@ -696,7 +766,8 @@
                 
                 let hSnippet = res.snippet;
                 words.forEach(w => {
-                    let r = new RegExp("(" + w.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")", "gi");
+                    const safeW = w.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    let r = new RegExp('(?<!\\p{L})(' + safeW + ')(?!\\p{L})', 'giu');
                     hSnippet = hSnippet.replace(r, "<span class='highlight'>$1</span>");
                 });
                 
@@ -730,12 +801,14 @@
             const params = new URLSearchParams(window.location.search);
             const openIdx = params.get('idx');
             const keys = params.get('keys');
+            const mode = params.get('mode');
             const fromParam = params.get('from');
 
             if (openIdx !== null) {
                 if (keys) {
                     searchKeywords = decodeURIComponent(keys).split(',');
                     isSearchActive = true;
+                    searchIsPartial = (mode === 'partial');
                     const btnBack = document.getElementById('btn-back-search');
                     if (btnBack) {
                         btnBack.style.display = 'block';

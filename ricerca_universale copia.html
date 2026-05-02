@@ -52,19 +52,11 @@
         label { margin-right: 15px; cursor: pointer; font-size: 0.95em; }
         #globalResults { margin-top: 20px; }
         .book-section { margin-bottom: 30px; }
-
         .book-title { 
             font-size: 1.2em; color: #fff; background-color: #5d4037; 
-            padding: 8px 15px; border-radius: 4px; margin-bottom: 0; 
-            display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-            user-select: none;
+            padding: 8px 15px; border-radius: 4px; margin-bottom: 10px; 
+            display: inline-block; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
         }
-        .book-title:hover { background-color: #6d4c41; }
-        .book-title .toggle-arrow { font-size: 0.8em; margin-left: 10px; transition: transform 0.2s; }
-        .book-title.collapsed .toggle-arrow { transform: rotate(-90deg); }
-        .book-results { overflow: hidden; transition: max-height 0.3s ease; margin-bottom: 10px; }
-        .book-results.collapsed { display: none; }
         .result-item {
             background: white; border-bottom: 1px solid #dcd8ce; padding: 15px; 
             cursor: pointer; transition: background 0.2s;
@@ -291,8 +283,8 @@
                     if (bookResults.length > 0) {
                         totalFound += bookResults.length;
                         htmlOutput += `<div class="book-section">`;
-                        htmlOutput += `<div class="book-title" onclick="toggleBook(this)">${book.name} (${bookResults.length}) <span class="toggle-arrow">▼</span></div>`;
-                        htmlOutput += `<div class="book-results">`;
+                        htmlOutput += `<div class="book-title">${book.name} (${bookResults.length})</div>`;
+                        
                         bookResults.forEach(res => {
                             const keywordsSafe = encodeURIComponent(terms.join(','));
                             const modeParam = (type === 'simple') ? '&mode=partial' : '&mode=exact';
@@ -307,7 +299,7 @@
                                 <div class="res-snippet">${res.snippet}</div>
                             </div>`;
                         });
-                        htmlOutput += `</div></div>`;
+                        htmlOutput += `</div>`;
                     }
                 });
 
@@ -494,12 +486,6 @@
                 }
             }
         })();
-    
-        function toggleBook(titleEl) {
-            const resultsEl = titleEl.nextElementSibling;
-            titleEl.classList.toggle('collapsed');
-            resultsEl.classList.toggle('collapsed');
-        }
-        </script>
+    </script>
 </body>
 </html>
