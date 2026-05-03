@@ -222,6 +222,35 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
     border: 8px double #3e2723; box-shadow: 0 0 50px #000;
 }
 
+
+.modal-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #c0b9a3;
+    gap: 15px;
+}
+.modal-nav-buttons button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background: #8b0000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Georgia', serif;
+    font-size: 0.95em;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+.modal-nav-buttons button:hover { background: #a52a2a; }
+.modal-nav-buttons button:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
+@media (max-width: 600px) {
+    .modal-nav-buttons button { padding: 10px 14px; font-size: 0.85em; }
+}
+
 .close-modal { 
     position: fixed; right: 25px; top: 25px; width: 50px; height: 50px; 
     background: #3e2723; color: #e5c27a; border-radius: 50%; display: flex; 
@@ -525,6 +554,10 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         <h2 id="modalTitle"></h2>
         <div id="modalText"></div>
         <a id="originalLink" href="#" target="_blank">📖 Leggi il testo completo sul sito ufficiale →</a>
+        <div class="modal-nav-buttons">
+            <button id="btnPrevChapter" onclick="prevChapter()">← Precedente</button>
+            <button id="btnNextChapter" onclick="nextChapter()">Successivo →</button>
+        </div>
     </div>
 </div> 
 <button id="floating-print-btn" onclick="printChapter()" title="Stampa questo capitolo">🖨️</button>
@@ -852,6 +885,14 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         }
         
         currentOpenChapter = n; 
+        
+        // Aggiorna pulsanti navigazione
+        const allKeys = Object.keys(archivioCapitoli).map(Number).sort((a,b) => a - b);
+        const curIdx = allKeys.indexOf(n);
+        const btnPrev = document.getElementById('btnPrevChapter');
+        const btnNext = document.getElementById('btnNextChapter');
+        if (btnPrev) { btnPrev.disabled = (curIdx <= 0); }
+        if (btnNext) { btnNext.disabled = (curIdx >= allKeys.length - 1); }
 
         setTimeout(() => {
             if (typeof window.ripristinaEvidenze === 'function') window.ripristinaEvidenze();
@@ -938,6 +979,17 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         }, 400);
     }        
         
+    function prevChapter() {
+        const allKeys = Object.keys(archivioCapitoli).map(Number).sort((a,b) => a - b);
+        const curIdx = allKeys.indexOf(currentOpenChapter);
+        if (curIdx > 0) openChapter(allKeys[curIdx - 1]);
+    }
+    function nextChapter() {
+        const allKeys = Object.keys(archivioCapitoli).map(Number).sort((a,b) => a - b);
+        const curIdx = allKeys.indexOf(currentOpenChapter);
+        if (curIdx < allKeys.length - 1) openChapter(allKeys[curIdx + 1]);
+    }
+
     function closeModal() { 
         stopAudio(); 
         document.getElementById('readerModal').style.display = 'none'; 
