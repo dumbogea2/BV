@@ -868,6 +868,54 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         }, 100);
     }
 
+    // --- Evidenziazione Segnalibro Robusta (logica TreeWalker da appunti.js) ---
+    // Funziona anche con testo misto (corsivo+normale), frasi lunghe, multi-paragrafo
+    function evidenziaSegnalibro(container, snippetStr) {
+        if (!container || !snippetStr) return;
+        container.normalize();
+
+        const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+        const charMap = [];
+        let node;
+        while ((node = walker.nextNode())) {
+            if (node.parentNode && ['SCRIPT','STYLE','NOSCRIPT'].includes(node.parentNode.nodeName)) continue;
+            const text = node.nodeValue;
+            for (let i = 0; i < text.length; i++) {
+                if (!/\s/.test(text[i])) charMap.push({ node: node, offset: i, char: text[i].toLowerCase() });
+            }
+        }
+
+        const searchStr = snippetStr.replace(/\s+/g, '').toLowerCase();
+        const pageText = charMap.map(c => c.char).join('');
+        const matchStartIndex = pageText.indexOf(searchStr);
+        if (matchStartIndex === -1) return;
+
+        const matchEndIndex = matchStartIndex + searchStr.length - 1;
+        const nodesInvolved = new Map();
+        for (let i = matchStartIndex; i <= matchEndIndex; i++) {
+            const current = charMap[i];
+            if (!nodesInvolved.has(current.node)) {
+                nodesInvolved.set(current.node, { min: current.offset, max: current.offset });
+            } else {
+                const data = nodesInvolved.get(current.node);
+                data.max = Math.max(data.max, current.offset);
+            }
+        }
+
+        Array.from(nodesInvolved.entries()).forEach(([textNode, range]) => {
+            const highlightEnd = range.max + 1;
+            const highlightStart = range.min;
+            if (highlightEnd < textNode.nodeValue.length) textNode.splitText(highlightEnd);
+            let highlightNode = textNode;
+            if (highlightStart > 0) highlightNode = textNode.splitText(highlightStart);
+
+            const mark = document.createElement('mark');
+            mark.className = 'saved-bookmark';
+            highlightNode.parentNode.insertBefore(mark, highlightNode);
+            mark.appendChild(highlightNode);
+        });
+    }
+
     function openChapter(n, p1 = null, p2 = null, bookmarkSnippet = null) {
         const cap = archivioCapitoli[n];
         if (!cap) return;
@@ -933,8 +981,7 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             return html.replace(/(<[^>]+>)|([^<]+)/g, (m, tag, txt) => {
                 if (tag) return tag; 
                 if (isBookmarkMode) {
-                    if(!bookmarkRegex) return txt;
-                    return txt.replace(bookmarkRegex, '<mark class="saved-bookmark">$&</mark>');
+                    return txt; // Gestito dopo via DOM (evidenziaSegnalibro)
                 } 
                 if (isPhraseMode && phraseRegex) {
                     return txt.replace(phraseRegex, `<mark class="target-word">$&</mark>`);
@@ -954,6 +1001,11 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         
         mTitle.innerHTML = applyHighlight(t);
         mText.innerHTML = applyHighlight(b);
+        
+        // --- Segnalibro: evidenziazione robusta via DOM (attraversa <em>, <strong>, ecc.) ---
+        if (isBookmarkMode && bookmarkSnippet) {
+            evidenziaSegnalibro(mText, bookmarkSnippet);
+        }
         
         const link = document.getElementById('originalLink');
         link.href = cap.link || "#"; 
