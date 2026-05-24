@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script>
+        // Guardiano Sicuro V2
+        if (window.location.hostname.includes("github.io")) {
+            if (navigator.onLine) {
+                document.documentElement.style.display = 'none';
+            }
+        }
+    </script>
+
+    <title>Studi e Approfondimenti Valtortiani</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-image: url('../sfondo.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #f4f1ea;
+            color: #333;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Tasto Torna al Portale */
+        .back-portal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: #8b0000;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            border: 1px solid #8b0000;
+            transition: 0.3s;
+        }
+        .back-portal:hover { background-color: #8b0000; color: white; }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 800px;
+            background-color: rgba(244, 241, 234, 0.93);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-top: 40px;
+        }
+
+        h1 {
+            color: #8b0000;
+            font-size: 2.6em;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #d1cbb8;
+            padding-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 1.15em;
+            font-style: italic;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background-color: rgba(255, 252, 245, 0.95);
+            border: 1px solid #dcd8ce;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .card-cover {
+            width: 100%;
+            max-width: 280px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .card-cover img {
+            width: 48%;
+            max-width: 130px;
+            border-radius: 4px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+            transition: transform 0.3s ease;
+        }
+
+        .card-cover img:hover {
+            transform: scale(1.04);
+        }
+
+        .card h2 {
+            color: #8b0000;
+            margin-top: 0;
+            font-size: 1.5em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            width: 100%;
+        }
+
+        .card .autore {
+            font-size: 0.95em;
+            color: #998870;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #444;
+            flex-grow: 1;
+            text-align: justify;
+        }
+
+        .btn-read {
+            display: inline-block;
+            text-align: center;
+            background-color: #8b0000;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn-read:hover { background-color: #a50000; }
+
+        /* --- STILE FOOTER AGGIORNATO --- */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            color: #333;
+            background-color: rgba(244, 241, 234, 0.95);
+            padding: 30px 20px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 900px; /* Leggermente più largo per ospitare i link su una riga */
+            box-sizing: border-box;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+
+        .disclaimer-text {
+            font-size: 0.85em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #555;
+            border-bottom: 1px solid #dcd8ce;
+            padding-bottom: 15px;
+        }
+
+        /* Contenitore riga per Sito + Email */
+        .footer-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px; /* Spazio orizzontale tra sito ed email */
+            margin-bottom: 10px;
+        }
+
+        .footer-row a {
+            color: #8b0000;
+            text-decoration: none;
+            font-size: 0.95em;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .footer-row a:hover {
+            color: #333;
+            text-decoration: underline;
+        }
+/* Stile per le icone nei link */
+        .icon {
+            margin-right: 8px; /* Spazio tra icona e testo */
+            font-size: 1.1em;  /* Rende l'icona leggermente più grande del testo */
+            vertical-align: middle; /* Allinea l'icona alla base del testo */
+        }
+
+        /* Opzionale: un leggero effetto quando passi il mouse sopra */
+        .footer-row a:hover .icon {
+            filter: brightness(1.2);
+            transform: scale(1.1);
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+        /* --- RESPONSIVE PER SMARTPHONE --- */
+          @media (max-width: 768px) {
+            /* Sposta il tasto in alto al centro su mobile per evitare sovrapposizioni */
+            .back-portal { 
+                position: static; 
+                display: block; 
+                margin: 0 auto 20px auto; 
+                text-align: center; 
+                width: fit-content;
+            }
+
+            .footer-row {
+                flex-direction: column; 
+                gap: 8px; 
+                margin-bottom: 20px;
+            }
+            
+            .disclaimer-text {
+                font-size: 0.8em;
+            }
+        }
+          </style>
+</head>
+<body>
+
+    <a href="../index.html" class="back-portal">🏠 Torna al Portale</a>
+
+    <header>
+        <h1>Studi e Approfondimenti Valtortiani</h1>
+        <p class="subtitle">
+            Il riflesso dell'Opera nella saggistica: analisi, dizionari e saggi critici<br>
+            dedicati all'universo letterario di Maria Valtorta.
+        </p>
+    </header>
+
+    <div class="grid-container">
+        
+        <div class="card">
+            <div class="card-cover">
+                <img src="images/PolifoniaValtortiana1.jpg" alt="Polifonia Valtortiana Vol. 1">
+                <img src="images/PolifoniaValtortiana2.jpg" alt="Polifonia Valtortiana Vol. 2">
+            </div>
+            <h2>Polifonia Valtortiana</h2>
+            <p class="autore">Francesco Di Traglia &middot; Fede &amp; Cultura</p>
+            <p>
+                Un monumentale dizionario biografico e letterario che analizza l'Evangelo come mi è stato rivelato 
+                attraverso la lente dei suoi circa 1.600 personaggi. Due volumi (A–G e H–Z) che dimostrano 
+                la straordinaria coesione interna dell'opera valtortiana e l'assenza di incongruenze narrative, 
+                dai protagonisti più centrali alle comparse più fugaci.
+            </p>
+            <a href="polifonia.html" class="btn-read">Consulta la Polifonia</a>
+        </div>
+
+        <!-- PROSSIMI LIBRI: duplicare il blocco .card qui sotto -->
+
+    </div>
+
+    <footer>
+    <!-- Testo del Disclaimer -->
+    <p class="disclaimer-text">
+        I testi, marchi, nomi di opere e i loghi di terze parti sono di proprietà dei legittimi titolari.<br>
+        Questo portale ha una finalità puramente informativa, culturale e di studio e non vanta alcun diritto su di essi.<br>
+        Qualora la pubblicazione di contenuti o citazioni dovesse inavvertitamente violare diritti d'autore o copyright, 
+        invitiamo i titolari a segnalarlo tempestivamente per l'immediata rimozione o per la corretta citazione della fonte.
+    </p>
+
+    <!-- Blocco Link 1: Valtorta Maria -->
+    <div class="footer-row">
+        <a href="http://www.valtortamaria.com" target="_blank" class="site-link">🌐 www.valtortamaria.com</a>
+        <a href="mailto:info@valtortamaria.com" class="email-link">📧 info@valtortamaria.com</a>
+    </div>
+
+    <!-- Blocco Link 2: Fede & Cultura -->
+    <div class="footer-row">
+        <a href="http://www.fedecultura.com" target="_blank" class="site-link">🌐 www.fedecultura.com</a>
+        <a href="mailto:edizioni@fedecultura.com" class="email-link">📧 edizioni@fedecultura.com</a>
+    </div>
+</footer>
+
+<script>
+    // --- CONTROLLO ACCESSO DINAMICO V2 (Specifico per FLEX) ---
+    (async function checkAuthStudiFlex() {
+        const isOnline = window.location.hostname.includes("github.io");
+        if (isOnline) {
+            try {
+                const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                    authDomain: "appuntivaltorta.firebaseapp.com",
+                    projectId: "appuntivaltorta",
+                    storageBucket: "appuntivaltorta.firebasestorage.app",
+                    messagingSenderId: "940851152715",
+                    appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+                };
+
+                const app = fApp.getApps().length === 0 ? fApp.initializeApp(firebaseConfig) : fApp.getApp();
+                const auth = fAuth.getAuth(app);
+
+                fAuth.onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        document.documentElement.style.display = '';
+                        document.body.style.display = "flex"; 
+                        localStorage.setItem('modalita_lettura', 'cloud');
+                    } else {
+                        window.location.replace("/BV/login.html"); 
+                    }
+                });
+            } catch (error) {
+                console.warn("Modalità offline attiva.");
+                document.documentElement.style.display = '';
+                document.body.style.display = "flex";
+            }
+        }
+    })();
+</script>
+</body>
+</html>

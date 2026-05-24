@@ -175,6 +175,11 @@
     <script src="Quaderni/archivio_romani.js"></script>
     <script src="Quaderni/Autobiografia.js"></script>
 
+    <!-- POLIFONIA VALTORTIANA: Archivi dei 2 volumi -->
+    <script src="PolifoniaValtortiana/polifonia_v1.js"></script>
+    <script src="PolifoniaValtortiana/polifonia_v2.js"></script>
+    <!-- NOTA: Aggiungere qui sotto gli archivi JS di ogni nuovo libro futuro -->
+
     <script>
         // === DA PERSONALIZZARE ===
         // Se nel file archivio.js dell'Evangelo la variabile non si chiama "archivio", 
@@ -188,7 +193,12 @@
             { id: 'quad',   name: 'Quadernetti',        data: (typeof quadernetti !== 'undefined' ? quadernetti : []),               file: 'Quaderni/quadernetti.html' },
             { id: 'azaria', name: 'Libro di Azaria',    data: (typeof libro_azaria !== 'undefined' ? libro_azaria : []),             file: 'Quaderni/libro_azaria.html' },
             { id: 'romani', name: "Lezioni sull'Epistola ai Romani", data: (typeof libro_romani !== 'undefined' ? libro_romani : []), file: 'Quaderni/lezioni_romani.html' },
-            { id: 'autobio', name: "Autobiografia",     data: (typeof autobiografia !== 'undefined' ? autobiografia : []),           file: 'Quaderni/autobiografia.html' }
+            { id: 'autobio', name: "Autobiografia",     data: (typeof autobiografia !== 'undefined' ? autobiografia : []),           file: 'Quaderni/autobiografia.html' },
+
+            // --- POLIFONIA VALTORTIANA ---
+            { id: 'polifonia_v1', name: "Polifonia Valtortiana - Vol. 1 (A-G)", data: (typeof polifonia_v1 !== 'undefined' ? [...(polifonia_v1.capitoliIniziali || []), ...(polifonia_v1.guide || []), ...(polifonia_v1.capitoliFinali || []), ...(polifonia_v1.lettere || []).flatMap(l => l.voci)] : []), file: 'PolifoniaValtortiana/polifonia.html?vi=0' },
+            { id: 'polifonia_v2', name: "Polifonia Valtortiana - Vol. 2 (H-Z)", data: (typeof polifonia_v2 !== 'undefined' ? [...(polifonia_v2.capitoliIniziali || []), ...(polifonia_v2.guide || []), ...(polifonia_v2.capitoliFinali || []), ...(polifonia_v2.lettere || []).flatMap(l => l.voci)] : []), file: 'PolifoniaValtortiana/polifonia.html?vi=1' },
+            // NOTA: Aggiungere qui sotto ogni nuovo libro futuro
         ];
 
         window.addEventListener('pageshow', (event) => {
@@ -296,7 +306,8 @@
                         bookResults.forEach(res => {
                             const keywordsSafe = encodeURIComponent(terms.join(','));
                             const modeParam = (type === 'simple') ? '&mode=partial' : '&mode=exact';
-                            const link = `${book.file}?idx=${res.idx}&keys=${keywordsSafe}&from=universale${modeParam}`;
+                            const separator = book.file.includes('?') ? '&' : '?';
+                            const link = `${book.file}${separator}idx=${res.idx}&keys=${keywordsSafe}&from=universale${modeParam}`;
                             const uniqueId = book.id + '-' + res.idx;
                             const isVisited = visitedItems.includes(uniqueId);
                             const visitedClass = isVisited ? ' visited' : '';

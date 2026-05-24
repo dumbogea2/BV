@@ -111,7 +111,8 @@ document.getElementById('appunti-modal-btn-save').addEventListener('click', () =
 
 function getReaderContainer() {
     if (window.location.pathname.includes('biblioteca')) return document.getElementById('modalContent');
-    return document.getElementById('text-container') || document.getElementById('content') || document.getElementById('modalText-quaderni') || document.querySelector('main');
+    // --- MODIFICA POLIFONIA: Aggiunto supporto per il container dei libri in PolifoniaValtortiana ---
+    return document.getElementById('text-container') || document.getElementById('content') || document.getElementById('modalText-quaderni') || document.getElementById('modalText-polifonia') || document.querySelector('main');
 }
 
 document.addEventListener("selectionchange", () => {
@@ -147,6 +148,23 @@ function getBookAndChapter() {
         const numSpan = document.getElementById('currentChapterNum');
         if (numSpan) chapterName = numSpan.innerText;
         if (typeof currentOpenChapter !== 'undefined') urlForRestore = "biblioteca/index.html?cap=" + currentOpenChapter;
+    // --- INIZIO MODIFICA POLIFONIA ---
+    } else if (window.location.pathname.includes('PolifoniaValtortiana')) {
+        // Rileva il nome del libro dall'attributo data-nome-libro (aggiornato da aggiornaStato)
+        const titoloLibro = document.querySelector('[data-nome-libro]');
+        if (titoloLibro) bookName = titoloLibro.getAttribute('data-nome-libro');
+        else bookName = document.title || "Polifonia Valtortiana";
+        // Cerca il titolo nel contenuto renderizzato
+        const titleEl = document.querySelector('#content article h1, #content article h2');
+        if (titleEl) chapterName = titleEl.innerText;
+        // Costruisci l'URL di ripristino usando lo stato globale della pagina
+        let prefix = "PolifoniaValtortiana/";
+        if (typeof window.currentPolifoniaVi !== 'undefined' && typeof window.currentPolifoniaType !== 'undefined') {
+            urlForRestore = prefix + "polifonia.html?vi=" + window.currentPolifoniaVi + "&type=" + window.currentPolifoniaType + "&id=" + window.currentPolifoniaId;
+        } else {
+            urlForRestore = prefix + fileName + window.location.search;
+        }
+    // --- FINE MODIFICA POLIFONIA ---
     } else {
         if (fileName.includes('azaria')) bookName = "Libro di Azaria";
         else if (fileName.includes('romani')) bookName = "Epistola ai Romani";
