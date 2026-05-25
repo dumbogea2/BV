@@ -312,6 +312,60 @@
             /* Dettagli visivi per la stampa */
             .result-item.visited { border-left-color: #555 !important; background-color: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
+        /* --- MODALE DI RICERCA (Stile Quaderni) --- */
+        #searchModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85); z-index: 2000;
+            justify-content: center; align-items: flex-start; padding-top: 50px;
+        }
+        .search-panel {
+            background-color: #f4ece0; border: 4px double #8b0000; border-radius: 8px;
+            width: 90%; max-width: 700px; padding: 25px; box-shadow: 0 0 30px #000;
+            max-height: 85vh; overflow-y: auto; position: relative; box-sizing: border-box;
+        }
+        .modal-close-search {
+            position: absolute; top: 10px; right: 15px; font-size: 24px;
+            cursor: pointer; color: #8b0000; font-weight: bold;
+        }
+        .modal-close-search:hover { color: #d4af37; transform: scale(1.2); }
+        .search-section { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 20px; }
+        .search-title { color: #8b0000; font-weight: bold; margin-bottom: 10px; display: block; }
+        .modal-input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+        .modal-input-group input[type="text"], .modal-input-group input[type="number"] {
+            padding: 8px; border: 1px solid #8b0000; border-radius: 4px;
+            flex-grow: 1; font-family: inherit;
+        }
+        .modal-btn-search {
+            background-color: #8b0000; color: white; border: none;
+            padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;
+        }
+        .modal-btn-search:hover { background-color: #a50000; }
+        .modal-btn-reset {
+            background-color: #5d4037; color: #fff; border: none;
+            padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em;
+        }
+        .modal-btn-reset:hover { background-color: #3e2723; }
+        #modalSearchResults { margin-top: 10px; border-top: 2px solid #dcd8ce; padding-top: 15px; }
+        #modalSearchResults .result-item {
+            background: white; border: 1px solid #dcd8ce; padding: 10px; margin-bottom: 8px;
+            border-radius: 4px; cursor: pointer; transition: background 0.3s;
+        }
+        #modalSearchResults .result-item:hover { background-color: #fff8e1; border-color: #ffd700; }
+        #modalSearchResults .result-item.visited {
+            background-color: #e8e4db; border-left: 5px solid #d4af37; color: #555;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+        }
+        #modalSearchResults .result-item.visited .res-cap { color: #5d4037; }
+        #modalSearchResults .res-cap { font-weight: bold; color: #8b0000; font-size: 0.95em; }
+        #modalSearchResults .res-snippet { font-size: 0.9em; color: #444; font-style: italic; margin-top: 4px; }
+        #modalSearchResults .result-item .highlight,
+        #modalSearchResults .result-item mark.highlight { background-color: #ffd700; color: #000; padding: 0 2px; border-radius: 2px; }
+
+        @media (max-width: 600px) {
+            .search-panel { padding: 18px 15px; }
+            .modal-input-group { flex-direction: column; }
+            .modal-btn-search { width: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -322,46 +376,7 @@
             <a href="ricerca.html" class="nav-btn">🔍 Ricerca Globale</a>
             <a href="#" id="btn-back-search" class="nav-btn" style="display:none; margin-top:5px;"></a>
             
-            <button id="btn-toggle-search" class="nav-btn toggle-search-btn" onclick="toggleMobileSearch()">🔍 Cerca in Azaria</button>
-        </div>
-        
-        <div class="search-container">
-            <div class="local-search-options">
-                <label ><input type="radio" name="localType" value="simple_partial" checked onchange="toggleLocalMode()"> Semplice Parziale</label>
-                <label ><input type="radio" name="localType" value="simple_exact" onchange="toggleLocalMode()"> Semplice Esatta</label>
-                <label ><input type="radio" name="localType" value="or_exact" onchange="toggleLocalMode()"> Multipla Esatta</label>
-                <label ><input type="radio" name="localType" value="proximity" onchange="toggleLocalMode()"> Concordanze</label>
-                <span id="resetProximityBtn" style="display:none;" onclick="clearProximitySearch()">[✖ Reset]</span>
-            </div>
-
-            <div id="localSimpleBox">
-                <div class="input-wrapper">
-                    <input type="text" id="local-search-input" placeholder="Cerca parola o frase..." onkeyup="checkClearBtn(this)">
-                    <span class="clear-input" id="clearBtn" onclick="clearLocalSearch()">✕</span>
-                </div>
-                <div id="localOrBox" class="input-group" style="display:none;">
-                    <input type="text" id="orWord1" placeholder="Parola 1">
-                    <strong style="align-self:center; color:#8b0000;">OPPURE</strong>
-                    <input type="text" id="orWord2" placeholder="Parola 2">
-                    <button class="btn-search" onclick="doLocalSearch()">Cerca</button>
-                </div>
-            </div>
-
-            <div id="localProximityBox" class="proximity-fields">
-                <input type="text" id="localWord1" placeholder="Prima parola">
-                <input type="number" id="localDist" value="30" title="Distanza massima">
-                <input type="text" id="localWord2" placeholder="Seconda parola">
-            </div>
-
-            <button class="btn-local-search" onclick="startAdvancedLocalSearch()">Cerca in Azaria</button>
-        </div>
-        
-        <div id="search-results-overlay">
-            <div class="search-header-bar">
-                <span class="search-summary" id="search-count-display"></span>
-                <span class="close-search-btn" onclick="closeSearch()" title="Chiudi ricerca">✖</span>
-            </div>
-            <div id="local-results"></div>
+            <button id="btn-toggle-search" class="nav-btn" onclick="openSearch()">🔍 Cerca in Azaria</button>
         </div>
 
         <div id="sidebar-header">Indice Lezioni (<span id="count">0</span>)</div>
@@ -388,6 +403,53 @@
 
     <button id="floating-print-btn" onclick="printChapter()" title="Stampa questa lezione" style="display: none;">🖨️</button>
 
+    <!-- MODALE DI RICERCA INTERNA -->
+    <div id="searchModal">
+        <div class="search-panel">
+            <div class="modal-close-search" onclick="closeSearch()" title="Chiudi">✕</div>
+            <h2 style="margin-top:0; color:#8b0000; text-align:center;">Ricerca nel Libro di Azaria</h2>
+            
+            <div class="search-section">
+                <span class="search-title">Tipo di ricerca:</span>
+                <div style="margin-bottom:10px;">
+                    <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="simple_partial" checked onchange="toggleLocalMode()"> Semplice Parziale</label>
+                    <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="simple_exact" onchange="toggleLocalMode()"> Semplice Esatta</label>
+                    <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="or_exact" onchange="toggleLocalMode()"> Multipla Esatta</label>
+                    <label style="cursor:pointer;"><input type="radio" name="localType" value="proximity" onchange="toggleLocalMode()"> Concordanze</label>
+                </div>
+                
+                <div id="localSimpleBox" class="modal-input-group">
+                    <input type="text" id="local-search-input" placeholder="Es. preghiera...">
+                    <button class="modal-btn-search" onclick="startAdvancedLocalSearch()">Cerca</button>
+                </div>
+                
+                <div id="localOrBox" class="modal-input-group" style="display:none;">
+                    <input type="text" id="orWord1" placeholder="Parola 1">
+                    <strong style="align-self:center; color:#8b0000;">OPPURE</strong>
+                    <input type="text" id="orWord2" placeholder="Parola 2">
+                    <button class="modal-btn-search" onclick="startAdvancedLocalSearch()">Cerca</button>
+                </div>
+            </div>
+
+            <div id="localProximitySection" class="search-section" style="border-bottom:none; margin-bottom:5px; display:none;">
+                <span class="search-title">Ricerca per Concordanze (vicinanza)</span>
+                <div class="modal-input-group">
+                    <input type="text" id="localWord1" placeholder="Parola 1">
+                    <input type="number" id="localDist" value="30" style="width:70px;" title="Distanza max parole">
+                    <input type="text" id="localWord2" placeholder="Parola 2">
+                    <button class="modal-btn-search" onclick="startAdvancedLocalSearch()">Trova</button>
+                </div>
+                <div style="font-size:0.8em; color:#666; margin-top:5px;">Trova due parole distanti al massimo N parole l'una dall'altra.</div>
+            </div>
+            
+            <div style="text-align:right; margin-bottom:5px;">
+                <button class="modal-btn-reset" onclick="resetSearch()">🗑️ Pulisci Tutto</button>
+            </div>
+
+            <div id="modalSearchResults"></div>
+        </div>
+    </div>
+
     <script src="../cronologia.js"></script>
     <script src="archivio_azaria.js"></script>
 
@@ -396,9 +458,7 @@
         const listElement = document.getElementById('chapter-list');
         const textContainer = document.getElementById('text-container');
         const countLabel = document.getElementById('count');
-        const resultsOverlay = document.getElementById('search-results-overlay');
-        const resultsDiv = document.getElementById('local-results');
-        const countDisplay = document.getElementById('search-count-display');
+        const resultsDiv = document.getElementById('modalSearchResults');
         const floatingPrintBtn = document.getElementById('floating-print-btn'); // JS per il bottone stampa
         
         let isSearchActive = false;
@@ -516,26 +576,54 @@
             document.getElementById('localSimpleBox').style.display = (type === 'simple_partial' || type === 'simple_exact') ? 'flex' : 'none';
             const orBox = document.getElementById('localOrBox');
             if (orBox) orBox.style.display = (type === 'or_exact') ? 'flex' : 'none';
-            document.getElementById('localProxBox').style.display = (type === 'proximity') ? 'flex' : 'none';
+            document.getElementById('localProximitySection').style.display = (type === 'proximity') ? 'block' : 'none';
         }
 
-        function checkClearBtn(input) {
-            document.getElementById('clearBtn').style.display = (input.value.length > 0) ? 'block' : 'none';
-            if (event.key === 'Enter') startAdvancedLocalSearch();
+        // --- Apri/Chiudi/Reset del modale ---
+        function openSearch() {
+            const modal = document.getElementById('searchModal');
+            modal.style.display = 'flex';
+            document.getElementById('btn-back-search').style.display = 'none';
+            floatingPrintBtn.style.display = 'none';
+            setTimeout(() => document.getElementById('local-search-input').focus(), 50);
         }
 
-        function clearLocalSearch() {
+        // Sostituisce la vecchia closeSearch: ora chiude solo il modale, non azzera lo stato
+        function closeSearch() {
+            document.getElementById('searchModal').style.display = 'none';
+            if (isSearchActive) {
+                document.getElementById('btn-back-search').style.display = 'block';
+            }
+            if (currentIndex > -1) {
+                floatingPrintBtn.style.display = 'flex';
+            }
+        }
+
+        function resetSearch() {
             document.getElementById('local-search-input').value = "";
-            document.getElementById('clearBtn').style.display = 'none';
-            closeSearch();
-        }
-
-        function clearProximitySearch() {
+            document.getElementById('orWord1').value = "";
+            document.getElementById('orWord2').value = "";
             document.getElementById('localWord1').value = "";
             document.getElementById('localWord2').value = "";
             document.getElementById('localDist').value = "30";
-            closeSearch();
+            document.getElementById('modalSearchResults').innerHTML = "";
+            document.getElementById('local-search-input').focus();
         }
+
+        // Click fuori dal pannello chiude il modale
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('searchModal');
+            if (modal) modal.addEventListener('click', function(e) {
+                if (e.target === this) closeSearch();
+            });
+            // Invio dal campo di ricerca avvia
+            const inp = document.getElementById('local-search-input');
+            if (inp) inp.addEventListener('keyup', e => { if (e.key === 'Enter') startAdvancedLocalSearch(); });
+            ['orWord1', 'orWord2', 'localWord1', 'localWord2'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('keyup', e => { if (e.key === 'Enter') startAdvancedLocalSearch(); });
+            });
+        });
 
         function startAdvancedLocalSearch() {
             const type = document.querySelector('input[name="localType"]:checked').value;
@@ -635,21 +723,16 @@
         }
 
         function showResults(results, words) {
-            resultsOverlay.style.display = 'block';
             isSearchActive = true;
             searchKeywords = words;
-            
-            // Nascondiamo il tasto stampa fluttuante perché ora stiamo guardando la ricerca
-            floatingPrintBtn.style.display = 'none';
-            
-            // --- INSERIMENTO TASTO STAMPA PDF (Aggiornato alla funzione intelligente) ---
-            const printBtn = `<button class="btn-print-pdf" onclick="printSearchResults()" style="margin-left:15px; cursor:pointer; background:white; border:1px solid #8b0000; padding:2px 8px; border-radius:4px; color:#8b0000; font-size:11px; font-weight:bold;">🖨️ Stampa PDF</button>`;
-            countDisplay.innerHTML = `Trovati: ${results.length} ${printBtn}`;
 
-            resultsDiv.innerHTML = "";
+            // --- INSERIMENTO TASTO STAMPA PDF ---
+            const printBtn = `<button class="btn-print-pdf" onclick="printSearchResults()" style="margin-left:15px; cursor:pointer; background:white; border:1px solid #8b0000; padding:2px 8px; border-radius:4px; color:#8b0000; font-size:11px; font-weight:bold;">🖨️ Stampa PDF</button>`;
+
+            resultsDiv.innerHTML = `<div style="margin-bottom:10px; font-weight:bold; overflow:hidden;">Trovati: ${results.length} ${printBtn}</div>`;
             
             if (results.length === 0) {
-                resultsDiv.innerHTML = `<div style="padding:15px; text-align:center; color:#666;">Nessun risultato trovato.</div>`;
+                resultsDiv.innerHTML += `<div style="padding:15px; text-align:center; color:#666;">Nessun risultato trovato.</div>`;
                 return;
             }
 
@@ -661,7 +744,7 @@
                 words.forEach(w => {
                     const safeW = w.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
                     let r = new RegExp('(?<!\\p{L})(' + safeW + ')(?!\\p{L})', 'giu');
-                    hSnippet = hSnippet.replace(r, "<span class='highlight'>$1</span>");
+                    hSnippet = hSnippet.replace(r, "<mark class='highlight'>$1</mark>");
                 });
                 
                 div.innerHTML = `
@@ -670,23 +753,19 @@
                 `;
                 
                 div.onclick = function() { 
-                    this.classList.add('visited'); 
-                    loadChapter(res.idx, true); 
+                    this.classList.add('visited');
+                    // Imposta il flag partial in base al tipo corrente
+                    const type = document.querySelector('input[name="localType"]:checked').value;
+                    searchIsPartial = (type === 'simple_partial');
+                    loadChapter(res.idx, true);
+                    document.getElementById('btn-back-search').style.display = 'block';
+                    document.getElementById('btn-back-search').innerText = "🔙 Torna ai Risultati";
+                    document.getElementById('btn-back-search').onclick = openSearch;
+                    closeSearch();
                 };
                 
                 resultsDiv.appendChild(div);
             });
-        }
-
-        function closeSearch() {
-            resultsOverlay.style.display = 'none';
-            isSearchActive = false;
-            searchKeywords = [];
-            
-            if (currentIndex > -1) {
-                floatingPrintBtn.style.display = 'flex';
-                loadChapter(currentIndex);
-            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -708,12 +787,6 @@
             }
         });
         /* --- FUNZIONE PER MOSTRARE/NASCONDERE LA RICERCA SU MOBILE --- */
-        function toggleMobileSearch() {
-            const searchContainer = document.querySelector('.search-container');
-            // 'toggle' aggiunge la classe se non c'è, o la rimuove se c'è già
-            searchContainer.classList.toggle('show-search');
-        }
-
         /* --- FUNZIONI DI STAMPA INTELLIGENTI --- */
         function printChapter() {
             document.body.classList.remove('print-search-mode');

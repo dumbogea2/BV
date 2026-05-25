@@ -36,6 +36,8 @@
               font-weight: bold; cursor: pointer; letter-spacing: .4px; }
   .home-btn:hover { background: #5e3216; }
 
+  /* Hover specifico per il tasto Torna al portale (sovrascrive .home-btn:hover) */
+  a.home-btn[href="../index.html"]:hover { background:#8b0000 !important; color:#fff !important; }
   /* ---------- SIDEBAR NAV ---------- */
   h2.section { font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
                color: #998870; margin: 18px 0 6px; font-weight: 600; }
@@ -169,7 +171,7 @@
   <aside data-nome-libro="Polifonia Valtortiana">
     <button class="home-btn" id="btn-home">📖 Home Polifonia</button>
     <a href="home.html" class="home-btn" style="text-decoration:none;text-align:center;background:#556b2f;">📚 Studi e Approfondimenti</a>
-    <a href="../index.html" class="home-btn" style="text-decoration:none;text-align:center;background:#887860;">🏠 Torna al portale</a>
+    <a href="../index.html" class="home-btn" style="text-decoration:none;text-align:center;background:#f4f1ea;color:#8b0000;border:1px solid #8b0000;">🏠 Torna al portale</a>
 
     <!-- Link agli strumenti della sezione Studi e Approfondimenti -->
     <a href="ricerca_studi.html" class="home-btn" style="text-decoration:none;text-align:center;background:#5d4037;">🔍 Ricerca nei Volumi</a>
@@ -308,6 +310,12 @@
     document.getElementById('search-results-overlay').style.display = 'none';
     const searchInput = document.getElementById('local-search-input');
     if (searchInput) searchInput.value = '';
+
+    // FIX SCROLL: azzera lo stato corrente così gli eventi scroll che seguono
+    // (mentre la pagina torna in cima) non sovrascrivono la posizione salvata della voce precedente
+    window.currentPolifoniaVi = undefined;
+    window.currentPolifoniaType = undefined;
+    window.currentPolifoniaId = undefined;
 
     const covers = ['images/PolifoniaValtortiana1.jpg', 'images/PolifoniaValtortiana2.jpg'];
     const descs = [
@@ -742,7 +750,7 @@
 
   // --- Salvataggio e Ripristino Scroll per Polifonia ---
   function getScrollKey() {
-    if (window.currentPolifoniaVi !== undefined) {
+    if (window.currentPolifoniaVi !== undefined && window.currentPolifoniaType !== undefined && window.currentPolifoniaId !== undefined) {
       return 'polif_scroll_' + window.currentPolifoniaVi + '_' + window.currentPolifoniaType + '_' + window.currentPolifoniaId;
     }
     return null;
@@ -758,14 +766,30 @@
     }
   }
 
-  // Salva scroll quando l'utente lascia la pagina
-  window.addEventListener('beforeunload', () => {
+  // Salvataggio della posizione scroll corrente — funzione condivisa
+  function salvaScrollCorrente() {
     const chiave = getScrollKey();
-    if (chiave) {
-      let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
-      posizioni[chiave] = window.scrollY;
-      localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
-    }
+    if (!chiave) return; // nessuna voce/capitolo attivo, niente da salvare
+    let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+    posizioni[chiave] = window.scrollY;
+    localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
+  }
+
+  // PATTERN DEI QUADERNI: salva continuamente durante la lettura (debounce 500ms).
+  // Questo funziona anche su iOS dove beforeunload è inaffidabile.
+  let _scrollSaveTimeout;
+  window.addEventListener('scroll', () => {
+    clearTimeout(_scrollSaveTimeout);
+    _scrollSaveTimeout = setTimeout(salvaScrollCorrente, 500);
+  }, { passive: true });
+
+  // Rete di sicurezza: salva anche all'uscita.
+  // beforeunload funziona su desktop, pagehide è il sostituto affidabile su iOS Safari,
+  // visibilitychange copre il caso in cui l'utente sposta l'app in background.
+  window.addEventListener('beforeunload', salvaScrollCorrente);
+  window.addEventListener('pagehide', salvaScrollCorrente);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') salvaScrollCorrente();
   });
 
   /* -------- AVVIO -------- */
