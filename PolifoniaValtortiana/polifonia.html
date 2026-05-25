@@ -74,6 +74,30 @@
   article .footnotes { margin-top: 24px; border-top: 1px solid #ccc; padding-top: 12px; }
   article .footnotes p { font-size: 13px; color: #666; }
   mark { background: #ffeaa0; padding: 0 2px; border-radius: 2px; }
+  .highlight { background-color: #fff176; font-weight: bold; color: #000; }
+
+  /* ---------- RICERCA AVANZATA (Stile Azaria) ---------- */
+  .search-container { padding: 10px; border-bottom: 3px double var(--accent); }
+  .local-search-options { font-size: 0.82em; margin-bottom: 8px; color: #5d4037; font-weight: bold; }
+  .local-search-options label { cursor: pointer; display: inline-block; margin: 2px 6px 2px 0; white-space: nowrap; }
+  .local-search-options label input[type="radio"] { width: 13px; height: 13px; margin: 0 2px 0 0; vertical-align: middle; }
+  .search-container input[type="text"],
+  .search-container input[type="search"],
+  .search-container input[type="number"] { width: 100%; padding: 8px; box-sizing: border-box; border: 2px solid var(--accent); border-radius: 4px; font-family: inherit; font-size: 13px; margin-bottom: 6px; }
+  .proximity-fields { display: none; flex-direction: column; gap: 6px; margin-bottom: 6px; }
+  .or-fields { display: none; flex-direction: column; gap: 6px; margin-bottom: 6px; }
+  .btn-local-search { width: 100%; background-color: var(--accent); color: white; border: none; padding: 9px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; text-transform: uppercase; font-size: 11px; font-family: inherit; }
+  .btn-local-search:hover { filter: brightness(1.2); }
+
+  #search-results-overlay { display: none; background-color: #fdfaf4; border-bottom: 2px solid var(--accent); overflow-y: auto; max-height: 45vh; }
+  .search-header-bar { background-color: var(--soft); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #c0b9a3; position: sticky; top: 0; z-index: 10; }
+  .search-summary { font-size: 12px; color: #5d4037; font-weight: bold; }
+  .close-search-btn { color: var(--accent); cursor: pointer; font-weight: bold; font-size: 14px; }
+  .result-item { background: white; border-bottom: 1px solid #dcd8ce; padding: 12px; cursor: pointer; transition: background 0.2s; font-size: 13px; }
+  .result-item:hover { background-color: #fff8e1; border-left: 4px solid #d4af37; padding-left: 8px; }
+  .result-item.visited { background-color: #e0d8cc; border-left: 4px solid #5d4037; opacity: 0.8; padding-left: 8px; }
+  .res-cap { font-weight: bold; color: var(--accent); font-size: 1em; margin-bottom: 3px; }
+  .res-snippet { color: #555; line-height: 1.4; font-size: 12px; }
 
   .empty { color: #999; font-style: italic; padding: 40px 0; text-align: center; }
 
@@ -147,9 +171,42 @@
     <a href="home.html" class="home-btn" style="text-decoration:none;text-align:center;background:#556b2f;">📚 Studi e Approfondimenti</a>
     <a href="../index.html" class="home-btn" style="text-decoration:none;text-align:center;background:#887860;">🏠 Torna al portale</a>
 
-    <h2 class="section">Ricerca</h2>
-    <input type="search" class="search-box" id="search" placeholder="Cerca un nome…">
-    <div class="search-results" id="search-results"></div>
+    <!-- Link agli strumenti della sezione Studi e Approfondimenti -->
+    <a href="ricerca_studi.html" class="home-btn" style="text-decoration:none;text-align:center;background:#5d4037;">🔍 Ricerca nei Volumi</a>
+    <a href="mia_cronologia.html" class="home-btn" style="text-decoration:none;text-align:center;background:#5d4037;">🕒 Riprendi la lettura</a>
+    <a href="miei_appunti.html" class="home-btn" style="text-decoration:none;text-align:center;background:#5d4037;">📝 I miei Appunti</a>
+
+    <h2 class="section">Ricerca nel testo</h2>
+    <div class="search-container">
+      <div class="local-search-options">
+        <label><input type="radio" name="localType" value="simple_partial" checked onchange="toggleLocalMode()"> Parziale</label>
+        <label><input type="radio" name="localType" value="simple_exact" onchange="toggleLocalMode()"> Esatta</label>
+        <label><input type="radio" name="localType" value="or_exact" onchange="toggleLocalMode()"> Multipla</label>
+        <label><input type="radio" name="localType" value="proximity" onchange="toggleLocalMode()"> Concordanze</label>
+      </div>
+      <div id="localSimpleBox">
+        <input type="search" id="local-search-input" placeholder="Cerca parola o frase…" onkeyup="if(event.key==='Enter') startAdvancedLocalSearch()">
+      </div>
+      <div id="localOrBox" class="or-fields">
+        <input type="text" id="orWord1" placeholder="Parola 1">
+        <strong style="align-self:center; color:var(--accent); font-size:12px;">OPPURE</strong>
+        <input type="text" id="orWord2" placeholder="Parola 2">
+      </div>
+      <div id="localProxBox" class="proximity-fields">
+        <input type="text" id="proxWord1" placeholder="Prima parola">
+        <input type="number" id="proxDist" value="30" title="Distanza massima in parole" style="width:80px;">
+        <input type="text" id="proxWord2" placeholder="Seconda parola">
+      </div>
+      <button class="btn-local-search" onclick="startAdvancedLocalSearch()">🔍 Cerca nella Polifonia</button>
+    </div>
+
+    <div id="search-results-overlay">
+      <div class="search-header-bar">
+        <span class="search-summary" id="search-count-display"></span>
+        <span class="close-search-btn" onclick="chiudiRicerca()" title="Chiudi ricerca">✖</span>
+      </div>
+      <div id="local-results"></div>
+    </div>
 
     <div id="sidebar-volumi"></div>
   </aside>
@@ -245,8 +302,12 @@
 
   function mostraHome() {
     clearActive();
-    $('search').value = '';
-    $('search-results').innerHTML = '';
+    // Chiudi ricerca se aperta
+    isSearchActive = false;
+    searchKeywords = [];
+    document.getElementById('search-results-overlay').style.display = 'none';
+    const searchInput = document.getElementById('local-search-input');
+    if (searchInput) searchInput.value = '';
 
     const covers = ['images/PolifoniaValtortiana1.jpg', 'images/PolifoniaValtortiana2.jpg'];
     const descs = [
@@ -293,37 +354,144 @@
     });
   }
 
-  /* -------- RICERCA (su tutti i volumi) -------- */
-  function tutteLeVoci() {
-    return volumi.flatMap((vol, vi) =>
-      vol.data.lettere.flatMap(l => l.voci.map(v => ({...v, _vi: vi, _let: l.iniziale})))
-    );
-  }
-  function ricerca(q) {
-    q = q.trim().toLowerCase();
-    if (q.length < 2) return [];
-    return tutteLeVoci().filter(v =>
-      v.voce.toLowerCase().includes(q) || v.testo.toLowerCase().includes(q)
-    ).slice(0, 40);
-  }
-  $('search').addEventListener('input', e => {
-    const box = $('search-results');
-    const q = e.target.value;
-    box.innerHTML = '';
-    const ris = ricerca(q);
-    if (!ris.length) {
-      if (q.length >= 2) box.innerHTML = '<div style="color:#999;font-size:12px;padding:4px 8px">Nessun risultato</div>';
+  /* -------- RICERCA AVANZATA (Stile Azaria) -------- */
+  let isSearchActive = false;
+  let searchKeywords = [];
+  let searchIsPartial = false;
+
+  // Esponi le funzioni di ricerca al scope globale (fuori dalla IIFE)
+  window.toggleLocalMode = function() {
+    const type = document.querySelector('input[name="localType"]:checked').value;
+    document.getElementById('localSimpleBox').style.display = (type === 'simple_partial' || type === 'simple_exact') ? 'block' : 'none';
+    document.getElementById('localOrBox').style.display = (type === 'or_exact') ? 'flex' : 'none';
+    document.getElementById('localProxBox').style.display = (type === 'proximity') ? 'flex' : 'none';
+  };
+
+  window.chiudiRicerca = function() {
+    document.getElementById('search-results-overlay').style.display = 'none';
+    isSearchActive = false;
+    searchKeywords = [];
+  };
+
+  window.startAdvancedLocalSearch = function() {
+    const type = document.querySelector('input[name="localType"]:checked').value;
+    let terms = [], dist = 30;
+
+    if (type === 'simple_partial' || type === 'simple_exact') {
+      const val = document.getElementById('local-search-input').value.trim().toLowerCase();
+      if (val.length < 3) { alert("Inserisci almeno 3 lettere."); return; }
+      terms = [val];
+    } else if (type === 'or_exact') {
+      const w1 = document.getElementById('orWord1').value.trim().toLowerCase();
+      const w2 = document.getElementById('orWord2').value.trim().toLowerCase();
+      if (!w1 || !w2) { alert("Inserisci entrambe le parole."); return; }
+      terms = [w1, w2];
+    } else {
+      const w1 = document.getElementById('proxWord1').value.trim().toLowerCase();
+      const w2 = document.getElementById('proxWord2').value.trim().toLowerCase();
+      dist = parseInt(document.getElementById('proxDist').value) || 30;
+      if (!w1 || !w2) { alert("Inserisci entrambe le parole."); return; }
+      terms = [w1, w2];
+    }
+
+    // Cerca in tutte le voci + capitoli di tutti i volumi
+    let results = [];
+    volumi.forEach((vol, vi) => {
+      const A = vol.data;
+      // Capitoli iniziali/finali
+      [...(A.capitoliIniziali || []), ...(A.capitoliFinali || [])].forEach(cap => {
+        const match = cercaInTesto(cap.testo, terms, type, dist);
+        if (match) results.push({ vi, tipo: 'cap', id: cap.id, titolo: cap.titolo, snippet: match, item: cap });
+      });
+      // Voci delle lettere
+      (A.lettere || []).forEach(l => {
+        l.voci.forEach(v => {
+          const match = cercaInTesto(v.testo, terms, type, dist);
+          if (match) results.push({ vi, tipo: 'voce', id: v.id, titolo: v.voce, snippet: match, item: v });
+        });
+      });
+    });
+
+    // Mostra risultati
+    searchKeywords = terms;
+    searchIsPartial = (type === 'simple_partial');
+    isSearchActive = true;
+
+    const overlay = document.getElementById('search-results-overlay');
+    const resultsDiv = document.getElementById('local-results');
+    const countDisplay = document.getElementById('search-count-display');
+
+    overlay.style.display = 'block';
+    countDisplay.textContent = `Trovati: ${results.length}`;
+    resultsDiv.innerHTML = '';
+
+    if (results.length === 0) {
+      resultsDiv.innerHTML = '<div style="padding:15px; text-align:center; color:#666;">Nessun risultato trovato.</div>';
       return;
     }
-    ris.forEach(v => {
-      const a = document.createElement('button');
-      a.className = 'nav-item';
-      const volLabel = v._vi === 0 ? 'Vol.1' : 'Vol.2';
-      a.innerHTML = `${esc(v.voce)} <span class="matched">${volLabel} · lettera ${v._let}</span>`;
-      a.onclick = () => mostraVoce(v, q, v._vi);
-      box.appendChild(a);
+
+    results.forEach(res => {
+      const div = document.createElement('div');
+      div.className = 'result-item';
+      let hSnippet = res.snippet;
+      terms.forEach(w => {
+        const safeW = w.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        let r = searchIsPartial ? new RegExp('(' + safeW + ')', 'gi') : new RegExp('(?<!\\p{L})(' + safeW + ')(?!\\p{L})', 'giu');
+        hSnippet = hSnippet.replace(r, "<span class='highlight'>$1</span>");
+      });
+      const volLabel = res.vi === 0 ? 'Vol.1' : 'Vol.2';
+      div.innerHTML = `<div class="res-cap">${esc(res.titolo)} <small style="color:#888">(${volLabel})</small></div><div class="res-snippet"><small>${hSnippet}</small></div>`;
+      div.onclick = function() {
+        this.classList.add('visited');
+        if (res.tipo === 'voce') mostraVoce(res.item, terms[0], res.vi);
+        else mostraCapitolo(res.item, res.vi);
+      };
+      resultsDiv.appendChild(div);
     });
-  });
+  };
+
+  function cercaInTesto(testo, terms, type, dist) {
+    const clean = testo.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').toLowerCase();
+    if (type === 'simple_partial') {
+      const idx = clean.indexOf(terms[0]);
+      if (idx === -1) return null;
+      return estraiSnippet(clean, idx, terms[0].length);
+    } else if (type === 'simple_exact') {
+      const re = new RegExp('(?<!\\p{L})(' + terms[0].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ')(?!\\p{L})', 'giu');
+      const m = re.exec(clean);
+      if (!m) return null;
+      return estraiSnippet(clean, m.index, m[0].length);
+    } else if (type === 'or_exact') {
+      for (const t of terms) {
+        const re = new RegExp('(?<!\\p{L})(' + t.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ')(?!\\p{L})', 'giu');
+        const m = re.exec(clean);
+        if (m) return estraiSnippet(clean, m.index, m[0].length);
+      }
+      return null;
+    } else { // proximity
+      const words = clean.split(/\s+/);
+      for (let i = 0; i < words.length; i++) {
+        if (words[i].includes(terms[0])) {
+          for (let j = Math.max(0, i - dist); j < Math.min(words.length, i + dist + 1); j++) {
+            if (j !== i && words[j].includes(terms[1])) {
+              const start = clean.indexOf(words[Math.min(i, j)]);
+              return estraiSnippet(clean, start, 80);
+            }
+          }
+        }
+      }
+      return null;
+    }
+  }
+
+  function estraiSnippet(text, start, len) {
+    const from = Math.max(0, start - 60);
+    const to = Math.min(text.length, start + len + 120);
+    let s = text.substring(from, to);
+    if (from > 0) s = '…' + s;
+    if (to < text.length) s = s + '…';
+    return s;
+  }
 
   /* -------- VISUALIZZAZIONI -------- */
   function clearActive() {
@@ -369,9 +537,36 @@
 
   function mostraVoce(voce, evidenzia, vi) {
     clearActive();
-    const html = evidenzia ? evidenziaQuery(voce.testo, evidenzia) : voce.testo;
-    $('content').innerHTML = `<article><h2 style="color:var(--accent);margin-bottom:16px">${esc(voce.voce)}</h2>${html}</article>`;
-    window.scrollTo(0, 0);
+    let htmlTesto = voce.testo;
+
+    // Evidenziazione stile Azaria: solo nel testo tra i tag, mai dentro i tag
+    if (isSearchActive && searchKeywords.length > 0) {
+      searchKeywords.forEach(kw => {
+        const safeKw = kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        let regex = searchIsPartial ? new RegExp('(' + safeKw + ')', 'gi') : new RegExp('(?<!\\p{L})(' + safeKw + ')(?!\\p{L})', 'giu');
+        htmlTesto = htmlTesto.replace(/>([^<]*)</g, (match, text) => {
+          return '>' + text.replace(regex, "<span class='highlight'>$1</span>") + '<';
+        });
+      });
+    } else if (evidenzia) {
+      // Evidenziazione singola parola (da ricerca universale o link diretto)
+      const safeQ = evidenzia.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+      const re = new RegExp('(' + safeQ + ')', 'gi');
+      htmlTesto = htmlTesto.replace(/>([^<]*)</g, (match, text) => {
+        return '>' + text.replace(re, "<span class='highlight'>$1</span>") + '<';
+      });
+    }
+
+    $('content').innerHTML = `<article><h2 style="color:var(--accent);margin-bottom:16px">${esc(voce.voce)}</h2>${htmlTesto}</article>`;
+
+    // Scroll: se c'è evidenziazione, vai al primo risultato; altrimenti in cima
+    const firstHighlight = $('content').querySelector('.highlight');
+    if (firstHighlight) {
+      setTimeout(() => firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+    } else {
+      window.scrollTo(0, 0);
+    }
+
     // --- HOOK CRONOLOGIA + APPUNTI ---
     if (vi !== undefined && vi !== null) aggiornaStato(vi, 'voce', voce.id, voce.voce);
   }
@@ -431,12 +626,21 @@
         const numId = parseInt(id);
         for (const l of (A.lettere || [])) {
           const voce = l.voci.find(v => v.id === numId);
-          if (voce) { mostraVoce(voce, null, vi); return true; }
+          if (voce) {
+            mostraVoce(voce, null, vi);
+            // Ripristina posizione scroll
+            ripristinaScrollPolifonia(vi, tipo, numId);
+            return true;
+          }
         }
       } else if (tipo === 'cap') {
         const cap = [...(A.capitoliIniziali || []), ...(A.guide || []), ...(A.capitoliFinali || [])]
                     .find(c => c.id === id);
-        if (cap) { mostraCapitolo(cap, vi); return true; }
+        if (cap) {
+          mostraCapitolo(cap, vi);
+          ripristinaScrollPolifonia(vi, tipo, id);
+          return true;
+        }
       }
     }
 
@@ -452,29 +656,11 @@
       const item = flat[idx];
       if (item) {
         const keys = params.get('keys');
-        const mode = params.get('mode');
+        // Evidenzia PRIMA dell'inserimento nel DOM (come fa la ricerca interna)
         if (item.voce) {
-          // È una voce del dizionario
-          mostraVoce(item, keys ? decodeURIComponent(keys).split(',')[0] : null, vi);
+          renderVoceConEvidenziazione(item, keys, vi);
         } else {
-          // È un capitolo iniziale/finale o guida
-          mostraCapitolo(item, vi);
-        }
-        // Evidenzia parole dalla ricerca dopo il rendering
-        if (keys) {
-          setTimeout(() => {
-            const container = $('content');
-            const parole = decodeURIComponent(keys).split(',');
-            let html = container.innerHTML;
-            parole.forEach(parola => {
-              const safe = parola.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-              const regex = mode === 'partial'
-                ? new RegExp('(' + safe + ')', 'gi')
-                : new RegExp('(?<!\\p{L})(' + safe + ')(?!\\p{L})', 'giu');
-              html = html.replace(regex, '<mark>$1</mark>');
-            });
-            container.innerHTML = html;
-          }, 300);
+          renderCapitoloConEvidenziazione(item, keys, vi);
         }
         return true;
       }
@@ -482,6 +668,105 @@
 
     return false;
   }
+
+  // --- Rendering con evidenziazione pre-DOM (Stile Azaria: >testo<) ---
+  function renderVoceConEvidenziazione(voce, keys, vi) {
+    clearActive();
+    let htmlTesto = voce.testo;
+    if (keys) {
+      decodeURIComponent(keys).split(',').forEach(kw => {
+        const safeKw = kw.trim().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const regex = new RegExp('(' + safeKw + ')', 'gi');
+        htmlTesto = htmlTesto.replace(/>([^<]*)</g, (match, text) => {
+          return '>' + text.replace(regex, "<span class='highlight'>$1</span>") + '<';
+        });
+      });
+    }
+    $('content').innerHTML = `<article><h2 style="color:var(--accent);margin-bottom:16px">${esc(voce.voce)}</h2>${htmlTesto}</article>`;
+    const firstH = $('content').querySelector('.highlight');
+    if (firstH) setTimeout(() => firstH.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+    else window.scrollTo(0, 0);
+    // Cronologia deferred (gli script esterni non sono ancora caricati durante l'IIFE)
+    aggiornaStatoDeferred(vi, 'voce', voce.id, voce.voce);
+  }
+
+  function renderCapitoloConEvidenziazione(cap, keys, vi) {
+    clearActive();
+    const btn = document.querySelector(`.nav-item[data-id$="-${cap.id}"]`);
+    if (btn) btn.classList.add('active');
+    let titolo = cap.titolo;
+    const notaMatch = titolo.match(/\[(\d+)\]$/);
+    const numNota = notaMatch ? notaMatch[1] : null;
+    if (numNota) titolo = titolo.slice(0, -notaMatch[0].length);
+    let linkNota = '';
+    if (numNota) linkNota = `<a href="#nota-${numNota}"><sup style="font-size:0.6em;">[${numNota}]</sup></a>`;
+    let htmlTesto = cap.testo;
+    if (keys) {
+      decodeURIComponent(keys).split(',').forEach(kw => {
+        const safeKw = kw.trim().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const regex = new RegExp('(' + safeKw + ')', 'gi');
+        htmlTesto = htmlTesto.replace(/>([^<]*)</g, (match, text) => {
+          return '>' + text.replace(regex, "<span class='highlight'>$1</span>") + '<';
+        });
+      });
+    }
+    $('content').innerHTML = `<article><h1 style="color:var(--accent);margin-bottom:20px">${titolo}${linkNota}</h1>${htmlTesto}</article>`;
+    const firstH = $('content').querySelector('.highlight');
+    if (firstH) setTimeout(() => firstH.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+    else window.scrollTo(0, 0);
+    aggiornaStatoDeferred(vi, 'cap', cap.id, cap.titolo);
+  }
+
+  // Cronologia deferred: quando arriviamo dalla ricerca universale, gli script
+  // (cronologia.js, appunti.js) non sono ancora caricati perché il tag <script>
+  // è dopo l'IIFE. Aspettiamo il load della pagina.
+  function aggiornaStatoDeferred(vi, tipo, id, titolo) {
+    // Aggiorna subito il DOM (non dipende da script esterni)
+    const volLabel = vi === 0 ? "Polifonia Valtortiana - Vol. 1 (A-G)" : "Polifonia Valtortiana - Vol. 2 (H-Z)";
+    const aside = document.querySelector('[data-nome-libro]');
+    if (aside) aside.setAttribute('data-nome-libro', volLabel);
+    window.currentPolifoniaVi = vi;
+    window.currentPolifoniaType = tipo;
+    window.currentPolifoniaId = id;
+
+    // Ritarda il salvataggio cronologia fino a quando gli script sono caricati
+    window.addEventListener('load', () => {
+      if (typeof salvaInCronologia === 'function') {
+        salvaInCronologia(id, titolo, volLabel, "PolifoniaValtortiana", "/polifonia.html?vi=" + vi + "&type=" + tipo + "&id=");
+      }
+      if (typeof window.ripristinaEvidenze === 'function') {
+        setTimeout(window.ripristinaEvidenze, 500);
+      }
+    }, { once: true });
+  }
+
+  // --- Salvataggio e Ripristino Scroll per Polifonia ---
+  function getScrollKey() {
+    if (window.currentPolifoniaVi !== undefined) {
+      return 'polif_scroll_' + window.currentPolifoniaVi + '_' + window.currentPolifoniaType + '_' + window.currentPolifoniaId;
+    }
+    return null;
+  }
+
+  function ripristinaScrollPolifonia(vi, tipo, id) {
+    const chiave = 'polif_scroll_' + vi + '_' + tipo + '_' + id;
+    let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+    if (posizioni[chiave]) {
+      setTimeout(() => {
+        window.scrollTo({ top: posizioni[chiave], behavior: 'smooth' });
+      }, 600);
+    }
+  }
+
+  // Salva scroll quando l'utente lascia la pagina
+  window.addEventListener('beforeunload', () => {
+    const chiave = getScrollKey();
+    if (chiave) {
+      let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
+      posizioni[chiave] = window.scrollY;
+      localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
+    }
+  });
 
   /* -------- AVVIO -------- */
   if (!ripristinaDaUrl()) mostraHome();

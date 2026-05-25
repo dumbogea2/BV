@@ -160,6 +160,24 @@
         }
         .btn-read:hover { background-color: #a50000; }
 
+        /* --- BARRA STRUMENTI STUDI E APPROFONDIMENTI --- */
+        .tools-bar {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;
+            margin-bottom: 30px; max-width: 1000px; width: 100%;
+            background-color: rgba(244, 241, 234, 0.93);
+            padding: 15px 20px; border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+        }
+        .tool-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background-color: #5d4037; color: white;
+            padding: 10px 18px; text-decoration: none;
+            border-radius: 6px; font-weight: bold; font-size: 0.95em;
+            transition: 0.2s; white-space: nowrap;
+        }
+        .tool-btn:hover { background-color: #8b0000; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+
         /* --- STILE FOOTER AGGIORNATO --- */
         footer {
             margin-top: auto;
@@ -238,6 +256,9 @@
             .disclaimer-text {
                 font-size: 0.8em;
             }
+
+            .tools-bar { gap: 8px; padding: 10px; }
+            .tool-btn { font-size: 0.85em; padding: 8px 12px; flex: 1 1 auto; justify-content: center; }
         }
           </style>
 </head>
@@ -252,6 +273,13 @@
             dedicati all'universo letterario di Maria Valtorta.
         </p>
     </header>
+
+    <!-- Strumenti della sezione Studi e Approfondimenti -->
+    <div class="tools-bar">
+        <a href="ricerca_studi.html" class="tool-btn">🔍 Ricerca nei Volumi</a>
+        <a href="mia_cronologia.html" class="tool-btn">🕒 Riprendi la lettura</a>
+        <a href="miei_appunti.html" class="tool-btn">📝 I miei Appunti</a>
+    </div>
 
     <div class="grid-container">
         

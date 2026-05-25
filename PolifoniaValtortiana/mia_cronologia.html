@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script>
+        // Guardiano Sicuro V2
+        if (window.location.hostname.includes("github.io")) {
+            if (navigator.onLine) {
+                document.documentElement.style.display = 'none';
+            }
+        }
+    </script>
+    
+    <title>Riprendi la lettura · Studi e Approfondimenti</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif; margin: 0; padding: 20px;
+            background-color: #f4ece0; color: #333;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .header {
+            width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px double #8b0000; padding-bottom: 15px; margin-bottom: 30px;
+            flex-wrap: wrap; gap: 10px;
+        }
+        .header h1 { margin: 0; color: #8b0000; font-size: 22px; }
+        .header-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-back {
+            text-decoration: none; background-color: #8b0000; color: white;
+            padding: 8px 15px; border-radius: 4px; font-weight: bold; font-size: 14px;
+            transition: 0.2s; white-space: nowrap;
+        }
+        .btn-back:hover { background-color: #a50000; }
+        .btn-back.secondary { background-color: #887860; }
+        .btn-back.secondary:hover { background-color: #5d4037; }
+        .btn-svuota {
+            background-color: transparent; border: 1px solid #d9534f; color: #d9534f;
+            cursor: pointer; padding: 6px 12px; border-radius: 4px; font-size: 13px; font-weight: bold;
+            transition: 0.2s; font-family: inherit; white-space: nowrap;
+        }
+        .btn-svuota:hover { background-color: #ffebee; }
+        
+        #cronologia-container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 15px; }
+        
+        .cronologia-card {
+            background: white; border: 1px solid #dcd8ce; border-radius: 8px;
+            padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-decoration: none; color: inherit; display: block;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .cronologia-card:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); border-color:#8b0000; }
+        
+        .cronologia-header { font-size: 0.9rem; font-weight: bold; color: #8b0000; text-transform: uppercase; margin-bottom: 5px; }
+        .cronologia-titolo { font-size: 1.1rem; color: #444; }
+        .empty-state { text-align: center; color: #666; font-style: italic; padding: 40px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🕒 Riprendi la lettura<br><small style="font-size:13px; color:#998870; font-weight:normal;">Studi e Approfondimenti</small></h1>
+        <div class="header-buttons">
+            <button class="btn-svuota" onclick="clearPolifoniaHistory()">🗑️ Svuota</button>
+            <a href="home.html" class="btn-back">📚 Studi</a>
+            <a href="../index.html" class="btn-back secondary">🏠 Portale</a>
+        </div>
+    </div>
+
+    <div id="cronologia-container"></div>
+
+    <script>
+        // BIVIO LOGICO
+        const isCloudMode = localStorage.getItem('modalita_lettura') === 'cloud';
+        let utenteCloud = null;
+        let db = null, collection = null, getDocs = null, query = null, orderBy = null, limit = null, deleteDoc = null;
+
+        // Predicato: appartiene alla sezione Studi e Approfondimenti?
+        function isStudi(item) {
+            return item && item.opera && item.opera.toString().startsWith('Polifonia');
+        }
+
+        if (isCloudMode) {
+            (async function initFirebase() {
+                try {
+                    const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                    const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+                    const fDb = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+
+                    const firebaseConfig = {
+                        apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                        authDomain: "appuntivaltorta.firebaseapp.com",
+                        projectId: "appuntivaltorta",
+                        storageBucket: "appuntivaltorta.firebasestorage.app",
+                        messagingSenderId: "940851152715",
+                        appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+                    };
+
+                    const app = fApp.initializeApp(firebaseConfig);
+                    const auth = fAuth.getAuth(app);
+                    db = fDb.getFirestore(app);
+                    
+                    collection = fDb.collection; getDocs = fDb.getDocs; 
+                    query = fDb.query; orderBy = fDb.orderBy; limit = fDb.limit;
+                    deleteDoc = fDb.deleteDoc;
+
+                    fAuth.onAuthStateChanged(auth, (user) => {
+                        if (user) { utenteCloud = user; renderStudiHistory(); }
+                        else { window.location.href = "../login.html"; }
+                    });
+                } catch(e) { 
+                    console.warn("Modalità Cloud non disponibile, proseguo offline.");
+                    renderStudiHistory();
+                }
+            })();
+        } else {
+            window.onload = renderStudiHistory;
+        }
+
+        async function renderStudiHistory() {
+            let history = [];
+
+            if (isCloudMode) {
+                if (!utenteCloud || !db) {
+                    history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+                } else if (!navigator.onLine) {
+                    history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+                } else {
+                    try {
+                        const q = query(collection(db, `utenti/${utenteCloud.uid}/cronologia`), orderBy("timestamp", "desc"), limit(50));
+                        const snapshot = await getDocs(q);
+                        snapshot.forEach(doc => history.push(doc.data()));
+                        // Aggiorna copia locale completa (non filtrata, perché serve anche alla cronologia generale)
+                        localStorage.setItem('valtorta_cronologia_globale', JSON.stringify(history));
+                    } catch(e) {
+                        history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+                    }
+                }
+            } else {
+                history = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+            }
+
+            // FILTRO: solo Studi e Approfondimenti (Polifonia + libri futuri)
+            const historyStudi = history.filter(isStudi);
+
+            const container = document.getElementById('cronologia-container');
+
+            if (historyStudi.length === 0) {
+                container.innerHTML = `<div class="empty-state">Non hai ancora letture recenti negli Studi e Approfondimenti.<br>Apri un volume per iniziare!</div>`;
+                return;
+            }
+
+            container.innerHTML = historyStudi.map(item => {
+                const intestazione = "📖 " + item.opera;
+                let finalUrl = item.url;
+                // Le URL della Polifonia sono già relative tipo "PolifoniaValtortiana/polifonia.html?vi=..."
+                // Siamo dentro PolifoniaValtortiana/, quindi togliamo il prefisso ridondante
+                if (finalUrl.startsWith('PolifoniaValtortiana/')) {
+                    finalUrl = finalUrl.substring('PolifoniaValtortiana/'.length);
+                }
+                return `
+                <a href="${finalUrl}" class="cronologia-card">
+                    <div class="cronologia-header">${intestazione}</div>
+                    <div class="cronologia-titolo">${item.titolo}</div>
+                </a>
+                `;
+            }).join('');
+        }
+
+        async function clearPolifoniaHistory() {
+            if (!confirm("Vuoi svuotare la cronologia degli Studi e Approfondimenti?\n(La cronologia degli altri libri non sarà toccata.)")) return;
+
+            // 1. LOCALE: rimuovi solo gli elementi della sezione Studi, mantieni il resto
+            const allHistory = JSON.parse(localStorage.getItem('valtorta_cronologia_globale')) || [];
+            const filtered = allHistory.filter(item => !isStudi(item));
+            localStorage.setItem('valtorta_cronologia_globale', JSON.stringify(filtered));
+            
+            // 2. CLOUD: elimina solo i documenti della Polifonia
+            if (isCloudMode && utenteCloud && db) {
+                try {
+                    const snapshot = await getDocs(collection(db, `utenti/${utenteCloud.uid}/cronologia`));
+                    const promises = [];
+                    snapshot.forEach(documento => {
+                        const data = documento.data();
+                        if (isStudi(data)) {
+                            promises.push(deleteDoc(documento.ref));
+                        }
+                    });
+                    await Promise.all(promises);
+                } catch(e) { console.warn("Offline: impossibile svuotare il cloud ora."); }
+            }
+            setTimeout(renderStudiHistory, 300);
+        }
+    </script>
+
+    <script>
+        // --- CONTROLLO ACCESSO DINAMICO V2 (Anti-Crash Offline) ---
+        (async function checkAuthCronologiaStudi() {
+            const isOnline = window.location.hostname.includes("github.io");
+
+            if (isOnline) {
+                try {
+                    const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                    const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+
+                    const firebaseConfig = {
+                        apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                        authDomain: "appuntivaltorta.firebaseapp.com",
+                        projectId: "appuntivaltorta",
+                        storageBucket: "appuntivaltorta.firebasestorage.app",
+                        messagingSenderId: "940851152715",
+                        appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+                    };
+
+                    const app = fApp.getApps().length === 0 ? fApp.initializeApp(firebaseConfig) : fApp.getApp();
+                    const auth = fAuth.getAuth(app);
+
+                    fAuth.onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            document.documentElement.style.display = '';
+                            document.body.style.display = "flex"; 
+                            localStorage.setItem('modalita_lettura', 'cloud');
+                        } else {
+                            window.location.replace("/BV/login.html"); 
+                        }
+                    });
+                } catch (error) {
+                    console.warn("Firebase bloccato, proseguo offline.");
+                    document.documentElement.style.display = '';
+                    document.body.style.display = "flex";
+                }
+            }
+        })();
+    </script>
+</body>
+</html>
