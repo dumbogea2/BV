@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v42'; // Versione aggiornata per forzare il ricaricamento
+const CACHE_NAME = 'valtorta-cache-v43'; // Bump versione: aggiunto clients.claim, network-first per HTML, file Polifonia
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
@@ -79,6 +79,20 @@ const urlsToCache = [
   './Quaderni/autobiografia.html',
   './Quaderni/Autobiografia.js',
   './Quaderni/Autobiografia.png',
+
+  // --- POLIFONIA VALTORTIANA (Studi e Approfondimenti) ---
+  './PolifoniaValtortiana/home.html',
+  './PolifoniaValtortiana/polifonia.html',
+  './PolifoniaValtortiana/polifonia_v1.js',
+  './PolifoniaValtortiana/polifonia_v2.js',
+  './PolifoniaValtortiana/mia_cronologia.html',
+  './PolifoniaValtortiana/miei_appunti.html',
+  './PolifoniaValtortiana/ricerca_studi.html',
+  './PolifoniaValtortiana/images/PolifoniaValtortiana1.jpg',
+  './PolifoniaValtortiana/images/PolifoniaValtortiana2.jpg',
+  './PolifoniaValtortiana/images/img1.png',
+  './PolifoniaValtortiana/images/v2_img1.png',
+  './PolifoniaValtortiana/images/Riflesso_opera.png',
   
 ];
 // --- ELENCO ESATTO DELLE IMMAGINI DELLA MAPPA (Livelli 0, 1, 2, 3) ---
@@ -166,37 +180,85 @@ self.addEventListener('install', (event) => {
 });
 // --- FINE PASSO 3 ---
 
-// Attivazione: Pulisce le vecchie cache se cambiamo versione
+// Attivazione: Pulisce le vecchie cache + prende controllo immediato delle pagine aperte
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+    Promise.all([
+      // 1. Pulisci vecchie cache
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (cacheName !== CACHE_NAME) {
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      }),
+      // 2. Prendi controllo IMMEDIATO delle pagine già aperte
+      // Senza questo, il SW nuovo resta in attesa finché tutte le tab non sono chiuse.
+      // Con questo, scatta 'controllerchange' nelle pagine aperte → banner visibile.
+      self.clients.claim()
+    ])
   );
 });
 
-// --- INIZIO FETCH BLINDATO V12 (FIX SCHERMATA BIANCA) ---
+// --- FETCH IBRIDO V13 ---
+// HTML pages → NETWORK-FIRST (con fallback cache): le pagine sono sempre fresche online,
+// ma funzionano offline grazie alla cache.
+// Tutto il resto (immagini, JS archivi, CSS) → CACHE-FIRST: prestazioni massime, file pesanti non si ri-scaricano.
 self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith(self.location.origin)) return;
 
+  // Capisci se è una richiesta di documento HTML (navigazione o file .html)
+  const accept = event.request.headers.get('accept') || '';
+  const url = event.request.url.split('?')[0];
+  const isHtml = event.request.mode === 'navigate'
+              || accept.includes('text/html')
+              || url.endsWith('.html')
+              || url.endsWith('/');
+
+  if (isHtml) {
+    // STRATEGIA NETWORK-FIRST per HTML
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(CACHE_NAME);
+        try {
+          // 1. Prova rete (con timeout implicito del browser)
+          const networkResponse = await fetch(event.request);
+          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+            // Aggiorna la cache con la versione fresca
+            cache.put(event.request, networkResponse.clone());
+          }
+          return networkResponse;
+        } catch (error) {
+          // 2. Offline o rete in errore → fallback cache
+          let response = await cache.match(event.request, { ignoreSearch: true });
+          if (response) return response;
+          const urlSenzaParametri = event.request.url.split('?')[0];
+          response = await cache.match(urlSenzaParametri, { ignoreSearch: true });
+          if (response) return response;
+          // 3. Modalità Offline Estrema (BUGFIX SCHERMATA BIANCA)
+          if (event.request.mode === 'navigate') {
+            let fallback = await cache.match('./index.html', { ignoreSearch: true });
+            if (!fallback) fallback = await cache.match('./', { ignoreSearch: true });
+            if (!fallback) fallback = await cache.match('/', { ignoreSearch: true });
+            if (fallback) return fallback;
+          }
+          return new Response('', { status: 404, statusText: 'Offline' });
+        }
+      })()
+    );
+    return;
+  }
+
+  // STRATEGIA CACHE-FIRST per immagini, JS, CSS, ecc. (logica originale conservata)
   event.respondWith(
     caches.open(CACHE_NAME).then(async (cache) => {
-      // 1. Cerca ignorando i parametri (es. ?cap=15)
       let response = await cache.match(event.request, { ignoreSearch: true });
       if (response) return response;
-
-      // 2. Doppio controllo con il Trucco delle Forbici
       const urlSenzaParametri = event.request.url.split('?')[0];
       response = await cache.match(urlSenzaParametri, { ignoreSearch: true });
       if (response) return response;
-
-      // 3. Se non è in memoria, prova internet
       try {
         const networkResponse = await fetch(event.request);
         if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
@@ -204,19 +266,9 @@ self.addEventListener('fetch', (event) => {
         }
         return networkResponse;
       } catch (error) {
-        // 4. Modalità Offline Estrema (BUGFIX SCHERMATA BIANCA)
-        if (event.request.mode === 'navigate') {
-          // ASPETTIAMO che la cache trovi la home page usando percorsi diversi
-          let fallback = await cache.match('./index.html', { ignoreSearch: true });
-          if (!fallback) fallback = await cache.match('./', { ignoreSearch: true });
-          if (!fallback) fallback = await cache.match('/', { ignoreSearch: true });
-          
-          if (fallback) return fallback;
-        }
-        // Se proprio non c'è nulla, non far crashare l'app ma restituisci un vuoto controllato
         return new Response('', { status: 404, statusText: 'Offline' });
       }
     })
   );
 });
-// --- FINE FETCH BLINDATO V12 ---
+// --- FINE FETCH IBRIDO V13 ---
