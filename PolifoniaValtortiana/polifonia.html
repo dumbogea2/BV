@@ -570,13 +570,25 @@
     // Scroll: se c'è evidenziazione, vai al primo risultato; altrimenti in cima
     const firstHighlight = $('content').querySelector('.highlight');
     if (firstHighlight) {
-      setTimeout(() => firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+      scrollToHighlight(firstHighlight, 350);
     } else {
       window.scrollTo(0, 0);
     }
 
     // --- HOOK CRONOLOGIA + APPUNTI ---
     if (vi !== undefined && vi !== null) aggiornaStato(vi, 'voce', voce.id, voce.voce);
+  }
+
+  /* -------- SCROLL iOS-COMPATIBILE -------- */
+  // Su Safari/iOS scrollIntoView con behavior:'smooth' è inaffidabile quando
+  // il contenuto viene appena iniettato. Usiamo window.scrollTo con getBoundingClientRect.
+  function scrollToHighlight(el, delay) {
+    setTimeout(() => {
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const targetY = window.pageYOffset + rect.top - (window.innerHeight / 2) + (rect.height / 2);
+      window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+    }, delay || 350);
   }
 
   /* -------- UTILITÀ -------- */
@@ -692,7 +704,7 @@
     }
     $('content').innerHTML = `<article><h2 style="color:var(--accent);margin-bottom:16px">${esc(voce.voce)}</h2>${htmlTesto}</article>`;
     const firstH = $('content').querySelector('.highlight');
-    if (firstH) setTimeout(() => firstH.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+    if (firstH) scrollToHighlight(firstH, 350);
     else window.scrollTo(0, 0);
     // Cronologia deferred (gli script esterni non sono ancora caricati durante l'IIFE)
     aggiornaStatoDeferred(vi, 'voce', voce.id, voce.voce);
@@ -720,7 +732,7 @@
     }
     $('content').innerHTML = `<article><h1 style="color:var(--accent);margin-bottom:20px">${titolo}${linkNota}</h1>${htmlTesto}</article>`;
     const firstH = $('content').querySelector('.highlight');
-    if (firstH) setTimeout(() => firstH.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+    if (firstH) scrollToHighlight(firstH, 350);
     else window.scrollTo(0, 0);
     aggiornaStatoDeferred(vi, 'cap', cap.id, cap.titolo);
   }

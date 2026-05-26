@@ -680,6 +680,7 @@
                         this.classList.add('visited');
                         isSearchActive = true;
                         searchKeywords = terms;
+                        searchIsPartial = (type === 'simple_partial');
                         document.getElementById('btn-back-search').style.display = 'block';
                         loadChapter(res.idx, true);
                         closeSearch();

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v43'; // Bump versione: aggiunto clients.claim, network-first per HTML, file Polifonia
+const CACHE_NAME = 'valtorta-cache-v45'; // Bump versione: aggiunte immagini VideoPresentazione_img.png e InstallApp_button.png
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
@@ -31,6 +31,10 @@ const urlsToCache = [
   './AutobiografiaButton.png',
   './ricerca_universale_button.png',
   './ArchivioButton.jpg',
+  './VideoPresentazione_img.png',
+  './InstallApp_button.png',
+  './Approfondimenti_button.png',
+  
 
   // --- MAPPA (Librerie e icone di base) ---
   './mappa/index.html',
