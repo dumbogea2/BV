@@ -410,6 +410,30 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
     body.print-search-mode #resultsList mark.target-word {
         background-color: #eee !important; border: 1px solid #999 !important;
     }
+
+    /* AGGIUNTE PER SAFARI - Forza stampa del modal capitolo */
+    body.printing-chapter #readerModal {
+        display: block !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        background: white !important;
+        overflow: visible !important;
+    }
+    body.printing-chapter .modal-content {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: white !important;
+    }
+    body.printing-chapter .close-modal,
+    body.printing-chapter .modal-controls,
+    body.printing-chapter #floating-print-btn {
+        display: none !important;
+    }
 }
     </style>
 </head>
@@ -592,7 +616,7 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         </div>
     </div>
 </div> 
-<button id="floating-print-btn" onclick="bvPrint()" title="Stampa questo capitolo">🖨️</button>
+<button id="floating-print-btn" onclick="printCurrentChapter()" title="Stampa questo capitolo">🖨️</button>
 
 <script src="../cronologia.js"></script>
 <script src="archivio.js"></script>
@@ -1568,11 +1592,31 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         window.addEventListener('afterprint', restoreAfterPrint);
         setTimeout(restoreAfterPrint, 1500);
 
-        bvPrint();
+        window.print();
     }
     
-    function printChapter() {
-        bvPrint();
+    // NUOVA FUNZIONE PER STAMPARE IL CAPITOLO CORRENTE (FIX PER SAFARI)
+    function printCurrentChapter() {
+        if (typeof currentOpenChapter === 'undefined' || currentOpenChapter === null) {
+            alert("Nessun capitolo aperto da stampare.");
+            return;
+        }
+
+        // Forza il browser a ricalcolare gli stili (utile per Safari)
+        document.body.style.display = 'none';
+        document.body.offsetHeight; // reflow forzato
+        document.body.style.display = '';
+
+        // Aggiungi classe dedicata per la stampa del capitolo
+        document.body.classList.add('printing-chapter');
+
+        setTimeout(() => {
+            window.print();
+            // Rimuovi la classe dopo la stampa (o dopo un breve timeout)
+            setTimeout(() => {
+                document.body.classList.remove('printing-chapter');
+            }, 500);
+        }, 50);
     }
 </script>
 
@@ -1731,6 +1775,5 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             }
         })();
     </script>
-<script src="../ios_print.js"></script>
 </body>
 </html>
