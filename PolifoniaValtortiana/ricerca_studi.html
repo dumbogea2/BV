@@ -82,6 +82,17 @@
         .book-title.collapsed .toggle-arrow { transform: rotate(-90deg); }
         .book-results { overflow: hidden; transition: max-height 0.3s ease; margin-bottom: 10px; }
         .book-results.collapsed { display: none; }
+
+        /* Pulsante Comprimi/Espandi tutti */
+        #btn-toggle-tutti {
+            background-color: #d1cbb8; border: none; color: #5d4037;
+            padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 0.9em;
+            cursor: pointer; transition: 0.2s;
+            display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+            margin-left: 15px;
+        }
+        #btn-toggle-tutti:hover { background-color: #c4bdae; }
+        @media print { #btn-toggle-tutti { display: none !important; } }
         
         .result-item {
             background: white; border-bottom: 1px solid #dcd8ce; padding: 15px; 
@@ -170,6 +181,7 @@
 
     <script src="polifonia_v1.js"></script>
     <script src="polifonia_v2.js"></script>
+    <script src="madonna_roschini.js"></script>
     <!-- NOTA: aggiungere qui sotto gli archivi JS dei futuri libri della sezione Studi -->
 
     <script>
@@ -185,6 +197,23 @@
             ];
         }
 
+        // Funzione helper: appiattisce un volume Madonna Roschini
+        // (oggetto con .capitoliIniziali e .parti[].sezioni) in un array unico ricercabile.
+        // Aggiunge il campo `lezione` (usato come titolo) e `_parteTitolo` per contesto.
+        function appiattisciVolumeMadonna(vol) {
+            if (!vol) return [];
+            const flat = [];
+            (vol.capitoliIniziali || []).forEach(cap => {
+                flat.push({ lezione: cap.titolo, testo: cap.testo, _parteTitolo: 'Premesse' });
+            });
+            (vol.parti || []).forEach(parte => {
+                (parte.sezioni || []).forEach(sez => {
+                    flat.push({ lezione: sez.lezione, testo: sez.testo, _parteTitolo: parte.titolo });
+                });
+            });
+            return flat;
+        }
+
         // LIBRARY dei volumi della sezione Studi e Approfondimenti.
         // I file path includono ?vi=N per distinguere i volumi nella stessa pagina lettore.
         // Per aggiungere un nuovo libro, includere il suo archivio JS sopra e aggiungere una riga qui.
@@ -194,7 +223,10 @@
               file: 'polifonia.html?vi=0' },
             { id: 'polifonia_v2', name: "Polifonia Valtortiana — Vol. 2 (H–Z)",
               data: (typeof polifonia_v2 !== 'undefined' ? appiattisciVolumePolifonia(polifonia_v2) : []),
-              file: 'polifonia.html?vi=1' }
+              file: 'polifonia.html?vi=1' },
+            { id: 'madonna_roschini', name: "La Madonna negli scritti di Maria Valtorta — Roschini",
+              data: (typeof madonna_roschini !== 'undefined' ? appiattisciVolumeMadonna(madonna_roschini) : []),
+              file: 'madonna_roschini.html' }
         ];
 
         window.addEventListener('pageshow', () => {
@@ -284,6 +316,21 @@
             results.classList.toggle('collapsed');
         }
 
+        function toggleAllBooks() {
+            const btn = document.getElementById('btn-toggle-tutti');
+            if (!btn) return;
+            const isComprimendo = btn.innerText.includes('Comprimi');
+            document.querySelectorAll('.book-title').forEach(el => {
+                if (isComprimendo) el.classList.add('collapsed');
+                else el.classList.remove('collapsed');
+            });
+            document.querySelectorAll('.book-results').forEach(el => {
+                if (isComprimendo) el.classList.add('collapsed');
+                else el.classList.remove('collapsed');
+            });
+            btn.innerText = isComprimendo ? '▶️ Espandi Tutti' : '🔽 Comprimi Tutti';
+        }
+
         function performSearchLogic(terms, type, dist) {
             const resContainer = document.getElementById('globalResults');
             const loader = document.getElementById('loading');
@@ -330,9 +377,10 @@
                 if (totalFound === 0) {
                     resContainer.innerHTML = "<p style='text-align:center; font-style:italic;'>Nessun risultato trovato nei volumi della sezione Studi.</p>";
                 } else {
-                    const printBtn = `<button class="btn-print-pdf" onclick="window.print()" style="margin-left:15px; cursor:pointer; background:none; border:1px solid #8b0000; padding:5px 10px; border-radius:5px; color:#8b0000; font-weight:bold;">🖨️ Stampa elenco PDF</button>`;
+                    const printBtn = `<button class="btn-print-pdf" onclick="bvPrint()" style="margin-left:15px; cursor:pointer; background:none; border:1px solid #8b0000; padding:5px 10px; border-radius:5px; color:#8b0000; font-weight:bold;">🖨️ Stampa elenco PDF</button>`;
+                    const toggleAllBtn = `<button id="btn-toggle-tutti" onclick="toggleAllBooks()">🔽 Comprimi Tutti</button>`;
                     resContainer.innerHTML = `<div style="text-align:center; margin-bottom:20px; color:#666;">
-                        Trovati <b>${totalFound}</b> risultati totali. ${printBtn}
+                        Trovati <b>${totalFound}</b> risultati totali. ${printBtn} ${toggleAllBtn}
                     </div>` + htmlOutput;
                 }
             }, 50);
@@ -422,10 +470,15 @@
                 }
 
                 if (found) {
-                    // Titolo: la Polifonia ha o `voce` (per le voci del dizionario) o `titolo` (per i capitoli)
+                    // Titolo: la Polifonia ha `voce` (voci dizionario) o `titolo` (capitoli);
+                    // la Madonna usa `lezione`. Fallback a "Sezione N".
                     let title = "";
                     if (cap.voce) {
                         title = cap.voce;
+                    } else if (cap.lezione) {
+                        title = cap.lezione;
+                        // aggiungi contesto parte se disponibile
+                        if (cap._parteTitolo) title = `<span style="font-size:0.82em;color:#888;">${cap._parteTitolo}</span> — ${title}`;
                     } else if (cap.titolo) {
                         title = cap.titolo;
                     } else {
@@ -476,5 +529,6 @@
             }
         })();
     </script>
+<script src="../../ios_print.js"></script>
 </body>
 </html>

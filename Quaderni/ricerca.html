@@ -356,7 +356,7 @@
                 if (totalFound === 0) {
                     resContainer.innerHTML = "<p style='text-align:center; font-style:italic;'>Nessun risultato trovato in nessuna opera.</p>";
                 } else {
-                    const printBtn = `<button class="btn-print-pdf" onclick="window.print()" style="margin-left:15px; cursor:pointer; background:none; border:1px solid #8b0000; padding:5px 10px; border-radius:5px; color:#8b0000; font-weight:bold;">🖨️ Stampa elenco PDF</button>`;
+                    const printBtn = `<button class="btn-print-pdf" onclick="bvPrint()" style="margin-left:15px; cursor:pointer; background:none; border:1px solid #8b0000; padding:5px 10px; border-radius:5px; color:#8b0000; font-weight:bold;">🖨️ Stampa elenco PDF</button>`;
                     resContainer.innerHTML = `<div style="text-align:center; margin-bottom:20px; color:#666;">
                         Trovati <b>${totalFound}</b> risultati totali. ${printBtn}
                     </div>` + htmlOutput;
@@ -518,5 +518,6 @@
             resultsEl.classList.toggle('collapsed');
         }
         </script>
+<script src="../ios_print.js"></script>
 </body>
 </html>

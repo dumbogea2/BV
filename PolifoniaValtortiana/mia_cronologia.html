@@ -77,8 +77,16 @@
         let db = null, collection = null, getDocs = null, query = null, orderBy = null, limit = null, deleteDoc = null;
 
         // Predicato: appartiene alla sezione Studi e Approfondimenti?
+        // Appartiene alla sezione Studi e Approfondimenti?
+        // Aggiungere qui il nome opera di ogni nuovo volume inserito nella sezione.
+        const OPERE_STUDI = [
+            'Polifonia',                                    // Polifonia Valtortiana Vol.1 e Vol.2
+            'La Madonna negli scritti di Maria Valtorta',  // Roschini
+        ];
         function isStudi(item) {
-            return item && item.opera && item.opera.toString().startsWith('Polifonia');
+            if (!item || !item.opera) return false;
+            const op = item.opera.toString();
+            return OPERE_STUDI.some(prefix => op.startsWith(prefix));
         }
 
         if (isCloudMode) {
@@ -147,16 +155,20 @@
             const container = document.getElementById('cronologia-container');
 
             if (historyStudi.length === 0) {
-                container.innerHTML = `<div class="empty-state">Non hai ancora letture recenti negli Studi e Approfondimenti.<br>Apri un volume per iniziare!</div>`;
+                container.innerHTML = `<div class="empty-state">Non hai ancora letture recenti negli Studi e Approfondimenti.<br>Apri un volume (Polifonia, Madonna Roschini…) per iniziare!</div>`;
                 return;
             }
 
             container.innerHTML = historyStudi.map(item => {
                 const intestazione = "📖 " + item.opera;
                 let finalUrl = item.url;
-                // Le URL della Polifonia sono già relative tipo "PolifoniaValtortiana/polifonia.html?vi=..."
-                // Siamo dentro PolifoniaValtortiana/, quindi togliamo il prefisso ridondante
-                if (finalUrl.startsWith('PolifoniaValtortiana/')) {
+                // Le URL sono salvate come assolute (es. "/madonna_roschini.html?idx=3")
+                // o relative con prefisso cartella (es. "PolifoniaValtortiana/polifonia.html?vi=...")
+                // Siamo dentro PolifoniaValtortiana/, quindi normalizziamo entrambi i casi.
+                if (finalUrl.startsWith('/')) {
+                    // URL assoluta → rimuovi lo slash iniziale (path relativo dalla cartella corrente)
+                    finalUrl = finalUrl.substring(1);
+                } else if (finalUrl.startsWith('PolifoniaValtortiana/')) {
                     finalUrl = finalUrl.substring('PolifoniaValtortiana/'.length);
                 }
                 return `

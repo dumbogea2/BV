@@ -112,6 +112,7 @@ document.getElementById('appunti-modal-btn-save').addEventListener('click', () =
 function getReaderContainer() {
     if (window.location.pathname.includes('biblioteca')) return document.getElementById('modalContent');
     // --- MODIFICA POLIFONIA: Aggiunto supporto per il container dei libri in PolifoniaValtortiana ---
+    // 'text-container' è usato sia dai Quaderni/Autobiografia che dalla Madonna Roschini
     return document.getElementById('text-container') || document.getElementById('content') || document.getElementById('modalText-quaderni') || document.getElementById('modalText-polifonia') || document.querySelector('main');
 }
 
@@ -148,23 +149,37 @@ function getBookAndChapter() {
         const numSpan = document.getElementById('currentChapterNum');
         if (numSpan) chapterName = numSpan.innerText;
         if (typeof currentOpenChapter !== 'undefined') urlForRestore = "biblioteca/index.html?cap=" + currentOpenChapter;
-    // --- INIZIO MODIFICA POLIFONIA ---
-    } else if (window.location.pathname.includes('PolifoniaValtortiana')) {
-        // Rileva il nome del libro dall'attributo data-nome-libro (aggiornato da aggiornaStato)
+
+    // --- MADONNA ROSCHINI (DEVE ESSERE PRIMA DI POLIFONIA) ---
+    } else if (window.location.pathname.includes('madonna_roschini')) {
+        const titoloLibro = document.querySelector('[data-nome-libro]');
+        if (titoloLibro) bookName = titoloLibro.getAttribute('data-nome-libro');
+        else bookName = "La Madonna negli scritti di Maria Valtorta";
+        const titleEl = document.querySelector('#text-container h1.title-chapter, #text-container h3');
+        if (titleEl) chapterName = titleEl.innerText;
+        let prefix = "PolifoniaValtortiana/";
+        if (typeof currentIndex !== 'undefined' && currentIndex >= 0) {
+            urlForRestore = prefix + "madonna_roschini.html?idx=" + currentIndex;
+        } else {
+            urlForRestore = prefix + fileName + window.location.search;
+        }
+
+    // --- POLIFONIA (ESCLUDE ROSCHINI) ---
+    } else if (window.location.pathname.includes('PolifoniaValtortiana') &&
+               !window.location.pathname.includes('madonna_roschini')) {
         const titoloLibro = document.querySelector('[data-nome-libro]');
         if (titoloLibro) bookName = titoloLibro.getAttribute('data-nome-libro');
         else bookName = document.title || "Polifonia Valtortiana";
-        // Cerca il titolo nel contenuto renderizzato
         const titleEl = document.querySelector('#content article h1, #content article h2');
         if (titleEl) chapterName = titleEl.innerText;
-        // Costruisci l'URL di ripristino usando lo stato globale della pagina
         let prefix = "PolifoniaValtortiana/";
         if (typeof window.currentPolifoniaVi !== 'undefined' && typeof window.currentPolifoniaType !== 'undefined') {
             urlForRestore = prefix + "polifonia.html?vi=" + window.currentPolifoniaVi + "&type=" + window.currentPolifoniaType + "&id=" + window.currentPolifoniaId;
         } else {
             urlForRestore = prefix + fileName + window.location.search;
         }
-    // --- FINE MODIFICA POLIFONIA ---
+
+    // --- ALTRI LIBRI ---
     } else {
         if (fileName.includes('azaria')) bookName = "Libro di Azaria";
         else if (fileName.includes('romani')) bookName = "Epistola ai Romani";
@@ -354,10 +369,22 @@ window.ripristinaEvidenze = async function() {
     if (targetAppId) {
         if (window.appuntiScrollInterval) clearInterval(window.appuntiScrollInterval);
         let tentativi = 0; let successi = 0;
+        // Madonna Roschini usa layout flex con scroll su #main-content,
+        // scrollIntoView non funziona. Usa scrollTop manuale.
+        const isMadonna = window.location.pathname.includes('madonna_roschini');
         window.appuntiScrollInterval = setInterval(() => {
             const targetEl = document.getElementById(targetAppId);
             if (targetEl) {
-                targetEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+                if (isMadonna) {
+                    const mc = document.getElementById('main-content');
+                    if (mc) {
+                        const containerTop = mc.getBoundingClientRect().top;
+                        const elTop = targetEl.getBoundingClientRect().top;
+                        mc.scrollTop += (elTop - containerTop) - (mc.clientHeight / 2);
+                    }
+                } else {
+                    targetEl.scrollIntoView({ behavior: 'auto', block: 'center' });
+                }
                 targetEl.style.backgroundColor = "rgba(255, 235, 59, 0.4)";
                 setTimeout(() => targetEl.style.backgroundColor = "transparent", 800);
                 successi++;

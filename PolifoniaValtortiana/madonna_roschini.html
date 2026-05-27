@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Guardiano Sicuro V2
+        if (window.location.hostname.includes("github.io")) {
+            if (navigator.onLine) {
+                document.documentElement.style.display = 'none';
+            }
+        }
+    </script>
+    <title>La Madonna negli scritti di Maria Valtorta – Roschini</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0; padding: 0;
+            display: flex; height: 100vh;
+            color: #333;
+            background-color: #c8b89a;
+            background-image: 
+                radial-gradient(ellipse at top left, rgba(139,0,0,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at bottom right, rgba(212,175,55,0.10) 0%, transparent 60%);
+        }
+
+        /* ═══════ SIDEBAR ═══════ */
+        #sidebar {
+            width: 330px;
+            background-color: rgba(240, 234, 220, 0.97);
+            border-right: 2px solid #c0b090;
+            display: flex; flex-direction: column;
+            flex-shrink: 0; height: 100vh; overflow: hidden;
+        }
+
+        .home-button-container {
+            padding: 10px;
+            background-color: rgba(205, 195, 170, 0.95);
+            border-bottom: 1px solid #b8a888;
+            flex-shrink: 0;
+            display: flex; gap: 5px; flex-direction: column;
+        }
+
+        .nav-btn {
+            text-decoration: none; color: #8b0000; font-weight: bold;
+            padding: 8px; border: 1px solid #8b0000; border-radius: 4px;
+            font-size: 13px; transition: 0.2s;
+            background: rgba(255,255,255,0.7); display: block; text-align: center;
+        }
+        .nav-btn:hover { background: #8b0000; color: white; }
+        .nav-btn[style*="556b2f"]:hover { background: #3e5024 !important; }
+        .nav-btn[style*="5d4037"]:hover { background: #3e2723 !important; }
+        .nav-btn[style*="f4f1ea"]:hover { background: #8b0000 !important; color: white !important; }
+
+        #sidebar-header {
+            padding: 12px 15px;
+            background-color: rgba(205,195,170,0.9);
+            font-weight: bold; text-align: center;
+            border-bottom: 1px solid #b8a888;
+            flex-shrink: 0;
+            font-size: 13px; color: #5a3a1a;
+            letter-spacing: 0.3px;
+        }
+
+        .list-container { flex: 1; overflow-y: auto; }
+
+        /* Gruppo Parte */
+        .parte-header {
+            background-color: #8b0000;
+            color: #f4e8d0;
+            padding: 10px 15px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            cursor: default;
+            border-bottom: 1px solid #700000;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        /* Capitoli iniziali separati */
+        .cap-iniziale-item {
+            padding: 12px 18px;
+            border-bottom: 1px solid #ddd0b8;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.2s;
+            line-height: 1.4;
+            background-color: rgba(250,244,230,0.6);
+            color: #5a3010;
+            font-style: italic;
+        }
+        .cap-iniziale-item:hover { background-color: rgba(255,255,255,0.9); }
+        .cap-iniziale-item.active {
+            background-color: #fff; border-left: 4px solid #d4af37;
+            font-weight: bold; color: #8b0000;
+        }
+
+        /* Sezioni del testo */
+        .chapter-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid #ddd0b8;
+            cursor: pointer; font-size: 13px;
+            transition: 0.2s; line-height: 1.4;
+        }
+        .chapter-item:hover { background-color: rgba(255,255,255,0.85); }
+        .chapter-item.active {
+            background-color: #fff; border-left: 5px solid #8b0000;
+            font-weight: bold;
+        }
+        .chapter-item .sez-numero {
+            color: #8b0000; font-weight: bold; font-size: 11px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            display: block; margin-bottom: 2px;
+        }
+        .chapter-item .sez-titolo { color: #333; }
+
+        /* ═══════ AREA RICERCA ═══════ */
+        .search-container {
+            padding: 12px 15px;
+            background-color: #f0e8d8;
+            border-bottom: 2px double #8b0000;
+            flex-shrink: 0;
+        }
+        .search-container input {
+            width: 100%; padding: 8px 30px 8px 8px;
+            box-sizing: border-box;
+            border: 1px solid #8b0000; border-radius: 4px;
+            font-family: 'Georgia', serif; font-size: 13px;
+            margin-bottom: 6px;
+        }
+        .btn-local-search {
+            width: 100%; background-color: #8b0000; color: white;
+            border: none; padding: 8px; border-radius: 4px;
+            font-weight: bold; cursor: pointer; font-size: 12px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .btn-local-search:hover { background-color: #a50000; }
+
+        /* ═══════ CONTENUTO PRINCIPALE ═══════ */
+        #content-wrapper {
+            flex-grow: 1; display: flex; flex-direction: column;
+            overflow: hidden;
+        }
+
+        #main-content {
+            flex-grow: 1; padding: 40px;
+            overflow-y: auto; box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.88);
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            margin: 20px; border-radius: 8px;
+            max-width: 900px;
+            margin-left: auto; margin-right: auto;
+            width: calc(100% - 40px);
+            line-height: 1.75;
+        }
+
+        #main-content h3 {
+            color: #8b0000; font-size: 1.3em;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 8px; margin-top: 5px;
+        }
+        #main-content h4 {
+            color: #5a3010; font-size: 1.1em;
+            margin-top: 25px; border-left: 3px solid #d4af37;
+            padding-left: 10px;
+        }
+        #main-content p {
+            text-align: justify; margin-bottom: 12px;
+        }
+        #main-content em { color: #333; }
+        #main-content strong { color: #5a1a1a; }
+
+        .title-chapter {
+            color: #8b0000; font-size: 1.6em;
+            border-bottom: 3px double #d4af37;
+            padding-bottom: 10px; margin-bottom: 25px;
+        }
+        .parte-label {
+            font-size: 0.85em; color: #888; font-style: italic;
+            letter-spacing: 0.5px; display: block; margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Pulsanti navigazione */
+        .nav-buttons {
+            display: flex; justify-content: space-between;
+            margin-top: 30px; padding-top: 20px;
+            border-top: 1px solid #d1cbb8;
+        }
+        .nav-ctrl {
+            background-color: #8b0000; color: white; border: none;
+            padding: 10px 20px; border-radius: 5px;
+            cursor: pointer; font-size: 14px; transition: background 0.3s;
+        }
+        .nav-ctrl:hover { background-color: #a52a2a; }
+        .nav-ctrl:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        .chapter-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #d1cbb8; text-align: center; }
+        .copyright-text { font-size: 12px; color: #666; line-height: 1.4; font-style: italic; }
+
+        /* Highlights ricerca */
+        .highlight { background-color: #fff176; font-weight: bold; color: #000; }
+
+        /* Bottone stampa fluttuante */
+        #floating-print-btn {
+            display: none; position: fixed; bottom: 30px; right: 40px;
+            background-color: #8b0000; color: white; border: none;
+            border-radius: 50%; width: 52px; height: 52px;
+            font-size: 22px; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.35); z-index: 1000;
+            align-items: center; justify-content: center; transition: 0.2s;
+        }
+        #floating-print-btn:hover { background-color: #a50000; transform: scale(1.1); }
+
+        /* ═══════ MODALE RICERCA ═══════ */
+        #searchModal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.82); z-index: 2000;
+            justify-content: center; align-items: flex-start; padding-top: 50px;
+        }
+        .search-panel {
+            background-color: #f4ece0; border: 4px double #8b0000;
+            border-radius: 8px; width: 90%; max-width: 700px;
+            padding: 25px; box-shadow: 0 0 30px #000;
+            max-height: 85vh; overflow-y: auto;
+            position: relative; box-sizing: border-box;
+        }
+        .modal-close-search { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #8b0000; font-weight: bold; }
+        .modal-close-search:hover { color: #d4af37; }
+        .search-section { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 20px; }
+        .search-title { color: #8b0000; font-weight: bold; margin-bottom: 10px; display: block; }
+        .modal-input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+        .modal-input-group input[type="text"], .modal-input-group input[type="number"] {
+            padding: 8px; border: 1px solid #8b0000; border-radius: 4px; flex-grow: 1; font-family: inherit;
+        }
+        .modal-btn-search { background-color: #8b0000; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .modal-btn-search:hover { background-color: #a50000; }
+        .modal-btn-reset { background-color: #5d4037; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
+        #modalSearchResults { margin-top: 10px; border-top: 2px solid #dcd8ce; padding-top: 15px; }
+        #modalSearchResults .result-item {
+            background: white; border: 1px solid #dcd8ce;
+            padding: 10px; margin-bottom: 8px; border-radius: 4px;
+            cursor: pointer; transition: background 0.3s;
+        }
+        #modalSearchResults .result-item:hover { background-color: #fff8e1; border-color: #ffd700; }
+        #modalSearchResults .result-item.visited { background-color: #e8e4db; border-left: 5px solid #d4af37; }
+        #modalSearchResults .res-cap { font-weight: bold; color: #8b0000; font-size: 0.95em; }
+        #modalSearchResults .res-snippet { font-size: 0.9em; color: #444; font-style: italic; margin-top: 4px; }
+        #modalSearchResults .result-item mark.highlight { background-color: #ffd700; color: #000; padding: 0 2px; border-radius: 2px; }
+
+        /* ═══════ STAMPA ═══════ */
+        @media print {
+            #sidebar, #floating-print-btn, .nav-buttons { display: none !important; }
+            body { display: block !important; }
+            #content-wrapper, #main-content {
+                box-shadow: none !important; margin: 0 !important;
+                padding: 0 !important; width: 100% !important; max-width: 100% !important;
+            }
+        }
+
+        /* ═══════ RESPONSIVE ═══════ */
+        @media (max-width: 900px) {
+            body { flex-direction: column; height: 100vh; overflow: hidden; }
+            #sidebar { width: 100%; height: auto; max-height: 40vh; overflow-y: auto; border-right: none; border-bottom: 3px solid #8b0000; flex-shrink: 0; }
+            #content-wrapper { flex-grow: 1; padding: 10px; height: 60vh; overflow: hidden; }
+            #main-content { margin: 0; padding: 15px; width: 100%; height: 100%; overflow-y: auto; }
+            .home-button-container { flex-direction: row; flex-wrap: wrap; }
+            .nav-btn { font-size: 12px; padding: 5px 8px; flex: 1 1 45%; }
+            .nav-buttons { flex-direction: column; gap: 10px; }
+            button.nav-ctrl { width: 100%; padding: 12px; }
+        }
+    </style>
+    <script src="madonna_roschini.js"></script>
+</head>
+<body>
+
+<div id="sidebar" data-nome-libro="La Madonna negli scritti di Maria Valtorta">
+    <div class="home-button-container">
+            <button class="nav-btn nav-btn-primary" onclick="tornHomeVolume()">📖 Home Madonna Roschini</button>
+            <a href="home.html" class="nav-btn" style="background:#556b2f;color:#fff;border-color:#556b2f;">📚 Studi e Approfondimenti</a>
+            <a href="../index.html" class="nav-btn" style="background:#f4f1ea;color:#8b0000;border-color:#8b0000;">🏠 Torna al Portale</a>
+            <a href="ricerca_studi.html" class="nav-btn" style="background:#5d4037;color:#fff;border-color:#5d4037;">🔍 Ricerca nei Volumi</a>
+            <button class="nav-btn" onclick="openSearch()" style="background:#8b0000;color:#fff;border-color:#8b0000;">🔎 Cerca in questo Volume</button>
+            <a href="mia_cronologia.html" class="nav-btn" style="background:#5d4037;color:#fff;border-color:#5d4037;">🕒 Riprendi la Lettura</a>
+            <a href="miei_appunti.html" class="nav-btn" style="background:#5d4037;color:#fff;border-color:#5d4037;">📝 I miei Appunti</a>
+            <a href="#" id="btn-back-search" class="nav-btn" style="display:none;background:#8b0000;color:#fff;border-color:#8b0000;"></a>
+    </div>
+
+    <div id="sidebar-header">
+        La Madonna negli scritti di Maria Valtorta<br>
+        <span style="font-weight:normal; font-style:italic; font-size:11px;">P. G. M. Roschini O.S.M.</span>
+    </div>
+
+    <div class="list-container">
+        <ul id="index-list" style="list-style:none; padding:0; margin:0;"></ul>
+    </div>
+</div>
+
+<div id="content-wrapper">
+    <div id="main-content">
+        <div id="text-container">
+            <h1 style="color:#8b0000; border-bottom: 3px double #d4af37; padding-bottom:12px;">
+                La Madonna negli scritti di Maria Valtorta
+            </h1>
+            <p style="font-style:italic; border-left:4px solid #d4af37; padding-left:15px; color:#5a3010; line-height:1.7; margin-bottom:20px; background:rgba(212,175,55,0.07); padding:12px 15px; border-radius:0 6px 6px 0;">
+                «La Mariologia quale risulta dagli scritti di Maria Valtorta è stata per me una vera rivelazione. Nessun altro scritto mariano era stato in grado di darmi del Capolavoro di Dio un'idea così chiara, così viva, così completa, così luminosa e così affascinante: semplice insieme e sublime.»
+            </p>
+            <p style="color:#666; font-size:14px; text-align:center; margin-top:25px;">
+                <strong>P. Gabriele M. Roschini O.S.M.</strong> — edizione 1986<br>
+                <em>Seleziona una sezione dall'indice per iniziare la lettura.</em>
+            </p>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-ctrl" id="btn-prev" onclick="prevSection()" style="display:none;">← Precedente</button>
+            <button class="nav-ctrl" id="btn-next" onclick="nextSection()" style="display:none;">Successivo →</button>
+        </div>
+        <div id="footer-container"></div>
+    </div>
+</div>
+
+<button id="floating-print-btn" onclick="printSection()" title="Stampa questa sezione">🖨️</button>
+
+<!-- MODALE DI RICERCA -->
+<div id="searchModal">
+    <div class="search-panel">
+        <div class="modal-close-search" onclick="closeSearch()" title="Chiudi">✕</div>
+        <h2 style="margin-top:0; color:#8b0000; text-align:center; border-bottom: 2px double #d4af37; padding-bottom:10px;">
+            Ricerca nel Volume
+        </h2>
+
+        <div class="search-section">
+            <span class="search-title">Tipo di ricerca:</span>
+            <div style="margin-bottom:10px;">
+                <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="simple_partial" checked onchange="toggleLocalMode()"> Semplice Parziale</label>
+                <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="simple_exact" onchange="toggleLocalMode()"> Semplice Esatta</label>
+                <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="or_exact" onchange="toggleLocalMode()"> Multipla (O)</label>
+                <label style="cursor:pointer;"><input type="radio" name="localType" value="proximity" onchange="toggleLocalMode()"> Concordanze</label>
+            </div>
+
+            <div id="localSimpleBox" class="modal-input-group">
+                <input type="text" id="local-search-input" placeholder="Es. Immacolata, Corredentrice...">
+                <button class="modal-btn-search" onclick="startSearch()">Cerca</button>
+            </div>
+            <div id="localOrBox" class="modal-input-group" style="display:none;">
+                <input type="text" id="orWord1" placeholder="Parola 1">
+                <strong style="align-self:center; color:#8b0000;">OPPURE</strong>
+                <input type="text" id="orWord2" placeholder="Parola 2">
+                <button class="modal-btn-search" onclick="startSearch()">Cerca</button>
+            </div>
+        </div>
+
+        <div id="localProximitySection" class="search-section" style="display:none; border-bottom:none; margin-bottom:5px;">
+            <span class="search-title">Ricerca per Concordanze (vicinanza)</span>
+            <div class="modal-input-group">
+                <input type="text" id="localWord1" placeholder="Parola 1">
+                <input type="number" id="localDist" value="30" style="width:70px;" title="Distanza max parole">
+                <input type="text" id="localWord2" placeholder="Parola 2">
+                <button class="modal-btn-search" onclick="startSearch()">Trova</button>
+            </div>
+            <div style="font-size:0.8em; color:#666; margin-top:5px;">Trova due parole distanti al massimo N parole l'una dall'altra.</div>
+        </div>
+
+        <div style="text-align:right; margin-bottom:5px;">
+            <button class="modal-btn-reset" onclick="resetSearch()">🗑️ Pulisci</button>
+        </div>
+        <div id="modalSearchResults"></div>
+    </div>
+</div>
+
+<script>
+    // ═══════════════════════════════════════════════════
+    // STATO
+    // ═══════════════════════════════════════════════════
+    let allSections = [];   // array piatto di tutte le sezioni (cap.iniziali + sezioni parti)
+    let currentIndex = -1;
+    let searchKeywords = [];
+    let isSearchActive = false;
+    let searchIsPartial = true;
+
+    const indexList    = document.getElementById('index-list');
+    const textContainer= document.getElementById('text-container');
+    const resultsDiv   = document.getElementById('modalSearchResults');
+    const floatBtn     = document.getElementById('floating-print-btn');
+
+    // ═══════════════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════════════
+    window.onload = function() {
+        if (typeof madonna_roschini === 'undefined') {
+            alert("Errore: impossibile caricare madonna_roschini.js");
+            return;
+        }
+        const archivio = madonna_roschini;
+
+        // 1. Capitoli iniziali
+        (archivio.capitoliIniziali || []).forEach(cap => {
+            allSections.push({
+                tipo: 'iniziale',
+                lezione: cap.titolo,
+                testo: cap.testo,
+                parteTitolo: 'Premesse',
+                parteId: 'iniziale'
+            });
+        });
+
+        // 2. Sezioni delle parti
+        (archivio.parti || []).forEach(parte => {
+            (parte.sezioni || []).forEach(sez => {
+                allSections.push({
+                    tipo: 'sezione',
+                    lezione: sez.lezione,
+                    testo: sez.testo,
+                    parteTitolo: parte.titolo,
+                    parteId: parte.id
+                });
+            });
+        });
+
+        renderSidebar(archivio);
+
+        // ── Apertura diretta da URL (es. da ricerca_studi.html) ──
+        const params = new URLSearchParams(window.location.search);
+        const openIdx = params.get('idx');
+        const keys    = params.get('keys');
+        const mode    = params.get('mode');
+        const from    = params.get('from');
+
+        if (openIdx !== null) {
+            // Ripristina keywords di ricerca se presenti
+            if (keys) {
+                searchKeywords = decodeURIComponent(keys).split(',').filter(Boolean);
+                isSearchActive = true;
+                searchIsPartial = (mode === 'partial');
+            }
+            // Mostra pulsante "Torna ai Risultati" se si arriva dalla ricerca studi
+            if (from === 'studi') {
+                const btnBack = document.getElementById('btn-back-search');
+                if (btnBack) {
+                    btnBack.style.display = 'block';
+                    btnBack.innerText = '🔙 Torna ai Risultati';
+                    btnBack.onclick = () => history.back();
+                }
+            }
+
+            // Salva l'appId in una variabile globale: sarà usato da loadSection
+            // dopo ripristinaEvidenze, senza bisogno di delay artificiali
+            const appId = params.get('appId');
+            if (appId) window._pendingAppId = appId;
+
+            // fromSearch=true solo se si arriva dalla ricerca (con keys),
+            // false se si arriva da appunti/cronologia (per ripristinare sidebar e scroll)
+            const isFromSearch = !!(keys || from === 'studi');
+            setTimeout(() => loadSection(parseInt(openIdx), isFromSearch), 100);
+        }
+    };
+
+    // ═══════════════════════════════════════════════════
+    // COSTRUZIONE SIDEBAR
+    // ═══════════════════════════════════════════════════
+    function renderSidebar(archivio) {
+        indexList.innerHTML = '';
+        let globalIdx = 0;
+
+        // Capitoli iniziali
+        if (archivio.capitoliIniziali && archivio.capitoliIniziali.length > 0) {
+            const header = document.createElement('li');
+            header.className = 'parte-header';
+            header.textContent = '✦ Premesse';
+            indexList.appendChild(header);
+
+            archivio.capitoliIniziali.forEach(cap => {
+                const li = document.createElement('li');
+                li.className = 'cap-iniziale-item';
+                li.id = 'item-' + globalIdx;
+                li.innerHTML = `<em>${cap.titolo}</em>`;
+                const idx = globalIdx;
+                li.onclick = () => loadSection(idx);
+                indexList.appendChild(li);
+                globalIdx++;
+            });
+        }
+
+        // Parti e sezioni
+        (archivio.parti || []).forEach(parte => {
+            const header = document.createElement('li');
+            header.className = 'parte-header';
+            // Spezza titolo su " – " per due righe
+            const [ptit, psub] = parte.titolo.split(' – ');
+            header.innerHTML = `${ptit}<br><span style="font-weight:normal; font-size:10px; opacity:0.85;">${psub || ''}</span>`;
+            indexList.appendChild(header);
+
+            (parte.sezioni || []).forEach(sez => {
+                const li = document.createElement('li');
+                li.className = 'chapter-item';
+                li.id = 'item-' + globalIdx;
+                // Estrai numero romano e titolo
+                const match = sez.lezione.match(/^([IVX]+)\.\s+(.+)$/);
+                if (match) {
+                    li.innerHTML = `<span class="sez-numero">${match[1]}.</span><span class="sez-titolo">${match[2]}</span>`;
+                } else {
+                    li.innerHTML = `<span class="sez-titolo">${sez.lezione}</span>`;
+                }
+                const idx = globalIdx;
+                li.onclick = () => loadSection(idx);
+                indexList.appendChild(li);
+                globalIdx++;
+            });
+        });
+    }
+
+    // ═══════════════════════════════════════════════════
+    // CARICA SEZIONE
+    // ═══════════════════════════════════════════════════
+    function loadSection(index, fromSearch = false) {
+        currentIndex = index;
+        const cap = allSections[index];
+
+        // ── Salva in cronologia ──
+        if (typeof salvaInCronologia === 'function') {
+            salvaInCronologia(
+                index,
+                cap.lezione,
+                'La Madonna negli scritti di Maria Valtorta',
+                'PolifoniaValtortiana',
+                '/madonna_roschini.html?idx='
+            );
+        }
+        let htmlTesto = cap.testo || '';
+
+        // Highlight keywords se ricerca attiva
+        if (isSearchActive && searchKeywords.length > 0) {
+            searchKeywords.forEach(kw => {
+                const safe = kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                let re;
+                if (searchIsPartial) {
+                    re = new RegExp('(' + safe + ')', 'gi');
+                } else {
+                    re = new RegExp('(?<!\\p{L})(' + safe + ')(?!\\p{L})', 'giu');
+                }
+                htmlTesto = htmlTesto.replace(/>([^<]*)</g, (m, txt) =>
+                    '>' + txt.replace(re, "<span class='highlight'>$1</span>") + '<'
+                );
+            });
+        }
+
+        // Intestazione con etichetta parte
+        const parteLabel = cap.tipo === 'iniziale'
+            ? `<span class="parte-label">Premesse</span>`
+            : `<span class="parte-label">${cap.parteTitolo || ''}</span>`;
+
+        textContainer.innerHTML = `
+            ${parteLabel}
+            <h1 class="title-chapter">${cap.lezione}</h1>
+            ${htmlTesto}
+        `;
+
+        // Footer copyright
+        document.getElementById('footer-container').innerHTML = `
+            <div class="chapter-footer">
+                <div class="copyright-text"><br>
+                    P. Gabriele M. Roschini O.S.M. — <em>La Madonna negli scritti di Maria Valtorta</em><br>
+                    © Centro Editoriale Valtortiano srl — Isola del Liri (FR)
+                </div>
+            </div>`;
+
+        // Aggiorna sidebar
+        document.querySelectorAll('.chapter-item, .cap-iniziale-item').forEach(el => el.classList.remove('active'));
+        const activeEl = document.getElementById('item-' + index);
+        if (activeEl) {
+            activeEl.classList.add('active');
+            if (!fromSearch) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        updateButtons();
+        floatBtn.style.display = 'flex';
+
+        // Ripristina evidenze appunti, poi scrolla all'appunto specifico se richiesto
+        if (typeof window.ripristinaEvidenze === 'function') {
+            setTimeout(() => {
+                window.ripristinaEvidenze();
+                // Scroll all'appunto (da "Vai al Capitolo" in miei_appunti.html)
+                // Eseguito qui — dopo ripristinaEvidenze — così gli span sono già nel DOM.
+                // scrollIntoView non funziona sul layout flex della Madonna (scroll su #main-content).
+                if (window._pendingAppId) {
+                    const appId = window._pendingAppId;
+                    window._pendingAppId = null;
+                    if (window.appuntiScrollInterval) clearInterval(window.appuntiScrollInterval);
+                    let tentativi = 0;
+                    window.appuntiScrollInterval = setInterval(() => {
+                        const targetEl = document.getElementById(appId);
+                        if (targetEl) {
+                            const mc = document.getElementById('main-content');
+                            if (mc) {
+                                const containerTop = mc.getBoundingClientRect().top;
+                                const elTop = targetEl.getBoundingClientRect().top;
+                                mc.scrollTop += (elTop - containerTop) - (mc.clientHeight / 2);
+                            }
+                            targetEl.style.backgroundColor = 'rgba(255, 235, 59, 0.5)';
+                            setTimeout(() => { targetEl.style.backgroundColor = 'transparent'; }, 1200);
+                            clearInterval(window.appuntiScrollInterval);
+                        }
+                        if (++tentativi > 20) clearInterval(window.appuntiScrollInterval);
+                    }, 100);
+                }
+            }, 300);
+        }
+
+        // Scroll
+        const mc = document.getElementById('main-content');
+        if (fromSearch && searchKeywords.length > 0) {
+            // Da ricerca: porta al primo highlight
+            mc.scrollTop = 0;
+            setTimeout(() => {
+                const mark = textContainer.querySelector('.highlight');
+                if (mark) mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        } else if (window._pendingAppId) {
+            // Da "Vai al Capitolo" (miei_appunti): NON ripristinare scroll salvato,
+            // sarà il blocco _pendingAppId sopra a scrollare all'appunto specifico.
+            mc.scrollTop = 0;
+        } else if (!fromSearch) {
+            // Navigazione manuale (click sidebar / prev-next): ripristina posizione salvata
+            mc.scrollTop = 0;
+            ripristinaScrollMadonna(index);
+        } else {
+            // Apertura diretta da URL (cronologia/appunti) senza keywords: ripristina scroll
+            mc.scrollTop = 0;
+            ripristinaScrollMadonna(index);
+        }
+    }
+
+    function tornHomeVolume() {
+        // Riporta alla schermata iniziale del volume
+        currentIndex = -1;
+        isSearchActive = false;
+        searchKeywords = [];
+        document.getElementById('text-container').innerHTML = `
+            <h1 style="color:#8b0000; border-bottom: 3px double #d4af37; padding-bottom:12px;">
+                La Madonna negli scritti di Maria Valtorta
+            </h1>
+            <p style="font-style:italic; border-left:4px solid #d4af37; padding-left:15px; color:#5a3010; line-height:1.7; margin-bottom:20px; background:rgba(212,175,55,0.07); padding:12px 15px; border-radius:0 6px 6px 0;">
+                «La Mariologia quale risulta dagli scritti di Maria Valtorta è stata per me una vera rivelazione. Nessun altro scritto mariano era stato in grado di darmi del Capolavoro di Dio un'idea così chiara, così viva, così completa, così luminosa e così affascinante: semplice insieme e sublime.»
+            </p>
+            <p style="color:#666; font-size:14px; text-align:center; margin-top:25px;">
+                <strong>P. Gabriele M. Roschini O.S.M.</strong> — edizione 1986<br>
+                <em>Seleziona una sezione dall'indice per iniziare la lettura.</em>
+            </p>`;
+        document.getElementById('footer-container').innerHTML = '';
+        document.getElementById('btn-prev').style.display = 'none';
+        document.getElementById('btn-next').style.display = 'none';
+        document.getElementById('floating-print-btn').style.display = 'none';
+        document.querySelectorAll('.chapter-item, .cap-iniziale-item').forEach(el => el.classList.remove('active'));
+        document.getElementById('main-content').scrollTop = 0;
+    }
+
+    function nextSection() { if (currentIndex < allSections.length - 1) loadSection(currentIndex + 1); }
+    function prevSection() { if (currentIndex > 0) loadSection(currentIndex - 1); }
+
+    function updateButtons() {
+        const bp = document.getElementById('btn-prev');
+        const bn = document.getElementById('btn-next');
+        bp.style.display = bn.style.display = 'block';
+        bp.disabled = (currentIndex === 0);
+        bn.disabled = (currentIndex === allSections.length - 1);
+    }
+
+    // ═══════════════════════════════════════════════════
+    // RICERCA
+    // ═══════════════════════════════════════════════════
+    function toggleLocalMode() {
+        const type = document.querySelector('input[name="localType"]:checked').value;
+        document.getElementById('localSimpleBox').style.display =
+            (type === 'simple_partial' || type === 'simple_exact') ? 'flex' : 'none';
+        document.getElementById('localOrBox').style.display =
+            (type === 'or_exact') ? 'flex' : 'none';
+        document.getElementById('localProximitySection').style.display =
+            (type === 'proximity') ? 'block' : 'none';
+    }
+
+    function openSearch() {
+        document.getElementById('searchModal').style.display = 'flex';
+        document.getElementById('btn-back-search').style.display = 'none';
+        floatBtn.style.display = 'none';
+        setTimeout(() => document.getElementById('local-search-input').focus(), 50);
+    }
+    function closeSearch() {
+        document.getElementById('searchModal').style.display = 'none';
+        if (isSearchActive) {
+            document.getElementById('btn-back-search').style.display = 'block';
+            document.getElementById('btn-back-search').innerText = '🔙 Torna ai Risultati';
+            document.getElementById('btn-back-search').onclick = openSearch;
+        }
+    }
+    function resetSearch() {
+        document.getElementById('local-search-input').value = '';
+        if (document.getElementById('orWord1')) document.getElementById('orWord1').value = '';
+        if (document.getElementById('orWord2')) document.getElementById('orWord2').value = '';
+        if (document.getElementById('localWord1')) document.getElementById('localWord1').value = '';
+        if (document.getElementById('localWord2')) document.getElementById('localWord2').value = '';
+        resultsDiv.innerHTML = '';
+        isSearchActive = false;
+        searchKeywords = [];
+    }
+
+    function startSearch() {
+        const type = document.querySelector('input[name="localType"]:checked').value;
+        searchIsPartial = (type === 'simple_partial');
+        let terms = [];
+        let dist = 30;
+
+        if (type === 'simple_partial' || type === 'simple_exact') {
+            const v = document.getElementById('local-search-input').value.trim().toLowerCase();
+            if (!v) return;
+            terms = [v];
+        } else if (type === 'or_exact') {
+            const w1 = document.getElementById('orWord1').value.trim().toLowerCase();
+            const w2 = document.getElementById('orWord2').value.trim().toLowerCase();
+            if (!w1 && !w2) return;
+            terms = [w1, w2].filter(Boolean);
+        } else {
+            const w1 = document.getElementById('localWord1').value.trim().toLowerCase();
+            const w2 = document.getElementById('localWord2').value.trim().toLowerCase();
+            dist = parseInt(document.getElementById('localDist').value) || 30;
+            if (!w1 || !w2) return;
+            terms = [w1, w2];
+        }
+
+        const results = [];
+        allSections.forEach((cap, idx) => {
+            let cleanText = (cap.testo || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ')
+                .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').toLowerCase();
+            let found = false; let snippet = '';
+
+            if (type === 'simple_partial') {
+                const pos = cleanText.indexOf(terms[0]);
+                if (pos >= 0) {
+                    found = true;
+                    const raw = '...' + cleanText.substring(Math.max(0, pos-40), Math.min(cleanText.length, pos+80)) + '...';
+                    const safe = terms[0].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    snippet = raw.replace(new RegExp('(' + safe + ')', 'gi'), '<mark class="highlight">$1</mark>');
+                }
+            } else if (type === 'simple_exact') {
+                const safe = terms[0].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                const re = new RegExp('(?<!\\p{L})' + safe + '(?!\\p{L})', 'iu');
+                const m = cleanText.match(re);
+                if (m) {
+                    found = true;
+                    const pos = m.index;
+                    const raw = '...' + cleanText.substring(Math.max(0, pos-40), Math.min(cleanText.length, pos+80)) + '...';
+                    snippet = raw.replace(new RegExp('(?<!\\p{L})(' + safe + ')(?!\\p{L})', 'giu'), '<mark class="highlight">$1</mark>');
+                }
+            } else if (type === 'or_exact') {
+                for (const term of terms) {
+                    const safe = term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    const re = new RegExp('(?<!\\p{L})' + safe + '(?!\\p{L})', 'iu');
+                    const m = cleanText.match(re);
+                    if (m) {
+                        found = true;
+                        const pos = m.index;
+                        const raw = '...' + cleanText.substring(Math.max(0, pos-40), Math.min(cleanText.length, pos+80)) + '...';
+                        snippet = raw.replace(new RegExp('(?<!\\p{L})(' + safe + ')(?!\\p{L})', 'giu'), '<mark class="highlight">$1</mark>');
+                        break;
+                    }
+                }
+            } else { // proximity
+                const safe1 = terms[0].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                const safe2 = terms[1].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                const re1 = new RegExp('(?<!\\p{L})' + safe1 + '(?!\\p{L})', 'iu');
+                const re2 = new RegExp('(?<!\\p{L})' + safe2 + '(?!\\p{L})', 'iu');
+                const words = cleanText.split(/\s+/).filter(w => w.length > 0);
+                let idx1 = [], idx2 = [];
+                words.forEach((w, i) => { if (re1.test(w)) idx1.push(i); if (re2.test(w)) idx2.push(i); });
+                if (idx1.length > 0 && idx2.length > 0) {
+                    let minD = Infinity, bestPos = 0;
+                    idx1.forEach(i1 => idx2.forEach(i2 => {
+                        const d = Math.abs(i1-i2);
+                        if (d < minD) { minD = d; bestPos = Math.min(i1, i2); }
+                    }));
+                    if (minD <= dist) {
+                        found = true;
+                        const raw = '...' + words.slice(Math.max(0, bestPos-8), bestPos+dist+8).join(' ') + '...';
+                        const hlFn = (t, w) => {
+                            const s = w.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                            return t.replace(new RegExp('(?<!\\p{L})(' + s + ')(?!\\p{L})', 'giu'), '<mark class="highlight">$1</mark>');
+                        };
+                        snippet = hlFn(hlFn(raw, terms[0]), terms[1]);
+                    }
+                }
+            }
+
+            if (found) {
+                const titoloRisultato = (cap.tipo === 'iniziale' ? '✦ ' : '') + cap.lezione;
+                results.push({ idx, titolo: titoloRisultato, snippet });
+            }
+        });
+
+        isSearchActive = true;
+        searchKeywords = terms;
+
+        resultsDiv.innerHTML = `<div style="margin-bottom:10px; font-weight:bold;">Trovati: <strong>${results.length}</strong> sezioni</div>`;
+        if (results.length === 0) {
+            resultsDiv.innerHTML += `<div style="padding:15px; text-align:center; color:#666; font-style:italic;">Nessun risultato trovato.</div>`;
+            return;
+        }
+        results.forEach(res => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.innerHTML = `<div class="res-cap">${res.titolo}</div><div class="res-snippet"><small>${res.snippet}</small></div>`;
+            div.onclick = function() {
+                this.classList.add('visited');
+                loadSection(res.idx, true);
+                document.getElementById('btn-back-search').style.display = 'block';
+                document.getElementById('btn-back-search').innerText = '🔙 Torna ai Risultati';
+                document.getElementById('btn-back-search').onclick = openSearch;
+                closeSearch();
+            };
+            resultsDiv.appendChild(div);
+        });
+    }
+
+    // ══════════════════════════════════════════════════
+    // SCROLL SAVE / RESTORE  — pattern Polifonia
+    // Usa #main-content (overflow-y) invece di window,
+    // perché il layout Madonna è flex con scroll interno.
+    // Compatibile iOS: salva con debounce su scroll,
+    // + beforeunload + pagehide + visibilitychange.
+    // ══════════════════════════════════════════════════
+
+    function getScrollKey() {
+        if (currentIndex >= 0) return 'madonna_scroll_' + currentIndex;
+        return null;
+    }
+
+    function salvaScrollCorrente() {
+        const chiave = getScrollKey();
+        if (!chiave) return;
+        const mc = document.getElementById('main-content');
+        if (!mc) return;
+        let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni') || '{}');
+        posizioni[chiave] = mc.scrollTop;
+        localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
+    }
+
+    function ripristinaScrollMadonna(index) {
+        const chiave = 'madonna_scroll_' + index;
+        const posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni') || '{}');
+        const pos = posizioni[chiave];
+        if (pos) {
+            const mc = document.getElementById('main-content');
+            if (!mc) return;
+            // Doppio tentativo: subito + dopo rendering completo
+            mc.scrollTop = pos;
+            setTimeout(() => { mc.scrollTop = pos; }, 400);
+        }
+    }
+
+    // Salva con debounce 500ms durante la lettura (funziona su iOS dove beforeunload è inaffidabile)
+    let _scrollSaveTimeout;
+    (function attachScrollSave() {
+        const mc = document.getElementById('main-content');
+        if (!mc) return;
+        mc.addEventListener('scroll', () => {
+            clearTimeout(_scrollSaveTimeout);
+            _scrollSaveTimeout = setTimeout(salvaScrollCorrente, 500);
+        }, { passive: true });
+    })();
+
+    // Rete di sicurezza per desktop + iOS Safari
+    window.addEventListener('beforeunload', salvaScrollCorrente);
+    window.addEventListener('pagehide', salvaScrollCorrente);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') salvaScrollCorrente();
+    });
+
+    function printSection() {
+        window.print();
+    }
+
+    // Chiudi modale cliccando fuori
+    document.getElementById('searchModal').addEventListener('click', function(e) {
+        if (e.target === this) closeSearch();
+    });
+    // Esponi dati capitolo corrente per appunti.js
+function getCurrentChapterInfo() {
+    if (currentIndex >= 0 && allSections && allSections[currentIndex]) {
+        return {
+            url: 'madonna_roschini.html?idx=' + currentIndex,
+            chapter: allSections[currentIndex].lezione
+        };
+    }
+    return null; // Home o nessun capitolo
+}
+</script>
+
+<!-- CRONOLOGIA + APPUNTI — caricati dopo il DOM, come nella Polifonia -->
+<script src="../cronologia.js"></script>
+<script src="../appunti.js"></script>
+
+<script>
+    // --- CONTROLLO ACCESSO DINAMICO V2 (Anti-Crash Offline) ---
+    (async function checkAuthMadonnaRoschini() {
+        const isOnline = window.location.hostname.includes("github.io");
+        if (isOnline) {
+            try {
+                const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                    authDomain: "appuntivaltorta.firebaseapp.com",
+                    projectId: "appuntivaltorta",
+                    storageBucket: "appuntivaltorta.firebasestorage.app",
+                    messagingSenderId: "940851152715",
+                    appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+                };
+
+                const app = fApp.getApps().length === 0 ? fApp.initializeApp(firebaseConfig) : fApp.getApp();
+                const auth = fAuth.getAuth(app);
+
+                fAuth.onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        document.documentElement.style.display = '';
+                        document.body.style.display = "flex";
+                        localStorage.setItem('modalita_lettura', 'cloud');
+                    } else {
+                        window.location.replace("/BV/login.html");
+                    }
+                });
+            } catch (error) {
+                console.warn("Firebase non raggiungibile.");
+                document.documentElement.style.display = '';
+                document.body.style.display = "flex";
+            }
+        }
+    })();
+</script>
+</body>
+</html>

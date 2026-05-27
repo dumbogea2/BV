@@ -673,12 +673,12 @@
         /* --- FUNZIONI DI STAMPA INTELLIGENTI --- */
         function printChapter() {
             document.body.classList.remove('print-search-mode');
-            window.print();
+            bvPrint();
         }
 
         function printSearchResults() {
             document.body.classList.add('print-search-mode');
-            window.print();
+            bvPrint();
             setTimeout(() => {
                 document.body.classList.remove('print-search-mode');
             }, 1000);
@@ -743,5 +743,6 @@
         }
     })();
 </script>
+<script src="../ios_print.js"></script>
 </body>
 </html>
