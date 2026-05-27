@@ -254,12 +254,50 @@
 
         /* ═══════ STAMPA ═══════ */
         @media print {
-            #sidebar, #floating-print-btn, .nav-buttons { display: none !important; }
-            body { display: block !important; }
-            #content-wrapper, #main-content {
+            /* Elementi sempre nascosti in stampa */
+            #sidebar, #floating-print-btn, .nav-buttons, .home-button-container,
+            .modal-close-search, .search-section, .modal-btn-search, .modal-btn-reset,
+            #btn-back-search, #btn-toggle-search, .nav-btn { display: none !important; }
+
+            /* 1. Modalità Stampa Sezione (predefinita) */
+            body { display: block !important; background: white !important; }
+            body:not(.print-search-mode) #searchModal { display: none !important; }
+            body:not(.print-search-mode) #content-wrapper,
+            body:not(.print-search-mode) #main-content {
                 box-shadow: none !important; margin: 0 !important;
                 padding: 0 !important; width: 100% !important; max-width: 100% !important;
             }
+
+            /* 2. Modalità Stampa Risultati Ricerca (body.print-search-mode) */
+            body.print-search-mode { background: white !important; background-color: white !important; }
+            body.print-search-mode #sidebar         { display: none !important; }
+            body.print-search-mode #content-wrapper { display: none !important; }
+            body.print-search-mode #searchModal {
+                display: block !important;
+                position: static !important;
+                background: white !important;
+                background-color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                width: 100% !important;
+                height: auto !important;
+                padding: 0 !important;
+                overflow: visible !important;
+            }
+            body.print-search-mode .search-panel {
+                border: none !important; box-shadow: none !important;
+                width: 100% !important; max-width: none !important;
+                max-height: none !important; overflow: visible !important;
+                padding: 10px 0 !important; margin: 0 !important;
+                background: white !important;
+            }
+            body.print-search-mode .search-panel h2 { color: black !important; border-bottom: 2px solid #000; }
+            body.print-search-mode #modalSearchResults { display: block !important; border: none !important; overflow: visible !important; }
+            body.print-search-mode #btn-print-search  { display: none !important; }
+
+            /* Stile risultati */
+            .result-item { page-break-inside: avoid; border: 1px solid #ccc !important; color: black !important; margin-bottom: 10px !important; }
+            .result-item.visited { border-left: 5px solid #555 !important; background-color: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
 
         /* ═══════ RESPONSIVE ═══════ */
@@ -366,6 +404,9 @@
 
         <div style="text-align:right; margin-bottom:5px;">
             <button class="modal-btn-reset" onclick="resetSearch()">🗑️ Pulisci</button>
+        </div>
+        <div style="margin-bottom:8px;">
+            <button id="btn-print-search" onclick="printSearchResults()" style="display:none; cursor:pointer; background:none; border:1px solid #8b0000; padding:3px 10px; border-radius:5px; color:#8b0000; font-weight:bold; font-size:12px; font-family:inherit;">🖨️ Stampa PDF</button>
         </div>
         <div id="modalSearchResults"></div>
     </div>
@@ -689,11 +730,12 @@
     }
     function closeSearch() {
         document.getElementById('searchModal').style.display = 'none';
-        if (isSearchActive) {
-            document.getElementById('btn-back-search').style.display = 'block';
-            document.getElementById('btn-back-search').innerText = '🔙 Torna ai Risultati';
-            document.getElementById('btn-back-search').onclick = openSearch;
+        const btnBack = document.getElementById('btn-back-search');
+        if (isSearchActive && btnBack && btnBack.innerText.trim() !== '') {
+            btnBack.style.display = 'block';
         }
+        const printSearchBtn = document.getElementById('btn-print-search');
+        if (printSearchBtn) printSearchBtn.style.display = 'none';
     }
     function resetSearch() {
         document.getElementById('local-search-input').value = '';
@@ -802,6 +844,8 @@
         searchKeywords = terms;
 
         resultsDiv.innerHTML = `<div style="margin-bottom:10px; font-weight:bold;">Trovati: <strong>${results.length}</strong> sezioni</div>`;
+        const printSearchBtn = document.getElementById('btn-print-search');
+        if (printSearchBtn) printSearchBtn.style.display = results.length > 0 ? '' : 'none';
         if (results.length === 0) {
             resultsDiv.innerHTML += `<div style="padding:15px; text-align:center; color:#666; font-style:italic;">Nessun risultato trovato.</div>`;
             return;
@@ -877,7 +921,29 @@
     });
 
     function printSection() {
-        window.print();
+        bvPrint();
+    }
+
+    function printSearchResults() {
+        const modal = document.getElementById('searchModal');
+        // Rimuovi lo stile inline: il @media print controlla la visualizzazione
+        if (modal) modal.style.display = '';
+        document.body.classList.add('print-search-mode');
+
+        function restoreAfterPrint() {
+            document.body.classList.remove('print-search-mode');
+            if (isSearchActive && modal) {
+                modal.style.display = 'flex';
+            } else if (modal) {
+                modal.style.display = 'none';
+            }
+            window.removeEventListener('afterprint', restoreAfterPrint);
+        }
+
+        window.addEventListener('afterprint', restoreAfterPrint);
+        setTimeout(restoreAfterPrint, 1500);
+
+        bvPrint();
     }
 
     // Chiudi modale cliccando fuori
@@ -938,5 +1004,6 @@ function getCurrentChapterInfo() {
         }
     })();
 </script>
+<script src="../ios_print.js"></script>
 </body>
 </html>

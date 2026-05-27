@@ -306,24 +306,64 @@
         /* --- STILI DI STAMPA INTELLIGENTI --- */
         @media print {
             body { background: white !important; height: auto !important; overflow: visible !important; }
-            
-            /* Nascondiamo sempre i bottoni e i menu inutili su carta */
-            .nav-buttons, .home-button-container, .search-container, #sidebar-header, .list-container, .close-search-btn, .btn-print-pdf, .toggle-search-btn, #floating-print-btn {
+
+            /* Elementi sempre nascosti in stampa */
+            .nav-buttons, .home-button-container, .search-container, #sidebar-header,
+            .list-container, .close-search-btn, .modal-close-search, .btn-print-pdf,
+            .toggle-search-btn, #floating-print-btn, .search-section,
+            .modal-btn-search, .modal-btn-reset, #btn-toggle-search, #btn-back-search {
                 display: none !important;
             }
 
             /* 1. Modalità Stampa Lezione (predefinita) */
-            body:not(.print-search-mode) #sidebar { display: none !important; }
+            body:not(.print-search-mode) #sidebar    { display: none !important; }
+            body:not(.print-search-mode) #searchModal { display: none !important; }
             body:not(.print-search-mode) #content-wrapper { display: block !important; padding: 0 !important; }
-            body:not(.print-search-mode) #main-content { box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
+            body:not(.print-search-mode) #main-content   { box-shadow: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
 
-            /* 2. Modalità Stampa Risultati di Ricerca (attivata da Javascript) */
-            body.print-search-mode #content-wrapper { display: none !important; } /* Nasconde il capitolo */
-            body.print-search-mode #sidebar { display: block !important; width: 100% !important; height: auto !important; border: none !important; background: white !important; position: static !important; }
-            body.print-search-mode #search-results-overlay { display: block !important; max-height: none !important; border: none !important; position: static !important; background: white !important; }
-            
-            /* Dettagli visivi per la stampa */
-            .result-item.visited { border-left-color: #555 !important; background-color: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            /* 2. Modalità Stampa Risultati Ricerca (body.print-search-mode) */
+            body.print-search-mode #content-wrapper { display: none !important; }
+            body.print-search-mode #sidebar         { display: none !important; }
+            body.print-search-mode #searchModal {
+                display: block !important;
+                position: static !important;
+                background: white !important;
+                background-color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                width: 100% !important;
+                height: auto !important;
+                padding: 0 !important;
+                overflow: visible !important;
+            }
+            body.print-search-mode {
+                background: white !important;
+                background-color: white !important;
+            }
+            body.print-search-mode .search-panel {
+                border: none !important;
+                box-shadow: none !important;
+                width: 100% !important;
+                max-width: none !important;
+                max-height: none !important;
+                overflow: visible !important;
+                padding: 10px 0 !important;
+                margin: 0 !important;
+                background: white !important;
+            }
+            body.print-search-mode .search-panel h2 {
+                color: black !important;
+                border-bottom: 2px solid #000;
+            }
+            body.print-search-mode #modalSearchResults {
+                display: block !important;
+                border: none !important;
+                overflow: visible !important;
+            }
+
+            /* Stile risultati */
+            .result-item { page-break-inside: avoid; border: 1px solid #ccc !important; color: black !important; margin-bottom: 10px !important; }
+            .result-item.visited { border-left: 5px solid #555 !important; background-color: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
         /* --- MODALE DI RICERCA (Stile Quaderni) --- */
         #searchModal {
@@ -635,8 +675,9 @@
 
         function closeSearch() {
             document.getElementById('searchModal').style.display = 'none';
-            if (isSearchActive) {
-                document.getElementById('btn-back-search').style.display = 'block';
+            const btnBack = document.getElementById('btn-back-search');
+            if (isSearchActive && btnBack && btnBack.innerText.trim() !== '') {
+                btnBack.style.display = 'block';
             }
             if (currentIndex > -1) {
                 floatingPrintBtn.style.display = 'flex';
@@ -834,11 +875,25 @@
         }
 
         function printSearchResults() {
+            const modal = document.getElementById('searchModal');
+            // Rimuovi lo stile inline: il @media print controlla la visualizzazione
+            if (modal) modal.style.display = '';
             document.body.classList.add('print-search-mode');
-            bvPrint();
-            setTimeout(() => {
+
+            function restoreAfterPrint() {
                 document.body.classList.remove('print-search-mode');
-            }, 1000);
+                if (isSearchActive && modal) {
+                    modal.style.display = 'flex';
+                } else if (modal) {
+                    modal.style.display = 'none';
+                }
+                window.removeEventListener('afterprint', restoreAfterPrint);
+            }
+
+            window.addEventListener('afterprint', restoreAfterPrint);
+            setTimeout(restoreAfterPrint, 1500);
+
+            bvPrint();
         }
         /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
         const contentWrapperArea = document.getElementById('content-wrapper');

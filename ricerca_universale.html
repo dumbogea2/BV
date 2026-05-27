@@ -104,7 +104,7 @@
                 height: auto !important;
                 overflow: visible !important;
             }
-            .nav-links, .search-container h1, .search-options, .input-group, #loading, .btn-print-pdf, .close-search {
+            .nav-links, .search-container h1, .search-options, .input-group, #loading, .btn-print-pdf, #btn-print-results, .close-search {
                 display: none !important; 
             }
             .search-container {
@@ -174,6 +174,7 @@
         </div>
 
         <div id="loading">Consultazione dell'intero archivio in corso... ⏳</div>
+        <button id="btn-print-results" onclick="bvPrint()" style="margin:10px auto; display:none; cursor:pointer; background:none; border:1px solid #8b0000; padding:5px 14px; border-radius:5px; color:#8b0000; font-weight:bold; font-size:14px; font-family:inherit;">🖨️ Stampa elenco PDF</button>
         <div id="globalResults"></div>
     </div>
 
@@ -338,12 +339,15 @@
                 
                 if (totalFound === 0) {
                     resContainer.innerHTML = "<p style='text-align:center; font-style:italic;'>Nessun risultato trovato in nessuna opera.</p>";
+                    const pb = document.getElementById('btn-print-results');
+                    if (pb) pb.style.display = 'none';
                 } else {
-                    const printBtn = `<button class="btn-print-pdf" onclick="bvPrint()" style="margin-left:15px; cursor:pointer; background:none; border:1px solid #8b0000; padding:5px 10px; border-radius:5px; color:#8b0000; font-weight:bold;">🖨️ Stampa elenco PDF</button>`;
                     const toggleAllBtn = `<button id="btn-toggle-tutti" onclick="toggleAllBooks()">🔽 Comprimi Tutti</button>`;
                     resContainer.innerHTML = `<div style="text-align:center; margin-bottom:20px; color:#666;">
-                        Trovati <b>${totalFound}</b> risultati totali. ${printBtn} ${toggleAllBtn}
+                        Trovati <b>${totalFound}</b> risultati totali. ${toggleAllBtn}
                     </div>` + htmlOutput;
+                    const pb = document.getElementById('btn-print-results');
+                    if (pb) pb.style.display = '';
                 }                
                   }, 50); 
         }

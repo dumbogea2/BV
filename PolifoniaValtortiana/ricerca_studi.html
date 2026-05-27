@@ -125,7 +125,7 @@
 
         @media print {
             body { background-color: white !important; color: black !important; height: auto !important; overflow: visible !important; }
-            .nav-links, .search-options, .input-group, #loading, .btn-print-pdf, .close-search { display: none !important; }
+            .nav-links, .search-options, .input-group, #loading, .btn-print-pdf, .btn-print-results, #btn-print-results, .close-search { display: none !important; }
             .search-container { border: none !important; box-shadow: none !important; width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; background: white !important; }
             #globalResults { display: block !important; }
             .result-item.visited { border-left-color: #555 !important; background-color: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -176,6 +176,7 @@
         </div>
 
         <div id="loading">Consultazione dei volumi in corso... ⏳</div>
+        <button id="btn-print-results" onclick="bvPrint()" style="margin:10px auto; display:none; cursor:pointer; background:none; border:1px solid #8b0000; padding:5px 14px; border-radius:5px; color:#8b0000; font-weight:bold; font-size:14px; font-family:inherit;">🖨️ Stampa elenco PDF</button>
         <div id="globalResults"></div>
     </div>
 
@@ -376,12 +377,15 @@
 
                 if (totalFound === 0) {
                     resContainer.innerHTML = "<p style='text-align:center; font-style:italic;'>Nessun risultato trovato nei volumi della sezione Studi.</p>";
+                    const pb = document.getElementById('btn-print-results');
+                    if (pb) pb.style.display = 'none';
                 } else {
-                    const printBtn = `<button class="btn-print-pdf" onclick="bvPrint()" style="margin-left:15px; cursor:pointer; background:none; border:1px solid #8b0000; padding:5px 10px; border-radius:5px; color:#8b0000; font-weight:bold;">🖨️ Stampa elenco PDF</button>`;
                     const toggleAllBtn = `<button id="btn-toggle-tutti" onclick="toggleAllBooks()">🔽 Comprimi Tutti</button>`;
                     resContainer.innerHTML = `<div style="text-align:center; margin-bottom:20px; color:#666;">
-                        Trovati <b>${totalFound}</b> risultati totali. ${printBtn} ${toggleAllBtn}
+                        Trovati <b>${totalFound}</b> risultati totali. ${toggleAllBtn}
                     </div>` + htmlOutput;
+                    const pb = document.getElementById('btn-print-results');
+                    if (pb) pb.style.display = '';
                 }
             }, 50);
         }
@@ -529,6 +533,6 @@
             }
         })();
     </script>
-<script src="../../ios_print.js"></script>
+<script src="../ios_print.js"></script>
 </body>
 </html>

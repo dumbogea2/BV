@@ -164,6 +164,35 @@
     aside { position: relative; height: auto; }
     main { padding: 20px; }
   }
+
+  /* --- STAMPA --- */
+  @media print {
+    /* Stampa normale (capitolo): nasconde sidebar e controlli */
+    body:not(.print-search-mode) aside,
+    body:not(.print-search-mode) .home-btn,
+    body:not(.print-search-mode) #search-results-overlay,
+    body:not(.print-search-mode) .search-container,
+    body:not(.print-search-mode) .modal-overlay { display: none !important; }
+    body:not(.print-search-mode) .layout { grid-template-columns: 1fr !important; }
+    body:not(.print-search-mode) main { padding: 0 !important; max-width: 100% !important; }
+
+    /* Stampa risultati ricerca: nasconde capitolo e mostra solo l'overlay */
+    body.print-search-mode main,
+    body.print-search-mode .modal-overlay { display: none !important; }
+    body.print-search-mode aside { width: 100% !important; height: auto !important;
+      position: static !important; overflow: visible !important; border: none !important; }
+    body.print-search-mode #search-results-overlay {
+      display: block !important; max-height: none !important;
+      overflow: visible !important; border: none !important; }
+    body.print-search-mode .search-header-bar { display: none !important; }
+    body.print-search-mode .search-container { border: none !important; }
+    body.print-search-mode #btn-print-search { display: none !important; }
+
+    /* Stile colori stampa */
+    .result-item.visited { border-left-color: #555 !important;
+      background-color: #eee !important;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
 </style>
 </head>
 <body>
@@ -205,7 +234,10 @@
     <div id="search-results-overlay">
       <div class="search-header-bar">
         <span class="search-summary" id="search-count-display"></span>
-        <span class="close-search-btn" onclick="chiudiRicerca()" title="Chiudi ricerca">✖</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button id="btn-print-search" onclick="printSearchResults()" style="display:none;cursor:pointer;background:none;border:1px solid var(--accent);padding:3px 9px;border-radius:5px;color:var(--accent);font-weight:bold;font-size:12px;font-family:inherit;">🖨️ Stampa</button>
+          <span class="close-search-btn" onclick="chiudiRicerca()" title="Chiudi ricerca">✖</span>
+        </div>
       </div>
       <div id="local-results"></div>
     </div>
@@ -379,6 +411,8 @@
     document.getElementById('search-results-overlay').style.display = 'none';
     isSearchActive = false;
     searchKeywords = [];
+    const printSearchBtn = document.getElementById('btn-print-search');
+    if (printSearchBtn) printSearchBtn.style.display = 'none';
   };
 
   window.startAdvancedLocalSearch = function() {
@@ -431,6 +465,8 @@
 
     overlay.style.display = 'block';
     countDisplay.textContent = `Trovati: ${results.length}`;
+    const printSearchBtn = document.getElementById('btn-print-search');
+    if (printSearchBtn) printSearchBtn.style.display = results.length > 0 ? '' : 'none';
     resultsDiv.innerHTML = '';
 
     if (results.length === 0) {
@@ -850,5 +886,16 @@
         }
     })();
 </script>
+<script>
+  /* --- FUNZIONI DI STAMPA --- */
+  function printSearchResults() {
+    document.body.classList.add('print-search-mode');
+    bvPrint();
+    setTimeout(function() {
+      document.body.classList.remove('print-search-mode');
+    }, 1000);
+  }
+</script>
+<script src="../ios_print.js"></script>
 </body>
 </html>

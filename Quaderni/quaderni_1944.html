@@ -677,10 +677,13 @@
         }
 
         function printSearchResults() {
+            const modal = document.getElementById('searchModal');
+            if (modal) modal.style.display = 'block';
             document.body.classList.add('print-search-mode');
             bvPrint();
             setTimeout(() => {
                 document.body.classList.remove('print-search-mode');
+                if (modal) modal.style.display = 'flex';
             }, 1000);
         }
         /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
