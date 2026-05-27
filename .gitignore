@@ -1,3 +1,29 @@
+# ============================================================
+#  Bibliotheca Valtortiana — .gitignore ottimizzato
+#  Sostituisce il file .gitignore esistente nella root del progetto
+# ============================================================
+
+# ── macOS ────────────────────────────────────────────────────
 .DS_Store
-BV/.DS_Store
-BV/Quaderni/.DS_Store
+**/.DS_Store
+__MACOSX/
+
+# ── File binari statici grandi (non cambiano, appesantiscono Git) ──
+
+# PDF del Poema (54 MB totali)
+documenti/poema/
+
+# Video di presentazione (12 MB)
+video/
+
+# Tile della mappa palestina — 1655 immagini JPG (18 MB)
+mappa/mappa_palestina/
+
+# Documento Word sorgente (4.3 MB) — se vuoi tenerlo, commenta questa riga
+documenti/testo.docx
+
+# ── File di sistema / editor ─────────────────────────────────
+Thumbs.db
+*.swp
+*.swo
+.vscode/settings.json
