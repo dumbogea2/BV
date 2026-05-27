@@ -1546,18 +1546,18 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         printWin.document.write('</head><body>');
         printWin.document.write('<h2>' + titleText + '</h2>');
         printWin.document.write(listContent);
-        printWin.document.write('<script src="../appunti.js"><\/script></body></html>');
+        printWin.document.write('<script src="../appunti.js"><\/script><script src="../ios_print.js"><\/script></body></html>');
         printWin.document.close();
         printWin.focus();
 
         setTimeout(function() {
-            printWin.print();
+            bvPrint(printWin);
             printWin.close();
-        }, 500);
+        }, 800);
     }
     
     function printChapter() {
-        window.print();
+        bvPrint();
     }
 </script>
 
@@ -1716,5 +1716,6 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             }
         })();
     </script>
+<script src="../ios_print.js"></script>
 </body>
 </html>
