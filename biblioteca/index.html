@@ -592,7 +592,7 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         </div>
     </div>
 </div> 
-<button id="floating-print-btn" onclick="bvPrint()" title="Stampa questo capitolo">🖨️</button>
+<button id="floating-print-btn" onclick="window.print()" title="Stampa questo capitolo">🖨️</button>
 
 <script src="../cronologia.js"></script>
 <script src="archivio.js"></script>
@@ -1568,11 +1568,11 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         window.addEventListener('afterprint', restoreAfterPrint);
         setTimeout(restoreAfterPrint, 1500);
 
-        bvPrint();
+        window.print();
     }
     
     function printChapter() {
-        bvPrint();
+        window.print();
     }
 </script>
 
@@ -1731,6 +1731,5 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             }
         })();
     </script>
-<script src="../ios_print.js"></script>
 </body>
 </html>
