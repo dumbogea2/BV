@@ -3,6 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script>
+        // Guardiano Sicuro V2
+        if (window.location.hostname.includes("github.io")) {
+            if (navigator.onLine) {
+                document.documentElement.style.display = 'none';
+            }
+        }
+    </script>
+
     <title>Bibliotheca Valtortiana - Antique Style BV Sinagoga v122-online</title>
     <style>
        /* ------------------------*/
@@ -212,6 +222,35 @@ mark.saved-bookmark { background-color: transparent; border-bottom: 3px solid #b
     border: 8px double #3e2723; box-shadow: 0 0 50px #000;
 }
 
+
+.modal-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #c0b9a3;
+    gap: 15px;
+}
+.modal-nav-buttons button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background: #8b0000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Georgia', serif;
+    font-size: 0.95em;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+.modal-nav-buttons button:hover { background: #a52a2a; }
+.modal-nav-buttons button:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
+@media (max-width: 600px) {
+    .modal-nav-buttons button { padding: 10px 14px; font-size: 0.85em; }
+}
+
 .close-modal { 
     position: fixed; right: 25px; top: 25px; width: 50px; height: 50px; 
     background: #3e2723; color: #e5c27a; border-radius: 50%; display: flex; 
@@ -333,13 +372,44 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
 @media (max-width: 600px) { #floating-print-btn { bottom: 20px; left: 20px; width: 45px; height: 45px; font-size: 20px; } }
 
 @media print {
-    body::before, .header-section, .controls, .library-container, #helpModal, #mySidenav, .menu-btn, .help-btn-top, .back-portal-btn, #floating-print-btn, .close-modal, #scrollToTopBtn, .modal-controls, #btn-back-search, #waitingBox { display: none !important; }
+    /* Elementi sempre nascosti */
+    body::before, .header-section, .controls, .library-container, #helpModal, #mySidenav,
+    .menu-btn, .help-btn-top, .back-portal-btn, #floating-print-btn, .close-modal,
+    #scrollToTopBtn, .modal-controls, #btn-back-search, #waitingBox,
+    #btn-print-search-results { display: none !important; }
     body { background: white !important; color: black !important; margin: 0 !important; padding: 0 !important; }
-    #readerModal { position: static !important; display: block !important; background: white !important; }
-    .modal-content { position: static !important; width: 100% !important; max-width: none !important; height: auto !important; border: none !important; box-shadow: none !important; background: white !important; padding: 0 !important; overflow: visible !important; }
-    #modalTitle { color: black !important; border-bottom: 2px solid black !important; }
-    #modalText { color: black !important; }
     mark.target-word, mark.saved-bookmark { background-color: #eee !important; border: 1px solid #999 !important; color: black !important; }
+
+    /* 1. Stampa capitolo (predefinita) */
+    body:not(.print-search-mode) #resultsContainer { display: none !important; }
+    body:not(.print-search-mode) #readerModal { position: static !important; display: block !important; background: white !important; }
+    body:not(.print-search-mode) .modal-content { position: static !important; width: 100% !important; max-width: none !important; height: auto !important; border: none !important; box-shadow: none !important; background: white !important; padding: 0 !important; overflow: visible !important; }
+    body:not(.print-search-mode) #modalTitle { color: black !important; border-bottom: 2px solid black !important; }
+    body:not(.print-search-mode) #modalText { color: black !important; }
+
+    /* 2. Stampa risultati ricerca (body.print-search-mode) */
+    body.print-search-mode #readerModal { display: none !important; }
+    body.print-search-mode #resultsContainer {
+        display: block !important;
+        position: static !important;
+        max-height: none !important;
+        overflow: visible !important;
+        width: 100% !important;
+        max-width: none !important;
+        border: none !important;
+        background: white !important;
+        padding: 0 !important;
+    }
+    body.print-search-mode #resultsTitle { color: black !important; }
+    body.print-search-mode #resultsList { color: black !important; }
+    body.print-search-mode #resultsList .result-item {
+        page-break-inside: avoid;
+        border-bottom: 1px solid #ccc !important;
+        color: black !important;
+    }
+    body.print-search-mode #resultsList mark.target-word {
+        background-color: #eee !important; border: 1px solid #999 !important;
+    }
 }
     </style>
 </head>
@@ -457,6 +527,7 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
     
     <div id="resultsContainer">
         <div id="resultsTitle"></div>
+        <button id="btn-print-search-results" onclick="printResults()" style="display:none; margin:8px 0; cursor:pointer; background:none; border:1px solid #8b0000; padding:4px 12px; border-radius:5px; color:#8b0000; font-weight:bold; font-size:13px; font-family:inherit;">🖨️ Stampa PDF</button>
         <div id="resultsList"></div>
     </div>
 </div>
@@ -515,12 +586,17 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         <h2 id="modalTitle"></h2>
         <div id="modalText"></div>
         <a id="originalLink" href="#" target="_blank">📖 Leggi il testo completo sul sito ufficiale →</a>
+        <div class="modal-nav-buttons">
+            <button id="btnPrevChapter" onclick="prevChapter()">← Precedente</button>
+            <button id="btnNextChapter" onclick="nextChapter()">Successivo →</button>
+        </div>
     </div>
 </div> 
-<button id="floating-print-btn" onclick="printChapter()" title="Stampa questo capitolo">🖨️</button>
+<button id="floating-print-btn" onclick="printCurrentChapter()" title="Stampa questo capitolo">🖨️</button>
 
 <script src="../cronologia.js"></script>
 <script src="archivio.js"></script>
+<script src="../sincronizzazione.js"></script>
 
 <script>
     // --- FIX: Sistema di Sicurezza per caricamento Preferiti ---
@@ -563,13 +639,36 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         const idx = bookmarks.indexOf(n);
         if (idx > -1) { bookmarks.splice(idx, 1); el.classList.remove('is-fav'); }
         else { bookmarks.push(n); el.classList.add('is-fav'); }
-        localStorage.setItem('valtorta_favs', JSON.stringify(bookmarks));
+        
+        // CONTROLLO BIVIO LOGICO
+        const usaCloud = localStorage.getItem('modalita_lettura') === 'cloud';
+
+        if (usaCloud && typeof salvaPreferitiCloud === "function") {
+            // --- ☁️ SALVATAGGIO CLOUD ---
+            salvaPreferitiCloud(bookmarks);
+        } else {
+            // --- 📱 SALVATAGGIO LOCALE (Offline) ---
+            localStorage.setItem('valtorta_favs', JSON.stringify(bookmarks));
+        }
     }
 
     function clearAllFavs() {
-        if(confirm("Cancellare tutti i preferiti salvati nell'archivio?")) { bookmarks = []; localStorage.removeItem('valtorta_favs'); createGrid(); }
-    }
+        if(confirm("Cancellare tutti i preferiti salvati nell'archivio?")) { 
+            bookmarks = []; 
+            createGrid(); 
+            
+            // CONTROLLO BIVIO LOGICO
+            const usaCloud = localStorage.getItem('modalita_lettura') === 'cloud';
 
+            if (usaCloud && typeof salvaPreferitiCloud === "function") {
+                // --- ☁️ SVUOTA CLOUD ---
+                salvaPreferitiCloud(bookmarks);
+            } else {
+                // --- 📱 SVUOTA LOCALE (Offline) ---
+                localStorage.removeItem('valtorta_favs'); 
+            }
+        }
+    }
     function toggleFavFilter() {
         showOnlyFavs = !showOnlyFavs;
         document.getElementById('favToggleBtn').classList.toggle('active', showOnlyFavs);
@@ -602,8 +701,13 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             const cap = archivioCapitoli[n];
             let matchesSearch = (val === "" || n.toString() === val);
             if (val.length >= 3 && cap) {
-                const occ = (cap.titolo + " " + cap.testo).toUpperCase().split(val).length - 1;
-                if (occ > 0) { matchesSearch = true; t += occ; c++; }
+                const fullText = (cap.titolo + " " + cap.testo).toUpperCase().replace(/<[^>]+>/g, ' ');
+                // Filtro visuale: parziale (mostra il rotolo anche se la parola è dentro un'altra)
+                if (fullText.includes(val)) matchesSearch = true;
+                // Contatore: esatto (solo parole intere, coerente con l'elenco anteprime)
+                const exactMatches = fullText.match(/[A-Z0-9ÀÈÉÌÒÙÁÉÍÓÚ]+/g) || [];
+                const exactOcc = exactMatches.filter(w => w === val).length;
+                if (exactOcc > 0) { t += exactOcc; c++; }
             }
             const matchesFav = !showOnlyFavs || bookmarks.includes(n);
             const matchesIndex = !indexRange || (n >= indexRange.s && n <= indexRange.e);
@@ -685,8 +789,9 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             title.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center; color: #ffd700; font-size: 1.25em; font-weight: bold; text-shadow: 2px 2px 4px #000; margin-bottom: 15px; padding: 12px; border-left: 5px solid #d4af37; background: rgba(46, 26, 5, 0.5); border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);">
                     <span id="printTitleSource">🔎 Risultati ricerca per: "<b>${val}</b>" (${capCount} cap.)</span>
-                    <button onclick="printResults()" title="Stampa o Salva PDF" style="background:none; border:none; cursor:pointer; font-size:1.3em;">🖨️</button>
                 </div>`;
+            var pb = document.getElementById('btn-print-search-results');
+            if (pb) pb.style.display = capCount > 0 ? '' : 'none';
                            
             document.getElementById('waitingBox').style.display = "none";
             container.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -785,15 +890,63 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             title.innerHTML = capCount > 0 
                 ? `<div style="display:flex; justify-content:space-between; align-items:center; color: #ffd700; font-size: 1.25em; font-weight: bold; text-shadow: 2px 2px 4px #000; margin-bottom: 15px; padding: 12px; border-left: 5px solid #d4af37; background: rgba(46, 26, 5, 0.5); border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);">
                     <span id="printTitleSource">📜 Concordanze rinvenute in nr. <b>${capCount}</b> rotoli:</span>
-                    <button onclick="printResults()" title="Stampa o Salva PDF" style="background:none; border:none; cursor:pointer; font-size:1.3em;">🖨️</button>
                    </div>` 
                 : `<div style="color: #e5c27a; font-style: italic; padding: 10px; background: rgba(0,0,0,0.7); border-radius: 4px;">
                     Nessuna concordanza trovata con questo intervallo.
                    </div>`;
+            var pb2 = document.getElementById('btn-print-search-results');
+            if (pb2) pb2.style.display = capCount > 0 ? '' : 'none';
                            
             document.getElementById('waitingBox').style.display = "none";
             if (capCount > 0) container.scrollIntoView({ behavior: "smooth", block: "start" });
         }, 100);
+    }
+
+    // --- Evidenziazione Segnalibro Robusta (logica TreeWalker da appunti.js) ---
+    function evidenziaSegnalibro(container, snippetStr) {
+        if (!container || !snippetStr) return;
+        container.normalize();
+
+        const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+        const charMap = [];
+        let node;
+        while ((node = walker.nextNode())) {
+            if (node.parentNode && ['SCRIPT','STYLE','NOSCRIPT'].includes(node.parentNode.nodeName)) continue;
+            const text = node.nodeValue;
+            for (let i = 0; i < text.length; i++) {
+                if (!/\s/.test(text[i])) charMap.push({ node: node, offset: i, char: text[i].toLowerCase() });
+            }
+        }
+
+        const searchStr = snippetStr.replace(/\s+/g, '').toLowerCase();
+        const pageText = charMap.map(c => c.char).join('');
+        const matchStartIndex = pageText.indexOf(searchStr);
+        if (matchStartIndex === -1) return;
+
+        const matchEndIndex = matchStartIndex + searchStr.length - 1;
+        const nodesInvolved = new Map();
+        for (let i = matchStartIndex; i <= matchEndIndex; i++) {
+            const current = charMap[i];
+            if (!nodesInvolved.has(current.node)) {
+                nodesInvolved.set(current.node, { min: current.offset, max: current.offset });
+            } else {
+                const data = nodesInvolved.get(current.node);
+                data.max = Math.max(data.max, current.offset);
+            }
+        }
+
+        Array.from(nodesInvolved.entries()).forEach(([textNode, range]) => {
+            const highlightEnd = range.max + 1;
+            const highlightStart = range.min;
+            if (highlightEnd < textNode.nodeValue.length) textNode.splitText(highlightEnd);
+            let highlightNode = textNode;
+            if (highlightStart > 0) highlightNode = textNode.splitText(highlightStart);
+
+            const mark = document.createElement('mark');
+            mark.className = 'saved-bookmark';
+            highlightNode.parentNode.insertBefore(mark, highlightNode);
+            mark.appendChild(highlightNode);
+        });
     }
 
     function openChapter(n, p1 = null, p2 = null, bookmarkSnippet = null) {
@@ -813,6 +966,14 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         }
         
         currentOpenChapter = n; 
+        
+        // Aggiorna pulsanti navigazione
+        const allKeys = Object.keys(archivioCapitoli).map(Number).sort((a,b) => a - b);
+        const curIdx = allKeys.indexOf(n);
+        const btnPrev = document.getElementById('btnPrevChapter');
+        const btnNext = document.getElementById('btnNextChapter');
+        if (btnPrev) { btnPrev.disabled = (curIdx <= 0); }
+        if (btnNext) { btnNext.disabled = (curIdx >= allKeys.length - 1); }
 
         setTimeout(() => {
             if (typeof window.ripristinaEvidenze === 'function') window.ripristinaEvidenze();
@@ -853,8 +1014,7 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             return html.replace(/(<[^>]+>)|([^<]+)/g, (m, tag, txt) => {
                 if (tag) return tag; 
                 if (isBookmarkMode) {
-                    if(!bookmarkRegex) return txt;
-                    return txt.replace(bookmarkRegex, '<mark class="saved-bookmark">$&</mark>');
+                    return txt;
                 } 
                 if (isPhraseMode && phraseRegex) {
                     return txt.replace(phraseRegex, `<mark class="target-word">$&</mark>`);
@@ -874,6 +1034,10 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         
         mTitle.innerHTML = applyHighlight(t);
         mText.innerHTML = applyHighlight(b);
+        
+        if (isBookmarkMode && bookmarkSnippet) {
+            evidenziaSegnalibro(mText, bookmarkSnippet);
+        }
         
         const link = document.getElementById('originalLink');
         link.href = cap.link || "#"; 
@@ -899,6 +1063,17 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         }, 400);
     }        
         
+    function prevChapter() {
+        const allKeys = Object.keys(archivioCapitoli).map(Number).sort((a,b) => a - b);
+        const curIdx = allKeys.indexOf(currentOpenChapter);
+        if (curIdx > 0) openChapter(allKeys[curIdx - 1]);
+    }
+    function nextChapter() {
+        const allKeys = Object.keys(archivioCapitoli).map(Number).sort((a,b) => a - b);
+        const curIdx = allKeys.indexOf(currentOpenChapter);
+        if (curIdx < allKeys.length - 1) openChapter(allKeys[curIdx + 1]);
+    }
+
     function closeModal() { 
         stopAudio(); 
         document.getElementById('readerModal').style.display = 'none'; 
@@ -982,7 +1157,14 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         }
         
         activeBookmark = { chapter: currentOpenChapter, snippet: text, date: new Date().toLocaleDateString() };
-        localStorage.setItem('valtorta_bookmark', JSON.stringify(activeBookmark));
+        
+        const usaCloud = localStorage.getItem('modalita_lettura') === 'cloud';
+        
+        if (usaCloud && typeof salvaSegnalibroCloud === "function") {
+            salvaSegnalibroCloud(activeBookmark);
+        } else {
+            localStorage.setItem('valtorta_bookmark', JSON.stringify(activeBookmark));
+        }
         
         alert("🔖 Segnalibro salvato!");
         
@@ -995,7 +1177,15 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         if(!activeBookmark) return;
         if(confirm("Vuoi rimuovere definitivamente il segnalibro dal Capitolo " + activeBookmark.chapter + "?")) {
             activeBookmark = null;
-            localStorage.removeItem('valtorta_bookmark');
+            
+            const usaCloud = localStorage.getItem('modalita_lettura') === 'cloud';
+            
+            if (usaCloud && typeof salvaSegnalibroCloud === "function") {
+                salvaSegnalibroCloud(null);
+            } else {
+                localStorage.removeItem('valtorta_bookmark');
+            }
+            
             updateBookmarkUI();
             createGrid(); 
         }
@@ -1028,10 +1218,18 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         oldOpenChapter(n, p1, p2, bs); 
     };
     
-    // --- FIX: Avvio Pulito e Sicuro ---
+    function applicaDatiDalCloud(preferitiCloud, segnalibroCloud) {
+        console.log("📥 Dati ricevuti dal Cloud. Aggiornamento interfaccia...");
+        bookmarks = preferitiCloud || [];
+        activeBookmark = segnalibroCloud;
+        updateBookmarkUI();
+        createGrid();
+        filterEverything();
+    }
+    
     updateBookmarkUI();
     createGrid();
-    filterEverything(); // <--- Questa riga assicura che gli elementi vengano disegnati correttamente!
+    filterEverything();
    
     let synth = window.speechSynthesis;
     let utterance = null;
@@ -1150,7 +1348,6 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         document.getElementById("mySidenav").style.width = "0";
     }
 
-    // FIX: Rimossa la funzione "nascondiRisultati" duplicata per evitare conflitti
     function nascondiRisultati() {
         document.getElementById('risultati-ricerca').style.display = "none";
         document.getElementById('btn-back-search').style.display = "none";
@@ -1195,7 +1392,6 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         div.style.display = "block"; 
     }
 
-    // FIX: Rimossa la funzione "apriDaRicerca" duplicata
     function apriDaRicerca(id) {
         document.getElementById('risultati-ricerca').style.display = 'none';
         document.getElementById('btn-back-search').style.display = 'block';
@@ -1341,45 +1537,84 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
       
     function printResults() {
         var listContent = document.getElementById('resultsList').innerHTML;
-        var titleSource = document.getElementById('printTitleSource');
-        var titleText = titleSource ? titleSource.innerText : "Risultati Ricerca";
-
         if (!listContent || listContent.trim() === "") {
             alert("Nessun risultato da stampare.");
             return;
         }
 
-        var d = new Date();
-        var yyyy = d.getFullYear();
-        var mm = String(d.getMonth() + 1).padStart(2, '0'); 
-        var dd = String(d.getDate()).padStart(2, '0');
-        var fileName = yyyy + mm + dd + "RisultatiRicercaConcordanze";
+        document.body.classList.add('print-search-mode');
 
-        var printWin = window.open('', '', 'width=800,height=600');
-        printWin.document.write('<html><head>');
-        printWin.document.write('<title>' + fileName + '</title>');
-        printWin.document.write('<style>');
-        printWin.document.write('body { font-family: "Garamond", serif; color: #000; padding: 30px; }');
-        printWin.document.write('h2 { border-bottom: 2px solid #b8860b; color: #8b0000; padding-bottom: 10px; margin-bottom: 20px; }');
-        printWin.document.write('.result-item { border-bottom: 1px solid #ccc; padding: 15px 0; margin-bottom: 10px; display:block; }');
-        printWin.document.write('.snippet { font-style: italic; color: #333; margin-top:5px; line-height: 1.4; }');
-        printWin.document.write('mark.target-word { background-color: #ffffcc; font-weight: bold; color: #000; border: 1px solid #e6dbb9; }'); 
-        printWin.document.write('</style>');
-        printWin.document.write('</head><body>');
-        printWin.document.write('<h2>' + titleText + '</h2>');
-        printWin.document.write(listContent);
-        printWin.document.write('<script src="../appunti.js"><\/script></body></html>');
-        printWin.document.close();
-        printWin.focus();
+        function restoreAfterPrint() {
+            document.body.classList.remove('print-search-mode');
+            window.removeEventListener('afterprint', restoreAfterPrint);
+        }
 
-        setTimeout(function() {
-            printWin.print();
-            printWin.close();
-        }, 500);
+        window.addEventListener('afterprint', restoreAfterPrint);
+        setTimeout(restoreAfterPrint, 1500);
+
+        window.print();
     }
     
-    function printChapter() {
+    // =========================================================
+    // NUOVA FUNZIONE DI STAMPA CHE CLONA IL CONTENUTO DEL MODAL
+    // (funziona su Safari e iOS perché crea un elemento isolato)
+    // =========================================================
+    function printCurrentChapter() {
+        if (typeof currentOpenChapter === 'undefined' || currentOpenChapter === null) {
+            alert("Nessun capitolo aperto da stampare.");
+            return;
+        }
+        const cap = archivioCapitoli[currentOpenChapter];
+        if (!cap) return;
+
+        // Ottieni titolo e testo dal modal (già evidenziati)
+        const modalTitleElem = document.getElementById('modalTitle');
+        const modalTextElem = document.getElementById('modalText');
+        if (!modalTitleElem || !modalTextElem) return;
+
+        // Clona il contenuto per non alterare l'originale
+        const titleClone = modalTitleElem.cloneNode(true);
+        const textClone = modalTextElem.cloneNode(true);
+
+        // Crea un contenitore di stampa isolato dal flusso della pagina
+        const printContainer = document.createElement('div');
+        printContainer.style.position = 'absolute';
+        printContainer.style.top = '-9999px';
+        printContainer.style.left = '-9999px';
+        printContainer.style.width = '100%';
+        printContainer.style.backgroundColor = '#f4ece0';
+        printContainer.style.fontFamily = "'Garamond', 'Georgia', serif";
+        printContainer.style.padding = '2cm';
+        printContainer.style.boxSizing = 'border-box';
+        printContainer.style.color = '#2e1a05';
+        printContainer.style.lineHeight = '1.6';
+
+        // Aggiungi il contenuto clonato
+        printContainer.appendChild(titleClone);
+        printContainer.appendChild(textClone);
+
+        // Aggiungi un footer con attribuzione
+        const footer = document.createElement('div');
+        footer.style.marginTop = '2rem';
+        footer.style.paddingTop = '1rem';
+        footer.style.borderTop = '1px solid #d4af37';
+        footer.style.fontSize = '0.8rem';
+        footer.style.textAlign = 'center';
+        footer.style.color = '#5d4037';
+        footer.innerHTML = `L'Evangelo come mi è stato rivelato – Maria Valtorta<br>Stampato il ${new Date().toLocaleDateString()}`;
+        printContainer.appendChild(footer);
+
+        document.body.appendChild(printContainer);
+        // Forza il reflow
+        printContainer.offsetHeight;
+
+        // Stampa
         window.print();
+
+        // Rimuovi il clone dopo la stampa
+        setTimeout(() => {
+            document.body.removeChild(printContainer);
+        }, 1000);
     }
 </script>
 
@@ -1433,7 +1668,7 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
 </script>
 
 <script>
-    function evidenziaParoleInTesto(parole) {
+    function evidenziaParoleInTesto(parole, partial = false) {
         const container = document.getElementById('modalText'); 
         if (!container) return;
         
@@ -1441,8 +1676,19 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         parole.forEach(parola => {
             const pTrim = parola.trim();
             if (pTrim.length < 3) return;
-            const regex = new RegExp(`(${pTrim})`, 'gi');
-            html = html.replace(regex, '<mark style="background-color: yellow; color: black; font-weight: bold; border-radius: 3px;">$1</mark>');
+            const safeP = pTrim.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            let regex;
+            if (partial) {
+                regex = new RegExp('(' + safeP + ')', 'gi');
+                html = html.replace(/>([^<]*)</g, (match, text) => {
+                    return '>' + text.replace(regex, '<mark style="background-color: yellow; color: black; font-weight: bold; border-radius: 3px;">$1</mark>') + '<';
+                });
+            } else {
+                regex = new RegExp('(?<!\\p{L})(' + safeP + ')(?!\\p{L})', 'giu');
+                html = html.replace(/>([^<]*)</g, (match, text) => {
+                    return '>' + text.replace(regex, '<mark style="background-color: yellow; color: black; font-weight: bold; border-radius: 3px;">$1</mark>') + '<';
+                });
+            }
         });
         container.innerHTML = html;
         
@@ -1466,6 +1712,7 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
         const urlParams = new URLSearchParams(window.location.search);
         const idParam = urlParams.get('idx') || urlParams.get('cap') || urlParams.get('ch');
         const keysParam = urlParams.get('keys');
+        const modeParam = urlParams.get('mode');
         const fromUniversale = urlParams.get('from') === 'universale';
 
         if (idParam && typeof archivioCapitoli !== 'undefined' && archivioCapitoli[idParam]) {
@@ -1473,7 +1720,8 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
             
             if (keysParam) {
                 const parole = decodeURIComponent(keysParam).split(',');
-                setTimeout(() => evidenziaParoleInTesto(parole), 600); 
+                const isPartial = (modeParam === 'partial');
+                setTimeout(() => evidenziaParoleInTesto(parole, isPartial), 600); 
             }
             if (fromUniversale) {
                 createBackToSearchButton();
@@ -1483,5 +1731,43 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
 </script>
 
 <script src="../appunti.js"></script>
+<script>
+        // --- CONTROLLO ACCESSO DINAMICO V2 (Anti-Crash Offline) ---
+        (async function checkAuthBiblioteca() {
+            const isOnline = window.location.hostname.includes("github.io");
+            if (isOnline) {
+                try {
+                    const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                    const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+
+                    const firebaseConfig = {
+                        apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                        authDomain: "appuntivaltorta.firebaseapp.com",
+                        projectId: "appuntivaltorta",
+                        storageBucket: "appuntivaltorta.firebasestorage.app",
+                        messagingSenderId: "940851152715",
+                        appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+                    };
+
+                    const app = fApp.getApps().length === 0 ? fApp.initializeApp(firebaseConfig) : fApp.getApp();
+                    const auth = fAuth.getAuth(app);
+
+                    fAuth.onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            document.documentElement.style.display = '';
+                            document.body.style.display = "block"; 
+                            localStorage.setItem('modalita_lettura', 'cloud');
+                        } else {
+                            window.location.replace("/BV/login.html"); 
+                        }
+                    });
+                } catch (error) {
+                    console.warn("Modalità offline attiva.");
+                    document.documentElement.style.display = '';
+                    document.body.style.display = "block";
+                }
+            }
+        })();
+    </script>
 </body>
 </html>
