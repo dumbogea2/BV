@@ -1556,68 +1556,200 @@ mark.target-word { background-color: #ffd700; color: #000; font-weight: bold; pa
     }
     
     // =========================================================
-    // NUOVA FUNZIONE DI STAMPA CHE CLONA IL CONTENUTO DEL MODAL
-    // (funziona su Safari e iOS perché crea un elemento isolato)
+    // NUOVA FUNZIONE DI STAMPA 
+    // (funziona su Safari e iOS)
     // =========================================================
     function printCurrentChapter() {
-        if (typeof currentOpenChapter === 'undefined' || currentOpenChapter === null) {
-            alert("Nessun capitolo aperto da stampare.");
-            return;
-        }
-        const cap = archivioCapitoli[currentOpenChapter];
-        if (!cap) return;
-
-        // Ottieni titolo e testo dal modal (già evidenziati)
-        const modalTitleElem = document.getElementById('modalTitle');
-        const modalTextElem = document.getElementById('modalText');
-        if (!modalTitleElem || !modalTextElem) return;
-
-        // Clona il contenuto per non alterare l'originale
-        const titleClone = modalTitleElem.cloneNode(true);
-        const textClone = modalTextElem.cloneNode(true);
-
-        // Crea un contenitore di stampa isolato dal flusso della pagina
-        const printContainer = document.createElement('div');
-        printContainer.style.position = 'absolute';
-        printContainer.style.top = '-9999px';
-        printContainer.style.left = '-9999px';
-        printContainer.style.width = '100%';
-        printContainer.style.backgroundColor = '#f4ece0';
-        printContainer.style.fontFamily = "'Garamond', 'Georgia', serif";
-        printContainer.style.padding = '2cm';
-        printContainer.style.boxSizing = 'border-box';
-        printContainer.style.color = '#2e1a05';
-        printContainer.style.lineHeight = '1.6';
-
-        // Aggiungi il contenuto clonato
-        printContainer.appendChild(titleClone);
-        printContainer.appendChild(textClone);
-
-        // Aggiungi un footer con attribuzione
-        const footer = document.createElement('div');
-        footer.style.marginTop = '2rem';
-        footer.style.paddingTop = '1rem';
-        footer.style.borderTop = '1px solid #d4af37';
-        footer.style.fontSize = '0.8rem';
-        footer.style.textAlign = 'center';
-        footer.style.color = '#5d4037';
-        footer.innerHTML = `L'Evangelo come mi è stato rivelato – Maria Valtorta<br>Stampato il ${new Date().toLocaleDateString()}`;
-        printContainer.appendChild(footer);
-
-        document.body.appendChild(printContainer);
-        // Forza il reflow
-        printContainer.offsetHeight;
-
-        // Stampa
-        window.print();
-
-        // Rimuovi il clone dopo la stampa
-        setTimeout(() => {
-            document.body.removeChild(printContainer);
-        }, 1000);
+    if (typeof currentOpenChapter === 'undefined' || currentOpenChapter === null) {
+        alert("Nessun capitolo aperto da stampare.");
+        return;
     }
-</script>
+    const cap = archivioCapitoli[currentOpenChapter];
+    if (!cap) return;
 
+    // Ottieni il titolo e il testo correnti (con eventuali evidenziazioni)
+    const modalTitleElem = document.getElementById('modalTitle');
+    const modalTextElem = document.getElementById('modalText');
+    if (!modalTitleElem || !modalTextElem) return;
+
+    const titleHtml = modalTitleElem.innerHTML;
+    const textHtml = modalTextElem.innerHTML;
+
+    // Crea un iframe nascosto
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.top = '-9999px';
+    iframe.style.left = '-9999px';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Capitolo ${currentOpenChapter}</title>
+            <style>
+                body {
+                    background-color: #f4ece0;
+                    font-family: 'Garamond', 'Georgia', serif;
+                    margin: 2cm;
+                    padding: 20px;
+                    color: #2e1a05;
+                    line-height: 1.6;
+                }
+                #modalTitle {
+                    color: #5d4037;
+                    border-bottom: 2px solid #d4af37;
+                    padding-bottom: 15px;
+                    font-family: 'Times New Roman', serif;
+                    letter-spacing: 1px;
+                }
+                #modalText {
+                    font-size: 1.15em;
+                    line-height: 1.8;
+                }
+                mark.target-word {
+                    background-color: #ffd700;
+                    color: #000;
+                    font-weight: bold;
+                    padding: 0 4px;
+                    border-radius: 3px;
+                }
+                mark.saved-bookmark {
+                    background-color: transparent;
+                    border-bottom: 3px solid #b22222;
+                    color: #8b0000;
+                    font-weight: bold;
+                }
+                @media print {
+                    body {
+                        margin: 0;
+                        padding: 1.5cm;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <h1 id="modalTitle">${titleHtml}</h1>
+            <div id="modalText">${textHtml}</div>
+            <hr style="margin-top: 2rem; border-color: #d4af37;">
+            <p style="font-size: 0.8rem; text-align: center; color: #5d4037;">
+                L'Evangelo come mi è stato rivelato – Maria Valtorta<br>
+                Stampato il ${new Date().toLocaleDateString()}
+            </p>
+        </body>
+        </html>
+    `);
+    doc.close();
+
+    // Piccolo ritardo per garantire il rendering
+    iframe.contentWindow.focus();
+    setTimeout(() => {
+        iframe.contentWindow.print();
+        setTimeout(() => {
+            document.body.removeChild(iframe);
+        }, 1000);
+    }, 200);
+}function printCurrentChapter() {
+    if (typeof currentOpenChapter === 'undefined' || currentOpenChapter === null) {
+        alert("Nessun capitolo aperto da stampare.");
+        return;
+    }
+    const cap = archivioCapitoli[currentOpenChapter];
+    if (!cap) return;
+
+    // Ottieni il titolo e il testo correnti (con eventuali evidenziazioni)
+    const modalTitleElem = document.getElementById('modalTitle');
+    const modalTextElem = document.getElementById('modalText');
+    if (!modalTitleElem || !modalTextElem) return;
+
+    const titleHtml = modalTitleElem.innerHTML;
+    const textHtml = modalTextElem.innerHTML;
+
+    // Crea un iframe nascosto
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.top = '-9999px';
+    iframe.style.left = '-9999px';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Capitolo ${currentOpenChapter}</title>
+            <style>
+                body {
+                    background-color: #f4ece0;
+                    font-family: 'Garamond', 'Georgia', serif;
+                    margin: 2cm;
+                    padding: 20px;
+                    color: #2e1a05;
+                    line-height: 1.6;
+                }
+                #modalTitle {
+                    color: #5d4037;
+                    border-bottom: 2px solid #d4af37;
+                    padding-bottom: 15px;
+                    font-family: 'Times New Roman', serif;
+                    letter-spacing: 1px;
+                }
+                #modalText {
+                    font-size: 1.15em;
+                    line-height: 1.8;
+                }
+                mark.target-word {
+                    background-color: #ffd700;
+                    color: #000;
+                    font-weight: bold;
+                    padding: 0 4px;
+                    border-radius: 3px;
+                }
+                mark.saved-bookmark {
+                    background-color: transparent;
+                    border-bottom: 3px solid #b22222;
+                    color: #8b0000;
+                    font-weight: bold;
+                }
+                @media print {
+                    body {
+                        margin: 0;
+                        padding: 1.5cm;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <h1 id="modalTitle">${titleHtml}</h1>
+            <div id="modalText">${textHtml}</div>
+            <hr style="margin-top: 2rem; border-color: #d4af37;">
+            <p style="font-size: 0.8rem; text-align: center; color: #5d4037;">
+                L'Evangelo come mi è stato rivelato – Maria Valtorta<br>
+                Stampato il ${new Date().toLocaleDateString()}
+            </p>
+        </body>
+        </html>
+    `);
+    doc.close();
+
+    // Piccolo ritardo per garantire il rendering
+    iframe.contentWindow.focus();
+    setTimeout(() => {
+        iframe.contentWindow.print();
+        setTimeout(() => {
+            document.body.removeChild(iframe);
+        }, 1000);
+    }, 200);
+}
 <script>
     if (typeof openChapter === "function") {
         const openChapterOriginale = openChapter; 
