@@ -125,6 +125,16 @@
             .btn-search { width: 100%; }
         }
 
+        /* Pulsante Comprimi/Espandi tutti (stile coerente con I miei Appunti) */
+        #btn-toggle-tutti {
+            background-color: #d1cbb8; border: none; color: #5d4037;
+            padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 0.9em;
+            cursor: pointer; transition: 0.2s;
+            display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+            margin-left: 15px;
+        }
+        #btn-toggle-tutti:hover { background-color: #c4bdae; }
+
         /* STILE DI STAMPA PER RICERCA GLOBALE */
         @media print {
             body { 
@@ -134,7 +144,7 @@
                 height: auto !important;
                 overflow: visible !important;
             }
-            .nav-links, .search-container h1, .search-options, .input-group, #loading, .btn-print-pdf, #btn-print-results, .close-search {
+            .nav-links, .search-container h1, .search-options, .input-group, #loading, .btn-print-pdf, #btn-print-results, #btn-toggle-tutti, .close-search {
                 display: none !important; 
             }
             .search-container {
@@ -359,8 +369,9 @@
                     const pb = document.getElementById('btn-print-results');
                     if (pb) pb.style.display = 'none';
                 } else {
+                    const toggleAllBtn = `<button id="btn-toggle-tutti" onclick="toggleAllBooks()">🔽 Comprimi Tutti</button>`;
                     resContainer.innerHTML = `<div style="text-align:center; margin-bottom:20px; color:#666;">
-                        Trovati <b>${totalFound}</b> risultati totali.
+                        Trovati <b>${totalFound}</b> risultati totali. ${toggleAllBtn}
                     </div>` + htmlOutput;
                     const pb = document.getElementById('btn-print-results');
                     if (pb) pb.style.display = '';
@@ -520,6 +531,24 @@
             const resultsEl = titleEl.nextElementSibling;
             titleEl.classList.toggle('collapsed');
             resultsEl.classList.toggle('collapsed');
+        }
+
+        // Comprimi / espandi tutti i libri trovati (rispecchia il pattern di ricerca_universale.html)
+        function toggleAllBooks() {
+            const btn = document.getElementById('btn-toggle-tutti');
+            if (!btn) return;
+            const isComprimendo = btn.innerText.includes('Comprimi');
+
+            document.querySelectorAll('.book-title').forEach(el => {
+                if (isComprimendo) el.classList.add('collapsed');
+                else el.classList.remove('collapsed');
+            });
+            document.querySelectorAll('.book-results').forEach(el => {
+                if (isComprimendo) el.classList.add('collapsed');
+                else el.classList.remove('collapsed');
+            });
+
+            btn.innerText = isComprimendo ? '▶️ Espandi Tutti' : '🔽 Comprimi Tutti';
         }
         </script>
 <script src="../stampa_universale.js"></script>
