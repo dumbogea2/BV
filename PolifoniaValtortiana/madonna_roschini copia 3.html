@@ -327,24 +327,6 @@
             .nav-buttons { flex-direction: column; gap: 10px; }
             button.nav-ctrl { width: 100%; padding: 12px; }
         }
-
-        /* ── Mobile in ORIZZONTALE (landscape): schermi larghi ma bassi,
-              es. iPhone XS Max 896×414. In landscape l'altezza è la
-              risorsa scarsa, quindi comprimiamo header/pulsanti e diamo
-              alla lista capitoli un'altezza minima usabile. ─────────── */
-        @media (max-width: 932px) and (max-height: 500px) and (orientation: landscape) {
-            #sidebar {
-                max-height: 60vh;          /* in landscape 60vh ≈ utile senza soffocare il testo */
-            }
-            #sidebar .list-container {
-                min-height: 90px;          /* garantisce sempre qualche riga scrollabile */
-            }
-            /* Pulsanti più compatti per liberare spazio verticale */
-            .home-button-container { padding: 5px; gap: 4px; }
-            .nav-btn { font-size: 11px; padding: 4px 6px; }
-            #sidebar-header { padding: 6px 10px; font-size: 12px; }
-            #content-wrapper { height: 40vh; }
-        }
     </style>
     <script src="madonna_roschini.js"></script>
 </head>
