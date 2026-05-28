@@ -962,32 +962,26 @@
             }
         });
 
-        /* --- FUNZIONI DI STAMPA INTELLIGENTI --- */
+        /* --- FUNZIONI DI STAMPA (via stampa_universale.js) --- */
         function printChapter() {
-            document.body.classList.remove('print-search-mode');
-            bvPrint();
+            if (typeof currentIndex === "undefined" || currentIndex < 0 || !autobiografia[currentIndex]) {
+                alert("Nessun capitolo aperto da stampare.");
+                return;
+            }
+            const cap = autobiografia[currentIndex];
+            const etichetta = cap.lezione || ("Capitolo " + (currentIndex + 1));
+            const titoloHTML = "Autobiografia — " + etichetta;
+            const testoHTML = document.getElementById('text-container').innerHTML;
+            bvStampaCapitolo({ titoloHTML: titoloHTML, testoHTML: testoHTML });
         }
 
         function printSearchResults() {
-            const modal = document.getElementById('searchModal');
-            // Rimuovi lo stile inline: il @media print controlla la visualizzazione
-            if (modal) modal.style.display = '';
-            document.body.classList.add('print-search-mode');
-
-            function restoreAfterPrint() {
-                document.body.classList.remove('print-search-mode');
-                if (isSearchActive && modal) {
-                    modal.style.display = 'flex';
-                } else if (modal) {
-                    modal.style.display = 'none';
-                }
-                window.removeEventListener('afterprint', restoreAfterPrint);
-            }
-
-            window.addEventListener('afterprint', restoreAfterPrint);
-            setTimeout(restoreAfterPrint, 1500);
-
-            bvPrint();
+            const lista = document.getElementById('modalSearchResults');
+            if (!lista) return;
+            bvStampaRisultatiRicerca({
+                titoloHTML: "Risultati ricerca — Autobiografia",
+                listaHTML: lista.innerHTML
+            });
         }
         /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
         const mainContentArea = document.getElementById('main-content');
@@ -1048,6 +1042,6 @@
         }
     })();
 </script>
-<script src="../ios_print.js"></script>
+<script src="../stampa_universale.js"></script>
 </body>
 </html>

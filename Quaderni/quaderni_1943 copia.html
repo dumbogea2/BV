@@ -12,13 +12,14 @@
             }
         }
     </script>
-    <title>Quaderni 1944</title>
+
+    <title>Quaderni 1943</title>
     <style>
         body {
             font-family: 'Georgia', serif;
             margin: 0; padding: 0; display: flex; height: 100vh; color: #333;
-            /* SFONDO */
-            background-image: url('Quaderni2.png');
+            /* SFONDO SPECIFICO */
+            background-image: url('Quaderni1.png');
             background-size: cover; background-position: center; background-repeat: no-repeat;
         }
         
@@ -181,7 +182,7 @@
             #sidebar { width: 100%; height: auto; max-height: 300px; } 
             #main-content { padding: 20px; } 
             #btn-back-search { top: auto; bottom: 20px; right: 20px; } 
-
+            
             /* Adattamento bottone stampa mobile */
             #floating-print-btn {
                 bottom: 80px; /* Alzato per non coprire il tasto "Torna ai Risultati" */
@@ -255,16 +256,16 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
-        }
-    </style> 
+        } 
+    </style>
 </head>
 <body>
     <button id="btn-back-search" onclick="openSearch()">🔙 Torna ai Risultati</button>
 
-   <div id="sidebar">
+    <div id="sidebar">
         <div class="home-button-container">
             <a href="home.html" class="nav-btn">← Torna alla Home</a>
-            <button onclick="openSearch()" class="nav-btn">🔍 Cerca nei Quaderni 1944</button>
+            <button onclick="openSearch()" class="nav-btn">🔍 Cerca nei Quaderni 1943</button>
             
             <a href="ricerca.html" class="nav-btn" style="background-color:#5d4037; color:white;">🌐 Ricerca nelle opere minori</a>
             
@@ -288,7 +289,7 @@
     <div id="searchModal">
         <div class="search-panel">
             <div class="close-search" onclick="closeSearch()">✕</div>
-            <h2 style="margin-top:0; color:#8b0000; text-align:center;">Ricerca nei Quaderni 1944</h2>
+            <h2 style="margin-top:0; color:#8b0000; text-align:center;">Ricerca nei Quaderni 1943</h2>
             
             <div class="search-section">
                 <span class="search-title">Tipo di ricerca:</span>
@@ -328,8 +329,9 @@
             <div id="searchResults"></div>
         </div>
     </div>
-    <script src="../cronologia.js"></script>
-    <script src="archivio_1944.js"></script>
+
+    <script src="../cronologia.js"></script> <script src="archivio_1943.js"></script>
+    <script src="archivio_1943.js"></script>
     <script>
         let currentIndex = -1;
         const listElement = document.getElementById('chapter-list');
@@ -340,11 +342,11 @@
         let isSearchActive = false; 
         let searchIsPartial = false; // true solo per ricerca parziale da URL
 
-        if (typeof quaderni_1944 !== 'undefined') {
+        if (typeof quaderni_1943 !== 'undefined') {
             initMenu();
             loadChapter(0);
         } else {
-            textContainer.innerHTML = "<p style='color:red'>Errore: Variabile 'quaderni_1944' non trovata.</p>";
+            textContainer.innerHTML = "<p style='color:red'>Errore: Variabile 'quaderni_1943' non trovata.</p>";
 
             setTimeout(() => {
                 if (typeof window.ripristinaEvidenze === 'function') window.ripristinaEvidenze();
@@ -352,13 +354,13 @@
         }
 
         function initMenu() {
-            quaderni_1944.forEach((cap, index) => {
+            quaderni_1943.forEach((cap, index) => {
                 const li = document.createElement('li');
                 li.className = 'chapter-item';
                 li.id = 'item-' + index;
 
                 // --- STILE TITOLO + DATA A CAPO ---
-                let titoloPrincipale = "Quaderni 1944";
+                let titoloPrincipale = "Quaderni 1943";
                 let dataFinale = cap.data || "";
 
                 li.innerHTML = `<strong>${titoloPrincipale}</strong><span class="chapter-date">${dataFinale}</span>`;
@@ -375,17 +377,18 @@
 
         function loadChapter(index, autoScroll = false) {
             currentIndex = index;
-            const cap = quaderni_1944[index];
+            const cap = quaderni_1943[index];
             
             let content = cap.testo;
             
             // --- SALVATAGGIO IN CRONOLOGIA ---
             if (typeof salvaInCronologia === "function") {
+                // Creiamo un titolo carino usando la data, se esiste
                 let dataFinale = cap.data || ("Capitolo " + index);
-                let titoloCronologia = "1944 - " + dataFinale; // Titolo personalizzato 1944
+                let titoloCronologia = "1943 - " + dataFinale;
                 
-                // Salvataggio con URL specifico per il 1944
-                salvaInCronologia(index, titoloCronologia, "I Quaderni", "Quaderni", "/quaderni_1944.html?idx=");
+                // Passiamo anche il nome del file corretto e "?idx=" al posto di "?ch="
+                salvaInCronologia(index, titoloCronologia, "I Quaderni", "Quaderni", "/quaderni_1943.html?idx=");
             }
             // ---------------------------------
 
@@ -414,15 +417,17 @@
 
             // --- GESTIONE DELLO SCROLL (Nuova) ---
             let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
-            const chiave = "quaderni_1944_" + index; // Chiave univoca 1944
+            const chiave = "quaderni_1943_" + index; // Chiave univoca per questo libro e capitolo
 
             if (autoScroll && searchKeywords.length > 0) {
+                // Caso 1: Stiamo cercando una parola. Torna su e poi vai alla parola evidenziata.
                 document.getElementById('main-content').scrollTop = 0;
                 setTimeout(() => {
                     const mark = document.querySelector('mark.highlight');
                     if(mark) mark.scrollIntoView({ behavior: "smooth", block: "center" });
                 }, 300);
             } else if (posizioni[chiave]) {
+                // Caso 2: C'è una posizione salvata e non stiamo facendo una ricerca. Torna al punto esatto.
                 setTimeout(() => {
                     const mainArea = document.getElementById('main-content');
                     if (mainArea) {
@@ -430,11 +435,12 @@
                     }
                 }, 300);
             } else {
+                // Caso 3: Nessuna posizione salvata. Vai semplicemente in cima.
                 document.getElementById('main-content').scrollTop = 0;
             }
-        }
-
-        function highlightText(html, keywords, partial = false) {
+        } // <-- Fine della funzione loadChapter
+            
+            function highlightText(html, keywords, partial = false) {
             let pattern = keywords.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
             if(!pattern) return html;
             let regex;
@@ -451,11 +457,11 @@
             });
         }
 
-        function nextChapter() { if (currentIndex < quaderni_1944.length - 1) loadChapter(currentIndex + 1); }
+        function nextChapter() { if (currentIndex < quaderni_1943.length - 1) loadChapter(currentIndex + 1); }
         function prevChapter() { if (currentIndex > 0) loadChapter(currentIndex - 1); }
         function updateButtons() {
             document.getElementById('btn-prev').disabled = (currentIndex === 0);
-            document.getElementById('btn-next').disabled = (currentIndex === quaderni_1944.length - 1);
+            document.getElementById('btn-next').disabled = (currentIndex === quaderni_1943.length - 1);
         }
 
         // --- MOTORE DI RICERCA ---
@@ -471,7 +477,7 @@
         function closeSearch() { 
             document.getElementById('searchModal').style.display = 'none';
             if(isSearchActive) document.getElementById('btn-back-search').style.display = 'block';
-
+            
             // Rimostriamo il bottone di stampa se c'è un capitolo caricato
             if (currentIndex > -1) {
                 floatingPrintBtn.style.display = 'flex';
@@ -528,7 +534,7 @@
             const p2 = terms[1] ? terms[1].toLowerCase() : null;
             let results = [];
 
-            quaderni_1944.forEach((cap, idx) => {
+            quaderni_1943.forEach((cap, idx) => {
                 let cleanText = (cap.testo).replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").toLowerCase();
                 let found = false;
                 let snippet = "";
@@ -601,7 +607,7 @@
                 }
 
                 if (found) {
-                    let title = "Quaderni 1944";
+                    let title = "Quaderni 1943";
                     if(cap.data) title += " - " + cap.data;
                     
                     results.push({ idx: idx, title: title, snippet: snippet });
@@ -670,26 +676,21 @@
             }
         });
 
-        /* --- FUNZIONI DI STAMPA (via stampa_universale.js) --- */
+        /* --- FUNZIONI DI STAMPA INTELLIGENTI --- */
         function printChapter() {
-            if (typeof currentIndex === "undefined" || currentIndex < 0 || !quaderni_1944[currentIndex]) {
-                alert("Nessun capitolo aperto da stampare.");
-                return;
-            }
-            const cap = quaderni_1944[currentIndex];
-            const dataFinale = cap.data || ("Capitolo " + currentIndex);
-            const titoloHTML = "Quaderni 1944 — " + dataFinale;
-            const testoHTML = document.getElementById('text-container').innerHTML;
-            bvStampaCapitolo({ titoloHTML: titoloHTML, testoHTML: testoHTML });
+            document.body.classList.remove('print-search-mode');
+            bvPrint();
         }
 
         function printSearchResults() {
-            const lista = document.getElementById('searchResults');
-            if (!lista) return;
-            bvStampaRisultatiRicerca({
-                titoloHTML: "Risultati ricerca nei Quaderni 1944",
-                listaHTML: lista.innerHTML
-            });
+            const modal = document.getElementById('searchModal');
+            if (modal) modal.style.display = 'block';
+            document.body.classList.add('print-search-mode');
+            bvPrint();
+            setTimeout(() => {
+                document.body.classList.remove('print-search-mode');
+                if (modal) modal.style.display = 'flex';
+            }, 1000);
         }
         /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
         const mainContentArea = document.getElementById('main-content');
@@ -697,16 +698,17 @@
 
         if (mainContentArea) {
             mainContentArea.addEventListener('scroll', function() {
+                // Assicuriamoci che un capitolo sia effettivamente aperto
                 if (typeof currentIndex !== "undefined" && currentIndex !== -1) {
                     clearTimeout(scrollTimeout);
                     scrollTimeout = setTimeout(function() {
                         let posizioni = JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')) || {};
-                        // Usiamo la chiave univoca per il 1944
-                        const chiave = "quaderni_1944_" + currentIndex; 
+                        // Usiamo la stessa chiave univoca creata sopra
+                        const chiave = "quaderni_1943_" + currentIndex; 
                         
                         posizioni[chiave] = mainContentArea.scrollTop; 
                         localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(posizioni));
-                    }, 500);
+                    }, 500); // Salva mezzo secondo dopo che l'utente ha smesso di scorrere
                 }
             });
         }
@@ -751,6 +753,6 @@
         }
     })();
 </script>
-<script src="../stampa_universale.js"></script>
+<script src="../ios_print.js"></script>
 </body>
 </html>

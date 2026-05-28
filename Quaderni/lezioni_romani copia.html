@@ -868,30 +868,32 @@
             }
         });
         
-        /* --- FUNZIONI DI STAMPA (via stampa_universale.js) --- */
+        /* --- FUNZIONI DI STAMPA INTELLIGENTI --- */
         function printChapter() {
-            if (typeof currentIndex === "undefined" || currentIndex < 0 || !libro_romani[currentIndex]) {
-                alert("Nessuna lezione aperta da stampare.");
-                return;
-            }
-            const cap = libro_romani[currentIndex];
-            const parti = [];
-            if (cap.lezione) parti.push(cap.lezione);
-            if (cap.titolo)  parti.push(cap.titolo);
-            if (cap.data)    parti.push("(" + cap.data + ")");
-            const etichetta = parti.length ? parti.join(" — ") : ("Lezione " + currentIndex);
-            const titoloHTML = "Lezioni sull'Epistola ai Romani — " + etichetta;
-            const testoHTML = document.getElementById('text-container').innerHTML;
-            bvStampaCapitolo({ titoloHTML: titoloHTML, testoHTML: testoHTML });
+            document.body.classList.remove('print-search-mode');
+            bvPrint();
         }
 
         function printSearchResults() {
-            const lista = document.getElementById('modalSearchResults');
-            if (!lista) return;
-            bvStampaRisultatiRicerca({
-                titoloHTML: "Risultati ricerca — Lezioni sull'Epistola ai Romani",
-                listaHTML: lista.innerHTML
-            });
+            const modal = document.getElementById('searchModal');
+            // Rimuovi lo stile inline: il @media print controlla la visualizzazione
+            if (modal) modal.style.display = '';
+            document.body.classList.add('print-search-mode');
+
+            function restoreAfterPrint() {
+                document.body.classList.remove('print-search-mode');
+                if (isSearchActive && modal) {
+                    modal.style.display = 'flex';
+                } else if (modal) {
+                    modal.style.display = 'none';
+                }
+                window.removeEventListener('afterprint', restoreAfterPrint);
+            }
+
+            window.addEventListener('afterprint', restoreAfterPrint);
+            setTimeout(restoreAfterPrint, 1500);
+
+            bvPrint();
         }
         /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
         const contentWrapperArea = document.getElementById('content-wrapper');
@@ -985,6 +987,6 @@
         }
     })();
 </script>
-<script src="../stampa_universale.js"></script>
+<script src="../ios_print.js"></script>
 </body>
 </html>

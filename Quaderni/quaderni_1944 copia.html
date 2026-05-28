@@ -670,26 +670,21 @@
             }
         });
 
-        /* --- FUNZIONI DI STAMPA (via stampa_universale.js) --- */
+        /* --- FUNZIONI DI STAMPA INTELLIGENTI --- */
         function printChapter() {
-            if (typeof currentIndex === "undefined" || currentIndex < 0 || !quaderni_1944[currentIndex]) {
-                alert("Nessun capitolo aperto da stampare.");
-                return;
-            }
-            const cap = quaderni_1944[currentIndex];
-            const dataFinale = cap.data || ("Capitolo " + currentIndex);
-            const titoloHTML = "Quaderni 1944 — " + dataFinale;
-            const testoHTML = document.getElementById('text-container').innerHTML;
-            bvStampaCapitolo({ titoloHTML: titoloHTML, testoHTML: testoHTML });
+            document.body.classList.remove('print-search-mode');
+            bvPrint();
         }
 
         function printSearchResults() {
-            const lista = document.getElementById('searchResults');
-            if (!lista) return;
-            bvStampaRisultatiRicerca({
-                titoloHTML: "Risultati ricerca nei Quaderni 1944",
-                listaHTML: lista.innerHTML
-            });
+            const modal = document.getElementById('searchModal');
+            if (modal) modal.style.display = 'block';
+            document.body.classList.add('print-search-mode');
+            bvPrint();
+            setTimeout(() => {
+                document.body.classList.remove('print-search-mode');
+                if (modal) modal.style.display = 'flex';
+            }, 1000);
         }
         /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
         const mainContentArea = document.getElementById('main-content');
@@ -751,6 +746,6 @@
         }
     })();
 </script>
-<script src="../stampa_universale.js"></script>
+<script src="../ios_print.js"></script>
 </body>
 </html>

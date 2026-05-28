@@ -724,21 +724,30 @@
             }
         });
 
-        /* --- FUNZIONI DI STAMPA INTELLIGENTI --- */
+        /* --- FUNZIONI DI STAMPA (via stampa_universale.js) --- */
         function printChapter() {
-            document.body.classList.remove('print-search-mode');
-            bvPrint();
+            if (typeof currentIndex === "undefined" || currentIndex < 0 || !quadernetti[currentIndex]) {
+                alert("Nessun capitolo aperto da stampare.");
+                return;
+            }
+            let etichetta = "N." + (currentIndex + 1);
+            const voceMenu = document.getElementById('item-' + currentIndex);
+            if (voceMenu) {
+                const dataEl = voceMenu.querySelector('.chapter-date');
+                if (dataEl && dataEl.innerText.trim() !== "") etichetta = dataEl.innerText.trim();
+            }
+            const titoloHTML = "Quadernetti — " + etichetta;
+            const testoHTML = document.getElementById('text-container').innerHTML;
+            bvStampaCapitolo({ titoloHTML: titoloHTML, testoHTML: testoHTML });
         }
 
         function printSearchResults() {
-            const modal = document.getElementById('searchModal');
-            if (modal) modal.style.display = 'block';
-            document.body.classList.add('print-search-mode');
-            bvPrint();
-            setTimeout(() => {
-                document.body.classList.remove('print-search-mode');
-                if (modal) modal.style.display = 'flex';
-            }, 1000);
+            const lista = document.getElementById('searchResults');
+            if (!lista) return;
+            bvStampaRisultatiRicerca({
+                titoloHTML: "Risultati ricerca nei Quadernetti",
+                listaHTML: lista.innerHTML
+            });
         }
         /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
         const mainContentArea = document.getElementById('main-content');
@@ -800,6 +809,6 @@
         }
     })();
 </script>
-<script src="../ios_print.js"></script>
+<script src="../stampa_universale.js"></script>
 </body>
 </html>

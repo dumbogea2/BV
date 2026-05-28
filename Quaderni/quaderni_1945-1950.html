@@ -689,21 +689,29 @@
             }
         });
 
-        /* --- FUNZIONI DI STAMPA INTELLIGENTI --- */
+        /* --- FUNZIONI DI STAMPA (via stampa_universale.js) --- */
         function printChapter() {
-            document.body.classList.remove('print-search-mode');
-            bvPrint();
+            if (typeof currentIndex === "undefined" || currentIndex < 0 || !quaderni_1945_1950[currentIndex]) {
+                alert("Nessun capitolo aperto da stampare.");
+                return;
+            }
+            const cap = quaderni_1945_1950[currentIndex];
+            let etichetta = "Capitolo " + currentIndex;
+            const matchH3 = (cap.testo || "").match(/<h3>([\s\S]*?)<\/h3>/i);
+            if (matchH3) etichetta = matchH3[1].replace(/<[^>]+>/g, "").trim();
+            else if (cap.data) etichetta = cap.data;
+            const titoloHTML = "Quaderni 1945–1950 — " + etichetta;
+            const testoHTML = document.getElementById('text-container').innerHTML;
+            bvStampaCapitolo({ titoloHTML: titoloHTML, testoHTML: testoHTML });
         }
 
         function printSearchResults() {
-            const modal = document.getElementById('searchModal');
-            if (modal) modal.style.display = 'block';
-            document.body.classList.add('print-search-mode');
-            bvPrint();
-            setTimeout(() => {
-                document.body.classList.remove('print-search-mode');
-                if (modal) modal.style.display = 'flex';
-            }, 1000);
+            const lista = document.getElementById('searchResults');
+            if (!lista) return;
+            bvStampaRisultatiRicerca({
+                titoloHTML: "Risultati ricerca nei Quaderni 1945–1950",
+                listaHTML: lista.innerHTML
+            });
         }
         /* --- SALVATAGGIO POSIZIONE SCORRIMENTO --- */
         const mainContentArea = document.getElementById('main-content');
@@ -765,6 +773,6 @@
         }
     })();
 </script>
-<script src="../ios_print.js"></script>
+<script src="../stampa_universale.js"></script>
 </body>
 </html>
