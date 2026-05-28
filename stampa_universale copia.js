@@ -64,59 +64,19 @@
         }
         .bv-contenuto-stampa p { margin: 0 0 0.7em 0; }
         a { color: #000; text-decoration: none; }
-        /* ── EVIDENZIAZIONI SEMANTICHE ──────────────────────────────
-           Filosofia: testo nero su fondo bianco (niente avorio, si
-           risparmia inchiostro), MA si conservano i colori che
-           portano significato:
-             • giallo  = parola trovata dalla ricerca
-             • blu     = sottolineatura/nota dell'utente
-             • rosso   = marcatore di nota (pallino) e segnalibro
-           I colori vengono forzati in stampa con print-color-adjust. */
-
-        /* Evidenziazione ricerca → resta gialla */
-        mark, mark.highlight, mark.target-word,
-        .highlight, span.highlight {
-            background-color: #fff176 !important;
+        /* Evidenziazioni rese sobrie per la stampa */
+        mark, mark.target-word {
+            background: transparent !important;
             color: #000 !important;
-            font-weight: bold;
+            font-weight: bold !important;
+            border-bottom: 1px solid #000;
             padding: 0 1px;
-            border-radius: 2px;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
         }
-
-        /* Sottolineatura / nota dell'utente → testo blu */
-        .appunto-highlight {
+        mark.saved-bookmark {
             background: transparent !important;
-            color: #0056b3 !important;
-            font-weight: bold;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-
-        /* Marcatore di nota (pallino) → sfondo rosso, testo bianco */
-        .appunto-note-marker {
-            background-color: #8b0000 !important;
-            color: #fff !important;
-            font-weight: bold;
-            font-size: 0.75em;
-            margin-left: 5px;
-            padding: 2px 7px;
-            border-radius: 12px;
-            text-decoration: none;
-            vertical-align: text-top;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-
-        /* Segnalibro salvato → resta rosso */
-        mark.saved-bookmark, .saved-bookmark {
-            background: transparent !important;
-            color: #8b0000 !important;
-            font-weight: bold;
-            border-bottom: 2px solid #8b0000;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
+            color: #000 !important;
+            font-weight: bold !important;
+            border-bottom: 2px dashed #000;
         }
         /* Risultati di ricerca */
         .bv-result-item, .result-item {
