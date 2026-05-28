@@ -921,24 +921,29 @@
     });
 
     function printSection() {
-        if (typeof currentIndex === "undefined" || currentIndex < 0 || !allSections[currentIndex]) {
-            alert("Nessuna sezione aperta da stampare.");
-            return;
-        }
-        const cap = allSections[currentIndex];
-        const etichetta = cap.lezione || ("Sezione " + (currentIndex + 1));
-        const titoloHTML = "La Madonna negli scritti di Maria Valtorta — " + etichetta;
-        const testoHTML = document.getElementById('text-container').innerHTML;
-        bvStampaCapitolo({ titoloHTML: titoloHTML, testoHTML: testoHTML });
+        bvPrint();
     }
 
     function printSearchResults() {
-        const lista = document.getElementById('modalSearchResults');
-        if (!lista) return;
-        bvStampaRisultatiRicerca({
-            titoloHTML: "Risultati ricerca — La Madonna negli scritti di Maria Valtorta",
-            listaHTML: lista.innerHTML
-        });
+        const modal = document.getElementById('searchModal');
+        // Rimuovi lo stile inline: il @media print controlla la visualizzazione
+        if (modal) modal.style.display = '';
+        document.body.classList.add('print-search-mode');
+
+        function restoreAfterPrint() {
+            document.body.classList.remove('print-search-mode');
+            if (isSearchActive && modal) {
+                modal.style.display = 'flex';
+            } else if (modal) {
+                modal.style.display = 'none';
+            }
+            window.removeEventListener('afterprint', restoreAfterPrint);
+        }
+
+        window.addEventListener('afterprint', restoreAfterPrint);
+        setTimeout(restoreAfterPrint, 1500);
+
+        bvPrint();
     }
 
     // Chiudi modale cliccando fuori
@@ -999,6 +1004,6 @@ function getCurrentChapterInfo() {
         }
     })();
 </script>
-<script src="../stampa_universale.js"></script>
+<script src="../ios_print.js"></script>
 </body>
 </html>

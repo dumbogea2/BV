@@ -887,20 +887,15 @@
     })();
 </script>
 <script>
-  /* --- FUNZIONI DI STAMPA (via stampa_universale.js) --- */
+  /* --- FUNZIONI DI STAMPA --- */
   function printSearchResults() {
-    const lista = document.getElementById('local-results');
-    if (!lista) return;
-    const countEl = document.getElementById('search-count-display');
-    const intestazione = (countEl && countEl.innerText.trim())
-        ? countEl.innerText.trim()
-        : "Risultati ricerca nella Polifonia Valtortiana";
-    bvStampaRisultatiRicerca({
-        titoloHTML: intestazione,
-        listaHTML: lista.innerHTML
-    });
+    document.body.classList.add('print-search-mode');
+    bvPrint();
+    setTimeout(function() {
+      document.body.classList.remove('print-search-mode');
+    }, 1000);
   }
 </script>
-<script src="../stampa_universale.js"></script>
+<script src="../ios_print.js"></script>
 </body>
 </html>
