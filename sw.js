@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v61'; // Bump versione: aggiunte immagini VideoPresentazione_img.png e InstallApp_button.png
+const CACHE_NAME = 'valtorta-cache-v62'; // Bump versione: aggiunte immagini VideoPresentazione_img.png e InstallApp_button.png
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
