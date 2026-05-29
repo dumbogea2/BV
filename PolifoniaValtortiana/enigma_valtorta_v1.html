@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Guardiano Sicuro V2
+        if (window.location.hostname.includes("github.io")) {
+            if (navigator.onLine) {
+                document.documentElement.style.display = 'none';
+            }
+        }
+    </script>
+    <title>L'Enigma Valtorta – Volume Primo (Lavère)</title>
+    <style>
+        :root{
+            --primary:#0f5b6b;        /* petrolio: accento del volume */
+            --primary-dark:#0b454f;
+            --primary-hover:#137282;
+            --gold:#c9a227;
+            --ink:#2d2a24;
+        }
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0; padding: 0;
+            display: flex; height: 100vh;
+            color: #333;
+            background-color: #c8b89a;
+            background-image:
+                radial-gradient(ellipse at top left, rgba(15,91,107,0.10) 0%, transparent 60%),
+                radial-gradient(ellipse at bottom right, rgba(201,162,39,0.12) 0%, transparent 60%);
+        }
+
+        /* ═══════ SIDEBAR ═══════ */
+        #sidebar {
+            width: 340px;
+            background-color: rgba(240, 234, 220, 0.97);
+            border-right: 2px solid #c0b090;
+            display: flex; flex-direction: column;
+            flex-shrink: 0; height: 100vh; overflow: hidden;
+        }
+        .home-button-container {
+            padding: 10px;
+            background-color: rgba(205, 195, 170, 0.95);
+            border-bottom: 1px solid #b8a888;
+            flex-shrink: 0;
+            display: flex; gap: 5px; flex-direction: column;
+        }
+        .nav-btn {
+            text-decoration: none; color: var(--primary); font-weight: bold;
+            padding: 8px; border: 1px solid var(--primary); border-radius: 4px;
+            font-size: 13px; transition: 0.2s;
+            background: rgba(255,255,255,0.7); display: block; text-align: center;
+            cursor: pointer; font-family: inherit;
+        }
+        .nav-btn:hover { background: var(--primary); color: white; }
+        .nav-btn[style*="556b2f"]:hover { background: #3e5024 !important; }
+        .nav-btn[style*="5d4037"]:hover { background: #3e2723 !important; }
+        .nav-btn[style*="f4f1ea"]:hover { background: var(--primary) !important; color: white !important; }
+
+        #sidebar-header {
+            padding: 12px 15px;
+            background-color: rgba(205,195,170,0.9);
+            font-weight: bold; text-align: center;
+            border-bottom: 1px solid #b8a888;
+            flex-shrink: 0;
+            font-size: 13px; color: #4a3520;
+            letter-spacing: 0.3px;
+        }
+        .list-container { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
+        /* Voce di capitolo (accordion) */
+        .cap-row{
+            display:flex; align-items:stretch;
+            border-bottom: 1px solid #ddd0b8;
+        }
+        .cap-toggle{
+            flex:0 0 34px; border:none; background:rgba(15,91,107,0.06);
+            color:var(--primary); font-size:13px; cursor:pointer;
+            border-right:1px solid #e3d8c0; transition:0.2s;
+        }
+        .cap-toggle:hover{ background:rgba(15,91,107,0.16); }
+        .cap-item {
+            flex:1; padding: 11px 14px; cursor: pointer; font-size: 13px;
+            transition: 0.2s; line-height: 1.35;
+        }
+        .cap-item:hover { background-color: rgba(255,255,255,0.85); }
+        .cap-row.active .cap-item { background-color: #fff; border-left: 5px solid var(--primary); font-weight: bold; }
+        .cap-item .cap-num {
+            color: var(--primary); font-weight: bold; font-size: 11px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            display: block; margin-bottom: 2px;
+        }
+        .cap-item .cap-tit { color: #333; }
+        .cap-item .cap-pag { color:#999; font-size:10px; font-style:italic; }
+
+        /* sotto-elenco sottosezioni */
+        .subsez-list{ list-style:none; margin:0; padding:0; display:none;
+            background:rgba(250,246,235,0.85); border-bottom:1px solid #ddd0b8; }
+        .subsez-list.open{ display:block; }
+        .subsez-item{ padding:7px 14px 7px 40px; font-size:12px; color:#5a4a30;
+            cursor:pointer; border-top:1px dotted #e0d5bd; line-height:1.3; }
+        .subsez-item:hover{ background:#fff; color:var(--primary); }
+
+        /* ═══════ CONTENUTO PRINCIPALE ═══════ */
+        #content-wrapper { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
+        #main-content {
+            flex-grow: 1; padding: 40px;
+            overflow-y: auto; box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            margin: 20px auto; border-radius: 8px;
+            max-width: 900px;
+            width: calc(100% - 40px);
+            line-height: 1.78;
+        }
+        #main-content h1.title-chapter{
+            color: var(--primary); font-size: 1.7em;
+            border-bottom: 3px double var(--gold);
+            padding-bottom: 12px; margin: 4px 0 22px;
+        }
+        #main-content h3 {
+            color: var(--primary); font-size: 1.25em;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 6px; margin-top: 34px; scroll-margin-top: 12px;
+        }
+        #main-content h4 {
+            color: #5a4520; font-size: 1.08em;
+            margin-top: 22px; border-left: 3px solid var(--gold);
+            padding-left: 10px;
+        }
+        #main-content p { text-align: justify; margin-bottom: 12px; }
+        #main-content em { color: #333; }
+        .parte-label {
+            font-size: 0.85em; color: #888; font-style: italic;
+            letter-spacing: 0.5px; display: block; margin-bottom: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Mini-indice del capitolo */
+        .cap-toc{ background:rgba(15,91,107,0.05); border:1px solid #e0d6c0;
+            border-left:4px solid var(--gold); border-radius:0 6px 6px 0;
+            padding:12px 16px; margin:0 0 26px; }
+        .cap-toc strong{ color:var(--primary); font-size:0.9em; text-transform:uppercase; letter-spacing:0.5px; }
+        .cap-toc ul{ margin:8px 0 0; padding-left:18px; }
+        .cap-toc li{ margin:3px 0; }
+        .cap-toc a{ color:#5a4520; text-decoration:none; font-size:0.92em; }
+        .cap-toc a:hover{ color:var(--primary); text-decoration:underline; }
+
+        /* Immagini */
+        figure.img-fig{ margin: 18px auto; text-align:center; max-width:100%; }
+        figure.img-fig img{ max-width:100%; height:auto; border:1px solid #d8cdb2;
+            border-radius:4px; box-shadow:0 2px 8px rgba(0,0,0,0.18); background:#fff; }
+        figure.img-fig figcaption{ font-size:0.84em; color:#6a5a40; font-style:italic;
+            margin-top:6px; line-height:1.35; }
+        p.didascalia{ font-size:0.84em; color:#6a5a40; font-style:italic; text-align:center; }
+
+        /* Note a piè di pagina */
+        sup.fn-ref a{ color:var(--primary); text-decoration:none; font-weight:bold; }
+        sup.fn-ref a:hover{ text-decoration:underline; }
+        .footnotes{ margin-top:34px; font-size:0.9em; color:#4a4438; }
+        .footnotes hr{ border:none; border-top:1px solid #cdbf9f; margin-bottom:10px; }
+        .footnotes .fn-title{ color:var(--primary); border:none; margin:0 0 8px; padding:0;
+            font-size:0.95em; text-transform:uppercase; letter-spacing:0.6px; }
+        .footnotes .fn-item{ text-align:left; margin:5px 0; padding-left:6px; line-height:1.5;
+            scroll-margin-top:12px; }
+        .footnotes .fn-item sup{ color:var(--primary); font-weight:bold; margin-right:3px; }
+        .footnotes .fn-item.fn-flash{ background:rgba(201,162,39,0.35); transition:background 1.2s; }
+
+        /* Pulsanti navigazione */
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px;
+            padding-top: 20px; border-top: 1px solid #d1cbb8; }
+        .nav-ctrl { background-color: var(--primary); color: white; border: none;
+            padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; transition: 0.3s; }
+        .nav-ctrl:hover { background-color: var(--primary-hover); }
+        .nav-ctrl:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        .chapter-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #d1cbb8; text-align: center; }
+        .copyright-text { font-size: 12px; color: #666; line-height: 1.4; font-style: italic; }
+
+        .highlight { background-color: #fff176; font-weight: bold; color: #000; }
+
+        #floating-print-btn {
+            display: none; position: fixed; bottom: 30px; right: 40px;
+            background-color: var(--primary); color: white; border: none;
+            border-radius: 50%; width: 52px; height: 52px;
+            font-size: 22px; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.35); z-index: 1000;
+            align-items: center; justify-content: center; transition: 0.2s;
+        }
+        #floating-print-btn:hover { background-color: var(--primary-hover); transform: scale(1.1); }
+
+        /* ═══════ MODALE RICERCA ═══════ */
+        #searchModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.82); z-index: 2000; justify-content: center; align-items: flex-start; padding-top: 50px; }
+        .search-panel { background-color: #f4ece0; border: 4px double var(--primary); border-radius: 8px;
+            width: 90%; max-width: 700px; padding: 25px; box-shadow: 0 0 30px #000;
+            max-height: 85vh; overflow-y: auto; position: relative; box-sizing: border-box; }
+        .modal-close-search { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: var(--primary); font-weight: bold; }
+        .modal-close-search:hover { color: var(--gold); }
+        .search-section { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 20px; }
+        .search-title { color: var(--primary); font-weight: bold; margin-bottom: 10px; display: block; }
+        .modal-input-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+        .modal-input-group input[type="text"], .modal-input-group input[type="number"] {
+            padding: 8px; border: 1px solid var(--primary); border-radius: 4px; flex-grow: 1; font-family: inherit; }
+        .modal-btn-search { background-color: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .modal-btn-search:hover { background-color: var(--primary-hover); }
+        .modal-btn-reset { background-color: #5d4037; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
+        #modalSearchResults { margin-top: 10px; border-top: 2px solid #dcd8ce; padding-top: 15px; }
+        #modalSearchResults .result-item { background: white; border: 1px solid #dcd8ce; padding: 10px; margin-bottom: 8px; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
+        #modalSearchResults .result-item:hover { background-color: #fff8e1; border-color: var(--gold); }
+        #modalSearchResults .result-item.visited { background-color: #e8e4db; border-left: 5px solid var(--gold); }
+        #modalSearchResults .res-cap { font-weight: bold; color: var(--primary); font-size: 0.95em; }
+        #modalSearchResults .res-snippet { font-size: 0.9em; color: #444; font-style: italic; margin-top: 4px; }
+        #modalSearchResults .result-item mark.highlight { background-color: var(--gold); color: #000; padding: 0 2px; border-radius: 2px; }
+
+        /* ═══════ STAMPA ═══════ */
+        @media print {
+            #sidebar, #floating-print-btn, .nav-buttons, .home-button-container,
+            .modal-close-search, .search-section, .modal-btn-search, .modal-btn-reset,
+            #btn-back-search, .nav-btn, .cap-toggle { display: none !important; }
+            body { display: block !important; background: white !important; }
+            body:not(.print-search-mode) #searchModal { display: none !important; }
+            body:not(.print-search-mode) #content-wrapper,
+            body:not(.print-search-mode) #main-content {
+                box-shadow: none !important; margin: 0 !important; padding: 0 !important;
+                width: 100% !important; max-width: 100% !important; }
+            body.print-search-mode { background: white !important; }
+            body.print-search-mode #sidebar, body.print-search-mode #content-wrapper { display: none !important; }
+            body.print-search-mode #searchModal { display: block !important; position: static !important;
+                background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+                width: 100% !important; height: auto !important; padding: 0 !important; overflow: visible !important; }
+            body.print-search-mode .search-panel { border: none !important; box-shadow: none !important;
+                width: 100% !important; max-width: none !important; max-height: none !important;
+                overflow: visible !important; padding: 10px 0 !important; margin: 0 !important; background: white !important; }
+            body.print-search-mode .search-panel h2 { color: black !important; border-bottom: 2px solid #000; }
+            body.print-search-mode #modalSearchResults { display: block !important; border: none !important; overflow: visible !important; }
+            body.print-search-mode #btn-print-search { display: none !important; }
+            .result-item { page-break-inside: avoid; border: 1px solid #ccc !important; color: black !important; margin-bottom: 10px !important; }
+            .result-item.visited { border-left: 5px solid #555 !important; background-color: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            figure.img-fig img{ max-width:60% !important; }
+        }
+
+        /* ═══════ RESPONSIVE ═══════ */
+        @media (max-width: 900px) {
+            body { flex-direction: column; height: 100vh; overflow: hidden; }
+            #sidebar { width: 100%; height: auto; max-height: 55vh; overflow: hidden;
+                border-right: none; border-bottom: 3px solid var(--primary); flex-shrink: 0; }
+            #sidebar .list-container { flex: 1 1 auto; min-height: 120px; overflow-y: auto;
+                -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+            #content-wrapper { flex-grow: 1; padding: 10px; height: 45vh; overflow: hidden; }
+            #main-content { margin: 0; padding: 15px; width: 100%; height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+            .home-button-container { flex-direction: row; flex-wrap: wrap; }
+            .nav-btn { font-size: 12px; padding: 5px 8px; flex: 1 1 45%; }
+            .nav-buttons { flex-direction: column; gap: 10px; }
+            button.nav-ctrl { width: 100%; padding: 12px; }
+            #main-content h1.title-chapter{ font-size:1.35em; }
+        }
+        @media (max-width: 932px) and (max-height: 500px) and (orientation: landscape) {
+            #sidebar { max-height: 60vh; }
+            #sidebar .list-container { min-height: 90px; }
+            .home-button-container { padding: 5px; gap: 4px; }
+            .nav-btn { font-size: 11px; padding: 4px 6px; }
+            #sidebar-header { padding: 6px 10px; font-size: 12px; }
+            #content-wrapper { height: 40vh; }
+        }
+    </style>
+    <script src="enigma_valtorta_v1.js"></script>
+</head>
+<body>
+
+<div id="sidebar" data-nome-libro="L'Enigma Valtorta - Volume Primo">
+    <div class="home-button-container">
+        <button class="nav-btn nav-btn-primary" onclick="tornHomeVolume()">📖 Home Enigma Valtorta</button>
+        <a href="home.html" class="nav-btn" style="background:#556b2f;color:#fff;border-color:#556b2f;">📚 Studi e Approfondimenti</a>
+        <a href="../index.html" class="nav-btn" style="background:#f4f1ea;color:#0f5b6b;border-color:#0f5b6b;">🏠 Torna al Portale</a>
+        <a href="ricerca_studi.html" class="nav-btn" style="background:#5d4037;color:#fff;border-color:#5d4037;">🔍 Ricerca nei Volumi</a>
+        <button class="nav-btn" onclick="openSearch()" style="background:#0f5b6b;color:#fff;border-color:#0f5b6b;">🔎 Cerca in questo Volume</button>
+        <a href="mia_cronologia.html" class="nav-btn" style="background:#5d4037;color:#fff;border-color:#5d4037;">🕒 Riprendi la Lettura</a>
+        <a href="miei_appunti.html" class="nav-btn" style="background:#5d4037;color:#fff;border-color:#5d4037;">📝 I miei Appunti</a>
+        <a href="#" id="btn-back-search" class="nav-btn" style="display:none;background:#0f5b6b;color:#fff;border-color:#0f5b6b;"></a>
+    </div>
+
+    <div id="sidebar-header">
+        L'Enigma Valtorta — Volume Primo<br>
+        <span style="font-weight:normal; font-style:italic; font-size:11px;">Jean-François Lavère</span>
+    </div>
+
+    <div class="list-container">
+        <ul id="index-list" style="list-style:none; padding:0; margin:0;"></ul>
+    </div>
+</div>
+
+<div id="content-wrapper">
+    <div id="main-content">
+        <div id="text-container"></div>
+        <div class="nav-buttons">
+            <button class="nav-ctrl" id="btn-prev" onclick="prevSection()" style="display:none;">← Precedente</button>
+            <button class="nav-ctrl" id="btn-next" onclick="nextSection()" style="display:none;">Successivo →</button>
+        </div>
+        <div id="footer-container"></div>
+    </div>
+</div>
+
+<button id="floating-print-btn" onclick="printSection()" title="Stampa questo capitolo">🖨️</button>
+
+<!-- MODALE DI RICERCA -->
+<div id="searchModal">
+    <div class="search-panel">
+        <div class="modal-close-search" onclick="closeSearch()" title="Chiudi">✕</div>
+        <h2 style="margin-top:0; color:var(--primary); text-align:center; border-bottom: 2px double var(--gold); padding-bottom:10px;">
+            Ricerca nel Volume
+        </h2>
+        <div class="search-section">
+            <span class="search-title">Tipo di ricerca:</span>
+            <div style="margin-bottom:10px;">
+                <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="simple_partial" checked onchange="toggleLocalMode()"> Semplice Parziale</label>
+                <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="simple_exact" onchange="toggleLocalMode()"> Semplice Esatta</label>
+                <label style="margin-right:12px; cursor:pointer;"><input type="radio" name="localType" value="or_exact" onchange="toggleLocalMode()"> Multipla (O)</label>
+                <label style="cursor:pointer;"><input type="radio" name="localType" value="proximity" onchange="toggleLocalMode()"> Concordanze</label>
+            </div>
+            <div id="localSimpleBox" class="modal-input-group">
+                <input type="text" id="local-search-input" placeholder="Es. Antiochia, Betsaida, talenti...">
+                <button class="modal-btn-search" onclick="startSearch()">Cerca</button>
+            </div>
+            <div id="localOrBox" class="modal-input-group" style="display:none;">
+                <input type="text" id="orWord1" placeholder="Parola 1">
+                <strong style="align-self:center; color:var(--primary);">OPPURE</strong>
+                <input type="text" id="orWord2" placeholder="Parola 2">
+                <button class="modal-btn-search" onclick="startSearch()">Cerca</button>
+            </div>
+        </div>
+        <div id="localProximitySection" class="search-section" style="display:none; border-bottom:none; margin-bottom:5px;">
+            <span class="search-title">Ricerca per Concordanze (vicinanza)</span>
+            <div class="modal-input-group">
+                <input type="text" id="localWord1" placeholder="Parola 1">
+                <input type="number" id="localDist" value="30" style="width:70px;" title="Distanza max parole">
+                <input type="text" id="localWord2" placeholder="Parola 2">
+                <button class="modal-btn-search" onclick="startSearch()">Trova</button>
+            </div>
+            <div style="font-size:0.8em; color:#666; margin-top:5px;">Trova due parole distanti al massimo N parole l'una dall'altra.</div>
+        </div>
+        <div style="text-align:right; margin-bottom:5px;">
+            <button class="modal-btn-reset" onclick="resetSearch()">🗑️ Pulisci</button>
+        </div>
+        <div style="margin-bottom:8px;">
+            <button id="btn-print-search" onclick="printSearchResults()" style="display:none; cursor:pointer; background:none; border:1px solid var(--primary); padding:3px 10px; border-radius:5px; color:var(--primary); font-weight:bold; font-size:12px; font-family:inherit;">🖨️ Stampa PDF</button>
+        </div>
+        <div id="modalSearchResults"></div>
+    </div>
+</div>
+
+<script>
+    // ═══════════════════════════════════════════════════
+    // STATO
+    // ═══════════════════════════════════════════════════
+    const NOME_LIBRO = "L'Enigma Valtorta - Volume Primo";
+    const URL_BASE = "enigma_valtorta_v1.html?idx=";
+    let allSections = [];   // array piatto: un elemento per capitolo
+    let currentIndex = -1;
+    let searchKeywords = [];
+    let isSearchActive = false;
+    let searchIsPartial = true;
+    let pendingAnchor = null;   // àncora di sottosezione da raggiungere dopo loadSection
+
+    const indexList     = document.getElementById('index-list');
+    const textContainer = document.getElementById('text-container');
+    const resultsDiv    = document.getElementById('modalSearchResults');
+    const floatBtn      = document.getElementById('floating-print-btn');
+
+    function homeHTML(){
+        return `
+            <h1 class="title-chapter">L'Enigma Valtorta — Volume Primo</h1>
+            <p style="font-style:italic; border-left:4px solid var(--gold); padding:12px 15px; color:#4a3520; line-height:1.7; margin-bottom:20px; background:rgba(201,162,39,0.08); border-radius:0 6px 6px 0;">
+                «Mi bastava verificare sistematicamente e con tutto il rigore scientifico possibile ogni dettaglio fornito nell'opera, analizzarne l'esattezza, la credibilità o coerenza, per provare la veridicità globale dell'opera...»
+            </p>
+            <p style="color:#666; font-size:14px; text-align:center; margin-top:25px;">
+                <strong>Jean-François Lavère</strong> — Centro Editoriale Valtortiano<br>
+                <em>Seleziona un capitolo dall'indice per iniziare la lettura.</em><br>
+                <span style="font-size:12px;">Usa il pulsante <strong>▸</strong> accanto a ogni capitolo per aprire l'elenco delle sottosezioni.</span>
+            </p>`;
+    }
+
+    // ═══════════════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════════════
+    window.onload = function() {
+        if (typeof enigma_valtorta_v1 === 'undefined') {
+            alert("Errore: impossibile caricare enigma_valtorta_v1.js");
+            return;
+        }
+        const archivio = enigma_valtorta_v1;
+        (archivio.capitoli || []).forEach(cap => {
+            allSections.push({
+                tipo: 'capitolo',
+                numero: cap.numero,
+                lezione: cap.titolo,
+                pagina: cap.pagina,
+                testo: cap.testo,
+                sottosezioni: cap.sottosezioni || []
+            });
+        });
+
+        textContainer.innerHTML = homeHTML();
+        renderSidebar(archivio);
+
+        // Apertura diretta da URL (ricerca_studi / cronologia / appunti)
+        const params = new URLSearchParams(window.location.search);
+        const openIdx = params.get('idx');
+        const keys    = params.get('keys');
+        const mode    = params.get('mode');
+        const from    = params.get('from');
+        const anchor  = params.get('anchor');
+        if (anchor) pendingAnchor = anchor;
+
+        if (openIdx !== null) {
+            if (keys) {
+                searchKeywords = decodeURIComponent(keys).split(',').filter(Boolean);
+                isSearchActive = true;
+                searchIsPartial = (mode === 'partial');
+            }
+            if (from === 'studi') {
+                const b = document.getElementById('btn-back-search');
+                if (b) { b.style.display='block'; b.innerText='🔙 Torna ai Risultati'; b.onclick=()=>history.back(); }
+            }
+            const appId = params.get('appId');
+            if (appId) window._pendingAppId = appId;
+            const isFromSearch = !!(keys || from === 'studi');
+            setTimeout(() => loadSection(parseInt(openIdx), isFromSearch), 100);
+        }
+    };
+
+    // ═══════════════════════════════════════════════════
+    // SIDEBAR (accordion: capitolo ▸ sottosezioni)
+    // ═══════════════════════════════════════════════════
+    function renderSidebar(archivio) {
+        indexList.innerHTML = '';
+        (archivio.capitoli || []).forEach((cap, idx) => {
+            const row = document.createElement('li');
+            row.className = 'cap-row';
+            row.id = 'caprow-' + idx;
+
+            const hasSub = (cap.sottosezioni && cap.sottosezioni.length > 0);
+            const toggle = document.createElement('button');
+            toggle.className = 'cap-toggle';
+            toggle.innerHTML = hasSub ? '▸' : '·';
+            toggle.title = hasSub ? 'Mostra/nascondi sottosezioni' : '';
+            toggle.onclick = (e) => { e.stopPropagation(); if (hasSub) toggleSub(idx, toggle); };
+
+            const item = document.createElement('div');
+            item.className = 'cap-item';
+            item.innerHTML = `<span class="cap-num">Cap. ${cap.numero} · p.${cap.pagina}</span>
+                              <span class="cap-tit">${cap.titolo}</span>`;
+            item.onclick = () => loadSection(idx);
+
+            row.appendChild(toggle);
+            row.appendChild(item);
+            indexList.appendChild(row);
+
+            // sotto-elenco
+            const ul = document.createElement('ul');
+            ul.className = 'subsez-list';
+            ul.id = 'sub-' + idx;
+            (cap.sottosezioni || []).forEach(s => {
+                const li = document.createElement('li');
+                li.className = 'subsez-item';
+                li.textContent = s.titolo;
+                li.onclick = (e) => { e.stopPropagation(); goToSub(idx, s.anchor); };
+                ul.appendChild(li);
+            });
+            indexList.appendChild(ul);
+        });
+    }
+
+    function toggleSub(idx, toggleBtn){
+        const ul = document.getElementById('sub-' + idx);
+        if (!ul) return;
+        const open = ul.classList.toggle('open');
+        if (toggleBtn) toggleBtn.innerHTML = open ? '▾' : '▸';
+    }
+
+    function goToSub(idx, anchor){
+        if (currentIndex === idx) {
+            scrollToAnchor(anchor);
+        } else {
+            pendingAnchor = anchor;
+            loadSection(idx);
+        }
+    }
+
+    function scrollToAnchor(anchor){
+        const mc = document.getElementById('main-content');
+        const el = document.getElementById(anchor);
+        if (el && mc) {
+            const top = el.getBoundingClientRect().top - mc.getBoundingClientRect().top + mc.scrollTop - 10;
+            mc.scrollTo({ top, behavior: 'smooth' });
+            el.style.transition = 'background 1.2s';
+            el.style.background = 'rgba(201,162,39,0.30)';
+            setTimeout(()=>{ el.style.background='transparent'; }, 1300);
+        }
+    }
+
+    // ═══════════════════════════════════════════════════
+    // CARICA CAPITOLO
+    // ═══════════════════════════════════════════════════
+    function loadSection(index, fromSearch = false) {
+        currentIndex = index;
+        const cap = allSections[index];
+
+        if (typeof salvaInCronologia === 'function') {
+            salvaInCronologia(index, cap.lezione, NOME_LIBRO, 'EnigmaValtortaV1', '/' + URL_BASE);
+        }
+
+        let htmlTesto = cap.testo || '';
+
+        // Highlight keywords se ricerca attiva
+        if (isSearchActive && searchKeywords.length > 0) {
+            searchKeywords.forEach(kw => {
+                const safe = kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                let re = searchIsPartial ? new RegExp('(' + safe + ')', 'gi')
+                                         : new RegExp('(?<!\\p{L})(' + safe + ')(?!\\p{L})', 'giu');
+                htmlTesto = htmlTesto.replace(/>([^<]*)</g, (m, txt) =>
+                    '>' + txt.replace(re, "<span class='highlight'>$1</span>") + '<');
+            });
+        }
+
+        // Mini-indice del capitolo
+        let toc = '';
+        if (cap.sottosezioni && cap.sottosezioni.length > 0) {
+            toc = `<div class="cap-toc"><strong>In questo capitolo</strong><ul>` +
+                cap.sottosezioni.map(s => `<li><a href="#${s.anchor}" onclick="scrollToAnchor('${s.anchor}');return false;">${s.titolo}</a></li>`).join('') +
+                `</ul></div>`;
+        }
+
+        textContainer.innerHTML = `
+            <span class="parte-label">Capitolo ${cap.numero} — pagina ${cap.pagina}</span>
+            <h1 class="title-chapter">${cap.lezione}</h1>
+            ${toc}
+            ${htmlTesto}`;
+
+        document.getElementById('footer-container').innerHTML = `
+            <div class="chapter-footer">
+                <div class="copyright-text"><br>
+                    Jean-François Lavère — <em>L'Enigma Valtorta, Volume Primo</em><br>
+                    © Centro Editoriale Valtortiano srl — Isola del Liri (FR)
+                </div>
+            </div>`;
+
+        // Sidebar: stato attivo + apri il relativo sotto-elenco
+        document.querySelectorAll('.cap-row').forEach(el => el.classList.remove('active'));
+        const activeRow = document.getElementById('caprow-' + index);
+        if (activeRow) {
+            activeRow.classList.add('active');
+            if (!fromSearch) activeRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        updateButtons();
+        floatBtn.style.display = 'flex';
+
+        // Appunti
+        if (typeof window.ripristinaEvidenze === 'function') {
+            setTimeout(() => {
+                window.ripristinaEvidenze();
+                if (window._pendingAppId) {
+                    const appId = window._pendingAppId; window._pendingAppId = null;
+                    if (window.appuntiScrollInterval) clearInterval(window.appuntiScrollInterval);
+                    let t = 0;
+                    window.appuntiScrollInterval = setInterval(() => {
+                        const el = document.getElementById(appId);
+                        if (el) {
+                            const mc = document.getElementById('main-content');
+                            if (mc) { mc.scrollTop += el.getBoundingClientRect().top - mc.getBoundingClientRect().top - mc.clientHeight/2; }
+                            el.style.backgroundColor = 'rgba(201,162,39,0.5)';
+                            setTimeout(()=>{ el.style.backgroundColor='transparent'; }, 1200);
+                            clearInterval(window.appuntiScrollInterval);
+                        }
+                        if (++t > 20) clearInterval(window.appuntiScrollInterval);
+                    }, 100);
+                }
+            }, 300);
+        }
+
+        // Scroll
+        const mc = document.getElementById('main-content');
+        if (fromSearch && searchKeywords.length > 0) {
+            mc.scrollTop = 0;
+            setTimeout(() => { const m = textContainer.querySelector('.highlight'); if (m) m.scrollIntoView({behavior:'smooth',block:'center'}); }, 300);
+        } else if (pendingAnchor) {
+            const a = pendingAnchor; pendingAnchor = null;
+            mc.scrollTop = 0;
+            setTimeout(() => scrollToAnchor(a), 250);
+        } else if (window._pendingAppId) {
+            mc.scrollTop = 0;
+        } else {
+            mc.scrollTop = 0;
+            ripristinaScroll(index);
+        }
+    }
+
+    function tornHomeVolume() {
+        currentIndex = -1; isSearchActive = false; searchKeywords = [];
+        textContainer.innerHTML = homeHTML();
+        document.getElementById('footer-container').innerHTML = '';
+        document.getElementById('btn-prev').style.display = 'none';
+        document.getElementById('btn-next').style.display = 'none';
+        floatBtn.style.display = 'none';
+        document.querySelectorAll('.cap-row').forEach(el => el.classList.remove('active'));
+        document.getElementById('main-content').scrollTop = 0;
+    }
+
+    function nextSection() { if (currentIndex < allSections.length - 1) loadSection(currentIndex + 1); }
+    function prevSection() { if (currentIndex > 0) loadSection(currentIndex - 1); }
+    function updateButtons() {
+        const bp = document.getElementById('btn-prev'), bn = document.getElementById('btn-next');
+        bp.style.display = bn.style.display = 'block';
+        bp.disabled = (currentIndex === 0);
+        bn.disabled = (currentIndex === allSections.length - 1);
+    }
+
+    // Click sui riferimenti di nota e ritorno (delegazione)
+    document.getElementById('main-content').addEventListener('click', function(e){
+        const a = e.target.closest('sup.fn-ref a');
+        if (a) {
+            e.preventDefault();
+            const id = a.getAttribute('href').slice(1);
+            const note = document.getElementById(id);
+            const mc = document.getElementById('main-content');
+            if (note && mc) {
+                const top = note.getBoundingClientRect().top - mc.getBoundingClientRect().top + mc.scrollTop - 10;
+                mc.scrollTo({ top, behavior:'smooth' });
+                note.classList.add('fn-flash');
+                setTimeout(()=>note.classList.remove('fn-flash'), 1300);
+            }
+        }
+    });
+
+    // ═══════════════════════════════════════════════════
+    // RICERCA
+    // ═══════════════════════════════════════════════════
+    function toggleLocalMode() {
+        const type = document.querySelector('input[name="localType"]:checked').value;
+        document.getElementById('localSimpleBox').style.display = (type==='simple_partial'||type==='simple_exact')?'flex':'none';
+        document.getElementById('localOrBox').style.display = (type==='or_exact')?'flex':'none';
+        document.getElementById('localProximitySection').style.display = (type==='proximity')?'block':'none';
+    }
+    function openSearch() {
+        document.getElementById('searchModal').style.display = 'flex';
+        document.getElementById('btn-back-search').style.display = 'none';
+        floatBtn.style.display = 'none';
+        setTimeout(() => document.getElementById('local-search-input').focus(), 50);
+    }
+    function closeSearch() {
+        document.getElementById('searchModal').style.display = 'none';
+        const b = document.getElementById('btn-back-search');
+        if (isSearchActive && b && b.innerText.trim() !== '') b.style.display = 'block';
+        const ps = document.getElementById('btn-print-search'); if (ps) ps.style.display = 'none';
+    }
+    function resetSearch() {
+        ['local-search-input','orWord1','orWord2','localWord1','localWord2'].forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
+        resultsDiv.innerHTML = ''; isSearchActive = false; searchKeywords = [];
+    }
+    function startSearch() {
+        const type = document.querySelector('input[name="localType"]:checked').value;
+        searchIsPartial = (type === 'simple_partial');
+        let terms = [], dist = 30;
+        if (type === 'simple_partial' || type === 'simple_exact') {
+            const v = document.getElementById('local-search-input').value.trim().toLowerCase();
+            if (!v) return; terms = [v];
+        } else if (type === 'or_exact') {
+            const w1=document.getElementById('orWord1').value.trim().toLowerCase();
+            const w2=document.getElementById('orWord2').value.trim().toLowerCase();
+            if (!w1 && !w2) return; terms = [w1,w2].filter(Boolean);
+        } else {
+            const w1=document.getElementById('localWord1').value.trim().toLowerCase();
+            const w2=document.getElementById('localWord2').value.trim().toLowerCase();
+            dist = parseInt(document.getElementById('localDist').value) || 30;
+            if (!w1 || !w2) return; terms = [w1,w2];
+        }
+        const results = [];
+        allSections.forEach((cap, idx) => {
+            let clean = (cap.testo||'').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ')
+                .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').toLowerCase();
+            let found=false, snippet='';
+            if (type === 'simple_partial') {
+                const pos = clean.indexOf(terms[0]);
+                if (pos>=0){ found=true; const raw='...'+clean.substring(Math.max(0,pos-40),Math.min(clean.length,pos+80))+'...';
+                    const safe=terms[0].replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&');
+                    snippet=raw.replace(new RegExp('('+safe+')','gi'),'<mark class="highlight">$1</mark>'); }
+            } else if (type === 'simple_exact') {
+                const safe=terms[0].replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&');
+                const m=clean.match(new RegExp('(?<!\\p{L})'+safe+'(?!\\p{L})','iu'));
+                if (m){ found=true; const pos=m.index; const raw='...'+clean.substring(Math.max(0,pos-40),Math.min(clean.length,pos+80))+'...';
+                    snippet=raw.replace(new RegExp('(?<!\\p{L})('+safe+')(?!\\p{L})','giu'),'<mark class="highlight">$1</mark>'); }
+            } else if (type === 'or_exact') {
+                for (const term of terms){ const safe=term.replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&');
+                    const m=clean.match(new RegExp('(?<!\\p{L})'+safe+'(?!\\p{L})','iu'));
+                    if (m){ found=true; const pos=m.index; const raw='...'+clean.substring(Math.max(0,pos-40),Math.min(clean.length,pos+80))+'...';
+                        snippet=raw.replace(new RegExp('(?<!\\p{L})('+safe+')(?!\\p{L})','giu'),'<mark class="highlight">$1</mark>'); break; } }
+            } else {
+                const safe1=terms[0].replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&');
+                const safe2=terms[1].replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&');
+                const re1=new RegExp('(?<!\\p{L})'+safe1+'(?!\\p{L})','iu'), re2=new RegExp('(?<!\\p{L})'+safe2+'(?!\\p{L})','iu');
+                const words=clean.split(/\s+/).filter(Boolean); let i1=[],i2=[];
+                words.forEach((w,i)=>{ if(re1.test(w))i1.push(i); if(re2.test(w))i2.push(i); });
+                if (i1.length && i2.length){ let minD=Infinity,bp=0;
+                    i1.forEach(a=>i2.forEach(b=>{ const d=Math.abs(a-b); if(d<minD){minD=d;bp=Math.min(a,b);} }));
+                    if (minD<=dist){ found=true; const raw='...'+words.slice(Math.max(0,bp-8),bp+dist+8).join(' ')+'...';
+                        const hl=(t,w)=>{ const s=w.replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&'); return t.replace(new RegExp('(?<!\\p{L})('+s+')(?!\\p{L})','giu'),'<mark class="highlight">$1</mark>'); };
+                        snippet=hl(hl(raw,terms[0]),terms[1]); } }
+            }
+            if (found) results.push({ idx, titolo:`Cap. ${cap.numero} — ${cap.lezione}`, snippet });
+        });
+        isSearchActive = true; searchKeywords = terms;
+        resultsDiv.innerHTML = `<div style="margin-bottom:10px; font-weight:bold;">Trovati: <strong>${results.length}</strong> capitoli</div>`;
+        const ps = document.getElementById('btn-print-search'); if (ps) ps.style.display = results.length>0?'':'none';
+        if (!results.length){ resultsDiv.innerHTML += `<div style="padding:15px; text-align:center; color:#666; font-style:italic;">Nessun risultato trovato.</div>`; return; }
+        results.forEach(res => {
+            const div = document.createElement('div'); div.className='result-item';
+            div.innerHTML = `<div class="res-cap">${res.titolo}</div><div class="res-snippet"><small>${res.snippet}</small></div>`;
+            div.onclick = function(){ this.classList.add('visited'); loadSection(res.idx, true);
+                const b=document.getElementById('btn-back-search'); b.style.display='block'; b.innerText='🔙 Torna ai Risultati'; b.onclick=openSearch;
+                closeSearch(); };
+            resultsDiv.appendChild(div);
+        });
+    }
+
+    // ═══════════════════════════════════════════════════
+    // SCROLL SAVE / RESTORE
+    // ═══════════════════════════════════════════════════
+    function getScrollKey(){ return currentIndex >= 0 ? 'enigma_v1_scroll_' + currentIndex : null; }
+    function salvaScrollCorrente(){
+        const k=getScrollKey(); if(!k) return;
+        const mc=document.getElementById('main-content'); if(!mc) return;
+        let pos=JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')||'{}');
+        pos[k]=mc.scrollTop; localStorage.setItem('valtorta_scroll_posizioni', JSON.stringify(pos));
+    }
+    function ripristinaScroll(index){
+        const k='enigma_v1_scroll_'+index;
+        const pos=JSON.parse(localStorage.getItem('valtorta_scroll_posizioni')||'{}')[k];
+        if (pos){ const mc=document.getElementById('main-content'); if(!mc) return;
+            mc.scrollTop=pos; setTimeout(()=>{ mc.scrollTop=pos; }, 400); }
+    }
+    let _sst;
+    (function attach(){ const mc=document.getElementById('main-content'); if(!mc) return;
+        mc.addEventListener('scroll', ()=>{ clearTimeout(_sst); _sst=setTimeout(salvaScrollCorrente,500); }, {passive:true}); })();
+    window.addEventListener('beforeunload', salvaScrollCorrente);
+    window.addEventListener('pagehide', salvaScrollCorrente);
+    document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden') salvaScrollCorrente(); });
+
+    // ═══════════════════════════════════════════════════
+    // STAMPA
+    // ═══════════════════════════════════════════════════
+    function printSection() {
+        if (currentIndex < 0 || !allSections[currentIndex]) { alert("Nessun capitolo aperto da stampare."); return; }
+        const cap = allSections[currentIndex];
+        bvStampaCapitolo({ titoloHTML: "L'Enigma Valtorta — " + (cap.lezione||''), testoHTML: textContainer.innerHTML });
+    }
+    function printSearchResults() {
+        const lista = document.getElementById('modalSearchResults'); if (!lista) return;
+        bvStampaRisultatiRicerca({ titoloHTML: "Risultati ricerca — L'Enigma Valtorta (Vol. I)", listaHTML: lista.innerHTML });
+    }
+
+    document.getElementById('searchModal').addEventListener('click', function(e){ if (e.target === this) closeSearch(); });
+
+    // Esponi capitolo corrente per appunti.js
+    function getCurrentChapterInfo() {
+        if (currentIndex >= 0 && allSections[currentIndex]) {
+            return { url: URL_BASE + currentIndex, chapter: allSections[currentIndex].lezione };
+        }
+        return null;
+    }
+</script>
+
+<!-- CRONOLOGIA + APPUNTI -->
+<script src="../cronologia.js"></script>
+<script src="../appunti.js"></script>
+
+<script>
+    // --- CONTROLLO ACCESSO DINAMICO V2 (Anti-Crash Offline) ---
+    (async function checkAuthEnigmaV1() {
+        const isOnline = window.location.hostname.includes("github.io");
+        if (isOnline) {
+            try {
+                const fApp = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+                const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                    authDomain: "appuntivaltorta.firebaseapp.com",
+                    projectId: "appuntivaltorta",
+                    storageBucket: "appuntivaltorta.firebasestorage.app",
+                    messagingSenderId: "940851152715",
+                    appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+                };
+                const app = fApp.getApps().length === 0 ? fApp.initializeApp(firebaseConfig) : fApp.getApp();
+                const auth = fAuth.getAuth(app);
+                fAuth.onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        document.documentElement.style.display = '';
+                        document.body.style.display = "flex";
+                        localStorage.setItem('modalita_lettura', 'cloud');
+                    } else {
+                        window.location.replace("/BV/login.html");
+                    }
+                });
+            } catch (error) {
+                console.warn("Firebase non raggiungibile.");
+                document.documentElement.style.display = '';
+                document.body.style.display = "flex";
+            }
+        }
+    })();
+</script>
+<script src="../stampa_universale.js"></script>
+</body>
+</html>
