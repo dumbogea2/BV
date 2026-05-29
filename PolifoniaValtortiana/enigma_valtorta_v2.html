@@ -163,9 +163,13 @@
         .footnotes .fn-title{ color:var(--primary); border:none; margin:0 0 8px; padding:0;
             font-size:0.95em; text-transform:uppercase; letter-spacing:0.6px; }
         .footnotes .fn-item{ text-align:left; margin:5px 0; padding-left:6px; line-height:1.5;
-            scroll-margin-top:12px; }
+            scroll-margin-top:12px; cursor:pointer; }
+        .footnotes .fn-item:hover{ background:rgba(15,91,107,0.07); border-radius:3px; }
         .footnotes .fn-item sup{ color:var(--primary); font-weight:bold; margin-right:3px; }
         .footnotes .fn-item.fn-flash{ background:rgba(201,162,39,0.35); transition:background 1.2s; }
+        .fn-backref{ color:var(--primary); font-size:0.85em; margin-left:5px;
+            text-decoration:none; opacity:0.6; vertical-align:middle; cursor:pointer; }
+        .fn-backref:hover{ opacity:1; }
 
         /* Pulsanti navigazione */
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px;
@@ -597,6 +601,9 @@
             mc.scrollTop = 0;
             ripristinaScroll(index);
         }
+
+        // Frecce di ritorno nelle note a piè di pagina
+        setTimeout(injectFnBackrefs, 150);
     }
 
     function tornHomeVolume() {
@@ -608,6 +615,21 @@
         floatBtn.style.display = 'none';
         document.querySelectorAll('.cap-row').forEach(el => el.classList.remove('active'));
         document.getElementById('main-content').scrollTop = 0;
+    }
+
+    function injectFnBackrefs() {
+        document.querySelectorAll('.fn-item[id]').forEach(item => {
+            if (item.querySelector('.fn-backref')) return; // già aggiunta
+            const fnId = item.id;
+            const ref = document.querySelector(`sup.fn-ref a[href="#${fnId}"]`);
+            if (ref) {
+                const arrow = document.createElement('span');
+                arrow.className = 'fn-backref';
+                arrow.title = 'Torna al testo';
+                arrow.textContent = '↑';
+                item.appendChild(arrow);
+            }
+        });
     }
 
     function nextSection() { if (currentIndex < allSections.length - 1) loadSection(currentIndex + 1); }
@@ -632,6 +654,33 @@
                 mc.scrollTo({ top, behavior:'smooth' });
                 note.classList.add('fn-flash');
                 setTimeout(()=>note.classList.remove('fn-flash'), 1300);
+            }
+        }
+
+        // Click sulla nota a piè di pagina → torna al riferimento nel testo
+        const fnItem = e.target.closest('.fn-item');
+        if (fnItem && !e.target.closest('sup.fn-ref')) {
+            e.preventDefault();
+            const fnId = fnItem.id;
+            if (!fnId) return;
+            // Cerca il sup.fn-ref che punta a questa nota
+            const ref = document.querySelector(`sup.fn-ref a[href="#${fnId}"]`);
+            const mc = document.getElementById('main-content');
+            if (ref && mc) {
+                const top = ref.getBoundingClientRect().top - mc.getBoundingClientRect().top + mc.scrollTop - mc.clientHeight / 2;
+                mc.scrollTo({ top, behavior: 'smooth' });
+                // Flash evidenziazione sul sup nel testo
+                const sup = ref.closest('sup.fn-ref');
+                if (sup) {
+                    sup.style.transition = 'background 0s';
+                    sup.style.background = 'rgba(201,162,39,0.7)';
+                    sup.style.borderRadius = '3px';
+                    setTimeout(() => {
+                        sup.style.transition = 'background 1.2s';
+                        sup.style.background = 'transparent';
+                    }, 80);
+                    setTimeout(() => { sup.style.background = ''; sup.style.borderRadius = ''; sup.style.transition = ''; }, 1400);
+                }
             }
         }
     });
