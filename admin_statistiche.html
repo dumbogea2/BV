@@ -146,35 +146,35 @@
             tabella.innerHTML = "<tr><td colspan='4' style='color:red;'>Errore di permessi. Assicurati che l'email utilizzata sia quella autorizzata nelle regole di sicurezza.</td></tr>";
         }
     }
+// Funzione per generare e scaricare il CSV
+document.getElementById('btnScaricaCSV').addEventListener('click', () => {
+    if(datiStatistiche.length === 0) {
+        alert("Non ci sono dati da scaricare.");
+        return;
+    }
 
-    // Funzione per generare e scaricare il CSV
-    document.getElementById('btnScaricaCSV').addEventListener('click', () => {
-        if(datiStatistiche.length === 0) {
-            alert("Non ci sono dati da scaricare.");
-            return;
-        }
+    // Usiamo il punto e virgola (;) come separatore per Excel in italiano
+    let csvContent = "Data e Ora;Email Utente;Tipo Evento;Errore\n";
 
-        // Intestazioni delle colonne per Excel
-        let csvContent = "Data e Ora,Email Utente,Tipo Evento,Errore\n";
-
-        // Aggiungiamo i dati riga per riga
-        datiStatistiche.forEach(dato => {
-            const dataFormattata = new Date(dato.data_evento).toLocaleString('it-IT');
-            const errore = dato.motivo_errore ? dato.motivo_errore : "";
-            // Creiamo la riga separata da virgole
-            csvContent += `"${dataFormattata}","${dato.email_utente}","${dato.tipo_evento}","${errore}"\n`;
-        });
-
-        // Creiamo il file e simuliamo il click per il download
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.setAttribute("href", url);
-        link.setAttribute("download", "Statistiche_Accessi_Valtorta.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    // Aggiungiamo i dati riga per riga
+    datiStatistiche.forEach(dato => {
+        const dataFormattata = new Date(dato.data_evento).toLocaleString('it-IT');
+        const errore = dato.motivo_errore ? dato.motivo_errore : "";
+        // Campi separati da punto e virgola
+        csvContent += `"${dataFormattata}";"${dato.email_utente}";"${dato.tipo_evento}";"${errore}"\n`;
     });
+     // Creiamo il file per il download
+    // "\ufeff" è il BOM UTF-8: dice a Excel di usare la codifica corretta senza fare storie
+    const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "Statistiche_Accessi_Valtorta.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+});
+        
 </script>
 
 </body>
