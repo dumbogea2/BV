@@ -100,13 +100,11 @@
 
     <div class="search-wrapper">
         <div class="search-container">
-            <input type="text" id="public-search" class="search-input" list="places-list" 
+            <input type="text" id="public-search" class="search-input"
                    placeholder="Cerca un luogo..." 
                    oninput="filtraSuggerimenti(this.value)" 
-                   onchange="cercaLuogo(this.value)"
                    onfocus="filtraSuggerimenti(this.value)"
                    autocomplete="off">
-            <datalist id="places-list"></datalist>
         </div>
         <div id="custom-suggestions" class="custom-suggestions"></div>
     </div>
@@ -293,14 +291,6 @@
         
         // --- 4. FUNZIONI ---
         function inizializzaRicerca() {
-            var dataList = document.getElementById('places-list');
-            dataList.innerHTML = '';
-            Object.keys(database).sort().forEach(function(nome) {
-                var option = document.createElement('option');
-                option.value = nome;
-                dataList.appendChild(option);
-            });
-            
             document.getElementById('public-search').addEventListener('focus', function() {
                 if (this.value.length > 0) {
                     filtraSuggerimenti(this.value);
