@@ -21,14 +21,14 @@
             position: absolute; top: 80px; left: 10px; z-index: 1000;
             background: white; padding: 5px; border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            width: 40px; height: 44px;
+            width: 40px; height: 44px; /* Altezza simile alla search bar */
             display: flex; align-items: center; justify-content: center;
             text-decoration: none; font-size: 24px; color: #333;
             transition: background-color 0.3s;
         }
         .home-btn:hover { background-color: #f0f0f0; color: #000; }
 
-        /* PULSANTE RESET (Ricarica vista intera) */
+/* PULSANTE RESET (Ricarica vista intera) */
         .reset-btn {
             position: absolute; top: 135px; left: 10px; z-index: 1000;
             background: white; padding: 5px; border-radius: 8px;
@@ -41,53 +41,14 @@
         .reset-btn:hover { background-color: #f0f0f0; color: #000; }
 
         /* BARRA DI RICERCA */
-        .search-wrapper {
-            position: absolute; top: 20px; left: 60px; z-index: 1000;
-        }
-        
         .search-container {
+            position: absolute; top: 20px; left: 60px; z-index: 1000;
             background: white; padding: 5px; border-radius: 8px; 
             box-shadow: 0 2px 6px rgba(0,0,0,0.3); display: flex;
-            position: relative;
         }
-        
         .search-input { width: 250px; padding: 10px; border: none; outline: none; font-size: 16px; }
         
         .coord-box { position: absolute; bottom: 5px; left: 5px; z-index: 9999; background: rgba(0,0,0,0.6); color: #fff; padding: 4px 8px; font-size: 11px; border-radius: 4px; pointer-events: none; }
-        
-        /* Stili per i suggerimenti personalizzati */
-        .custom-suggestions {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #ccc;
-            border-top: none;
-            border-radius: 0 0 8px 8px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 10001;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-top: -1px;
-        }
-        
-        .suggestion-item {
-            padding: 8px 12px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            font-size: 14px;
-        }
-        
-        .suggestion-item:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .suggestion-item.active {
-            background-color: #e9ecef;
-            font-weight: 500;
-        }
     </style>
 </head>
 <body>
@@ -98,17 +59,9 @@
     <a href="../index.html" class="home-btn" title="Torna al Portale">🏠</a>
     <button onclick="resetMappa()" class="reset-btn" title="Reset Vista Mappa">🎯</button>
 
-    <div class="search-wrapper">
-        <div class="search-container">
-            <input type="text" id="public-search" class="search-input" list="places-list" 
-                   placeholder="Cerca un luogo..." 
-                   oninput="filtraSuggerimenti(this.value)" 
-                   onchange="cercaLuogo(this.value)"
-                   onfocus="filtraSuggerimenti(this.value)"
-                   autocomplete="off">
-            <datalist id="places-list"></datalist>
-        </div>
-        <div id="custom-suggestions" class="custom-suggestions"></div>
+    <div class="search-container">
+        <input type="text" id="public-search" class="search-input" list="places-list" placeholder="Cerca un luogo..." onchange="cercaLuogo(this.value)">
+        <datalist id="places-list"></datalist>
     </div>
 
     <script src="leaflet/leaflet.js"></script>
@@ -269,9 +222,12 @@
         };
 
         // --- 3. CONFIGURAZIONE MAPPA E ZOOM DINAMICO ---
+        // Rileviamo se siamo offline sulla PWA
         const isGithubMode = window.location.hostname.includes("github.io");
         const isPwaOfflineMode = isGithubMode && !navigator.onLine;
 
+        // Se offline, limite a 3. Altrimenti 6 (Online o Desktop)
+        // Usiamo "window." così la variabile è visibile in tutto il file
         window.maxZoomConsentito = isPwaOfflineMode ? 3 : 6;
 
         var map = L.map('map', { 
@@ -283,6 +239,7 @@
         
         var bounds = [[-156, 0], [0, 132]];
 
+        // Manteniamo il TUO percorso originale {z}/{y}/{x}
         L.tileLayer('mappa_palestina/{z}/{y}/{x}.jpg', { 
             minZoom: 0, 
             maxZoom: window.maxZoomConsentito, 
@@ -290,139 +247,22 @@
         }).addTo(map);
         
         map.fitBounds(bounds);
-        
         // --- 4. FUNZIONI ---
         function inizializzaRicerca() {
             var dataList = document.getElementById('places-list');
-            dataList.innerHTML = '';
             Object.keys(database).sort().forEach(function(nome) {
                 var option = document.createElement('option');
                 option.value = nome;
                 dataList.appendChild(option);
             });
-            
-            document.getElementById('public-search').addEventListener('focus', function() {
-                if (this.value.length > 0) {
-                    filtraSuggerimenti(this.value);
-                }
-            });
         }
-
-        window.filtraSuggerimenti = function(valore) {
-            const input = document.getElementById('public-search');
-            const customList = document.getElementById('custom-suggestions');
-            
-            customList.innerHTML = '';
-            
-            if (valore.length < 1) {
-                customList.style.display = 'none';
-                return;
-            }
-            
-            const valoreLower = valore.toLowerCase();
-            const suggerimenti = Object.keys(database)
-                .filter(nome => nome.toLowerCase().includes(valoreLower))
-                .slice(0, 10);
-            
-            if (suggerimenti.length === 0) {
-                customList.style.display = 'none';
-                return;
-            }
-            
-            suggerimenti.forEach(nome => {
-                const div = document.createElement('div');
-                div.className = 'suggestion-item';
-                div.textContent = nome;
-                
-                div.addEventListener('mouseenter', function() { 
-                    customList.querySelectorAll('.suggestion-item').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                });
-                
-                div.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    input.value = nome;
-                    customList.style.display = 'none';
-                    cercaLuogo(nome);
-                });
-                
-                div.addEventListener('touchend', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    input.value = nome;
-                    customList.style.display = 'none';
-                    cercaLuogo(nome);
-                });
-                
-                customList.appendChild(div);
-            });
-            
-            customList.style.display = 'block';
-        };
-
-        document.addEventListener('click', function(e) {
-            const wrapper = document.querySelector('.search-wrapper');
-            const customList = document.getElementById('custom-suggestions');
-            
-            if (wrapper && !wrapper.contains(e.target)) {
-                customList.style.display = 'none';
-            }
-        });
-
-        document.getElementById('public-search').addEventListener('keydown', function(e) {
-            const customList = document.getElementById('custom-suggestions');
-            const items = customList.querySelectorAll('.suggestion-item');
-            const active = customList.querySelector('.suggestion-item.active');
-            let index = -1;
-            
-            if (active) {
-                index = Array.from(items).indexOf(active);
-            }
-            
-            switch(e.key) {
-                case 'ArrowDown':
-                    e.preventDefault();
-                    if (index < items.length - 1) {
-                        if (active) active.classList.remove('active');
-                        items[index + 1].classList.add('active');
-                        items[index + 1].scrollIntoView({ block: 'nearest' });
-                    } else if (items.length > 0 && !active) {
-                        items[0].classList.add('active');
-                    }
-                    break;
-                    
-                case 'ArrowUp':
-                    e.preventDefault();
-                    if (index > 0) {
-                        if (active) active.classList.remove('active');
-                        items[index - 1].classList.add('active');
-                        items[index - 1].scrollIntoView({ block: 'nearest' });
-                    }
-                    break;
-                    
-                case 'Enter':
-                    if (active) {
-                        e.preventDefault();
-                        this.value = active.textContent;
-                        customList.style.display = 'none';
-                        cercaLuogo(active.textContent);
-                    }
-                    break;
-                    
-                case 'Escape':
-                    customList.style.display = 'none';
-                    break;
-            }
-        });
 
         window.cercaLuogo = function(nome) {
             var dati = database[nome];
             if (dati) {
                 var tipoIcona = icone[dati.tipo] || icone["default"];
                 
+                // Sceglie il minimo tra lo zoom voluto (5) e il limite (3 o 6)
                 const zoomTarget = Math.min(5, window.maxZoomConsentito);
                 
                 map.flyTo(dati.coords, zoomTarget, { duration: 1.5 });
@@ -431,26 +271,32 @@
                     .openPopup();
             }
         };
-        
         map.on('mousemove', function(e) {
             document.getElementById('live-coords').innerText = e.latlng.lat.toFixed(1) + " , " + e.latlng.lng.toFixed(1);
         });
 
         inizializzaRicerca();
         
-        // --- FUNZIONE RESET MAPPA ---
+        // --- INIZIO FUNZIONE RESET MAPPA ---
         window.resetMappa = function() {
+            // 1. Rimuove le coordinate dall'URL (se presenti) senza ricaricare la pagina
             const url = new URL(window.location);
             url.searchParams.delete('coords');
             window.history.pushState({}, '', url);
             window.coordsParam = null;
 
+            // 2. Riporta la mappa alla visualizzazione d'insieme
             map.fitBounds(bounds);
+            
+            // 3. Chiude eventuali popup (fumetti) rimasti aperti
             map.closePopup();
         };
+        // --- FINE FUNZIONE RESET MAPPA ---
 
         // --- 5. LEGGI LE COORDINATE DALL'URL E CENTRA LA MAPPA ---
         const urlParams = new URLSearchParams(window.location.search);
+        
+        // SALVIAMO LA VARIABILE IN 'WINDOW' PER RENDERLA GLOBALE
         window.coordsParam = urlParams.get('coords'); 
 
         if (window.coordsParam) {
@@ -459,9 +305,11 @@
             const lng = parseFloat(parti[1]);
             const coordinateEsatte = [lat, lng];
 
+            // Diciamo alla mappa di volare esattamente in quel punto, rispettando i limiti!
             const zoomTarget = Math.min(5, window.maxZoomConsentito);
             map.flyTo(coordinateEsatte, zoomTarget, { duration: 1.5 });
             
+            // Aggiungiamo anche un marker animato per farlo risaltare
             L.marker(coordinateEsatte, { icon: icone["sacro"] }).addTo(map)
                 .bindPopup("<b>Luogo del Capitolo</b>")
                 .openPopup();
@@ -486,30 +334,36 @@
 
         const isGithub = window.location.hostname.includes("github.io");
 
+        // Funzione per mostrare la pagina e "riparare" la mappa
         function mostraMappaERipara() {
             document.documentElement.style.visibility = '';
             document.body.style.display = "block"; 
             
+            // Diamo 100 millisecondi al browser per applicare i CSS, poi ricalcoliamo
             setTimeout(() => {
-                map.invalidateSize();
+                map.invalidateSize(); // <-- QUESTO RISOLVE IL PROBLEMA DEI 0 PIXEL
                 
+                // Ricentriamo la mappa correttamente in base a se ci sono o meno coordinate nell'URL
+                // USIAMO 'window.coordsParam' PER LEGGERE LA VARIABILE GLOBALE
                 if (window.coordsParam) {
                     const parti = window.coordsParam.split(',');
                     const coordinateEsatte = [parseFloat(parti[0]), parseFloat(parti[1])];
                     
                     const zoomTarget = Math.min(5, window.maxZoomConsentito);
-                    map.flyTo(coordinateEsatte, zoomTarget, { duration: 0 });
+                    map.flyTo(coordinateEsatte, zoomTarget, { duration: 0 }); // Centra subito sul marker
                 } else {
-                    map.fitBounds(bounds);
+                    map.fitBounds(bounds); // Centra sulla mappa generale
                 }
             }, 100);
         }
 
         if (isGithub) {
+            // Se siamo su GitHub MA siamo in modalità aereo (offline tramite PWA)
             if (!navigator.onLine) {
                 console.log("Modalità PWA Offline rilevata. Salto il controllo Auth.");
                 mostraMappaERipara();
             } else {
+                // Se siamo online, procediamo col controllo Firebase
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
                         localStorage.setItem('modalita_lettura', 'cloud');
@@ -520,6 +374,7 @@
                 });
             }
         } else {
+            // Modalità Distro Locale (es. PC offline tramite ZIP)
             mostraMappaERipara();
         }
     </script>
