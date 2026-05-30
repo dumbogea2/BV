@@ -512,7 +512,7 @@
                 searchIsPartial = (mode === 'partial');
             }
             // Mostra pulsante "Torna ai Risultati" se si arriva dalla ricerca studi
-            if (from === 'studi') {
+            if (from === 'studi' || from === 'universale') {
                 const btnBack = document.getElementById('btn-back-search');
                 if (btnBack) {
                     btnBack.style.display = 'block';
@@ -528,7 +528,7 @@
 
             // fromSearch=true solo se si arriva dalla ricerca (con keys),
             // false se si arriva da appunti/cronologia (per ripristinare sidebar e scroll)
-            const isFromSearch = !!(keys || from === 'studi');
+            const isFromSearch = !!(keys || from === 'studi' || from === 'universale');
             setTimeout(() => loadSection(parseInt(openIdx), isFromSearch), 100);
         }
     };

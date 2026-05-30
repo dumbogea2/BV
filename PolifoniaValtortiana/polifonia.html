@@ -206,6 +206,7 @@
     <a href="ricerca_studi.html" class="home-btn" style="text-decoration:none;text-align:center;background:#5d4037;">🔍 Ricerca nei Volumi</a>
     <a href="mia_cronologia.html" class="home-btn" style="text-decoration:none;text-align:center;background:#5d4037;">🕒 Riprendi la lettura</a>
     <a href="miei_appunti.html" class="home-btn" style="text-decoration:none;text-align:center;background:#5d4037;">📝 I miei Appunti</a>
+    <a href="#" id="btn-back-search" class="home-btn" style="display:none;text-decoration:none;text-align:center;background:#8b0000;color:#fff;" onclick="event.preventDefault(); history.back();">🔙 Torna ai Risultati</a>
 
     <h2 class="section">Ricerca nel testo</h2>
     <div class="search-container">
@@ -669,6 +670,13 @@
   function ripristinaDaUrl() {
     const params = new URLSearchParams(window.location.search);
     const vi = parseInt(params.get('vi'));
+
+    // Mostra il pulsante "Torna ai Risultati" se si arriva da una ricerca
+    const from = params.get('from');
+    if (params.get('keys') || from === 'studi' || from === 'universale') {
+      const b = document.getElementById('btn-back-search');
+      if (b) b.style.display = '';
+    }
 
     // --- CASO 1: Da Cronologia o Appunti (?vi=0&type=voce&id=123) ---
     const tipo = params.get('type');
