@@ -191,6 +191,11 @@
     <!-- POLIFONIA VALTORTIANA: Archivi dei 2 volumi -->
     <script src="PolifoniaValtortiana/polifonia_v1.js"></script>
     <script src="PolifoniaValtortiana/polifonia_v2.js"></script>
+    <script src="PolifoniaValtortiana/madonna_roschini.js"></script>
+    <script src="PolifoniaValtortiana/enigma_valtorta_v1.js"></script>
+    <script src="PolifoniaValtortiana/enigma_valtorta_v2.js"></script>
+    <script src="PolifoniaValtortiana/vita_gesu_storia_v1.js"></script>
+    <script src="PolifoniaValtortiana/vita_gesu_storia_v2.js"></script>
     <!-- NOTA: Aggiungere qui sotto gli archivi JS di ogni nuovo libro futuro -->
 
     <script>
@@ -198,6 +203,20 @@
         // Se nel file archivio.js dell'Evangelo la variabile non si chiama "archivio", 
         // cambia la parola "archivio" qui sotto con il nome corretto.
         
+        function appiattisciVolumeMadonna(vol) {
+            if (!vol) return [];
+            const flat = [];
+            (vol.capitoliIniziali || []).forEach(cap => {
+                flat.push({ lezione: cap.titolo, testo: cap.testo, _parteTitolo: 'Premesse' });
+            });
+            (vol.parti || []).forEach(parte => {
+                (parte.sezioni || []).forEach(sez => {
+                    flat.push({ lezione: sez.lezione, testo: sez.testo, _parteTitolo: parte.titolo });
+                });
+            });
+            return flat;
+        }
+
         const LIBRARY = [
             { id: 'evangelo', name: "L'Evangelo come mi è stato rivelato", data: (typeof archivioCapitoli !== 'undefined' ? archivioCapitoli : []), file: 'biblioteca/index.html' },
             { id: '1943',   name: 'Quaderni 1943',      data: (typeof quaderni_1943 !== 'undefined' ? quaderni_1943 : []),           file: 'Quaderni/quaderni_1943.html' },
@@ -211,6 +230,11 @@
             // --- POLIFONIA VALTORTIANA ---
             { id: 'polifonia_v1', name: "Polifonia Valtortiana - Vol. 1 (A-G)", data: (typeof polifonia_v1 !== 'undefined' ? [...(polifonia_v1.capitoliIniziali || []), ...(polifonia_v1.guide || []), ...(polifonia_v1.capitoliFinali || []), ...(polifonia_v1.lettere || []).flatMap(l => l.voci)] : []), file: 'PolifoniaValtortiana/polifonia.html?vi=0' },
             { id: 'polifonia_v2', name: "Polifonia Valtortiana - Vol. 2 (H-Z)", data: (typeof polifonia_v2 !== 'undefined' ? [...(polifonia_v2.capitoliIniziali || []), ...(polifonia_v2.guide || []), ...(polifonia_v2.capitoliFinali || []), ...(polifonia_v2.lettere || []).flatMap(l => l.voci)] : []), file: 'PolifoniaValtortiana/polifonia.html?vi=1' },
+            { id: 'madonna_roschini', name: "La Madonna negli scritti di Maria Valtorta - Roschini", data: (typeof madonna_roschini !== 'undefined' ? appiattisciVolumeMadonna(madonna_roschini) : []), file: 'PolifoniaValtortiana/madonna_roschini.html' },
+            { id: 'enigma_valtorta_v1', name: "L'Enigma Valtorta - Vol. 1 (Lavère)", data: (typeof enigma_valtorta_v1 !== 'undefined' ? (enigma_valtorta_v1.capitoli || []) : []), file: 'PolifoniaValtortiana/enigma_valtorta_v1.html' },
+            { id: 'enigma_valtorta_v2', name: "L'Enigma Valtorta - Vol. 2 (Lavère)", data: (typeof enigma_valtorta_v2 !== 'undefined' ? (enigma_valtorta_v2.capitoli || []) : []), file: 'PolifoniaValtortiana/enigma_valtorta_v2.html' },
+            { id: 'vita_gesu_storia_v1', name: "La vita di Gesù nella Storia - Vol. 1", data: (typeof vita_gesu_storia_v1 !== 'undefined' ? (vita_gesu_storia_v1.capitoli || []) : []), file: 'PolifoniaValtortiana/vita_gesu_storia_v1.html' },
+            { id: 'vita_gesu_storia_v2', name: "La vita di Gesù nella Storia - Vol. 2", data: (typeof vita_gesu_storia_v2 !== 'undefined' ? (vita_gesu_storia_v2.capitoli || []) : []), file: 'PolifoniaValtortiana/vita_gesu_storia_v2.html' },
             // NOTA: Aggiungere qui sotto ogni nuovo libro futuro
         ];
 

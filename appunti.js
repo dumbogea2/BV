@@ -164,6 +164,19 @@ function getBookAndChapter() {
             urlForRestore = prefix + fileName + window.location.search;
         }
 
+    // --- ENIGMA VALTORTA / VITA DI GESU' NELLA STORIA (cartella PolifoniaValtortiana, lettori a capitoli) ---
+    } else if (fileName.includes('enigma_valtorta') || fileName.includes('vita_gesu_storia')) {
+        const titoloLibro = document.querySelector('[data-nome-libro]');
+        if (titoloLibro) bookName = titoloLibro.getAttribute('data-nome-libro');
+        const titleEl = document.querySelector('#text-container h1.title-chapter, #text-container h3');
+        if (titleEl) chapterName = titleEl.innerText;
+        let prefix = "PolifoniaValtortiana/";
+        if (typeof currentIndex !== 'undefined' && currentIndex >= 0) {
+            urlForRestore = prefix + fileName + "?idx=" + currentIndex;
+        } else {
+            urlForRestore = prefix + fileName + window.location.search;
+        }
+
     // --- POLIFONIA (ESCLUDE ROSCHINI) ---
     } else if (window.location.pathname.includes('PolifoniaValtortiana') &&
                !window.location.pathname.includes('madonna_roschini')) {

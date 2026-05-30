@@ -183,6 +183,10 @@
     <script src="polifonia_v1.js"></script>
     <script src="polifonia_v2.js"></script>
     <script src="madonna_roschini.js"></script>
+    <script src="enigma_valtorta_v1.js"></script>
+    <script src="enigma_valtorta_v2.js"></script>
+    <script src="vita_gesu_storia_v1.js"></script>
+    <script src="vita_gesu_storia_v2.js"></script>
     <!-- NOTA: aggiungere qui sotto gli archivi JS dei futuri libri della sezione Studi -->
 
     <script>
@@ -227,7 +231,19 @@
               file: 'polifonia.html?vi=1' },
             { id: 'madonna_roschini', name: "La Madonna negli scritti di Maria Valtorta — Roschini",
               data: (typeof madonna_roschini !== 'undefined' ? appiattisciVolumeMadonna(madonna_roschini) : []),
-              file: 'madonna_roschini.html' }
+              file: 'madonna_roschini.html' },
+            { id: 'enigma_valtorta_v1', name: "L'Enigma Valtorta — Vol. 1 (Lavère)",
+              data: (typeof enigma_valtorta_v1 !== 'undefined' ? (enigma_valtorta_v1.capitoli || []) : []),
+              file: 'enigma_valtorta_v1.html' },
+            { id: 'enigma_valtorta_v2', name: "L'Enigma Valtorta — Vol. 2 (Lavère)",
+              data: (typeof enigma_valtorta_v2 !== 'undefined' ? (enigma_valtorta_v2.capitoli || []) : []),
+              file: 'enigma_valtorta_v2.html' },
+            { id: 'vita_gesu_storia_v1', name: "La vita di Gesù nella Storia — Vol. 1",
+              data: (typeof vita_gesu_storia_v1 !== 'undefined' ? (vita_gesu_storia_v1.capitoli || []) : []),
+              file: 'vita_gesu_storia_v1.html' },
+            { id: 'vita_gesu_storia_v2', name: "La vita di Gesù nella Storia — Vol. 2",
+              data: (typeof vita_gesu_storia_v2 !== 'undefined' ? (vita_gesu_storia_v2.capitoli || []) : []),
+              file: 'vita_gesu_storia_v2.html' }
         ];
 
         window.addEventListener('pageshow', () => {
