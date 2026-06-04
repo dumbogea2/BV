@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script>
+        if (window.location.hostname.includes("github.io")) {
+            if (navigator.onLine) {
+                document.documentElement.style.display = 'none';
+            }
+        }
+    </script>
+
+    <title>Guida utente — Bibliotheca Valtortiana On Line</title>
+    <style>
+        :root {
+            --rosso:      #8b0000;
+            --rosso-hover:#a50000;
+            --oro:        #c8962a;
+            --oro-chiaro: #d4af37;
+            --sfondo:     #f4ece0;
+            --carta:      rgba(255,255,255,0.92);
+            --testo:      #333333;
+            --testo-sec:  #555555;
+            --bordo:      #dcd8ce;
+            --bordo-oro:  #d4af37;
+            --linea:      #d1cbb8;
+            --blu-note:   #1a5276;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--sfondo);
+            background-image: url('Quaderni/handmadepaper.png');
+            color: var(--testo);
+            padding: 0 0 60px 0;
+            min-height: 100vh;
+        }
+
+        /* ── COPERTINA ── */
+        .copertina {
+            background: transparent;
+            text-align: center;
+            padding: 50px 20px 40px;
+            border-bottom: 3px double var(--rosso);
+            margin-bottom: 0;
+        }
+        .copertina .ornamento {
+            font-size: 1.6em;
+            letter-spacing: 0.4em;
+            color: var(--oro-chiaro);
+            margin-bottom: 18px;
+            display: block;
+        }
+        .copertina h1 {
+            font-size: 2.4em;
+            font-weight: bold;
+            letter-spacing: 0.04em;
+            line-height: 1.25;
+            margin-bottom: 10px;
+            color: #1a1a2e;
+        }
+        .copertina .sottotitolo {
+            font-size: 1.05em;
+            font-style: italic;
+            color: var(--testo-sec);
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+        .copertina .citazione {
+            display: inline-block;
+            border-top: 1px solid rgba(26,82,118,0.35);
+            border-bottom: 1px solid rgba(26,82,118,0.35);
+            padding: 14px 30px;
+            max-width: 650px;
+            font-style: italic;
+            font-size: 1.0em;
+            color: #1a4a6b;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        .copertina .citazione-fonte {
+            font-size: 0.82em;
+            color: #1a4a6b;
+            letter-spacing: 0.03em;
+            font-style: italic;
+        }
+
+        /* ── BENVENUTO ── */
+        .benvenuto {
+            max-width: 820px;
+            margin: 40px auto 0;
+            padding: 0 24px;
+            text-align: center;
+        }
+        .benvenuto h2 {
+            color: var(--rosso);
+            font-size: 1.3em;
+            font-weight: normal;
+            margin-bottom: 14px;
+            letter-spacing: 0.03em;
+        }
+        .benvenuto p {
+            font-size: 0.97em;
+            line-height: 1.8;
+            color: var(--testo-sec);
+        }
+
+        /* ── INDICE ── */
+        .toc-wrap {
+            max-width: 820px;
+            margin: 38px auto 0;
+            padding: 0 24px;
+        }
+        .toc {
+            background: var(--carta);
+            border: 1px solid var(--bordo);
+            border-left: 5px solid var(--rosso);
+            border-radius: 8px;
+            padding: 24px 28px;
+        }
+        .toc h3 {
+            color: var(--rosso);
+            font-size: 1.1em;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-size: 0.9em;
+        }
+        .toc ol {
+            columns: 2;
+            column-gap: 32px;
+            padding-left: 18px;
+            font-size: 0.88em;
+            line-height: 2.0;
+        }
+        .toc ol li a {
+            color: var(--rosso);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .toc ol li a:hover { color: var(--oro); text-decoration: underline; }
+
+        /* ── CORPO PAGINA ── */
+        .corpo {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ── SEZIONE ── */
+        .sezione {
+            margin-top: 48px;
+            scroll-margin-top: 20px;
+        }
+        .sezione-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-bottom: 2px solid var(--rosso);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .sezione-num {
+            background: var(--rosso);
+            color: #fff;
+            font-family: Georgia, serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .sezione h2 {
+            color: var(--rosso);
+            font-size: 1.45em;
+            font-weight: normal;
+            line-height: 1.2;
+        }
+
+        /* ── TESTO BASE ── */
+        .corpo p {
+            font-size: 0.97em;
+            line-height: 1.85;
+            color: var(--testo);
+            margin-bottom: 14px;
+        }
+        .corpo p + p { margin-top: 0; }
+
+        b, strong { color: var(--rosso); font-weight: bold; }
+        .oro { color: var(--oro); font-weight: bold; }
+
+        /* ── LISTA ── */
+        .corpo ul, .corpo ol {
+            padding-left: 22px;
+            margin: 10px 0 18px;
+        }
+        .corpo li {
+            font-size: 0.95em;
+            line-height: 1.75;
+            color: var(--testo-sec);
+            margin-bottom: 6px;
+        }
+        .corpo li b, .corpo li strong { color: var(--rosso); }
+
+        /* ── NOTA CORSIVO ── */
+        .nota-corsiva {
+            font-style: italic;
+            color: var(--blu-note);
+            background: rgba(26,82,118,0.06);
+            border-left: 3px solid var(--blu-note);
+            padding: 10px 16px;
+            border-radius: 0 6px 6px 0;
+            margin: 14px 0;
+            font-size: 0.92em;
+            line-height: 1.7;
+        }
+
+        /* ── CALLOUT CONSIGLIO ── */
+        .callout {
+            background: rgba(139,0,0,0.06);
+            border: 1px solid rgba(139,0,0,0.18);
+            border-left: 4px solid var(--rosso);
+            border-radius: 0 8px 8px 0;
+            padding: 14px 18px;
+            margin: 18px 0;
+            font-size: 0.93em;
+            line-height: 1.75;
+            color: var(--testo);
+        }
+        .callout b { color: var(--rosso); }
+
+        /* ── SOTTO-SEZIONE ── */
+        .sotto-sezione {
+            margin: 28px 0 10px;
+        }
+        .sotto-sezione h3 {
+            color: var(--oro);
+            font-size: 1.1em;
+            font-weight: bold;
+            border-bottom: 1px solid var(--bordo-oro);
+            padding-bottom: 5px;
+            margin-bottom: 12px;
+        }
+
+        /* ── IMMAGINE SCREENSHOT ── */
+        .screenshot-wrap {
+            text-align: center;
+            margin: 22px 0 28px;
+        }
+        .screenshot-wrap img {
+            max-width: 100%;
+            border: 1px solid var(--bordo);
+            border-radius: 8px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+        }
+        .screenshot-wrap figcaption {
+            font-size: 0.82em;
+            color: var(--testo-sec);
+            font-style: italic;
+            margin-top: 7px;
+        }
+
+        /* ── GRID FUNZIONI ── */
+        .funzioni-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin: 18px 0;
+        }
+        .funzione-card {
+            background: var(--carta);
+            border: 1px solid var(--bordo);
+            border-radius: 8px;
+            padding: 16px 18px;
+            position: relative;
+            overflow: hidden;
+        }
+        .funzione-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--rosso);
+        }
+        .funzione-card h4 {
+            color: var(--rosso);
+            font-size: 0.97em;
+            margin-bottom: 6px;
+        }
+        .funzione-card p {
+            font-size: 0.88em;
+            line-height: 1.6;
+            color: var(--testo-sec);
+            margin: 0;
+        }
+
+        /* ── BADGE LIVELLI RICERCA ── */
+        .badge-ricerca {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--rosso);
+            color: #fff;
+            border-radius: 20px;
+            padding: 3px 12px 3px 8px;
+            font-size: 0.82em;
+            font-weight: bold;
+            margin-right: 6px;
+            margin-bottom: 4px;
+            vertical-align: middle;
+        }
+        .badge-rosso { background: var(--rosso); }
+        .badge-oro   { background: var(--oro); color: #fff; }
+
+        /* ── SEPARATORE ── */
+        .sep {
+            border: none;
+            height: 1px;
+            background: var(--linea);
+            margin: 50px 0 0;
+        }
+
+        /* ── PIÈ DI PAGINA ── */
+        .footer {
+            text-align: center;
+            padding: 36px 20px 20px;
+            font-style: italic;
+            font-size: 1.0em;
+            line-height: 1.9;
+        }
+        .footer .ornamento    { color: var(--oro); font-size: 1.4em; letter-spacing: 0.4em; }
+        .footer .footer-titolo{ color: #8a6a00; font-weight: bold; font-style: normal; }
+        .footer .footer-frase { color: #1a3a5c; font-weight: bold; font-style: italic; font-size: 0.97em; }
+
+        /* ── PULSANTE TORNA ── */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--rosso);
+            color: #fff;
+            padding: 12px 28px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: Georgia, serif;
+            font-size: 0.97em;
+            font-weight: bold;
+            margin-top: 30px;
+            transition: background 0.25s, transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .btn-back:hover { background: var(--rosso-hover); transform: scale(1.04); }
+
+        .center { text-align: center; }
+
+        /* ── PULSANTE STAMPA FLOTTANTE ── */
+        .btn-stampa-float {
+            position: fixed;
+            bottom: 28px;
+            right: 24px;
+            z-index: 999;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--rosso);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-family: Georgia, serif;
+            font-size: 0.92em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+            transition: background 0.25s, transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+        .btn-stampa-float:hover {
+            background: var(--rosso-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.32);
+        }
+        .btn-stampa-float:active { transform: scale(0.97); }
+        /* etichetta testo — si nasconde su schermi molto piccoli */
+        .btn-stampa-float .label-stampa {
+            white-space: nowrap;
+        }
+        @media (max-width: 400px) {
+            .btn-stampa-float { padding: 13px 15px; bottom: 20px; right: 16px; }
+            .btn-stampa-float .label-stampa { display: none; }
+        }
+        /* nasconde il pulsante in fase di stampa */
+        @media print {
+            .btn-stampa-float { display: none !important; }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 620px) {
+            .copertina h1 { font-size: 1.7em; }
+            .toc ol { columns: 1; }
+            .funzioni-grid { grid-template-columns: 1fr; }
+            .sezione h2 { font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     COPERTINA
+══════════════════════════════════════════ -->
+<div class="copertina" style="padding-top:60px;">
+    <span class="ornamento">❖ ❖ ❖</span>
+    <h1>GUIDA PER L'UTENTE<br>Bibliotheca Valtortiana On Line</h1>
+    <p class="sottotitolo">Le opere di Maria Valtorta e la saggistica valtortiana<br>in un'unica biblioteca digitale</p>
+    <div class="citazione">
+        «Prendi e leggi».<br>
+        Che queste pagine digitali siano per te una porta aperta sull'Opera,<br>
+        e che ogni strumento qui descritto ti aiuti non soltanto a leggere,<br>
+        ma a pregare e a contemplare.
+    </div>
+    <p class="citazione-fonte">"Parole di Vita Eterna" (Quadernetti Cap. 755, 6 Gen 1949)</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+     BENVENUTO
+══════════════════════════════════════════ -->
+<div class="benvenuto">
+    <h2>Una parola di benvenuto</h2>
+    <p>A te che cerchi, benvenuto in questo luogo. Questa Bibliotheca non vuole essere soltanto un archivio di testi, ma un luogo raccolto dove meditare con l'opera di Maria Valtorta e con gli studi che l'accompagnano. Ogni funzione che troverai descritta — la ricerca, la sottolineatura, il segnalibro, la mappa — è pensata come un piccolo aiuto alla <em>lectio</em>: leggere con calma, meditare, conservare ciò che il Signore ti suggerisce nel cuore.</p>
+    <p>Non avere fretta di imparare tutto. Comincia ad aprire un'opera e a leggere; gli strumenti ti verranno incontro a poco a poco, come compagni discreti del tuo cammino di studio e di preghiera.</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+     INDICE
+══════════════════════════════════════════ -->
+<div class="toc-wrap">
+    <div class="toc">
+        <h3>📜 Indice della Guida</h3>
+        <ol>
+            <li><a href="#s1">Che cos'è la Bibliotheca Valtortiana</a></li>
+            <li><a href="#s2">Accesso: Cloud e modalità locale</a></li>
+            <li><a href="#s3">La schermata principale (il Portale)</a></li>
+            <li><a href="#s4">Le opere disponibili</a></li>
+            <li><a href="#s5">Lettura dell'Evangelo: strumenti</a></li>
+            <li><a href="#s6">Lettura delle Opere Minori e degli Studi</a></li>
+            <li><a href="#s7">I quattro livelli di ricerca testuale</a></li>
+            <li><a href="#s8">I miei Appunti e Sottolineature</a></li>
+            <li><a href="#s9">La mia Cronologia ("Riprendi la Lettura")</a></li>
+            <li><a href="#s10">La Mappa Storica interattiva</a></li>
+            <li><a href="#s11">Note a piè di pagina bidirezionali</a></li>
+            <li><a href="#s12">Installare la Bibliotheca come App (PWA)</a></li>
+            <li><a href="#s13">Consigli pratici</a></li>
+        </ol>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CORPO
+══════════════════════════════════════════ -->
+<div class="corpo">
+
+    <!-- ── 1 ── -->
+    <div class="sezione" id="s1">
+        <div class="sezione-header">
+            <div class="sezione-num">1</div>
+            <h2>Che cos'è la Bibliotheca Valtortiana</h2>
+        </div>
+        <p>La <strong>Bibliotheca Valtortiana On Line</strong> è una biblioteca digitale che raccoglie l'opera di Maria Valtorta e i principali studi che la riguardano. Offre strumenti di lettura, ricerca, annotazione e meditazione accessibili da qualsiasi dispositivo, anche senza connessione a Internet.</p>
+        <p>Questa guida descrive in modo pratico tutte le funzioni disponibili, sezione per sezione.</p>
+    </div>
+
+    <!-- ── 2 ── -->
+    <div class="sezione" id="s2">
+        <div class="sezione-header">
+            <div class="sezione-num">2</div>
+            <h2>Accesso: modalità Cloud e modalità locale (offline)</h2>
+        </div>
+        <p>Il portale funziona in due modalità, selezionabili dall'utente.</p>
+
+        <div class="funzioni-grid">
+            <div class="funzione-card">
+                <h4>☁️ Modalità Cloud (consigliata)</h4>
+                <p>Inserendo le credenziali ricevute con l'invito (dalla card "Accesso Riservato"), tutti i tuoi dati — appunti, sottolineature, segnalibri, preferiti e cronologia — vengono salvati nel Cloud e sono disponibili su ogni dispositivo: computer, tablet, smartphone. Il sistema salva prima in locale e sincronizza subito con il server non appena la connessione è disponibile.</p>
+            </div>
+            <div class="funzione-card">
+                <h4>📴 Modalità locale (offline)</h4>
+                <p>I dati sono conservati nella memoria del browser del dispositivo. Funziona perfettamente per chi usa un solo dispositivo. In questo caso è consigliato eseguire periodicamente un backup manuale (descritto al punto 12).</p>
+            </div>
+        </div>
+
+        <p><strong>Password dimenticata.</strong> Dalla pagina di accesso, il link "Hai dimenticato la password?" permette il ripristino via e-mail.</p>
+
+        <figure class="screenshot-wrap">
+            <img src="img/guida_login.png" alt="Schermata di accesso riservato con campi e-mail e password">
+            <figcaption>La card "Accesso Riservato" — inserisci le credenziali ricevute con l'invito</figcaption>
+        </figure>
+    </div>
+
+    <!-- ── 3 ── -->
+    <div class="sezione" id="s3">
+        <div class="sezione-header">
+            <div class="sezione-num">3</div>
+            <h2>La schermata principale (il Portale)</h2>
+        </div>
+        <p>All'apertura appare il Portale, con riquadri (card) di accesso a tutte le sezioni. In alto a destra il pulsante "Istruzioni" riapre una breve guida, oltre questa, consultabile in qualsiasi momento.</p>
+
+        <figure class="screenshot-wrap">
+            <img src="img/guida_portale.png" alt="Schermata principale del Portale con tutte le card delle sezioni">
+            <figcaption>Il Portale con le card delle opere e gli strumenti principali</figcaption>
+        </figure>
+
+        <p>Le sezioni principali disponibili:</p>
+        <ul>
+            <li><strong>Gestione Dati</strong> — backup Cloud, ripristino e, se offline, sincronizzazione locale.</li>
+            <li><strong>✈ Modalità Aereo</strong> — scarica tutti i testi e le mappe sul dispositivo per la lettura completamente offline (consigliato in Wi-Fi per evitare costi di connessione); utile per utilizzo senza internet per un periodo continuato (aereo, montagna).</li>
+            <li><strong>Riprendi la Lettura</strong> — riapre gli ultimi capitoli letti.</li>
+            <li><strong>I miei Appunti e Sottolineature</strong> — raccoglie tutte le annotazioni in un unico posto.</li>
+            <li><strong>Riquadri delle opere</strong> — L'Evangelo, la Mappa Storica, i Quaderni, il Libro di Azaria, l'Epistola ai Romani, l'Autobiografia, gli Studi e Approfondimenti, l'Archivio Volumi.</li>
+            <li><strong>Video Presentazione</strong> e <strong>Installa App</strong>.</li>
+        </ul>
+    </div>
+
+    <!-- ── 4 ── -->
+    <div class="sezione" id="s4">
+        <div class="sezione-header">
+            <div class="sezione-num">4</div>
+            <h2>Le opere disponibili</h2>
+        </div>
+
+        <ul>
+            <li><strong>L'Evangelo come mi è stato rivelato.</strong> L'opera principale di Maria Valtorta, con tutti gli strumenti avanzati descritti al punto 5.</li>
+            <li><strong>I Quaderni e i Quadernetti.</strong> I Quaderni del 1943, del 1944 e del 1945–50, con i Quadernetti (preghiere e note autobiografiche).</li>
+            <li><strong>Libro di Azaria.</strong> Commento ai brani liturgici della Messa.</li>
+            <li><strong>Lezioni sull'Epistola ai Romani.</strong> Il dettato di Gesù sull'Epistola di San Paolo.</li>
+            <li><strong>Autobiografia.</strong> La vita di Maria Valtorta.</li>
+            <li><strong>Studi e Approfondimenti.</strong> La Polifonia Valtortiana (Francesco Di Traglia, 2 volumi), L'Enigma Valtorta (2 vol.), La vita di Gesù nella Storia (2 vol.) e La Madonna negli scritti di Maria Valtorta (P. G. M. Roschini O.S.M.).</li>
+            <li><strong>Archivio e Volumi.</strong> Versione Word ipertestuale dell'Evangelo e i PDF del Poema dell'Uomo Dio, scaricabili e stampabili.</li>
+        </ul>
+    </div>
+
+    <!-- ── 5 ── -->
+    <div class="sezione" id="s5">
+        <div class="sezione-header">
+            <div class="sezione-num">5</div>
+            <h2>Lettura dell'Evangelo: strumenti disponibili</h2>
+        </div>
+        <p>Il lettore web dell'Evangelo offre un ricco set di strumenti. L'indice si apre con lo stile "Sinagoga": i 652 capitoli sono rappresentati come rotoli, ciascuno apribile con un clic o un tocco.</p>
+
+        <figure class="screenshot-wrap">
+            <img src="img/guida_evangelo_indice.png" alt="Indice dell'Evangelo in stile Sinagoga con i 652 rotoli">
+            <figcaption>L'indice dell'Evangelo in stile "Sinagoga" con preferiti, filtri e concordanze</figcaption>
+        </figure>
+
+        <div class="sotto-sezione">
+            <h3>Strumenti dell'indice</h3>
+        </div>
+        <ul>
+            <li><strong>⭐ Preferiti.</strong> Contrassegna i capitoli preferiti per ritrovarli facilmente. Dal pulsante PREFERITI puoi visualizzare solo quelli segnati, esportarli (⭐⬆) e reimportarli (⭐⬇) su un altro dispositivo, oppure azzerarli (RESET PREFERITI). <em>Disponibile solo nell'Evangelo.</em></li>
+            <li><strong>Filtri tematici.</strong> Il pulsante ☰ FILTRI apre il pannello di navigazione per tema: la Passione, i Miracoli, le Parabole, i Discorsi di Gesù, la Preghiera — oppure per personaggi (San Pietro, San Giovanni, Maria Maddalena, Lazzaro, Giuda Iscariota, Maria Santissima). RESET FILTRI ripristina l'elenco completo.</li>
+            <li><strong>Ispirazione.</strong> Propone un brano dell'Evangelo come spunto di lettura o meditazione, apribile direttamente con un clic.</li>
+            <li><strong>Cerca capitolo o parola.</strong> Il campo di testo in cima all'indice filtra i capitoli per titolo o parola.</li>
+            <li><strong>Cerca Concordanze.</strong> Strumento di ricerca interna all'Evangelo: inserisci due parole (Parola 1 e Parola 2) e la distanza massima in parole tra esse. Restituisce tutti i passi in cui le due parole compaiono vicine. Per ricerche approfondite utilizza la Ricerca Globale Universale (vedi punto 7).</li>
+            <li><strong>Indici per Parti e per Volumi.</strong> I due menù a tendina permettono di navigare l'Evangelo per "7 parti" oppure per "10 volumi".</li>
+        </ul>
+
+        <div class="sotto-sezione">
+            <h3>Strumenti nella barra del capitolo</h3>
+        </div>
+
+        <figure class="screenshot-wrap">
+            <img src="img/guida_evangelo_capitolo.png" alt="Barra superiore del capitolo con segnalibro, audio, mappa e stampa PDF">
+            <figcaption>La barra superiore del capitolo con tutti gli strumenti disponibili</figcaption>
+        </figure>
+
+        <ul>
+            <li><strong>🔖 Metti Segnalibro qui / Riprendi.</strong> Segna il punto esatto di lettura e vi ritorna con un tocco. Condivisibile. <em>Disponibile solo nell'Evangelo</em> (indicato in rosso nell'interfaccia).</li>
+            <li><strong>🔊 Ascolta il Capitolo.</strong> Avvia la lettura ad alta voce tramite la sintesi vocale del dispositivo.</li>
+            <li><strong> Mappa Generale / Mappa (Luogo Esatto).</strong> Apre la Mappa Storica direttamente dalla pagina del capitolo.</li>
+            <li><strong>🖨 Stampa PDF.</strong> Stampa il capitolo corrente in un PDF ben formattato, ottimizzato per tutti i browser incluso Safari su iOS.</li>
+            <li><strong>Paragrafi numerati</strong> (es. 1.1, 1.2…). Ogni paragrafo ha un identificativo per facilitare la citazione.</li>
+        </ul>
+    </div>
+
+    <!-- ── 6 ── -->
+    <div class="sezione" id="s6">
+        <div class="sezione-header">
+            <div class="sezione-num">6</div>
+            <h2>Lettura delle Opere Minori e degli Studi</h2>
+        </div>
+        <p>I lettori web delle Opere Minori (Quaderni, Libro di Azaria, Epistola ai Romani, Autobiografia) e degli Studi e Approfondimenti (Polifonia, Enigma Valtorta, ecc.) condividono le funzioni di base: navigazione capitoli o sezioni, stampa PDF e una ricerca interna (pulsante <strong>• Cerca nella sezione</strong>).</p>
+
+        <div class="nota-corsiva">
+            Attenzione: segnalibro (🔖) e preferiti (⭐), con le relative funzioni di esportazione/importazione, sono disponibili <strong>esclusivamente</strong> nel lettore dell'Evangelo. In tutti gli altri libri, come in tutta la Bibliotheca, restano comunque disponibili gli strumenti di annotazione descritti di seguito.
+        </div>
+
+        <p><strong>Evidenziazioni e note personali.</strong> In tutti i libri è possibile selezionare un brano di testo: compare un menu rapido con i comandi <strong>"Evidenzia"</strong> (sottolineatura blu, come una matita sul testo) e <strong>"Aggiungi nota"</strong> (per scrivere un commento personale). Le annotazioni sono sempre sincronizzate e recuperabili dalla sezione "I miei Appunti" (vedi punto 8).</p>
+
+        <p><strong>Note a piè di pagina.</strong> Presenti anche nei volumi di studio con navigazione bidirezionale (vedi punto 11).</p>
+    </div>
+
+    <!-- ── 7 ── -->
+    <div class="sezione" id="s7">
+        <div class="sezione-header">
+            <div class="sezione-num">7</div>
+            <h2>I quattro livelli di ricerca testuale</h2>
+        </div>
+        <p>La Bibliotheca offre quattro livelli di ricerca, dal più ampio al più specifico. Tutti condividono gli stessi quattro <em>tipi</em> di ricerca:</p>
+
+        <div class="funzioni-grid">
+            <div class="funzione-card">
+                <h4>● Semplice Parziale</h4>
+                <p>Trova tutte le occorrenze che contengono la stringa cercata, anche come parte di parola.</p>
+            </div>
+            <div class="funzione-card">
+                <h4>● Semplice Esatta</h4>
+                <p>Trova solo le occorrenze che corrispondono esattamente alla parola, con confini di parola Unicode.</p>
+            </div>
+            <div class="funzione-card">
+                <h4>● Multipla Esatta</h4>
+                <p>Cerca due parole distinte che compaiono nello stesso passo (es. "diceva" + "dicevi").</p>
+            </div>
+            <div class="funzione-card">
+                <h4>● Concordanze</h4>
+                <p>Trova due parole a una distanza massima di N parole l'una dall'altra, rivelando accostamenti di significato.</p>
+            </div>
+        </div>
+
+        <p>I risultati mostrano sempre il contesto del brano; da ciascuno si può aprire il punto preciso del testo, espandere/comprimere tutte le voci e <strong>stampare l'elenco in PDF</strong>.</p>
+
+        <div class="sotto-sezione" id="s7-1">
+            <h3>7.1 — Ricerca Globale Universale (tutti i libri)</h3>
+        </div>
+        <p>Raggiungibile dal Portale, interroga <strong>simultaneamente tutte le opere</strong>: l'Evangelo, tutte le Opere Minori e tutti i volumi di Studi e Approfondimenti. È il punto di partenza per chi non sa in quale opera cercare un passo e consente di ottenere i risultati in una frazione di secondo.</p>
+
+        <figure class="screenshot-wrap">
+            <img src="img/guida_ricerca_universale.png" alt="Interfaccia della Ricerca Globale Universale con i quattro tipi di ricerca">
+            <figcaption>La Ricerca Globale Universale — cerca in tutte le opere contemporaneamente</figcaption>
+        </figure>
+
+        <div class="sotto-sezione" id="s7-2">
+            <h3>7.2 — Ricerca nelle Opere Minori</h3>
+        </div>
+        <p>Disponibile dalla sezione Quaderni, cerca contemporaneamente in: Quaderni 1943, 1944, 1945–50, Quadernetti, Libro di Azaria, Epistola ai Romani e Autobiografia. I link in cima alla pagina permettono anche di navigare direttamente a ciascuna opera.</p>
+
+        <figure class="screenshot-wrap">
+            <img src="img/guida_ricerca_minori.png" alt="Interfaccia della Ricerca nelle Opere Minori">
+            <figcaption>Ricerca in Tutte le Opere Minori</figcaption>
+        </figure>
+
+        <div class="sotto-sezione" id="s7-3">
+            <h3>7.3 — Ricerca negli Studi e Approfondimenti</h3>
+        </div>
+        <p>Cerca nei sette volumi della sezione: Polifonia Valtortiana (vol. 1 e 2), L'Enigma Valtorta (vol. 1 e 2), La vita di Gesù nella Storia (vol. 1 e 2) e La Madonna di Roschini.</p>
+
+        <figure class="screenshot-wrap">
+            <img src="img/guida_ricerca_studi.png" alt="Interfaccia della Ricerca nei Volumi Studi e Approfondimenti">
+            <figcaption>Ricerca nei Volumi Studi e Approfondimenti</figcaption>
+        </figure>
+
+        <div class="sotto-sezione" id="s7-4">
+            <h3>7.4 — Ricerca nel singolo volume</h3>
+        </div>
+        <p>All'interno di ciascun lettore web è disponibile una ricerca circoscritta al solo libro. Nell'Evangelo è il pannello "Cerca Concordanze" (Parola 1 + distanza + Parola 2) e il campo "Cerca capitolo o parola". Nella Polifonia e in altri volumi degli Studi, come nelle Opere Minori, compare il pulsante <strong>• "Cerca nella …"</strong> con modalità analoghe.</p>
+    </div>
+
+    <!-- ── 8 ── -->
+    <div class="sezione" id="s8">
+        <div class="sezione-header">
+            <div class="sezione-num">8</div>
+            <h2>I miei Appunti e Sottolineature</h2>
+        </div>
+        <p>Tutte le annotazioni create durante la lettura (evidenziazioni e note testuali) si raccolgono qui, come in un quaderno personale. Le funzioni disponibili:</p>
+        <ul>
+            <li><strong>Filtro per tipo:</strong> "Tutti", "• Solo Note Testuali", "• Solo Sottolineature".</li>
+            <li><strong>Filtro per opera,</strong> per ritrovare le annotazioni di un singolo testo.</li>
+            <li><strong>"Vai al Capitolo ➜"</strong> per tornare al punto esatto del testo.</li>
+            <li><strong>"• PDF / Stampa"</strong> e <strong>"• Esporta Word"</strong> per conservare o condividere il lavoro di studio.</li>
+            <li><strong>"• Elimina"</strong> per rimuovere le voci non più necessarie.</li>
+        </ul>
+
+        <figure class="screenshot-wrap">
+            <img src="img/guida_appunti.png" alt="Sezione I miei Appunti e Sottolineature vuota con filtri in cima">
+            <figcaption>La sezione "I miei Appunti e Sottolineature" con i filtri per tipo e per opera</figcaption>
+        </figure>
+    </div>
+
+    <!-- ── 9 ── -->
+    <div class="sezione" id="s9">
+        <div class="sezione-header">
+            <div class="sezione-num">9</div>
+            <h2>La mia Cronologia ("Riprendi la Lettura")</h2>
+        </div>
+        <p>Il portale memorizza automaticamente la storia di lettura (inclusa la posizione di scorrimento della pagina), così puoi riprendere con un tocco da dove avevi lasciato. Dalla card <strong>"Riprendi la Lettura"</strong> (oppure dalla sezione dedicata) si accede agli ultimi capitoli aperti in ciascuna opera.</p>
+        <ul>
+            <li>Il sistema memorizza fino a <strong>venti consultazioni complessive</strong>.</li>
+            <li>In <strong>modalità Cloud</strong>, la cronologia è disponibile su tutti i dispositivi.</li>
+        </ul>
+    </div>
+
+    <!-- ── 10 ── -->
+    <div class="sezione" id="s10">
+        <div class="sezione-header">
+            <div class="sezione-num">10</div>
+            <h2>La Mappa Storica interattiva: sui passi del Signore</h2>
+        </div>
+        <p>La Mappa Storica mostra i luoghi geografici citati nelle opere, su una mappa storica della Palestina ai tempi di Gesù. Funziona anche completamente <strong>offline</strong> una volta installata l'App.</p>
+        <ul>
+            <li><strong>Barra "Cerca un luogo…"</strong> per trovare e centrare rapidamente una località: Cafarnao, Gerusalemme, Nazareth, Betlemme, la Città di David, il monte Sion e molti altri.</li>
+            <li><strong>Icone personalizzate</strong> per categorie di luoghi (città, luoghi sacri, acque…).</li>
+            <li><strong>Zoom libero</strong> con i pulsanti + / −; il pulsante • (reset) riporta alla vista completa della Palestina.</li>
+            <li><strong>Collegamento dall'Evangelo:</strong> in ogni capitolo è presente il tasto <strong>Mappa (Luogo esatto)</strong> per raggiungere il luogo dell'episodio, oppure <strong>Mappa (Generale)</strong> se il luogo non è mappato con precisione.</li>
+        </ul>
+
+        <div class="nota-corsiva">
+            In modalità offline (PWA), lo zoom massimo disponibile può essere ridotto perché vengono usate le mappe cartografiche salvate localmente, ottimizzate per risparmiare spazio.
+        </div>
+
+        <figure class="screenshot-wrap">
+            <img src="img/guida_mappa.png" alt="La Mappa Storica interattiva della Palestina ai tempi di Gesù">
+            <figcaption>La Mappa Storica interattiva — naviga i luoghi dell'Evangelo sulla carta della Palestina antica</figcaption>
+        </figure>
+    </div>
+
+    <!-- ── 11 ── -->
+    <div class="sezione" id="s11">
+        <div class="sezione-header">
+            <div class="sezione-num">11</div>
+            <h2>Note a piè di pagina bidirezionali</h2>
+        </div>
+        <p>Nei volumi di Studio e Approfondimenti le note a piè di pagina sono navigabili in modo <strong>bidirezionale</strong>: il numero nel testo (es. [1]) è un collegamento che porta alla nota in fondo al capitolo; dalla nota, un collegamento di ritorno riporta esattamente al punto del testo da cui si era partiti. Questo ne rende agevole la consultazione senza perdere il punto di lettura.</p>
+    </div>
+
+    <!-- ── 12 ── -->
+    <div class="sezione" id="s12">
+        <div class="sezione-header">
+            <div class="sezione-num">12</div>
+            <h2>Installare la Bibliotheca come App (PWA)</h2>
+        </div>
+        <p>La Bibliotheca può essere installata sul dispositivo come una vera applicazione, con icona sulla schermata Home e funzionamento anche senza connessione.</p>
+
+        <div class="funzioni-grid">
+            <div class="funzione-card">
+                <h4>🤖 Su Android e PC</h4>
+                <p>Compare un pulsante di installazione; in alternativa, dal menu del browser (tre puntini) scegli <strong>"Aggiungi alla schermata Home"</strong>.</p>
+            </div>
+            <div class="funzione-card">
+                <h4>🍎 Su iPhone e iPad (Safari)</h4>
+                <p>Tocca il pulsante Condividi (↑) e poi <strong>"Aggiungi a schermata Home"</strong>.</p>
+            </div>
+        </div>
+
+        <div class="callout">
+            <b>✈ Modalità Aereo — Download completo offline.</b> Dal Portale, la sezione "Modalità Aereo" permette di scaricare tutti i testi e le mappe sul dispositivo tramite il pulsante <b>"Inizia Download Completo"</b>. Dopo il download, l'intera Bibliotheca è consultabile senza alcuna connessione. Si consiglia di eseguire il download in Wi-Fi per evitare costi di connessione.
+        </div>
+
+        <p><strong>Salva Backup Cloud (Locale) / Ripristina da Cloud (Locale).</strong> Dalla card "Gestione Dati" del Portale si può esportare un file di backup di tutti i propri dati (appunti, cronologia, segnalibri) e reimportarlo in seguito o su un altro dispositivo. I salvataggi offline, se caricati quando si è online, vengono "uniti" agli archivi già presenti nel Cloud.</p>
+
+        <p>I dati salvati in modalità Cloud restano comunque sincronizzati quando torni online.</p>
+    </div>
+
+    <!-- ── 13 ── -->
+    <div class="sezione" id="s13">
+        <div class="sezione-header">
+            <div class="sezione-num">13</div>
+            <h2>Consigli pratici</h2>
+        </div>
+
+        <ul>
+            <li><strong>Per avere appunti e segnalibri su tutti i dispositivi:</strong> accedi sempre in modalità Cloud con le tue credenziali.</li>
+            <li><strong>Esegui un backup locale periodicamente,</strong> specialmente se usi la modalità offline su un solo dispositivo.</li>
+            <li><strong>Per stampare</strong> usa sempre i pulsanti interni <strong>"Stampa PDF"</strong>: producono un documento ben formattato, anche su iPhone e iPad, evitando la stampa dei colori in background.</li>
+            <li><strong>Se la pagina non mostra i contenuti aggiornati:</strong> chiudi e riapri l'App, oppure ricarica la pagina con il pulsante "Ricarica Ora" quando compare la notifica di aggiornamento.</li>
+            <li><strong>Selezione del testo:</strong> se il menu rapido di evidenziazione non compare, assicurati di aver selezionato una sufficiente porzione di testo all'interno del corpo del capitolo.</li>
+            <li>e… ogni tanto può essere utile <strong>cancellare i cookie</strong>.</li>
+        </ul>
+    </div>
+
+</div><!-- /corpo -->
+
+<!-- ══════════════════════════════════════════
+     PIÈ DI PAGINA
+══════════════════════════════════════════ -->
+<hr class="sep">
+<div class="footer">
+    <p class="ornamento">❖ ❖ ❖</p>
+    <p class="footer-titolo">Bibliotheca Valtortiana On Line<br>
+    <span style="font-weight:normal; color:#8a6a00;">Strumenti digitali avanzati per lo Studio e la Meditazione</span></p>
+    <p class="footer-frase" style="margin-top:14px;">La lettura di queste pagine possa donarti pace e illuminare il tuo cammino.</p>
+</div>
+
+<div class="center" style="padding-bottom: 20px;">
+    <a href="index.html" class="btn-back">🏠 Torna al Portale Principale</a>
+</div>
+
+<!-- ══════════════════════════════════════════
+     AUTENTICAZIONE (stesso pattern di istruzioni.html)
+══════════════════════════════════════════ -->
+<script>
+(async function checkAuth() {
+    const isOnline = window.location.hostname.includes("github.io");
+    if (isOnline) {
+        try {
+            const fApp  = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+            const fAuth = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+            const firebaseConfig = {
+                apiKey: "AIzaSyBHEhVjlZIs-mIPnteFiOiBgHryL1R9_Zk",
+                authDomain: "appuntivaltorta.firebaseapp.com",
+                projectId: "appuntivaltorta",
+                storageBucket: "appuntivaltorta.firebasestorage.app",
+                messagingSenderId: "940851152715",
+                appId: "1:940851152715:web:0e47bd8ca7282efac3cace"
+            };
+            const app  = fApp.getApps().length === 0 ? fApp.initializeApp(firebaseConfig) : fApp.getApp();
+            const auth = fAuth.getAuth(app);
+            fAuth.onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    document.documentElement.style.display = '';
+                    document.body.style.display = 'block';
+                    localStorage.setItem('modalita_lettura', 'cloud');
+                } else {
+                    window.location.replace("/BV/login.html");
+                }
+            });
+        } catch (e) {
+            console.warn("Modalità offline attiva.");
+            document.documentElement.style.display = '';
+            document.body.style.display = 'block';
+        }
+    }
+})();
+</script>
+<script src="stampa_universale.js"></script>
+
+<!-- ══════════════════════════════════════════
+     PULSANTE STAMPA FLOTTANTE
+══════════════════════════════════════════ -->
+<button class="btn-stampa-float" onclick="bvStampaPagina()" title="Stampa questa guida in PDF">
+    🖨 <span class="label-stampa">Stampa PDF</span>
+</button>
+
+</body>
+</html>
