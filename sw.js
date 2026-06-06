@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtorta-cache-v97'; // Bump versione 
+const CACHE_NAME = 'valtorta-cache-v98'; // Bump versione 
 
 // 1. FILE FONDAMENTALI (Scaricati subito durante l'installazione)
 const urlsToCache = [
