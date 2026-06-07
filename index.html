@@ -437,17 +437,47 @@
             <p>Cerca in tutte le opere</p>
         </a>        
 
-        <a href="video/video-presentazione.mp4" class="card" onclick="controllaConnessione(event)">
-            <div class="icon-image-container"><img src="VideoPresentazione_img.png" class="png-icon-quaderni" alt="Video Presentazione"></div>
-            <h2>Video Presentazione</h2>
-            <p>Guarda il filmato introduttivo</p>
-        </a>
+        <div class="card" style="cursor: default;">
+            <div class="icon-image-container"><img src="VideoPresentazione_img.png" class="png-icon-quaderni" alt="Video Introduttivi"></div>
+            <h2>🎬 Video Introduttivi</h2>
+            <p style="margin-bottom: 18px;">Scegli il filmato da guardare</p>
+            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <a href="video/video-presentazione2.mp4"
+                   onclick="controllaConnessione(event)"
+                   style="display: block; width: 100%; box-sizing: border-box;
+                          background-color: #8b0000; color: #fff;
+                          text-decoration: none; font-weight: bold;
+                          font-size: 0.9rem; padding: 10px 14px;
+                          border-radius: 7px; border: 1px solid #6b0000;
+                          text-align: center;
+                          transition: background-color 0.2s, transform 0.2s;"
+                   onmouseover="this.style.backgroundColor='#a80000'; this.style.transform='translateY(-2px)';"
+                   onmouseout="this.style.backgroundColor='#8b0000'; this.style.transform='none';">
+                    ▶ Filmato n. 1
+                </a>
+                <a href="video/video-presentazione.mp4"
+                   onclick="controllaConnessione(event)"
+                   style="display: block; width: 100%; box-sizing: border-box;
+                          background-color: #d4af37; color: #2e1a05;
+                          text-decoration: none; font-weight: bold;
+                          font-size: 0.9rem; padding: 10px 14px;
+                          border-radius: 7px; border: 1px solid #b8962e;
+                          text-align: center;
+                          transition: background-color 0.2s, transform 0.2s;"
+                   onmouseover="this.style.backgroundColor='#c9a430'; this.style.transform='translateY(-2px)';"
+                   onmouseout="this.style.backgroundColor='#d4af37'; this.style.transform='none';">
+                    ▶ Filmato n. 2
+                </a>
+            </div>
+        </div>
 
-        <a href="presentazione/index.html" class="card" onclick="controllaConnessione(event)">
-            <div class="icon">🖥️</div>
-            <h2>Presentazione Web</h2>
-            <p>Sfoglia la presentazione interattiva</p>
-        </a>
+<!-- presentazione web presente su Github ma commentata nel codice INIZIO -->
+        <!-- <a href="presentazione/index.html" class="card" onclick="controllaConnessione(event)"> -->
+            <!-- <div class="icon">🖥️</div> -->
+            <!-- <h2>Presentazione Web</h2> -->
+            <!-- <p>Sfoglia la presentazione interattiva</p> -->
+        <!-- </a> -->
+<!-- presentazione web presente su Github ma commentata nel codice FINE -->
 
         <!-- MODIFICA: Aggiunto onclick per bloccare l'accesso offline (Modalità Aereo) -->
         <a href="PolifoniaValtortiana/home.html" class="card">
@@ -469,7 +499,7 @@
         
     </div>
     
-    </div> <footer>
+    <footer>
         <p class="disclaimer-text">
             I testi, marchi, nomi di opere e i loghi di terze parti sono di proprietà dei legittimi titolari.<br>
             Questo portale ha una finalità puramente informativa, culturale e di studio e non vanta alcun diritto su di essi.<br>
