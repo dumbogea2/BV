@@ -442,7 +442,7 @@
             <h2>🎬 Video Introduttivi</h2>
             <p style="margin-bottom: 18px;">Scegli il filmato da guardare</p>
             <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
-                <a href="video/video-presentazione2.mp4"
+                <a href="video/video_player.html?v=1"
                    onclick="controllaConnessione(event)"
                    style="display: block; width: 100%; box-sizing: border-box;
                           background-color: #8b0000; color: #fff;
@@ -455,7 +455,7 @@
                    onmouseout="this.style.backgroundColor='#8b0000'; this.style.transform='none';">
                     ▶ Filmato n. 1
                 </a>
-                <a href="video/video-presentazione.mp4"
+                <a href="video/video_player.html?v=2"
                    onclick="controllaConnessione(event)"
                    style="display: block; width: 100%; box-sizing: border-box;
                           background-color: #d4af37; color: #2e1a05;
@@ -947,6 +947,7 @@
                 './ricerca_universale_button.png',
                 './ArchivioButton.jpg',
                 './VideoPresentazione_img.png',
+                './video/video_player.html',
                 './InstallApp_button.png',
 
                 // --- MAPPA (Librerie e icone di base) ---
@@ -1095,7 +1096,7 @@
             try {
                 // Trova l'ultima versione della cache creata dal Service Worker in automatico!
                 const chiaviCache = await caches.keys();
-                let cacheName = 'valtorta-cache-v22'; // Nome di sicurezza di base
+                let cacheName = 'valtorta-cache-v101'; // Nome di sicurezza di base
                 for (let key of chiaviCache) {
                     if (key.startsWith('valtorta-cache-v')) {
                         cacheName = key; // Prende quella attuale, qualunque essa sia

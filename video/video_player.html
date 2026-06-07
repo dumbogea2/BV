@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Introduttivo – Bibliotheca Valtortiana</title>
+    <link rel="icon" type="image/png" href="../home_sfondo.png">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #1a0a00;
+            background-image:
+                radial-gradient(ellipse at 20% 30%, rgba(139,0,0,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(212,175,55,0.10) 0%, transparent 60%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #f4f1ea;
+        }
+
+        /* ---- Intestazione ---- */
+        .header {
+            text-align: center;
+            margin-bottom: 22px;
+            animation: fadeDown 0.6s ease both;
+        }
+
+        .header .titolo-app {
+            font-size: 0.8rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #d4af37;
+            margin-bottom: 6px;
+        }
+
+        .header h1 {
+            font-size: 1.45rem;
+            font-weight: normal;
+            font-style: italic;
+            color: #f4f1ea;
+            letter-spacing: 0.04em;
+        }
+
+        /* ---- Selettore video ---- */
+        .selettore {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 22px;
+            animation: fadeDown 0.7s ease both;
+        }
+
+        .btn-sel {
+            padding: 8px 22px;
+            border-radius: 30px;
+            border: 1px solid #8b0000;
+            background: transparent;
+            color: #d4af37;
+            font-family: 'Georgia', serif;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-sel:hover,
+        .btn-sel.attivo {
+            background-color: #8b0000;
+            color: #fff;
+            border-color: #8b0000;
+        }
+
+        /* ---- Contenitore video ---- */
+        .player-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 860px;
+            background: #0d0500;
+            border-radius: 12px;
+            border: 1px solid rgba(212,175,55,0.25);
+            box-shadow:
+                0 0 0 1px rgba(139,0,0,0.3),
+                0 20px 60px rgba(0,0,0,0.7);
+            overflow: hidden;
+            animation: fadeUp 0.7s ease both;
+        }
+
+        video {
+            display: block;
+            width: 100%;
+            max-height: 70vh;
+            background: #000;
+        }
+
+        /* ---- Tasto ✕ ---- */
+        .btn-chiudi {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(212,175,55,0.5);
+            background: rgba(26,10,0,0.75);
+            color: #d4af37;
+            font-size: 1rem;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-chiudi:hover {
+            background: #8b0000;
+            border-color: #8b0000;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* ---- Messaggio fine video ---- */
+        .overlay-fine {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(26,10,0,0.88);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            animation: fadeIn 0.5s ease;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .overlay-fine.visibile {
+            display: flex;
+        }
+
+        .overlay-fine .icona {
+            font-size: 2.8rem;
+        }
+
+        .overlay-fine p {
+            font-size: 1rem;
+            font-style: italic;
+            color: #e8e0cc;
+            line-height: 1.6;
+        }
+
+        .countdown {
+            font-size: 0.82rem;
+            color: #d4af37;
+            letter-spacing: 0.06em;
+        }
+
+        .btn-torna {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 11px 28px;
+            background-color: #8b0000;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Georgia', serif;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s, transform 0.2s;
+            letter-spacing: 0.04em;
+        }
+
+        .btn-torna:hover {
+            background-color: #a80000;
+            transform: translateY(-2px);
+        }
+
+        /* ---- Nota sotto player ---- */
+        .nota {
+            margin-top: 16px;
+            font-size: 0.78rem;
+            color: rgba(212,175,55,0.55);
+            font-style: italic;
+            text-align: center;
+            animation: fadeUp 0.9s ease both;
+        }
+
+        /* ---- Animazioni ---- */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.1rem; }
+            .selettore { flex-direction: column; align-items: center; }
+            .btn-sel { width: 200px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <p class="titolo-app">Bibliotheca Valtortiana</p>
+        <h1>Video Introduttivi</h1>
+    </div>
+
+    <div class="selettore">
+        <button class="btn-sel attivo" onclick="cambiaVideo(1)">▶ Filmato n. 1</button>
+        <button class="btn-sel"        onclick="cambiaVideo(2)">▶ Filmato n. 2</button>
+    </div>
+
+    <div class="player-wrap">
+        <button class="btn-chiudi" onclick="tornaHome()" title="Chiudi e torna alla Home">✕</button>
+
+        <video id="videoPlayer" controls autoplay>
+            <source id="videoSource" src="video-presentazione2.mp4" type="video/mp4">
+            Il tuo browser non supporta la riproduzione video.
+        </video>
+
+        <!-- Overlay mostrato al termine del video -->
+        <div class="overlay-fine" id="overlayFine">
+            <span class="icona">🎬</span>
+            <p>Il filmato è terminato.<br>Grazie per aver guardato.</p>
+            <span class="countdown" id="countdownTxt">Ritorno alla Home tra 5 secondi…</span>
+            <a href="../index.html" class="btn-torna" id="btnTorna">↩ Torna alla Home</a>
+        </div>
+    </div>
+
+    <p class="nota">Al termine del video si tornerà automaticamente alla Home.</p>
+
+    <script>
+        const video   = document.getElementById('videoPlayer');
+        const source  = document.getElementById('videoSource');
+        const overlay = document.getElementById('overlayFine');
+        const cdTxt   = document.getElementById('countdownTxt');
+        const bottoni = document.querySelectorAll('.btn-sel');
+
+        let timerID = null;
+
+        // Percorso base dei video (stessa cartella della pagina)
+        const videoSrc = {
+            1: 'video-presentazione2.mp4',
+            2: 'video-presentazione.mp4'
+        };
+
+        // Cambia video tramite i pulsanti selettore
+        function cambiaVideo(n) {
+            // Ferma eventuale countdown in corso
+            stopCountdown();
+            overlay.classList.remove('visibile');
+
+            // Aggiorna pulsanti
+            bottoni.forEach((b, i) => b.classList.toggle('attivo', i === n - 1));
+
+            // Carica e avvia il nuovo video
+            source.src = videoSrc[n];
+            video.load();
+            video.play().catch(() => {}); // catch per policy autoplay su alcuni browser
+        }
+
+        // Evento: video terminato → mostra overlay e avvia countdown
+        video.addEventListener('ended', () => {
+            overlay.classList.add('visibile');
+            avviaCountdown(5);
+        });
+
+        function avviaCountdown(sec) {
+            let rimasti = sec;
+            aggiornaCountdown(rimasti);
+            timerID = setInterval(() => {
+                rimasti--;
+                aggiornaCountdown(rimasti);
+                if (rimasti <= 0) {
+                    stopCountdown();
+                    tornaHome();
+                }
+            }, 1000);
+        }
+
+        function aggiornaCountdown(n) {
+            cdTxt.textContent = n > 0
+                ? `Ritorno alla Home tra ${n} second${n === 1 ? 'o' : 'i'}…`
+                : 'Ritorno in corso…';
+        }
+
+        function stopCountdown() {
+            if (timerID) { clearInterval(timerID); timerID = null; }
+        }
+
+        function tornaHome() {
+            stopCountdown();
+            window.location.href = '../index.html';
+        }
+
+        // Legge il parametro ?v=1 o ?v=2 dall'URL (utile per i link da index.html)
+        const params = new URLSearchParams(window.location.search);
+        const vParam = parseInt(params.get('v'));
+        if (vParam === 2) {
+            cambiaVideo(2);
+        }
+    </script>
+
+</body>
+</html>
